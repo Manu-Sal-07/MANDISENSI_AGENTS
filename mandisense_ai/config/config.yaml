@@ -1,0 +1,30 @@
+# Default Configuration for MandiSense AI
+app:
+  name: "MandiSense AI"
+  environment: "development"
+  debug: true
+
+data:
+  commodities:
+    - "onion"
+    - "tomato"
+  mandis:
+    - "bengaluru"
+    - "mumbai"
+    - "delhi"
+  missing_value_tolerance: 0.3
+
+logging:
+  level: "DEBUG"
+  format: "json"
+  file_path: "logs/mandisense.log"
+
+paths:
+  data_dir: "data"
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  models_dir: "models"
+
+ensemble:
+  activation_threshold: 0.5
+  default_weight: 0.33
