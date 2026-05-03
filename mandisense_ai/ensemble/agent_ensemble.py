@@ -44,7 +44,7 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import mean_absolute_percentage_error, mean_absolute_error
+from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import TimeSeriesSplit
 
 from utils.logger import get_logger
@@ -76,9 +76,9 @@ class AgentEnsemble:
     # ------------------------------------------------------------------ #
     #  Public state (readable after fit / predict)                        #
     # ------------------------------------------------------------------ #
-    weights: Dict[str, float]            # normalised inverse-MAPE weights
-    errors: Dict[str, float]             # avg MAPE per model (from CV)
-    cv_fold_errors: Dict[str, List[float]]  # per-fold MAPE per model
+    weights: Dict[str, float]            # normalised inverse-MAE weights
+    errors: Dict[str, float]             # avg MAE per model (from CV)
+    cv_fold_errors: Dict[str, List[float]]  # per-fold MAE per model
     last_predictions: Dict[str, float]   # {model_name: scalar pred} at last predict() call
     last_ensemble_prediction: Optional[float]  # scalar ensemble output at last predict()
 
@@ -153,11 +153,14 @@ class AgentEnsemble:
         X_clean = X.fillna(0)
 
         # ── Step 2a: Walk-forward CV for every model ────────────────── #
+        # NOTE: We use MAE (not MAPE) as the CV scoring metric.
+        # MAPE explodes to 1e17+ when price-change targets are near zero,
+        # which eliminates all ML models and leaves only SimpleBaseline.
         cv_results: Dict[str, Dict[str, Any]] = {}
 
         for model_name, model in self.models.items():
-            fold_mapes: List[float]      = []
-            fold_fest_mapes: List[float] = []
+            fold_maes: List[float]       = []
+            fold_fest_maes: List[float]  = []
             fold_predictions: List[np.ndarray] = []
             last_fold_model = None
 
@@ -186,25 +189,16 @@ class AgentEnsemble:
                         )
                         preds = np.full_like(preds, float(y_tr.mean()), dtype=float)
 
-                    # ── MAPE guard: skip fold if all actuals are zero ── #
                     y_te_arr = y_te.values
-                    if np.all(y_te_arr == 0):
-                        logger.debug(
-                            f"[AgentEnsemble][{model_name}] Fold {fold_idx}: "
-                            "all actuals are zero — skipping MAPE."
-                        )
-                        last_fold_model = fold_model
-                        continue
-
-                    mape = mean_absolute_percentage_error(y_te_arr, preds)
-                    fold_mapes.append(float(mape))
+                    mae = mean_absolute_error(y_te_arr, preds)
+                    fold_maes.append(float(mae))
                     fold_predictions.append(preds)
 
-                    # Festival sub-regime MAPE
+                    # Festival sub-regime MAE
                     fest_mask = regime_te.values == 1
-                    if fest_mask.sum() > 0 and not np.all(y_te_arr[fest_mask] == 0):
-                        fold_fest_mapes.append(
-                            float(mean_absolute_percentage_error(
+                    if fest_mask.sum() > 0:
+                        fold_fest_maes.append(
+                            float(mean_absolute_error(
                                 y_te_arr[fest_mask], preds[fest_mask]
                             ))
                         )
@@ -214,26 +208,26 @@ class AgentEnsemble:
                 except Exception as exc:
                     logger.warning(
                         f"[AgentEnsemble][{model_name}] Fold {fold_idx} failed: {exc}. "
-                        "Assigning MAPE=999."
+                        "Assigning MAE=999."
                     )
-                    fold_mapes.append(999.0)
+                    fold_maes.append(999.0)
 
             # Record CV results
-            if fold_mapes and last_fold_model is not None:
-                avg_mape      = float(np.mean(fold_mapes))
-                avg_fest_mape = float(np.mean(fold_fest_mapes)) if fold_fest_mapes else avg_mape
+            if fold_maes and last_fold_model is not None:
+                avg_mae      = float(np.mean(fold_maes))
+                avg_fest_mae = float(np.mean(fold_fest_maes)) if fold_fest_maes else avg_mae
 
                 logger.info(
                     f"[AgentEnsemble][{model_name}] CV done — "
-                    f"avg_MAPE={avg_mape:.4f}, "
-                    f"festival_MAPE={avg_fest_mape:.4f}, "
-                    f"folds={len(fold_mapes)}"
+                    f"avg_MAE={avg_mae:.4f}, "
+                    f"festival_MAE={avg_fest_mae:.4f}, "
+                    f"folds={len(fold_maes)}"
                 )
 
                 cv_results[model_name] = {
-                    "avg_mape":       avg_mape,
-                    "fest_mape":      avg_fest_mape,
-                    "fold_mapes":     fold_mapes,
+                    "avg_mape":        avg_mae,   # kept same key for backward compat
+                    "fest_mape":       avg_fest_mae,
+                    "fold_mapes":      fold_maes,
                     "last_fold_model": last_fold_model,
                 }
             else:

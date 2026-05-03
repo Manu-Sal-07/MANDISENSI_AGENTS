@@ -54,10 +54,10 @@ _WEIGHT_CLAMP_MAX = 0.6                # Max weight for any agent
 _EXTERNAL_BIAS_MAX_MAGNITUDE = 2.0     # max ±2 percentage points of bias
 
 # Conflict handling
-_CONFLICT_SIGN_THRESHOLD = 0.5         # min |prediction| to count as meaningful
-_CONFLICT_MAGNITUDE_THRESHOLD = 2.0    # Magnitude diff for "strong conflict"
-_CONFLICT_DAMPEN_FACTOR_NORMAL = 0.6   # Dampen prediction on sign conflict
-_CONFLICT_DAMPEN_FACTOR_STRONG = 0.4   # Dampen prediction on strong conflict
+_CONFLICT_SIGN_THRESHOLD = 0.2         # min |prediction| to count as meaningful
+_CONFLICT_MAGNITUDE_THRESHOLD = 3.0    # Magnitude diff for "strong conflict"
+_CONFLICT_DAMPEN_FACTOR_NORMAL = 0.90  # Dampen prediction on sign conflict
+_CONFLICT_DAMPEN_FACTOR_STRONG = 0.80  # Dampen prediction on strong conflict
 
 # Stability
 _PREDICTION_CLAMP_MIN = -15.0          # max weekly % drop
@@ -203,45 +203,75 @@ def fuse(
       • Attenuated external bias based on internal signal strength
       • Multi-factor confidence penalties (conflict, volatility, external reliance)
       • Enhanced conflict handling (sign + magnitude divergence)
+
+    Directional-bias corrections (v2.6):
+      • Fix 2 — Penalise overconfident bullish seasonality when arrival is bearish
+      • Fix 3 — Arrival wins the weight battle when signs conflict and arrival is strong
+      • Fix 1 — Direction override: strong negative arrival bypasses blended fusion
     """
     debug: Dict[str, Any] = {}
 
     # ── ① Normalize to common 7-day horizon (Dampened) ──────────────────
-    norm_s = (seasonality.prediction_30d / _SEASONALITY_HORIZON_DAYS) * _COMMON_HORIZON_DAYS * _SCALING_DAMPING_FACTOR
+    norm_s = (seasonality.prediction_30d / _SEASONALITY_HORIZON_DAYS) * _COMMON_HORIZON_DAYS * 0.9
     norm_a = arrival.prediction_7d
 
     debug["norm_s"] = round(norm_s, 6)
     debug["norm_a"] = round(norm_a, 6)
 
     # ── ② Weighting (Signal-Strength + Confidence + Clamped) ─────────────
-    # Factor in prediction magnitude (Signal Strength Awareness)
-    # Use epsilon 0.1 to avoid zero weights if predictions are flat
-    score_s = max(seasonality.confidence, _CONFIDENCE_FLOOR) * (abs(norm_s) + 0.1)
-    score_a = max(arrival.confidence, _CONFIDENCE_FLOOR) * (abs(norm_a) + 0.1)
+    # Boosted arrival weight to capture more short-term drops (Step 3, v2.5).
+    # Threshold lowered from >0.7 → >0.6; default w_arrival 0.60→0.65.
+    if arrival.supply_stress > 0.6:
+        w_a = 0.75
+        w_s = 0.25
+    elif arrival.supply_stress < 0.3:
+        w_a = 0.55
+        w_s = 0.45
+    else:
+        w_a = 0.65
+        w_s = 0.35
 
-    # Dynamic adjustments (Regime & Stress)
-    supply_boost = 1.0 + _SUPPLY_STRESS_BOOST_FACTOR * arrival.supply_stress
-    vol_penalty = 1.0 - _VOLATILITY_PENALTY_FACTOR * min(seasonality.volatility, 1.0)
-    trend_boost = _TREND_REGIME_BOOST if seasonality.regime in _STRONG_TREND_REGIMES else 1.0
+    # Fix 2 — Penalise overconfident bullish seasonality when arrival disagrees.
+    # If seasonality is predicting a strong rise (>3%) but arrival is negative,
+    # the seasonal model is likely carrying stale upward momentum.  Dampen its
+    # contribution by 30% so the short-term signal gets more influence.
+    _s_pred_raw = seasonality.prediction_30d  # un-normalised, for threshold check
+    if _s_pred_raw > 3.0 and arrival.prediction_7d < 0.0:
+        w_s *= 0.7
+        logger.info(
+            f"[MetaEnsemble][Fix2] Overconfident seasonality penalised: "
+            f"s_pred_30d={_s_pred_raw:.2f}%, a_pred_7d={arrival.prediction_7d:.2f}%. "
+            f"w_s scaled by 0.7 → {w_s:.4f}"
+        )
+        debug["fix2_seasonality_penalty"] = True
+    else:
+        debug["fix2_seasonality_penalty"] = False
 
-    score_s *= (vol_penalty * trend_boost)
-    score_a *= supply_boost
+    # Fix 3 — Directional conflict: arrival wins when signs differ and it is strong.
+    # If arrival and (normalised) seasonality point in opposite directions and
+    # arrival magnitude is at least 0.4%, raise w_arrival to at least 0.70 so
+    # the short-term truth overrides the slow seasonal background.
+    _signs_conflict = (_sign(norm_s) != _sign(norm_a)
+                       and _sign(norm_s) != 0
+                       and _sign(norm_a) != 0)
+    if _signs_conflict and abs(arrival.prediction_7d) > 0.4:
+        w_a = max(w_a, 0.70)
+        logger.info(
+            f"[MetaEnsemble][Fix3] Directional conflict — arrival promoted: "
+            f"norm_s={norm_s:.3f}%, norm_a={norm_a:.3f}%. "
+            f"w_arrival forced to {w_a:.4f}"
+        )
+        debug["fix3_arrival_promoted"] = True
+    else:
+        debug["fix3_arrival_promoted"] = False
 
-    debug["score_s_pre_clamp"] = round(score_s, 6)
-    debug["score_a_pre_clamp"] = round(score_a, 6)
+    # Clamp seasonality influence
+    w_s = min(w_s, 0.5)
 
-    # Apply hard stability clamps [0.2, 0.6] to prevent agent dominance
-    total_score = score_s + score_a + 1e-12
-    w_s_raw = score_s / total_score
-    w_a_raw = score_a / total_score
-
-    w_s_clamped = _clamp(w_s_raw, _WEIGHT_CLAMP_MIN, _WEIGHT_CLAMP_MAX)
-    w_a_clamped = _clamp(w_a_raw, _WEIGHT_CLAMP_MIN, _WEIGHT_CLAMP_MAX)
-
-    # Final renormalization after clamping
-    total_w = w_s_clamped + w_a_clamped
-    w_s = w_s_clamped / total_w
-    w_a = w_a_clamped / total_w
+    # Renormalize to ensure sum to 1
+    total_w = w_s + w_a
+    w_s /= total_w
+    w_a /= total_w
 
     debug["w_s_final"] = round(w_s, 6)
     debug["w_a_final"] = round(w_a, 6)
@@ -249,6 +279,32 @@ def fuse(
     # ── ③ Core Fusion ──────────────────────────────────────────────────
     fused_pred = w_s * norm_s + w_a * norm_a
     debug["fused_pred"] = round(fused_pred, 6)
+
+    # Fix 1 — Direction Override: strong negative arrival bypasses blended fusion.
+    # Condition: arrival is meaningfully negative AND its absolute magnitude
+    # is at least 60% of normalised seasonality's magnitude.  This fires when
+    # arrival is clearly bearish while seasonality is masking it with a bullish tilt.
+    # When triggered, replace fused_pred with a slightly attenuated arrival signal
+    # (×0.9) so the short-term price-drop driver is not drowned out.
+    _fix1_override = (
+        arrival.prediction_7d < -0.5
+        and abs(arrival.prediction_7d) > abs(norm_s) * 0.6
+        and arrival.confidence > 0.2  # Fix 1.1: Guard against low-confidence outliers
+    )
+    if _fix1_override:
+        # Fix 1.2: Capped override to prevent -15% style explosions from noisy agents
+        # Fix 1.3: Confidence-weighted override to reduce false signals when arrival is only moderately confident
+        # Use a smooth transition: full impact at 0.5 confidence, reduced impact at 0.2.
+        _conf_factor = _clamp(arrival.confidence * 2.0, 0.7, 1.0)
+        fused_pred = max(arrival.prediction_7d * 0.9 * _conf_factor, -4.0) 
+        logger.info(
+            f"[MetaEnsemble][Fix1] Direction override triggered: "
+            f"a_pred={arrival.prediction_7d:.3f}%, norm_s={norm_s:.3f}%. "
+            f"fused_pred overridden to {fused_pred:.4f}%"
+        )
+        debug["fix1_direction_override"] = True
+    else:
+        debug["fix1_direction_override"] = False
 
     # ── ④ External signal adjustment (Attenuated) ──────────────────────
     # External influence decreases as internal signal strength increases
@@ -258,7 +314,7 @@ def fuse(
         * external.confidence
         * _EXTERNAL_BIAS_MAX_MAGNITUDE
     ) * attenuation_factor
-    
+
     adjusted_pred = fused_pred + external_bias
 
     debug["external_attenuation"] = round(attenuation_factor, 4)
@@ -291,52 +347,13 @@ def fuse(
     debug["strong_conflict"] = strong_conflict
     debug["adjusted_pred_post_conflict"] = round(adjusted_pred, 6)
 
-    # ── ⑥ Final confidence computation (Multi-Factor) ──────────────────
-    base_conf = w_s * seasonality.confidence + w_a * arrival.confidence
-
-    conf_multiplier = 1.0
-
-    # A. Conflict penalty
-    if strong_conflict:
-        conf_multiplier *= _CONFLICT_CONFIDENCE_PENALTY_STRONG
-    elif sign_disagreement:
-        conf_multiplier *= _CONFLICT_CONFIDENCE_PENALTY_SIGN
-
-    # B. Volatility penalty (Historical seasonality instability)
-    # Max penalty 40%
-    vol_risk_penalty = 1.0 - _clamp(seasonality.volatility * 0.5, 0.0, 0.4)
-    conf_multiplier *= vol_risk_penalty
-
-    # C. External reliance penalty
-    # If external bias > internal prediction magnitude, penalize confidence
-    external_reliance = abs(external_bias) / (abs(fused_pred) + 0.1)
-    if external_reliance > 1.0:
-        conf_multiplier *= _EXTERNAL_RELIANCE_PENALTY
-
-    # D. Low-confidence penalty (both agents unreliable)
-    if (seasonality.confidence < _LOW_CONFIDENCE_THRESHOLD
-        and arrival.confidence < _LOW_CONFIDENCE_THRESHOLD):
-        conf_multiplier *= _LOW_CONFIDENCE_PENALTY
-
-    # E. Agreement bonus
-    if (not sign_disagreement
-        and _sign(norm_s) == _sign(norm_a)
-        and _sign(norm_s) != 0
-        and seasonality.confidence >= _HIGH_CONFIDENCE_THRESHOLD
-        and arrival.confidence >= _HIGH_CONFIDENCE_THRESHOLD):
-        conf_multiplier *= _AGREEMENT_BONUS
-
-    final_confidence = _clamp(
-        (base_conf * conf_multiplier) * (1.0 - _EXTERNAL_CONFIDENCE_BLEND_WEIGHT)
-        + external.confidence * _EXTERNAL_CONFIDENCE_BLEND_WEIGHT,
-        _CONFIDENCE_FLOOR_FINAL,
-        _CONFIDENCE_CEILING_FINAL,
-    )
-
-    debug["base_conf"] = round(base_conf, 6)
-    debug["conf_multiplier"] = round(conf_multiplier, 4)
-    debug["vol_risk_penalty"] = round(vol_risk_penalty, 4)
-    debug["external_reliance"] = round(external_reliance, 4)
+    # ── ⑥ Final confidence computation (Simplified) ──────────────────
+    import numpy as np
+    prediction_std = float(np.std([norm_s, norm_a]))
+    final_confidence = 1.0 / (1.0 + prediction_std)
+    final_confidence = _clamp(final_confidence, _CONFIDENCE_FLOOR_FINAL, _CONFIDENCE_CEILING_FINAL)
+    
+    debug["prediction_std"] = round(prediction_std, 4)
 
     # ── ⑦ Final Output Prep ────────────────────────────────────────────
     final_prediction = _clamp(
@@ -357,8 +374,8 @@ def fuse(
             "conflict_detected": sign_disagreement,
             "strong_conflict": strong_conflict,
             "low_confidence": final_confidence < _LOW_CONFIDENCE_THRESHOLD,
-            "high_volatility_risk": vol_risk_penalty < 0.85,
-            "external_reliance_heavy": external_reliance > 1.0,
+            "high_volatility_risk": seasonality.volatility > 0.5,
+            "external_reliance_heavy": abs(external_bias) > abs(fused_pred),
         },
         debug=debug,
     )

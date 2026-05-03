@@ -24,14 +24,20 @@ class DataRepository:
         Extrapolates securely built feature arrays for specialized analytical forecasting.
         Filters robustly by optional slice dates bridging train/validation requirements.
         """
-        file_name = f"{commodity}_{market}_features.parquet".replace(" ", "_").lower()
-        file_path = self.processed_dir / file_name
+        base = f"{commodity}_{market}".replace(" ", "_").lower()
+        candidate_names = [
+            f"{base}_features.parquet",
+            f"{base}.parquet",
+            f"{base}_processed.parquet",
+        ]
+        file_path = self.processed_dir / candidate_names[0]
         
         if not file_path.exists():
             # Robust mapping attempting agnostic string case matches
             available_files = {f.name.lower(): f for f in self.processed_dir.glob("*.parquet")}
-            if file_name in available_files:
-                file_path = available_files[file_name]
+            match = next((available_files[name] for name in candidate_names if name in available_files), None)
+            if match is not None:
+                file_path = match
             else:
                 logger.error(f"Incomplete extraction array identified querying {commodity} within {market}")
                 return pd.DataFrame()

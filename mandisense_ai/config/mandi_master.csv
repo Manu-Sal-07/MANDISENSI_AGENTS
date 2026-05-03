@@ -1,0 +1,16 @@
+mandi_id,mandi_name,district,state,latitude,longitude,distance_from_bengaluru_km,old_mandi_id
+bangalore_yeshwanthpur,Bangalore,Bengaluru,Karnataka,13.0225,77.5475,7.62,bangalore
+hoskote_apmc,Hoskote,Bengaluru Rural,Karnataka,13.0707,77.7981,24.65,hoskote
+nelamangala_apmc,Nelamangala,Bengaluru Rural,Karnataka,13.1017,77.3872,26.72,nelamangala
+anekal_apmc,Anekal,Bengaluru Urban,Karnataka,12.7111,77.6961,30.99,anekal
+doddaballapur_apmc,Doddaballapur,Bengaluru Rural,Karnataka,13.2941,77.5367,36.4,doddaballapur
+malur_apmc,Malur,Kolar,Karnataka,13.0016,77.9392,37.49,malur
+magadi_apmc,Magadi,Ramanagara,Karnataka,12.9575,77.2241,40.18,magadi
+ramanagara_apmc,Ramanagara,Ramanagara,Karnataka,12.7233,77.2759,44.23,ramanagara
+kanakapura_apmc,Kanakapura,Ramanagara,Karnataka,12.5539,77.4194,50.18,kanakapura
+chickballapur_apmc,Chickballapur,Chikkaballapura,Karnataka,13.4355,77.7315,53.67,chickballapur
+sidlaghatta_apmc,Sidlaghatta,Chikkaballapura,Karnataka,13.3881,77.8631,54.68,sidlaghatta
+channapatna_apmc,Channapatna,Ramanagara,Karnataka,12.6517,77.2023,55.45,channapatna
+kolar_apmc,Kolar,Kolar,Karnataka,13.1377,78.1299,60.85,kolar
+kunigal_apmc,Kunigal,Tumakuru,Karnataka,13.0242,77.0347,60.94,kunigal
+bangarpet_apmc,Bangarpet,Kolar,Karnataka,12.9796,78.1884,64.35,bangarpet

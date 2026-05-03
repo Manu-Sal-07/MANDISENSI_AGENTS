@@ -13,6 +13,8 @@ __pycache__/
 .mypy_cache/
 .venv/
 venv/
+ms_env/
+ENV/
 
 # Node / Next
 node_modules/
@@ -23,9 +25,26 @@ dist/
 # Logs and local artifacts
 *.log
 logs/
+mandisense_ai/scratch/
+mandisense_ai/tests/__pycache__/
+
+# Backups and temporary large files
+models_backup*/
+mandi_master_temp.csv
 
 # OS / editor
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# Data - Keep structure but ignore large files
+data/
+mandisense_ai/data/raw/*
+!mandisense_ai/data/raw/.gitkeep
+mandisense_ai/data/processed/*
+!mandisense_ai/data/processed/.gitkeep
+mandisense_ai/core/agents/*/training/
+!mandisense_ai/core/agents/*/training/.gitkeep

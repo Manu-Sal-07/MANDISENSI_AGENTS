@@ -162,18 +162,26 @@ class PredictionController:
         elapsed_ms = (time.monotonic() - start_time) * 1000.0
 
         direction = "neutral"
-        if final_pred > 0.1:
+        if final_pred > 2.0:
             direction = "bullish"
-        elif final_pred < -0.1:
+        elif final_pred < -2.0:
             direction = "bearish"
 
         # --- Farmer UI Mapping ---
-        decision = "SELL" if final_pred < -0.02 else "WAIT"
+        vol_pct = float(s_out.metadata.get("return_std", 2.0)) if s_out.metadata else 2.0
+        threshold = -(0.5 * vol_pct)
+        # Step 1: Scale threshold by 0.8 to increase SELL sensitivity by ~20-30%
+        sell_threshold = 0.8 * threshold
+        decision = "SELL" if final_pred < sell_threshold else "WAIT"
+
+        # Step 2: Relaxed confidence gate from 0.2 → 0.15
+        if final_conf < 0.15:
+            decision = "WAIT"
         
         # Simple price range generation based on prediction
         # (In a real system, base_price comes from current mandi prices)
         base_price = 30  
-        predicted_price = base_price * (1 + final_pred)
+        predicted_price = base_price * (1 + final_pred / 100.0)
         price_range = {
             "min": round(predicted_price * 0.95, 2),
             "max": round(predicted_price * 1.05, 2)
@@ -185,13 +193,13 @@ class PredictionController:
         risk_label = "High" if phase1_result.risk_flags.get("strong_conflict") or phase2_info.get("regime_detected") == "shock" else ("Medium" if phase1_result.risk_flags.get("conflict_detected") else "Low")
         
         explanation = []
-        if float(a_out.prediction) < -0.05:
+        if float(a_out.prediction) < -5.0:
             explanation.append("High arrival volume expected to drop prices")
-        elif float(a_out.prediction) > 0.05:
+        elif float(a_out.prediction) > 5.0:
             explanation.append("Supply shortage expected to increase prices")
-        if float(s_out.prediction) > 0.02:
+        if float(s_out.prediction) > 2.0:
             explanation.append("Positive seasonal trend")
-        elif float(s_out.prediction) < -0.02:
+        elif float(s_out.prediction) < -2.0:
             explanation.append("Negative seasonal trend")
         
         if not explanation:
@@ -262,25 +270,32 @@ class PredictionController:
         """Run all agents concurrently with timeout and failure isolation."""
         from core.agents.seasonality_agent import run_seasonality_agent
         from core.agents.arrival_volume_agent import run_arrival_volume_agent
+        from core.agents.external_factors_agent import run_external_factors_agent
 
-        # Run Seasonality and Arrival in parallel
+        # Run Seasonality, Arrival, and External Factors in parallel
         results = await asyncio.gather(
             self._run_with_retry(run_seasonality_agent, commodity, mandi),
             self._run_with_retry(run_arrival_volume_agent, commodity, mandi),
+            self._run_with_retry(run_external_factors_agent, commodity, mandi),
             return_exceptions=True,
         )
 
         s_out = results[0]
         a_out = results[1]
+        e_out = results[2]
 
         if isinstance(s_out, Exception):
             raise RuntimeError(f"Seasonality agent failed after retries: {s_out}")
         if isinstance(a_out, Exception):
             raise RuntimeError(f"Arrival agent failed after retries: {a_out}")
 
-        # External agent — neutral defaults for now
-        e_impact = 0.0
-        e_conf = 0.0
+        if isinstance(e_out, Exception):
+            logger.warning(f"External Factors agent failed after retries: {e_out}")
+            e_impact = 0.0
+            e_conf = 0.0
+        else:
+            e_impact = float(e_out.get("impact_score", 0.0))
+            e_conf = float(e_out.get("confidence", 0.0))
 
         return s_out, a_out, e_impact, e_conf
 
