@@ -5,15 +5,19 @@ from typing import Optional, Tuple
 from pathlib import Path
 import scipy.stats as stats
 
-from config.settings import settings, AgentOutput
-from data.repository import DataRepository
-from utils.logger import get_logger
-from core.agents.seasonality_models import TieredModelPipeline
+from mandisense_ai.config.settings import settings, AgentOutput
+from mandisense_ai.data.repository import DataRepository
+from mandisense_ai.utils.logger import get_logger
 from statsmodels.tsa.seasonal import STL
 from scipy.stats import skew
-from ensemble.feedback_store import FeedbackStore
-from ensemble.regime_detector import RegimeDetector
-from ensemble.dynamic_weighter import DynamicWeighter
+from mandisense_ai.ensemble.feedback_store import FeedbackStore
+from mandisense_ai.ensemble.regime_detector import RegimeDetector
+from mandisense_ai.ensemble.dynamic_weighter import DynamicWeighter
+from core.agents.seasonality.inference import SeasonalityInferencePipeline
+from core.agents.seasonality.training.train_seasonality import (
+    load_seasonality_bundle,
+    predict_with_ensemble,
+)
 
 logger = get_logger(__name__)
 
@@ -50,10 +54,9 @@ class SeasonalityAgent:
     def __init__(self):
         self.repo = DataRepository()
         self.horizon_days = 30
-        self.pipeline = TieredModelPipeline(horizon=self.horizon_days)
-        
         self.model_dir = Path(settings.paths.models_dir) / "seasonality"
         self.model_dir.mkdir(parents=True, exist_ok=True)
+        self.inference_pipeline = SeasonalityInferencePipeline()
 
     def _determine_cycle_phase(self, stl_trend: pd.Series) -> str:
         """Extracts relative non-stationary Phase representations analytically."""
@@ -270,196 +273,69 @@ class SeasonalityAgent:
                 }
             )
 
-        # 1. Structural Enrichments
-        df = merge_festivals(df)
-        festival_adj = self._compute_festival_adjustment(df)
-        
-        # 2. STL Decomposition Extraction identifying strict analytic bounds
         try:
-            # Prepare series: ensure daily index, fill small gaps and infer period
-            df_proc = df.copy()
-            if 'date' in df_proc.columns:
-                df_proc['date'] = pd.to_datetime(df_proc['date'])
-                df_proc = df_proc.set_index('date').sort_index()
-            series = df_proc['modal_price'].resample('D').mean()
-            # interpolate short gaps (limit 7 days), forward/backward fill for ends
-            series = series.interpolate(method='time', limit=7).ffill().bfill()
+            bundle = load_seasonality_bundle(commodity=commodity, mandi=mandi)
+            timestamp = pd.to_datetime(target_date) if target_date is not None else pd.to_datetime(df["date"]).max()
+            features = self.inference_pipeline.build_inference_features(
+                df, 
+                mandi_name=mandi, 
+                timestamp=timestamp, 
+                feature_columns=bundle["feature_columns"]
+            )
+            prediction_result = predict_with_ensemble(bundle, features)
 
+            prediction_30d = float(prediction_result["prediction"] * 100.0)
+            weighted_volatility = float(np.std(list(prediction_result["ensemble_prediction"].values())))
 
-            # Default to log-transform because mandi prices commonly exhibit
-            # multiplicative seasonality. This stabilizes variance for STL.
-            use_log = True
-            series_for_stl = np.log1p(series)
+            logger.info(
+                "Seasonality model bundle loaded for %s/%s with %d models at %s",
+                commodity,
+                mandi,
+                len(bundle["models"]),
+                str(pd.Timestamp.utcnow()),
+            )
 
-            # Try multiple candidate periods (weekly, monthly, yearly)
-            candidate_periods = [7, 30, 365]
-            candidates = []
-            for period in candidate_periods:
-                if len(series_for_stl.dropna()) < max(3, period * 2):
-                    continue
-                try:
-                    # increase seasonal smoothing window (must be odd)
-                    seasonal_window = 21 if 21 % 2 == 1 else 21 + 1
-                    stl_try = STL(series_for_stl, period=period, seasonal=seasonal_window, robust=True)
-                    res_try = stl_try.fit()
-                    seasonal_try = res_try.seasonal
-                    resid_try = res_try.resid
-                    var_s = np.var(seasonal_try)
-                    var_r = np.var(resid_try)
-                    ss = float(var_s / (var_s + var_r)) if (var_s + var_r) != 0 else 0.0
-                    candidates.append((ss, period, res_try))
-                except Exception:
-                    continue
-
-            # choose best candidate by season_strength (highest ss)
-            if candidates:
-                candidates.sort(key=lambda x: x[0], reverse=True)
-                best_ss, best_period, best_res = candidates[0]
-                res = best_res
-            else:
-                # fallback: try a minimal STL with weekly period if possible
-                fallback_period = 7 if len(series_for_stl.dropna()) >= 14 else max(3, int(len(series_for_stl.dropna()) / 2))
-                res = STL(series_for_stl, period=fallback_period, seasonal=21, robust=True).fit()
-                best_period = fallback_period
-                use_log = True
-
-            # record selected STL metadata
-            self._last_selected_stl_period = int(best_period)
-            self._last_used_log_for_stl = bool(use_log)
-
-            # Extract components; if log used, seasonal/resid are on log-scale but variance ratio is comparable
-            df_proc['trend'] = res.trend
-            df_proc['seasonal'] = res.seasonal
-            df_proc['resid'] = res.resid
-            # merge seasonal back into original df by date
-            df = df.merge(df_proc[['trend', 'seasonal', 'resid']].reset_index(), on='date', how='left')
-            
-            cycle_phase = self._determine_cycle_phase(res.trend)
-            season_strength = self._compute_season_strength(res.seasonal, res.resid)
-            # pass the full dataframe (with seasonal column) for drift detection
-            drift_warn = self._compute_drift_warning(df)
-        except Exception as e:
-            logger.warning(f"StatsModels convergence exception handled securely: {e}")
-            cycle_phase = "Neutral"
-            season_strength = 0.0
-            drift_warn = False
-
-        # 3. Model Training Pipeline Execution (Delegated CV)
-        feature_cols = ['day_of_week', 'month', 'is_festival', 'arrivals_tonnes', 
-                        'price_lag_1', 'price_lag_7', 'price_lag_14', 'price_roll_mean_7', 
-                        'momentum_7', 'volatility_proxy_14']
-        
-        df_train = df.dropna(subset=feature_cols).copy()
-        
-        training_res = self.pipeline.train_and_select(df_train, feature_cols, 'modal_price')
-        models = training_res['top_models']
-        weights = training_res['weights']
-
-        # ── Dynamic Weighting & Regime Detection ────────────────────────
-        detector = RegimeDetector()
-        regimes = detector.detect_regime(df_train)
-
-        feedback_store = FeedbackStore()
-        weighter = DynamicWeighter(feedback_store)
-
-        weights = weighter.adjust_weights(
-            base_weights=weights,
-            agent_type='Seasonality',
-            commodity=commodity,
-            mandi=mandi,
-            regimes=regimes
-        )
-        
-        # Override the ensemble engine weights so predictions and logs match
-        if self.pipeline.last_ensemble is not None:
-            self.pipeline.last_ensemble.weights = weights
-
-        # Retrieve full ensemble audit log for metadata injection (Step 6)
-        ensemble_log = (
-            self.pipeline.last_ensemble.get_ensemble_log()
-            if self.pipeline.last_ensemble is not None
-            else {}
-        )
-        
-        # 4. Synthesize Predictive 30D Forecasts dynamically
-        last_row = df_train.iloc[-1:].copy()
-        forecasts = []
-        current_price = float(last_row['modal_price'].values[0])
-        X_fut = last_row[feature_cols].copy()
-        
-        for i in range(self.horizon_days):
-            preds = self.pipeline.ensemble_predict(models, weights, X_fut)
-            forecasts.append(float(preds[0]))
-            X_fut['price_lag_1'] = preds[0] # Auto-regressive mock assignment
-
-        # ── Log Predictions to FeedbackStore ───────────────────────────
-        target_dt = pd.to_datetime(last_row['date'].iloc[0]) + pd.Timedelta(days=self.horizon_days)
-        if self.pipeline.last_ensemble is not None:
-            for model_name, p in self.pipeline.last_ensemble.last_predictions.items():
-                feedback_store.log_prediction(
-                    agent_type='Seasonality',
-                    commodity=commodity,
-                    mandi=mandi,
-                    model_name=model_name,
-                    target_date=target_dt.strftime('%Y-%m-%d'),
-                    prediction=float(p)
-                )
-
-        # expected_return as fractional value (e.g., 0.03 == 3%) for internal stats
-        expected_return_frac = (forecasts[-1] - current_price) / current_price
-        # compute return_std (percent) and p_positive using fractional expected return
-        return_std_percent, p_positive = self._compute_statistical_return_metrics(df_train, expected_return_frac)
-
-        # 5. Compile Robust Confidence Mappings
-        avg_mape = float(np.mean(list(training_res['metrics'].values())))
-        base_confidence = max(0.0, min(1.0, 1.0 - avg_mape))
-        
-        # Penalize confidence slightly if seasonality is fundamentally drifting structurally
-        if drift_warn:
-            base_confidence *= 0.8
-            
-        logger.info(f"Execution closed securely generating deterministic variables resolving Seasonality constraints.")
-
-        return AgentOutput(
-            agent_name="Seasonality",
-            prediction=round(expected_return_frac * 100.0, 2),
-            confidence=round(base_confidence, 3),
-            metadata={
+            metadata = {
                 "commodity": commodity,
                 "mandi": mandi,
                 "timestamp": str(pd.Timestamp.utcnow()),
-                "expected_30d_return": round(expected_return_frac * 100.0, 2),
-                "return_std": round(return_std_percent, 2),
-                "P_positive": round(p_positive, 3),
-                "season_strength": round(season_strength, 3),
-                "festival_adjustment": round(festival_adj, 2),
-                "cycle_phase": cycle_phase,
-                "drift_warning": drift_warn,
-                "forecasted_prices": [round(p, 2) for p in forecasts],
-                "ensemble_log": ensemble_log,
-                "top_models_mape": training_res['metrics'],
-                "festival_regime_mape": training_res['metrics_festival'],
-                "best_model": self.pipeline.last_ensemble.best_model_name if self.pipeline.last_ensemble else None,
-                "n_active_models": self.pipeline.last_ensemble.n_active_models if self.pipeline.last_ensemble else 0,
-                "drift_normalized_rmse": getattr(self, '_last_drift_normalized_rmse', None),
-                "drift_threshold": getattr(self, '_last_drift_threshold', None),
-                "stl_selected_period": getattr(self, '_last_selected_stl_period', None),
-                "stl_used_log_transform": getattr(self, '_last_used_log_for_stl', None),
-                "explainable_features": {
-                    "base_trend_strength": "High" if cycle_phase in ["Ascending", "Descending"] else "Low",
-                    "festival_impact_active": bool(list(df_train['is_festival'])[-1] == 1)
-                }
-            },
-            model_breakdown={
-                name: {
-                    "prediction": float(ensemble_log.get("last_predictions", {}).get(name, 0.0) 
-                                        if isinstance(ensemble_log.get("last_predictions", {}).get(name), (int, float))
-                                        else 0.0),
-                    "weight": round(w, 4)
-                }
-                for name, w in weights.items()
+                "expected_30d_return": round(prediction_30d, 4),
+                "return_std": round(weighted_volatility * 100.0, 4),
+                "cycle_phase": "multi_horizon_price_cycle",
+                "drift_warning": False,
+                "feature_columns": bundle["feature_columns"],
+                "target_columns": bundle["target_columns"],
+                "metrics_per_model": bundle["metadata"]["metrics_per_model"],
+                "weights_per_horizon": bundle["weights"],
+                "best_models_per_horizon": bundle["metadata"]["best_models_per_horizon"],
+                "stability_enforced_prediction": prediction_result["stable_prediction"],
+                "raw_ensemble_prediction": prediction_result["ensemble_prediction"],
+                "prediction_confidence": prediction_result["confidence"],
+                "ensemble_metadata": prediction_result["metadata"],
             }
-        )
+
+            return AgentOutput(
+                agent_name="Seasonality",
+                prediction=round(prediction_30d, 4),
+                confidence=round(float(prediction_result["confidence"]), 4),
+                metadata=metadata,
+                model_breakdown=prediction_result["model_breakdown"],
+            )
+        except Exception as exc:
+            logger.error(f"Seasonality inference execution failed: {exc}", exc_info=True)
+            return AgentOutput(
+                agent_name="Seasonality",
+                prediction=0.0,
+                confidence=0.0,
+                metadata={
+                    "commodity": commodity,
+                    "mandi": mandi,
+                    "timestamp": str(pd.Timestamp.utcnow()),
+                    "error": str(exc),
+                },
+            )
+
+        
 
 def run_seasonality_agent(commodity: str, mandi: str, target_date: Optional[date] = None) -> AgentOutput:
     agent = SeasonalityAgent()

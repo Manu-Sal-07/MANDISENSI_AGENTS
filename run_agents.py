@@ -11,6 +11,7 @@ import sys
 import json
 from core.agents.seasonality_agent import run_seasonality_agent
 from core.agents.arrival_volume_agent import run_arrival_volume_agent
+from core.agents.external_factors_agent import run_external_factors_agent
 from ensemble.meta_ensemble import run_meta_ensemble
 from utils.logger import get_logger
 
@@ -44,7 +45,14 @@ def main():
         print("📦 Running Arrival Volume Agent...")
         arrival_output = run_arrival_volume_agent(commodity, mandi)
         arrival_json = arrival_output.dict()
-        
+
+        # Run External Factors Agent
+        print("🌦️ Running External Factors Agent...")
+        external_output = run_external_factors_agent(commodity, mandi)
+        external_impact = external_output["impact_score"]
+        external_confidence = external_output["confidence"]
+        external_json = external_output
+
         # Display individual results
         print(f"\n{'='*60}")
         print("SEASONALITY AGENT OUTPUT")
@@ -55,21 +63,21 @@ def main():
         print("ARRIVAL VOLUME AGENT OUTPUT")
         print(f"{'='*60}\n")
         print(json.dumps(arrival_json, indent=2, default=str))
+        print(f"\n{'='*60}")
+        print("EXTERNAL FACTORS AGENT OUTPUT")
+        print(f"{'='*60}\n")
+        print(json.dumps(external_json, indent=2, default=str))
         
         # ── Meta-Ensemble Fusion ──────────────────────────────────────
         print(f"\n{'='*60}")
         print("🔀 Running Meta-Ensemble Fusion...")
         print(f"{'='*60}\n")
         
-        # External Factors agent is not yet fully integrated;
-        # pass neutral defaults (zero impact, zero confidence).
-        # When the External agent is production-ready, wire its
-        # output here.
         meta_result = run_meta_ensemble(
             seasonality_output=seasonality_output,
             arrival_output=arrival_output,
-            external_impact=0.0,
-            external_confidence=0.0,
+            external_impact=external_impact,
+            external_confidence=external_confidence,
         )
         
         print(f"\n{'='*60}")

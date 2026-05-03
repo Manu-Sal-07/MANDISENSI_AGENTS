@@ -45,6 +45,14 @@ class AgmarknetIngestor:
                 return pd.DataFrame()
                 
             df = self._normalize_columns(df)
+
+            required_identity_cols = {'date', 'commodity', 'market'}
+            missing_identity = required_identity_cols - set(df.columns)
+            if missing_identity:
+                logger.warning(
+                    f"Skipping non-market CSV {file_path.name}: missing {sorted(missing_identity)}"
+                )
+                return pd.DataFrame()
             
             # Type casting heavily considering unscrubbed strings
             df['date'] = pd.to_datetime(df['date'], errors='coerce', dayfirst=True)

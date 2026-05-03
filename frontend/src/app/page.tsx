@@ -1,134 +1,173 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { TrendingUp, Activity, BarChart3, Zap } from "lucide-react";
-import { OpportunityGrid } from "@/components/home/OpportunityGrid";
-import { SectionHeader } from "@/components/home/SectionHeader";
-import { OpportunityData } from "@/components/home/OpportunityCard";
+'use client';
 
-// Mock Data
-const MOCK_OPPORTUNITIES: OpportunityData[] = [
-  {
-    id: "tomato",
-    name: "Tomato",
-    signal: "STRONG BUY",
-    score: 8.7,
-    change: 6.2,
-    confidence: 0.72,
-  },
-  {
-    id: "onion",
-    name: "Onion",
-    signal: "AVOID",
-    score: 2.1,
-    change: -4.5,
-    confidence: 0.85,
-  },
-  {
-    id: "potato",
-    name: "Potato",
-    signal: "HOLD",
-    score: 5.5,
-    change: 0.8,
-    confidence: 0.45,
-  },
-];
+import React, { useState } from 'react';
+import LocationBar from '@/components/LocationBar';
+import SearchBar from '@/components/SearchBar';
+import OpportunityFeed from '@/components/OpportunityFeed';
+import QuickDecisionBar from '@/components/QuickDecisionBar';
+import { mandiApi } from '@/services/api';
+import { QueryResponse } from '@/types/mandi';
+import { RefreshCw, CheckCircle } from 'lucide-react';
 
-export default function Home() {
+/**
+ * Phase 7: Swiggy-style UI — Mandi Discovery & Smart Query
+ */
+export default function Homepage() {
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchResult, setSearchResult] = useState<QueryResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [showQuickDecisions, setShowQuickDecisions] = useState(true);
+
+  const handleSmartSearch = async (query: string) => {
+    setIsSearching(true);
+    setSearchResult(null);
+    setError(null);
+    try {
+      const result = await mandiApi.predictQuery(query);
+      setSearchResult(result);
+    } catch (err) {
+      setError("Data not available right now. Please try again.");
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const getDecisionColor = (decision: string) => {
+    switch (decision) {
+      case 'SELL': return 'text-red-500';
+      case 'HOLD': return 'text-green-500';
+      case 'WAIT': return 'text-yellow-500';
+      default: return 'text-zinc-500';
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-8 py-8 w-full">
-      {/* Header Section */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-foreground">
-            MandiSense AI
-          </h1>
-          <p className="text-muted-foreground mt-1 text-lg">
-            Multi-agent commodity trading intelligence.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline" className="h-10">
-            <BarChart3 className="mr-2 h-4 w-4" />
-            Analytics
-          </Button>
-          <Button className="h-10">
-            <Activity className="mr-2 h-4 w-4" />
-            Live Market
-          </Button>
-        </div>
-      </div>
+    <div className="flex flex-col">
+      {/* 1. Contextual Header */}
+      <LocationBar />
+      
+      <div className="flex-1 max-w-5xl mx-auto w-full px-4 py-6 space-y-10">
+        {/* 2. Smart Query Input */}
+        <section className="space-y-4">
+          <div className="text-center space-y-2">
+            <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100">
+              MandiSense <span className="text-emerald-600">AI</span>
+            </h1>
+            <p className="text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-[0.3em] text-[10px]">
+              Daily Decision Guide for Farmers
+            </p>
+          </div>
+          <SearchBar onSearch={handleSmartSearch} isLoading={isSearching} />
+          {error && <p className="text-center text-red-500 text-xs font-bold">{error}</p>}
+        </section>
 
-      <Tabs defaultValue="opportunities" className="w-full">
-        <TabsList className="mb-6 h-12 items-center px-2 bg-card border border-border/50">
-          <TabsTrigger value="opportunities" className="text-base px-6">Top Opportunities</TabsTrigger>
-          <TabsTrigger value="overview" className="text-base px-6">Market Overview</TabsTrigger>
-          <TabsTrigger value="portfolio" className="text-base px-6">My Watchlist</TabsTrigger>
-        </TabsList>
+        {/* 2.5 Quick Decision Bar (Toggleable) */}
+        <section className="space-y-4">
+          <div className="flex justify-between items-center px-2">
+            <label className="flex items-center gap-2 cursor-pointer group">
+              <input 
+                type="checkbox" 
+                checked={showQuickDecisions} 
+                onChange={(e) => setShowQuickDecisions(e.target.checked)}
+                className="w-4 h-4 rounded border-zinc-300 text-orange-500 focus:ring-orange-500"
+              />
+              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-zinc-600 transition-colors">
+                Show Quick Advice
+              </span>
+            </label>
+          </div>
+          {showQuickDecisions && <QuickDecisionBar />}
+        </section>
 
-        <TabsContent value="opportunities" className="mt-0 outline-none">
-          {/* TOP OPPORTUNITIES HERO SECTION */}
-          <section className="mb-10">
-            <SectionHeader 
-              title="Top Opportunities Today" 
-              description="AI-detected market inefficiencies based on seasonality, supply stress, and external factors."
-              icon={Zap}
-            />
-            <OpportunityGrid opportunities={MOCK_OPPORTUNITIES} />
-          </section>
-        </TabsContent>
+        {/* 3. Search Results (if any) */}
+        {searchResult && (
+          <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="bg-zinc-950 text-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden border border-white/5">
+              <div className="relative z-10 space-y-8">
+                <div className="flex justify-between items-start">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">
+                      Strategy for {searchResult?.metadata?.mandi_id?.replace('_apmc', '').toUpperCase() || 'MARKET'}
+                    </span>
+                    <h2 className={`text-6xl md:text-8xl font-black tracking-tighter ${getDecisionColor(searchResult.decision)}`}>
+                      {searchResult.decision}
+                    </h2>
+                  </div>
+                  <button 
+                    onClick={() => setSearchResult(null)}
+                    className="text-zinc-500 hover:text-white transition-colors"
+                  >
+                    <RefreshCw className="w-5 h-5" />
+                  </button>
+                </div>
+                
+                <div className="space-y-6 max-w-2xl">
+                  <p className="text-2xl md:text-3xl font-bold tracking-tight leading-tight">
+                    {searchResult.summary}
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Reasoning</h4>
+                    <p className="text-zinc-400 font-medium leading-relaxed">
+                      {searchResult.reasoning}
+                    </p>
+                  </div>
 
-        <TabsContent value="overview" className="mt-0 outline-none space-y-8">
-          <section>
-            <SectionHeader title="Global Market State" icon={Activity} />
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-                <CardHeader className="pb-2">
-                  <CardDescription>Global Market Trend</CardDescription>
-                  <CardTitle className="text-2xl flex items-center gap-2">
-                    Bullish <TrendingUp className="h-5 w-5 text-emerald-500" />
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-xs text-muted-foreground">+2.4% aggregate shift in past 7 days</p>
-                </CardContent>
-              </Card>
+                  <div className="bg-white/5 rounded-3xl p-6 border border-white/5">
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Market Insight</h4>
+                    <p className="text-lg font-bold text-zinc-200 italic">
+                      &ldquo;{searchResult.market_insight}&rdquo;
+                    </p>
+                  </div>
+                </div>
 
-              <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-                <CardHeader className="pb-2">
-                  <CardDescription>Active Alerts</CardDescription>
-                  <CardTitle className="text-2xl">3 High Priority</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-xs text-muted-foreground">Supply stress detected in Onion markets</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-card/60 backdrop-blur-sm border-border/50">
-                <CardHeader className="pb-2">
-                  <CardDescription>System Status</CardDescription>
-                  <CardTitle className="text-2xl text-emerald-500">Operational</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-xs text-muted-foreground">All agents running normally (Phase-2.5)</p>
-                </CardContent>
-              </Card>
+                <div className="flex items-center gap-6 pt-8 border-t border-white/5">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+                      {searchResult?.metadata?.confidence > 0.85 ? 'High confidence' : 'Medium confidence'}
+                    </span>
+                  </div>
+                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Data Updated Today</div>
+                </div>
+              </div>
+              <div className="absolute top-0 right-0 w-96 h-96 bg-zinc-800 blur-[120px] opacity-20 -mr-48 -mt-48 pointer-events-none" />
             </div>
           </section>
-        </TabsContent>
+        )}
         
-        <TabsContent value="portfolio" className="mt-0 outline-none">
-           <section>
-            <SectionHeader title="Your Watchlist" />
-            <Card className="border-dashed h-[400px] flex items-center justify-center bg-transparent border-border/50">
-              <div className="text-center">
-                <p className="text-muted-foreground mb-4">You are not tracking any commodities yet.</p>
-                <Button variant="outline">Browse Markets</Button>
-              </div>
-            </Card>
-          </section>
-        </TabsContent>
-      </Tabs>
+        {/* 4. Location-Aware Mandi Discovery */}
+        <section className="space-y-6 pt-6">
+          <div className="px-2 flex flex-col gap-1">
+            <h2 className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100 italic">Market Intelligence</h2>
+            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em]">Nearby Mandis & Signal Audits</p>
+          </div>
+          
+          <OpportunityFeed variant="grid" />
+        </section>
+
+        {/* 6. Footer Trust Signals */}
+        <section className="py-10 text-center space-y-4">
+          <div className="flex items-center justify-center gap-4 text-zinc-400">
+            <div className="flex items-center gap-1.5">
+              <CheckCircle className="w-4 h-4 text-green-500" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Safe & Trusted</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <RefreshCw className="w-4 h-4 text-orange-500" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Real-time Trends</span>
+            </div>
+          </div>
+          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.4em]">Powered by MandiSense AI Engine v3</p>
+        </section>
+      </div>
+
+      {/* Persistent Bottom Navigation Placeholder */}
+      <div className="fixed bottom-0 left-0 right-0 h-16 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-900 flex items-center justify-around px-6 z-50">
+        <div className="w-6 h-6 bg-zinc-900 dark:bg-zinc-100 rounded-lg"></div>
+        <div className="w-6 h-6 bg-zinc-100 dark:bg-zinc-800 rounded-lg"></div>
+        <div className="w-6 h-6 bg-zinc-100 dark:bg-zinc-800 rounded-lg"></div>
+      </div>
     </div>
   );
 }
