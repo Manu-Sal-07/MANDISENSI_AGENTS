@@ -30,6 +30,11 @@ from mandisense_ai.services.prediction_cache import (
     set_cached_prediction
 )
 
+# Discovery/Legacy Imports
+from backend.app.routes import discovery, query, decision, predict as legacy_predict
+from backend.app.services.model_loader import init_engines
+
+
 
 
 # ── Logging Configuration ──────────────────────────────────────────────
@@ -154,11 +159,21 @@ async def startup_event():
 
     logger.info("System initialized successfully")
     log_event("startup_completed")
+    
+    # Initialize Legacy Engines for Discovery routes
+    logger.info("Initializing Legacy Engines for Discovery routes...")
+    try:
+        await init_engines(version="v3")
+        logger.info("Legacy engines initialized successfully.")
+    except Exception as e:
+        logger.error(f"Failed to initialize legacy engines: {e}")
+
 
 # ── Endpoints ─────────────────────────────────────────────────────────
 
 @app.get("/v1/health")
 async def health_check():
+
     """Detailed health check for all subsystems."""
     db_ok = await ping_db_async()
     redis_ok = ping_redis()
@@ -284,8 +299,30 @@ async def predict(request: PredictRequest):
 
 
 
+# ── Discovery & Compatibility Routes ─────────────────────────────────
+app.include_router(discovery.router, prefix="/discovery", tags=["Discovery"])
+app.include_router(query.router, prefix="/query", tags=["Advisory"])
+app.include_router(decision.router, prefix="/decision", tags=["Intelligence"])
+
+# Frontend Compatibility Bridge
+app.include_router(discovery.router, prefix="/api", tags=["Frontend Compatibility"])
+app.include_router(legacy_predict.router, prefix="/api/predict", tags=["Legacy Compatibility"])
+
+@app.get("/")
+async def root_redirect():
+    return {
+        "message": "MandiSense AI Unified Backend is Online",
+        "endpoints": {
+            "inference": "/v1/predict",
+            "discovery_feed": "/discovery/feed",
+            "health": "/v1/health"
+        }
+    }
+
+
 # ── Entry Point ───────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", "8000")))
+
 

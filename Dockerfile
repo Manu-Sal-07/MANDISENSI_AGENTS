@@ -34,5 +34,6 @@ EXPOSE 8000
 
 # Production runtime command
 # Uses 2 workers for basic concurrency within the container
-CMD ["sh", "-c", "uvicorn mandisense_ai.app:app --host 0.0.0.0 --port ${PORT:-8000} --workers 2"]
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 2"]
+
 
