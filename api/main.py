@@ -23,6 +23,14 @@ sys.path.append(os.path.join(BASE_DIR, "mandisense_ai"))
 from mandisense_ai.db.connection import ping_db_async
 from mandisense_ai.lib.cache import ping_redis
 from run_agents import run_pipeline
+from mandisense_ai.core.decision_engine import generate_decision
+from mandisense_ai.services.prediction_cache import (
+    get_prediction_cache_key, 
+    get_cached_prediction, 
+    set_cached_prediction
+)
+
+
 
 # ── Logging Configuration ──────────────────────────────────────────────
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -72,8 +80,23 @@ class PredictResponse(BaseModel):
     confidence: float
     status: str
     reason: Optional[str] = None
+    # Decision Intelligence Extension
+    decision: str
+    risk_level: str
+    action_strength: str
+    direction: str
+    confidence_label: str
+    summary: str
+    reasoning: str
+    signals: Dict[str, Any]
+    # Caching
+    cache: Optional[Dict[str, Any]] = None
+    # Metadata
     metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
     model_breakdown: Dict[str, Any] = Field(default_factory=dict)
+
 
 # ── Middleware ────────────────────────────────────────────────────────
 @app.middleware("http")
@@ -155,11 +178,19 @@ async def health_check():
 
 @app.post("/v1/predict", response_model=PredictResponse)
 async def predict(request: PredictRequest):
-    """Prediction with tracing, timeout, and failure transparency."""
+    """Prediction with tracing, timeout, caching, and failure transparency."""
     start_time = time.time()
     req_id = REQUEST_ID.get()
     
+    # 1. Cache Check
+    cache_key = get_prediction_cache_key(request.commodity, request.mandi)
+    cached_response = get_cached_prediction(cache_key, req_id)
+    if cached_response:
+        return PredictResponse(**cached_response)
+
+    # 2. Pipeline Execution (Cache Miss)
     try:
+
         result = await asyncio.wait_for(
             asyncio.to_thread(run_pipeline, request.commodity, request.mandi),
             timeout=10.0
@@ -171,49 +202,87 @@ async def predict(request: PredictRequest):
             log_event("prediction_error", 
                       commodity=request.commodity, mandi=request.mandi, 
                       error=result.get("message"))
+            decision_data = generate_decision(0.0, 0.1, {}, status="fallback")
             return PredictResponse(
                 request_id=req_id,
                 prediction=0.0,
                 confidence=0.1,
                 status="fallback",
-                reason=result.get("message", "Pipeline error")
+                reason=result.get("message", "Pipeline error"),
+                cache={"hit": False},
+                **decision_data
             )
+
 
         log_event("prediction_request", 
                   commodity=request.commodity, mandi=request.mandi, 
                   latency_ms=duration_ms)
         
-        meta_res = result.get("results", {}).get("meta_ensemble", {})
-        return PredictResponse(
-            request_id=req_id,
+        results_map = result.get("results", {})
+        meta_res = results_map.get("meta_ensemble", {})
+        
+        # Consolidate metadata for decision engine
+        combined_meta = {
+            "volatility": results_map.get("seasonality", {}).get("metadata", {}).get("prediction_std", 0.3),
+            "supply_stress": results_map.get("arrival_volume", {}).get("metadata", {}).get("supply_stress_score", 0.5)
+        }
+        
+        # Generate Actionable Decision
+        decision_data = generate_decision(
             prediction=float(meta_res.get("prediction", 0.0)),
             confidence=float(meta_res.get("confidence", 0.0)),
-            status="success",
-            metadata=result.get("results", {}),
-            model_breakdown=result.get("results", {}).get("seasonality", {}).get("model_breakdown", {})
+            metadata=combined_meta,
+            status="success"
         )
+
+        
+        full_response = {
+            "request_id": req_id,
+            "prediction": float(meta_res.get("prediction", 0.0)),
+            "confidence": float(meta_res.get("confidence", 0.0)),
+            "status": "success",
+            "metadata": results_map,
+            "model_breakdown": results_map.get("seasonality", {}).get("model_breakdown", {}),
+            "cache": {"hit": False},
+            **decision_data
+        }
+        
+        # 3. Store in Cache
+        set_cached_prediction(cache_key, full_response, req_id)
+        
+        return PredictResponse(**full_response)
+
         
     except asyncio.TimeoutError:
         duration_ms = (time.time() - start_time) * 1000
         log_event("prediction_timeout", 
                   commodity=request.commodity, mandi=request.mandi, 
                   duration_ms=duration_ms)
+        decision_data = generate_decision(0.0, 0.1, {}, status="fallback")
         return PredictResponse(
             request_id=req_id,
             prediction=0.0,
             confidence=0.1,
             status="fallback",
-            reason="timeout"
+            reason="timeout",
+            cache={"hit": False},
+            **decision_data
         )
+
     except Exception as e:
         log_event("prediction_fatal", error=str(e))
+        decision_data = generate_decision(0.0, 0.1, {}, status="fallback")
         return PredictResponse(
             request_id=req_id,
             prediction=0.0,
             confidence=0.1,
             status="fallback",
-            reason=f"exception: {str(e)}"
+            reason=f"exception: {str(e)}",
+            cache={"hit": False},
+            **decision_data
         )
+
+
 
 # ── Entry Point ───────────────────────────────────────────────────────
 if __name__ == "__main__":

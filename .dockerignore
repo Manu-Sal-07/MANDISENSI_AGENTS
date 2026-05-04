@@ -39,7 +39,7 @@ models/
 mandisense_ai/models/
 models_backup*/
 frontend/
-backend/
 Dockerfile
 docker-compose.yml
 .dockerignore
+
