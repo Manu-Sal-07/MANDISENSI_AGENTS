@@ -28,10 +28,14 @@ logger = get_logger(__name__)
 
 def _get_db_url() -> str:
     """Build DATABASE_URL from environment or use default."""
-    return os.environ.get(
+    url = os.environ.get(
         "DATABASE_URL",
         "postgresql://mandisense:mandisense@localhost:5432/mandisense_db"
     )
+    # Render/Heroku use postgres:// but asyncpg/psycopg2 might prefer postgresql://
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+    return url
 
 
 def _parse_db_url(url: str) -> Dict[str, Any]:
@@ -75,13 +79,13 @@ def get_sync_pool():
         import psycopg2
         from psycopg2 import pool as pg_pool
 
-        params = _parse_db_url(_get_db_url())
+        dsn = _get_db_url()
         _sync_pool = pg_pool.ThreadedConnectionPool(
             minconn=2,
             maxconn=10,
-            **params,
+            dsn=dsn,
         )
-        logger.info(f"[DB] Sync pool created: {params['host']}:{params['port']}/{params['database']}")
+        logger.info(f"[DB] Sync pool created via DSN")
         return _sync_pool
     except Exception as e:
         logger.warning(f"[DB] Sync pool creation failed: {e}")

@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+bin/
+lib/
+develop-eggs/
+dist/
+eggs/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.venv/
+venv/
+ms_env/
+
+# IDEs
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Project Specific
+logs/
+data/
+mandisense_ai/data/
+models/
+mandisense_ai/models/
+models_backup*/
+frontend/
+backend/
+Dockerfile
+docker-compose.yml
+.dockerignore

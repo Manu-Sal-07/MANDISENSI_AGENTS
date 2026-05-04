@@ -17,6 +17,7 @@ from core.agents.seasonality.inference import SeasonalityInferencePipeline
 from core.agents.seasonality.training.train_seasonality import (
     load_seasonality_bundle,
     predict_with_ensemble,
+    train_seasonality_models,
 )
 
 logger = get_logger(__name__)
@@ -274,7 +275,13 @@ class SeasonalityAgent:
             )
 
         try:
-            bundle = load_seasonality_bundle(commodity=commodity, mandi=mandi)
+            try:
+                bundle = load_seasonality_bundle(commodity=commodity, mandi=mandi)
+            except Exception as e:
+                logger.warning(f"Failed to load seasonality bundle for {commodity}_{mandi}: {str(e)}. Triggering training fallback.")
+                train_seasonality_models(df, commodity=commodity, mandi=mandi)
+                bundle = load_seasonality_bundle(commodity=commodity, mandi=mandi)
+                
             timestamp = pd.to_datetime(target_date) if target_date is not None else pd.to_datetime(df["date"]).max()
             features = self.inference_pipeline.build_inference_features(
                 df, 

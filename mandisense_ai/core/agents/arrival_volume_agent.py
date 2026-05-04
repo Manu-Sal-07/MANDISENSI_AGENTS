@@ -149,7 +149,7 @@ def build_arrival_features(df: pd.DataFrame) -> pd.DataFrame:
 
     return d
 
-def build_arrival_inference_features(data: pd.DataFrame, timestamp: datetime, feature_columns: list) -> pd.DataFrame:
+def build_arrival_inference_features(data: pd.DataFrame, timestamp: datetime, feature_columns: list, mandi: str) -> pd.DataFrame:
     """
     Real-Time Feature Engineering for Supply Dynamics.
     Constructs a deterministic feature vector using strict historical data cutoff.
@@ -246,7 +246,7 @@ def build_arrival_inference_features(data: pd.DataFrame, timestamp: datetime, fe
         'price_lag_7': price_lag_7,
         'rolling_elasticity_30d': elasticity,
         'is_festival': is_festival,
-        'mandi_id': float(MANDI_MAP.get(mandi_name.lower(), MANDI_MAP['unknown'])),
+        'mandi_id': float(MANDI_MAP.get(mandi.lower(), MANDI_MAP['unknown'])),
         
         # Meta values for agent output processing
         'supply_stress_score': supply_stress_score,
@@ -421,7 +421,7 @@ def run_arrival_volume_agent(
     timestamp = pd.to_datetime(target_date) if target_date else pd.to_datetime(data['date'].max())
 
     # 3. Build Real-Time Inference Features
-    features_df = build_arrival_inference_features(data, timestamp, bundle['feature_columns'])
+    features_df = build_arrival_inference_features(data, timestamp, bundle['feature_columns'], mandi)
     meta = features_df.attrs.get('meta', {})
 
     # 4. Predict

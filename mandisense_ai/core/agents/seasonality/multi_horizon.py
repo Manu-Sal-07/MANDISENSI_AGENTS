@@ -53,6 +53,16 @@ HORIZON_IMPORTANCE: Dict[str, float] = {
     "30d": 0.08,
 }
 
+MANDI_MAP = {
+    "kolar": 0,
+    "lasalgaon": 1,
+    "agra": 2,
+    "guntur": 3,
+    "neemuch": 4,
+    "bangalore": 5,
+    "unknown": 99
+}
+
 FEATURE_COLS: List[str] = [
     "mandi_id",
     "price_lag_1",
@@ -181,32 +191,66 @@ class SeasonalityMultiHorizonPipeline:
         data = df.sort_values(["mandi", "date"]).copy()
         data["date"] = pd.to_datetime(data["date"])
 
+        if "mandi_id" not in data.columns:
+            data["mandi_id"] = data["mandi"].map(
+                lambda x: float(MANDI_MAP.get(str(x).lower(), MANDI_MAP["unknown"]))
+            )
+
         # Mandi-Aware Feature Engineering
+        if "price_lag_1" not in data.columns:
+            data["price_lag_1"] = data.groupby("mandi")["modal_price"].shift(1)
+        if "price_lag_7" not in data.columns:
+            data["price_lag_7"] = data.groupby("mandi")["modal_price"].shift(7)
+        if "price_lag_14" not in data.columns:
+            data["price_lag_14"] = data.groupby("mandi")["modal_price"].shift(14)
+
         if "returns" not in data.columns:
             data["returns"] = data.groupby("mandi")["modal_price"].pct_change()
         
         if "momentum_7d" not in data.columns:
-            data["momentum_7d"] = data.groupby("mandi").apply(
-                lambda x: x["modal_price"] / x["price_lag_7"].replace(0, np.nan) - 1.0
-            ).reset_index(level=0, drop=True)
+            data["momentum_7d"] = data.groupby("mandi")["modal_price"].transform(
+                lambda x: x / x.shift(7).replace(0, np.nan) - 1.0
+            )
             
         if "volatility_7d" not in data.columns:
             if "log_returns" not in data.columns:
-                data["log_returns"] = data.groupby("mandi").apply(
-                    lambda x: np.log(x["modal_price"] / x["modal_price"].shift(1))
-                ).reset_index(level=0, drop=True)
+                data["log_returns"] = data.groupby("mandi")["modal_price"].transform(
+                    lambda x: np.log(x / x.shift(1).replace(0, np.nan))
+                )
             data["volatility_7d"] = data.groupby("mandi")["log_returns"].transform(
                 lambda x: x.rolling(7, min_periods=4).std()
             )
 
+        if "price_mean_7" not in data.columns:
+            data["price_mean_7"] = data.groupby("mandi")["modal_price"].transform(
+                lambda x: x.rolling(7, min_periods=4).mean()
+            )
+        if "price_std_7" not in data.columns:
+            data["price_std_7"] = data.groupby("mandi")["modal_price"].transform(
+                lambda x: x.rolling(7, min_periods=4).std()
+            )
+        if "price_mean_30" not in data.columns:
+            data["price_mean_30"] = data.groupby("mandi")["modal_price"].transform(
+                lambda x: x.rolling(30, min_periods=10).mean()
+            )
+        if "price_std_30" not in data.columns:
+            data["price_std_30"] = data.groupby("mandi")["modal_price"].transform(
+                lambda x: x.rolling(30, min_periods=10).std()
+            )
+
+        if "month" not in data.columns:
+            data["month"] = data["date"].dt.month.astype(float)
+        if "day_of_week" not in data.columns:
+            data["day_of_week"] = data["date"].dt.weekday.astype(float)
+
         for horizon in HORIZONS:
             col = f"target_{horizon}d"
             if col not in data.columns:
-                data[col] = data.groupby("mandi").apply(
-                    lambda x: (x["modal_price"].shift(-horizon) - x["modal_price"]) / x["modal_price"].replace(0, np.nan)
-                ).reset_index(level=0, drop=True)
+                data[col] = data.groupby("mandi")["modal_price"].transform(
+                    lambda x: (x.shift(-horizon) - x) / x.replace(0, np.nan)
+                )
 
-        required = ["date", "mandi", "mandi_id", "modal_price"] + FEATURE_COLS + TARGET_COLS
+        required = ["date", "mandi", "modal_price"] + FEATURE_COLS + TARGET_COLS
         missing = [col for col in required if col not in data.columns]
         if missing:
             raise ValueError(f"Seasonality dataset missing required columns: {missing}")
