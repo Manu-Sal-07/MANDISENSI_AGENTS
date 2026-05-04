@@ -92,6 +92,17 @@ app.include_router(decision.router, prefix="/decision", tags=["Intelligence"])
 app.include_router(discovery.router, prefix="/api", tags=["Frontend Compatibility"])
 app.include_router(legacy_predict.router, prefix="/api/predict", tags=["Legacy Compatibility"])
 
+# ── Custom 404 Handler (Confirming App Identity) ──────────────────────
+@app.exception_handler(404)
+async def custom_404_handler(request: Request, __):
+    return {
+        "status": "error",
+        "message": f"Endpoint {request.url.path} not found on MandiSense AI Unified Server",
+        "request_id": REQUEST_ID.get(),
+        "available_endpoints": ["/", "/v1/health", "/v1/predict", "/discovery/feed"]
+    }
+
+
 
 # ── Request/Response Schemas ──────────────────────────────────────────
 class PredictRequest(BaseModel):

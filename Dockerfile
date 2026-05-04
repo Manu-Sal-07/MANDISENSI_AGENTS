@@ -34,6 +34,8 @@ EXPOSE 8000
 
 # Production runtime command
 # Uses 2 workers for basic concurrency within the container
-CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 2"]
+# Defaulting to 10000 for Render compatibility if PORT is not set
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-10000} --workers 2"]
+
 
 

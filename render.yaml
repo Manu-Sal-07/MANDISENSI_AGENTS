@@ -18,8 +18,7 @@ services:
           name: mandisense-redis
           type: redis
           property: connectionString
-      - key: PORT
-        value: 8000
+
 
 databases:
   - name: mandisense-db
