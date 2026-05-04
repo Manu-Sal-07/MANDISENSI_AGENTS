@@ -74,6 +74,25 @@ app = FastAPI(
     version="1.2.0"
 )
 
+# ── Primary Discovery Routes (Moved Up for Visibility) ────────────────
+@app.get("/")
+async def root_redirect():
+    return {
+        "message": "MandiSense AI Unified Backend is Online",
+        "endpoints": {
+            "inference": "/v1/predict",
+            "discovery_feed": "/discovery/feed",
+            "health": "/v1/health"
+        }
+    }
+
+app.include_router(discovery.router, prefix="/discovery", tags=["Discovery"])
+app.include_router(query.router, prefix="/query", tags=["Advisory"])
+app.include_router(decision.router, prefix="/decision", tags=["Intelligence"])
+app.include_router(discovery.router, prefix="/api", tags=["Frontend Compatibility"])
+app.include_router(legacy_predict.router, prefix="/api/predict", tags=["Legacy Compatibility"])
+
+
 # ── Request/Response Schemas ──────────────────────────────────────────
 class PredictRequest(BaseModel):
     commodity: str = Field(..., example="tomato")
@@ -299,30 +318,10 @@ async def predict(request: PredictRequest):
 
 
 
-# ── Discovery & Compatibility Routes ─────────────────────────────────
-app.include_router(discovery.router, prefix="/discovery", tags=["Discovery"])
-app.include_router(query.router, prefix="/query", tags=["Advisory"])
-app.include_router(decision.router, prefix="/decision", tags=["Intelligence"])
-
-# Frontend Compatibility Bridge
-app.include_router(discovery.router, prefix="/api", tags=["Frontend Compatibility"])
-app.include_router(legacy_predict.router, prefix="/api/predict", tags=["Legacy Compatibility"])
-
-@app.get("/")
-async def root_redirect():
-    return {
-        "message": "MandiSense AI Unified Backend is Online",
-        "endpoints": {
-            "inference": "/v1/predict",
-            "discovery_feed": "/discovery/feed",
-            "health": "/v1/health"
-        }
-    }
-
-
 # ── Entry Point ───────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", "8000")))
+
 
 
