@@ -53,6 +53,18 @@ def _get_redis_client() -> Optional[Any]:
         return None
 
 
+def ping_redis() -> bool:
+    """Check if redis is reachable."""
+    client = _get_redis_client()
+    if client is None:
+        return False
+    try:
+        return bool(client.ping())
+    except Exception:
+        return False
+
+
+
 def _redis_get(key: str) -> Optional[str]:
     client = _get_redis_client()
     if client is None:

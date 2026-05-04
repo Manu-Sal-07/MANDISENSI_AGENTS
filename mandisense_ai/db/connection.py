@@ -133,6 +133,16 @@ def execute_many_sync(query: str, params_list: List[tuple]) -> int:
             return cur.rowcount
 
 
+def ping_db_sync() -> bool:
+    """Check if the database is reachable synchronously."""
+    try:
+        rows = execute_sync("SELECT 1")
+        return rows is not None and len(rows) > 0
+    except Exception:
+        return False
+
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # Async Connection Pool (asyncpg) — for FastAPI request handlers
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -194,3 +204,13 @@ async def execute_write_async(query: str, *args) -> Optional[str]:
         return None
     async with pool.acquire() as conn:
         return await conn.execute(query, *args)
+
+
+async def ping_db_async() -> bool:
+    """Check if the database is reachable asynchronously."""
+    try:
+        res = await execute_one_async("SELECT 1")
+        return res is not None
+    except Exception:
+        return False
+

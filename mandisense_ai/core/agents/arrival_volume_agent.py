@@ -31,6 +31,9 @@ MANDI_MAP = {
     "unknown": 99
 }
 
+from functools import lru_cache
+
+@lru_cache(maxsize=10)
 def load_arrival_bundle(commodity: str, mandi: str) -> dict:
     """
     Loads and validates the pretrained arrival model bundle from disk.
@@ -74,6 +77,7 @@ def load_arrival_bundle(commodity: str, mandi: str) -> dict:
     logger.info(f"Loaded arrival bundle from {bundle_path} successfully. Models: {n_models}, Timestamp: {timestamp}")
     
     return bundle
+
 
 def build_arrival_features(df: pd.DataFrame) -> pd.DataFrame:
     """
