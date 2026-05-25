@@ -1,0 +1,61 @@
+﻿211: \setbeamercolor{background canvas}{bg=white}
+212: \begin{frame}[plain]
+213: \titlepage
+214: \centering
+215: \vspace{0.5cm}
+216: {\color{primary}\rule{0.35\textwidth}{0.8pt}}
+217: \vspace{0.3cm}
+218: {\color{textLight}\normalsize Production-Grade Agentic Architecture \textbar\ Resilient Async Backend}
+219: \end{frame}
+220: }
+221: 
+222: % ============================================================
+223: % SECTION 01: RESEARCH FOUNDATION
+224: % ============================================================
+225: \sectiontransition{01}{Research Foundation}{Understanding the Need for Adaptive Agricultural Intelligence}
+226: 
+227: % --- SLIDE 2: PROBLEM ---
+228: \begin{frame}{The Agricultural Decision Crisis}
+229: \begin{herocard}
+230: \begin{columns}[T]
+231: \column{0.5\textwidth}
+232: \centering
+233: \begin{tikzpicture}[scale=0.55]
+234: \begin{axis}[
+235:     width=6.5cm, height=3.2cm,
+236:     xlabel={Time (Days)}, ylabel={Price Index},
+237:     xmin=0, xmax=100, ymin=0, ymax=100,
+238:     axis lines=left,
+239:     tick label style={font=\tiny, color=textMedium},
+240:     label style={font=\tiny, color=textMedium},
+241:     axis line style={color=borderMedium},
+242:     grid=both, grid style={color=borderLight, thin},
+243:     domain=0:100, samples=150,
+244: ]
+245: \addplot[primary, very thick, smooth] {55 + 20*sin(x*360/30) + 8*rand};
+246: \addplot[accentTeal, thick, dashed] {55};
+247: \addplot[accentOrange, only marks, mark=*, mark size=3] coordinates {(72, 48)};
+248: \end{axis}
+249: \end{tikzpicture}
+250: \column{0.4\textwidth}
+251: \raggedright
+252: \begin{itemize}
+253:     \footnotesize
+254:     \item \color{accentOrange}\normalsize\textbf{40Ã¢â‚¬â€œ60\% price swings} within harvest cycles
+255:     \item \normalsize\textbf{10,000+} markets, information asymmetry
+256:     \item Fragmented intelligence systems limit real-time coordination
+257:     \item Static forecasts ignore volatility regimes and shock events
+258:     \item \normalsize\textbf{78\% of farmers} distrust black-box models
+259: \end{itemize}
+260: \end{columns}
+261: \end{herocard}
+262: \vspace{0.1cm}
+263: \centering{\color{accentTeal}\itshape\normalsize ``Where decisions are most critical, forecasting is least reliable.''}
+264: \end{frame}
+265: 
+266: % --- SLIDE 3: LITERATURE SURVEY ---
+267: \begin{frame}{Literature Survey â€” Comparative Landscape}
+268: \begin{herocard}
+269: \centering
+270: \scriptsize
+271: \begin{tabular}{p{1.8cm}|p{2.2cm}|p{2.2cm}|p{2.2cm}}

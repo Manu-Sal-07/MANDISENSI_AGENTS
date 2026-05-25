@@ -1,0 +1,619 @@
+﻿This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(ppt.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamer.cls
+Document Class: beamer 2026/01/22 v3.77 A class for typesetting presentations
+
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasemodes.
+sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasedecode
+.sty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseoption
+s.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.st
+y
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-common.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil
+-latex.def)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.
+code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
+))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.s
+ty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+libraryfiltered.code.tex)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.
+code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparse
+r.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.basic.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.trigonometric.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.random.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.comparison.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.base.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.round.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.misc.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.integerarithmetics.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.
+code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat
+.code.tex)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.
+sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.
+sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.c
+fg)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-pdftex.def
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-common-pdf.def)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+ssoftpath.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+sprotocol.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+e.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.
+tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epoints.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathconstruct.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathusage.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+escopes.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+egraphicstate.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransformations.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+equick.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eobjects.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathprocessing.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+earrows.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eshade.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eimage.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eexternal.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+elayers.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransparency.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epatterns.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+erdf.code.tex)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\xxcolor.s
+ty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/base\atbegshi-ltx.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.s
+ty) (C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+) (C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+) (C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty))
+
+Package hyperref Message: Stopped early.
+
+) (C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaserequir
+es.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasecompat
+ibility.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasefont.s
+ty (C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty))
+
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/sansmathaccent\sansmath
+accent.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlfile.st
+y
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlfile-ho
+ok.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlogo.sty
+)))))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetransl
+ator.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator.s
+ty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasemisc.s
+ty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetwoscr
+eens.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseoverla
+y.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetitle.
+sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasesectio
+n.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseframe.
+sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseverbat
+im.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseframes
+ize.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseframec
+omponents.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasecolor.
+sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasenotes.
+sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetoc.st
+y)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetempla
+tes.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseauxtem
+plates.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseboxes.
+sty)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaselocals
+tructure.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/tools\enumerate.sty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasenaviga
+tion.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasenaviga
+tionsymbols.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetheore
+ms.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amscls\amsthm.sty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasethemes
+.sty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerthemedefau
+lt.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerfontthemed
+efault.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamercolortheme
+default.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerinnertheme
+default.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beameroutertheme
+default.sty)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamertheme-metropolis\
+beamerthememetropolis.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgfopts\pgfopts.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamertheme-metropolis\
+beamerinnerthememetropolis.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.
+sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+shapes.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+plot.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-0-65.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-1-18.sty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.st
+y
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.
+code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z\tikz.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryplothandlers.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+matrix.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarytopaths.code.tex))))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamertheme-metropolis\
+beamerouterthememetropolis.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamertheme-metropolis\
+beamercolorthememetropolis.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamertheme-metropolis\
+beamerfontthememetropolis.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifxetex.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifluatex.sty)
+
+Package beamerthememetropolis Warning: You need to compile with XeLaTeX or LuaL
+aTeX to use the Fira fonts on input line 95.
+
+)) (C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.geometric.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.geometric.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.misc.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.misc.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.symbols.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.symbols.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.arrows.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.arrows.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.callouts.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.callouts.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.multipart.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.multipart.code.tex)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryarrows.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryarrows.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarypositioning.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryfit.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarybackgrounds.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarycalc.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshadows.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryfadings.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryfadings.code.tex)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarydecorations.pathreplacing.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarydecorations.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+decorations.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorat
+ions\pgflibrarydecorations.pathreplacing.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/pgfplots\pgfplots.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.rev
+ision.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.cod
+e.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscore
+.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgfplots
+sysgeneric.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgfplot
+slibrary.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/oldpgfcompat
+ib\pgfplotsoldpgfsupp_loader.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryfpu.code.tex)
+Package pgfplots: loading complementary utilities for your pgf version...
+
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/oldpgfcompat
+ib\pgfplotsoldpgfsupp_pgfutil-common-lists.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+sutil.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsliststructure.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsliststructureext.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsarray.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsmatrix.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/numtable\pgf
+plotstableshared.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
+e\pgfplotsdeque.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+sbinary.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+sbinary.data.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+sutil.verb.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgflibr
+arypgfplots.surfshading.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgflibra
+rypgfplots.surfshading.pgfsys-pdftex.def)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+scolormap.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
+scolor.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsstac
+kedplots.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsplot
+handlers.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmesh
+plothandler.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmesh
+plotimage.code.tex)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.sca
+ling.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscoor
+dprocessing.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.err
+orbars.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.mar
+kers.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotstick
+s.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.pat
+hs.code.tex)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarydecorations.pathmorphing.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorat
+ions\pgflibrarydecorations.pathmorphing.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\tikzlib
+rarypgfplots.contourlua.code.tex))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryplotmarks.code.tex
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryplotmarks.code.tex)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colortbl.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/mdframed\mdframed.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpars
+e.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def)))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/zref\zref-abspage.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/zref\zref-base.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/generic/etexcmds\etexcmds.sty
+) (C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/auxhook\auxhook.sty))
+)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/needspace\needspace.sty
+)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/mdframed\md-frame-0.mdf
+))
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/beamertheme-metropolis\
+pgfplotsthemetol.sty) (ppt.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg)) (ppt.out) (ppt.out)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-b
+asic-dictionary-English.dict)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-b
+ibliography-dictionary-English.dict)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-e
+nvironment-dictionary-English.dict)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-m
+onths-dictionary-English.dict)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-n
+umbers-dictionary-English.dict)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-t
+heorem-dictionary-English.dict)
+Package pgfplots notification 'compat/show suggested version=true': you might b
+enefit from \pgfplotsset{compat=1.18} (current compat level: 1.9).
+
+(ppt.nav)
+Overfull \vbox (31.69846pt too high) detected at line 219
+[1{C:/Users/manoh/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2]
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+(C:\Users\manoh\AppData\Local\Programs\MiKTeX\tex/latex/sansmathaccent\ot1mathk
+erncmss.fd) [3]
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 ARIMA /
+
+Underfull \hbox (badness 5331) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 Poor un-der non-
+
+Underfull \hbox (badness 1033) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 Combines mul-ti-ple
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 No conflict-aware
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 Agricultural
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+\T1/cmss/m/n/7 Fore-cast Sys-
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 Domain-specific
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 Monolithic
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+\T1/cmss/m/n/7 pipelines, lit-tle
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 Lacks op-er-a-tional
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 Post-hoc XAI
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 Explainability on
+
+Underfull \hbox (badness 1365) in paragraph at lines 287--287
+[]|\T1/cmss/m/n/7 Not in-te-grated at
+[4] [5]
+Overfull \vbox (3.30714pt too high) detected at line 357
+[6] [7] [8] [9] [10] [11]
+Overfull \vbox (44.50903pt too high) detected at line 502
+[12] [13]
+Overfull \vbox (74.95631pt too high) detected at line 585
+[14]
+Overfull \vbox (117.02812pt too high) detected at line 619
+[15]
+Overfull \vbox (15.40166pt too high) detected at line 646
+[16] [17]
+Overfull \vbox (42.43405pt too high) detected at line 691
+[18] [19]
+Overfull \vbox (3.80348pt too high) detected at line 761
+[20] [21]
+
+Package pgf Warning: Returning node center instead of a point on node border. D
+id you specify a point identical to the center of node ``a1''? on input line 80
+2.
+
+[22]
+Overfull \hbox (67.963pt too wide) in paragraph at lines 849--849
+ [][] 
+
+Overfull \vbox (37.53746pt too high) detected at line 849
+[23] [24] [25] [26]
+! Misplaced alignment tab character &.
+\insertframetitle ...rametitleformat {Monitoring &
+                                                   Telemetry ΓÇö Observabili...
+l.901 \end{frame}
+                 
+[27] [28]
+! Misplaced alignment tab character &.
+\insertframetitle ...rametitleformat {Resilience &
+                                                   Circuit Breakers}\ifnum \...
+l.927 \end{frame}
+                 
+[29] [30] [31] [32]
+Overfull \vbox (24.60161pt too high) detected at line 988
+[33]
+! Misplaced alignment tab character &.
+\insertframetitle ... Reliability ΓÇö Confidence &
+                                                   Regimes}\ifnum \beamer@au...
+l.1001 \end{frame}
+                  
+[34] [35] [36]
+Underfull \hbox (badness 10000) in paragraph at lines 1045--1045
+[]|\T1/cmss/m/n/7 MandiSense out-per-forms
+
+Underfull \hbox (badness 3780) in paragraph at lines 1045--1045
+[]|\T1/cmss/m/n/7 Chaos score re-duces high-
+[37] [38]
+Overfull \hbox (87.41725pt too wide) in paragraph at lines 1110--1110
+ [] 
+
+Overfull \vbox (38.48473pt too high) detected at line 1110
+[39] [40] [41]
+Overfull \vbox (73.67636pt too high) detected at line 1177
+[42] [43] [44]
+Overfull \hbox (7.6408pt too wide) in paragraph at lines 1230--1230
+ []\T1/cmss/bx/n/12 Infrastructure 
+
+Overfull \vbox (1.75125pt too high) detected at line 1230
+[45] [46] (ppt.aux) )
+(see the transcript file for additional information) <C:\Users\manoh\AppData\Lo
+cal\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss1440.pk> <C:\Users\manoh\AppD
+ata\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss1728.pk> <C:\Users\mano
+h\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss1440.pk> <C:\User
+s\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx0800.pk> <C
+:\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss0800.
+pk> <C:\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecs
+s1000.pk> <C:\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi6
+00\ecsx1000.pk> <C:\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/e
+c/dpi600\ecsx1200.pk> <C:\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jkna
+ppen/ec/dpi600\ecss0700.pk> <C:\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfou
+r/jknappen/ec/dpi600\ecsi1000.pk> <C:\Users\manoh\AppData\Local\MiKTeX\fonts/pk
+/ljfour/jknappen/ec/dpi600\tcsx0700.pk> <C:\Users\manoh\AppData\Local\MiKTeX\fo
+nts/pk/ljfour/jknappen/ec/dpi600\ecsx0700.pk> <C:\Users\manoh\AppData\Local\MiK
+TeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss0500.pk> <C:\Users\manoh\AppData\Loc
+al\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx1728.pk> <C:\Users\manoh\AppDa
+ta\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx2488.pk> <C:\Users\manoh
+\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss0900.pk> <C:\Users
+\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss0900.pk> <C:
+\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx0900.p
+k> <C:\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss
+1200.pk> <C:\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\ecss1200.pk> <C:\Users\manoh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+/dpi600\ecsx1440.pk><C:/Users/manoh/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/amsfonts/cm/cmmi7.pfb><C:/Users/manoh/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/manoh/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/manoh/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/manoh/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/manoh/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/m
+anoh/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.p
+fb><C:/Users/manoh/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/sy
+mbols/msam7.pfb>
+Output written on ppt.pdf (46 pages, 404170 bytes).
+Transcript written on ppt.log.
+pdflatex : pdflatex: major issue: So far, you have not checked for MiKTeX 
+updates.
+At line:1 char:47
++ ... CT\MS-AI\ppt"; pdflatex -interaction=nonstopmode ppt.tex 2>&1 | Out-F ...
++                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (pdflatex: major...MiKTeX updates. 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

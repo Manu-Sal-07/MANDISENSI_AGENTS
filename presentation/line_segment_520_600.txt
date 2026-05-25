@@ -1,0 +1,81 @@
+﻿521: \begin{itemize}
+522:     \small
+523:     \item Low $\rightarrow$ Standard weights
+524:     \item High $\rightarrow$ Conservative fusion
+525:     \item Crisis $\rightarrow$ Max penalty
+526: \end{itemize}
+527: \end{smallcard}
+528: \end{columns}
+529: \vspace{0.15cm}
+530: \centering{\normalsize\color{textMedium}Regime change triggers adaptive ensemble behavior in real-time}
+531: \end{frame}
+532: 
+533: % ============================================================
+534: % SECTION 03: INFRASTRUCTURE ENGINEERING
+535: % ============================================================
+536: \sectiontransition{03}{Infrastructure Engineering}{Building Operationally Resilient AI Systems}
+537: 
+538: % --- SLIDE 10: ASYNC BACKEND (HERO) ---
+539: \begin{frame}{Async Backend â€” Parallel Market Reasoning}
+540: \begin{herocard}
+541: \centering
+542: \begin{tikzpicture}[node distance=0.25cm]
+543: \node[pipeline, minimum width=1.8cm, minimum height=0.7cm, font=\large] (req) {Request};
+544: \node[pipeline, right=0.15cm of req] (cache) {Cache};
+545: \node[pipeline, right=0.15cm of cache] (disp) {Dispatch};
+546: 
+547: \node[pipeline, below=0.4cm of disp, minimum width=1.6cm] (a1) {LSTM};
+548: \node[pipeline, right=0.1cm of a1] (a2) {Trans};
+549: \node[pipeline, right=0.1cm of a2] (a3) {GBT};
+550: \node[pipeline, right=0.1cm of a3] (a4) {Bayes};
+551: 
+552: \node[pipelineTint, below=0.3cm of a2, minimum width=2.2cm, font=\large] (gather) {asyncio.gather()};
+553: 
+554: \node[pipeline, right=0.5cm of disp, minimum width=1.8cm] (fusion) {Fusion};
+555: \node[pipeline, right=0.15cm of fusion] (resp) {Response};
+556: 
+557: \draw[heroarrow] (req) -- (cache);
+558: \draw[heroarrow] (cache) -- (disp);
+559: \draw[heroarrow] (disp) |- (a1);
+560: \draw[heroarrow] (disp) |- (a2);
+561: \draw[heroarrow] (disp) |- (a3);
+562: \draw[heroarrow] (disp) |- (a4);
+563: \draw[heroarrow] (a1.south) -- ++(0,-0.2) -| (gather);
+564: \draw[heroarrow] (a2.south) -- (gather);
+565: \draw[heroarrow] (a3.south) -- ++(0,-0.2) -| (gather);
+566: \draw[heroarrow] (a4.south) -- ++(0,-0.2) -| (gather);
+567: \draw[heroarrow] (gather) -| (fusion);
+568: \draw[heroarrow] (fusion) -- (resp);
+569: \end{tikzpicture}
+570: \end{herocard}
+571: {\Large\color{textMedium}Parallel agent execution via FastAPI + asyncio â€” non-blocking, sub-200ms p95}
+572: \end{frame}
+573: 
+574: % --- SLIDE 11: DEPLOYMENT TOPOLOGY (HERO) ---
+575: \begin{frame}{Deployment Topology â€” Production Infrastructure}
+576: \begin{herocard}
+577: \centering
+578: \begin{tikzpicture}[node distance=0.25cm, every node/.style={font=\small\bfseries, align=center}, scale=0.92, transform shape]
+579: \node[draw=borderLight, fill=primary!8, rounded corners=8pt, minimum width=3.4cm, minimum height=0.65cm] (clients) {Clients};
+580: 
+581: \node[draw=borderLight, fill=bgLayer1, rounded corners=8pt, minimum width=10.6cm, minimum height=1.1cm, below=0.3cm of clients] (edge) {};
+582: \node[anchor=north west, xshift=0.4cm, yshift=-0.25cm] at (edge.north west) {\large\textbf{Ingress \& API Gateway}};
+583: \node[sublayer, below=0.55cm of edge.north west, anchor=north west] (ingress) {K8s Ingress};
+584: \node[sublayer, right=0.2cm of ingress] (gateway) {FastAPI Gateway};
+585: \node[sublayer, right=0.2cm of gateway] (auth) {Request Validation};
+586: 
+587: \node[draw=borderLight, fill=bgLayer2, rounded corners=8pt, minimum width=10.6cm, minimum height=1.8cm, below=0.3cm of edge] (app) {};
+588: \node[anchor=north west, xshift=0.4cm, yshift=-0.25cm] at (app.north west) {\normalsize\textbf{Core Services}};
+589: \node[sublayer, below=0.45cm of app.north west, anchor=north west] (orches) {Prediction Controller};
+590: \node[sublayer, right=0.2cm of orches] (agents) {Agent Orchestration};
+591: \node[sublayer, right=0.2cm of agents] (fusion) {Adaptive Fusion};
+592: \node[sublayer, right=0.2cm of fusion] (xai) {Explainability Stream};
+593: 
+594: \node[draw=borderLight, fill=bgLayer3, rounded corners=8pt, minimum width=10.6cm, minimum height=1.5cm, below=0.3cm of app] (data) {};
+595: \node[anchor=north west, xshift=0.4cm, yshift=-0.25cm] at (data.north west) {\normalsize\textbf{Infrastructure}};
+596: \node[sublayer, below=0.45cm of data.north west, anchor=north west] (redis) {Redis Cache};
+597: \node[sublayer, right=0.2cm of redis] (pgsql) {PostgreSQL};
+598: \node[sublayer, right=0.2cm of pgsql] (prom) {Prometheus};
+599: \node[sublayer, right=0.2cm of prom] (graf) {Grafana};
+600: \node[sublayer, right=0.2cm of graf] (k8s) {K8s / Autoscale};
+601: 

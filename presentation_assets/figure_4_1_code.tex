@@ -1,0 +1,317 @@
+\begin{figure}[p]
+    \centering
+    \begin{adjustbox}{angle=90, center}
+    \begin{tikzpicture}[
+        scale=0.82, transform shape,
+        every node/.style={font=\sffamily},
+        %% ── colour system ──────────────────────────────────────────
+        %% Zone A  – data ingestion (warm gray)
+        %% Zone B  – intelligence fabric (slate)
+        %% Zone C  – cognitive core (deep blue)
+        %% Zone D  – market intel augmentation (teal)
+        %% Zone E  – meta-ensemble (gold accent — hero)
+        %% Zone F  – decision engine (dark navy)
+        %% Zone G  – user layer (sky)
+        %% Infra   – foundation (neutral)
+    ]
+        % ── palette ─────────────────────────────────────────────────
+        \definecolor{zAback}{HTML}{F4F1EE}   \definecolor{zAborder}{HTML}{C4BFB8}
+        \definecolor{zBback}{HTML}{E8ECF0}   \definecolor{zBborder}{HTML}{9AA5B4}
+        \definecolor{zCback}{HTML}{E3EBF6}   \definecolor{zCborder}{HTML}{6082B6}
+        \definecolor{zDback}{HTML}{E2F0ED}   \definecolor{zDborder}{HTML}{5DA08C}
+        \definecolor{zEback}{HTML}{FFF8E7}   \definecolor{zEborder}{HTML}{D4A836}
+        \definecolor{zFback}{HTML}{E8E8F0}   \definecolor{zFborder}{HTML}{3B4571}
+        \definecolor{zGback}{HTML}{E9F1FB}   \definecolor{zGborder}{HTML}{4C8FCC}
+        \definecolor{infraback}{HTML}{F0F0F0}\definecolor{infraborder}{HTML}{B0B0B0}
+        \definecolor{heroGoldA}{HTML}{D4A836}\definecolor{heroGoldB}{HTML}{E8C84A}
+        \definecolor{deepnavy}{HTML}{1B2A4A}
+        \definecolor{accent}{HTML}{2B6CB0}
+        \definecolor{cardwhite}{HTML}{FFFFFF}
+
+        % ── TikZ styles ────────────────────────────────────────────
+        \tikzset{
+            zone/.style 2 args={draw=#2, fill=#1, rounded corners=8pt, thick, inner sep=10pt},
+            zonetitle/.style={font=\sffamily\bfseries\small, text=deepnavy, anchor=north west},
+            card/.style={draw=black!18, fill=cardwhite, rounded corners=3pt, minimum height=0.72cm, text width=2.0cm, align=center, inner sep=3pt, font=\sffamily\scriptsize, thick},
+            datacard/.style={card, draw=zAborder, fill=white, drop shadow={shadow xshift=0.4pt, shadow yshift=-0.6pt, opacity=0.08}},
+            pipecard/.style={card, draw=zBborder, fill=zBback!40, text width=1.6cm},
+            agentcard/.style={draw=zCborder, fill=white, rounded corners=4pt, thick, text width=3.0cm, minimum height=2.4cm, align=center, inner sep=5pt, font=\sffamily\scriptsize, drop shadow={shadow xshift=0.5pt, shadow yshift=-0.8pt, opacity=0.10}},
+            agenttitle/.style={font=\sffamily\bfseries\scriptsize, text=accent},
+            agentcap/.style={font=\sffamily\tiny, text=black!60, align=left},
+            intelcard/.style={draw=zDborder, fill=white, rounded corners=3pt, thick, text width=2.2cm, minimum height=0.7cm, align=center, inner sep=3pt, font=\sffamily\scriptsize, drop shadow={shadow xshift=0.3pt, shadow yshift=-0.5pt, opacity=0.08}},
+            herobox/.style={draw=heroGoldA, line width=1.6pt, fill=zEback, rounded corners=6pt, text width=4.4cm, minimum height=4.2cm, align=center, inner sep=6pt, font=\sffamily\scriptsize, drop shadow={shadow xshift=0.8pt, shadow yshift=-1.2pt, opacity=0.14}},
+            herocap/.style={font=\sffamily\tiny\itshape, text=black!55, align=center},
+            deccard/.style={draw=zFborder, fill=white, rounded corners=3pt, thick, text width=2.4cm, minimum height=0.72cm, align=center, inner sep=3pt, font=\sffamily\scriptsize, drop shadow={shadow xshift=0.3pt, shadow yshift=-0.5pt, opacity=0.08}},
+            pill/.style={rounded corners=3pt, minimum width=1.0cm, minimum height=0.42cm, align=center, font=\sffamily\bfseries\tiny, inner sep=2pt, thick},
+            usercard/.style={draw=zGborder, fill=white, rounded corners=3pt, thick, text width=2.2cm, minimum height=0.72cm, align=center, inner sep=3pt, font=\sffamily\scriptsize, drop shadow={shadow xshift=0.3pt, shadow yshift=-0.5pt, opacity=0.08}},
+            infranode/.style={draw=infraborder, fill=infraback, rounded corners=2pt, minimum height=0.5cm, text width=1.6cm, align=center, inner sep=2pt, font=\sffamily\tiny, text=black!55},
+            flow/.style={-{Stealth[scale=0.7]}, draw=black!35, thick},
+            flowbold/.style={-{Stealth[scale=0.8]}, draw=accent, line width=1.0pt},
+            flowgold/.style={-{Stealth[scale=0.9]}, draw=heroGoldA, line width=1.2pt},
+            flownavy/.style={-{Stealth[scale=0.8]}, draw=deepnavy, line width=1.0pt},
+            dashedflow/.style={-{Stealth[scale=0.6]}, draw=zDborder, dashed, thick},
+            supportflow/.style={-{Stealth[scale=0.5]}, draw=infraborder, dotted, thin}
+        }
+
+        % ════════════════════════════════════════════════════════════
+        % ZONE A : MARKET SIGNAL ECOSYSTEM  (x = 0 .. 3.2)
+        % ════════════════════════════════════════════════════════════
+        \begin{scope}
+            \node[zone={zAback}{zAborder}, minimum width=3.2cm, minimum height=13.6cm] (zA) at (1.6, 0) {};
+            \node[zonetitle] at ([xshift=4pt, yshift=-4pt]zA.north west) {\footnotesize\textcolor{zAborder}{A}\;\; Market Signals};
+
+            \node[datacard] (d1) at (1.6, 5.1)  {Agmarknet\\Prices};
+            \node[datacard] (d2) at (1.6, 3.7)  {Arrival\\Volumes};
+            \node[datacard] (d3) at (1.6, 2.3)  {Weather\\Intelligence};
+            \node[datacard] (d4) at (1.6, 0.9)  {Policy\\Events};
+            \node[datacard] (d5) at (1.6,-0.5)  {News\\Sentiment};
+            \node[datacard] (d6) at (1.6,-1.9)  {Commodity\\Metadata};
+            \node[datacard] (d7) at (1.6,-3.3)  {Historical\\Archives};
+        \end{scope}
+
+        % ════════════════════════════════════════════════════════════
+        % ZONE B : INTELLIGENCE FABRIC  (x = 4.0 .. 6.6)
+        % ════════════════════════════════════════════════════════════
+        \begin{scope}
+            \node[zone={zBback}{zBborder}, minimum width=2.6cm, minimum height=13.6cm] (zB) at (5.3, 0) {};
+            \node[zonetitle] at ([xshift=4pt, yshift=-4pt]zB.north west) {\footnotesize\textcolor{zBborder}{B}\;\; Intelligence Fabric};
+
+            \node[pipecard] (p1) at (5.3, 4.6)  {Validation\\\& Cleaning};
+            \node[pipecard] (p2) at (5.3, 3.0)  {Time-Series\\Transform};
+            \node[pipecard] (p3) at (5.3, 1.4)  {Feature\\Engineering};
+            \node[pipecard] (p4) at (5.3,-0.2)  {Temporal\\Processing};
+            \node[pipecard] (p5) at (5.3,-1.8)  {Volatility\\Dataset Build};
+            \node[pipecard] (p6) at (5.3,-3.4)  {Unified Feature\\Repository};
+
+            % pipeline ribbon connectors
+            \draw[flow] (p1) -- (p2);
+            \draw[flow] (p2) -- (p3);
+            \draw[flow] (p3) -- (p4);
+            \draw[flow] (p4) -- (p5);
+            \draw[flow] (p5) -- (p6);
+        \end{scope}
+
+        % data sources → fabric
+        \foreach \i in {1,...,7} {
+            \draw[flow] (d\i.east) -- ++(0.45,0) |- ([yshift={mod(\i,3)*2pt}]zB.west);
+        }
+
+        % ════════════════════════════════════════════════════════════
+        % ZONE C : MULTI-AGENT COGNITIVE CORE  (x = 7.4 .. 12.0)
+        % ════════════════════════════════════════════════════════════
+        \begin{scope}
+            \node[zone={zCback}{zCborder}, minimum width=4.6cm, minimum height=13.6cm] (zC) at (9.7, 0) {};
+            \node[zonetitle] at ([xshift=4pt, yshift=-4pt]zC.north west) {\footnotesize\textcolor{zCborder}{C}\;\; Multi-Agent Cognitive Core};
+
+            % ── Agent 1: Seasonality ──
+            \node[agentcard] (ag1) at (9.7, 4.2) {};
+            \node[agenttitle] at ([yshift=-5pt]ag1.north) {Seasonality Agent};
+            \node[agentcap, text width=2.6cm] at (ag1.center) {
+                {\tiny$\bullet$} STL Decomposition\\
+                {\tiny$\bullet$} ARIMA / SARIMA\\
+                {\tiny$\bullet$} Fourier Features\\
+                {\tiny$\bullet$} 30-day Horizon
+            };
+
+            % ── Agent 2: Arrival Volume ──
+            \node[agentcard] (ag2) at (9.7, 0.6) {};
+            \node[agenttitle] at ([yshift=-5pt]ag2.north) {Arrival Volume Agent};
+            \node[agentcap, text width=2.6cm] at (ag2.center) {
+                {\tiny$\bullet$} Supply Elasticity\\
+                {\tiny$\bullet$} XGBoost / Ridge\\
+                {\tiny$\bullet$} Rolling Windows\\
+                {\tiny$\bullet$} 7-day Horizon
+            };
+
+            % ── Agent 3: External Intelligence ──
+            \node[agentcard] (ag3) at (9.7,-3.0) {};
+            \node[agenttitle] at ([yshift=-5pt]ag3.north) {External Intel Agent};
+            \node[agentcap, text width=2.6cm] at (ag3.center) {
+                {\tiny$\bullet$} Event Scoring\\
+                {\tiny$\bullet$} News NLP Pipeline\\
+                {\tiny$\bullet$} Impact Regression\\
+                {\tiny$\bullet$} Shock Detection
+            };
+
+            % parallel reasoning indicator
+            \draw[draw=zCborder!40, dashed, thick] ([xshift=-8pt]ag1.south west) -- ([xshift=-8pt]ag3.north west);
+            \node[font=\sffamily\tiny\itshape, text=zCborder!60, rotate=90, anchor=south] at ([xshift=-14pt]ag2.west) {parallel reasoning};
+        \end{scope}
+
+        % fabric → agents
+        \draw[flowbold] (zB.east) -- (zC.west);
+
+        % ════════════════════════════════════════════════════════════
+        % ZONE D : MARKET INTELLIGENCE AUGMENTATION  (floating above/below)
+        % ════════════════════════════════════════════════════════════
+        \begin{scope}
+            % ── Volatility cluster (above) ──
+            \node[zone={zDback}{zDborder}, minimum width=3.4cm, minimum height=2.4cm] (zD1) at (9.7, 8.4) {};
+            \node[zonetitle] at ([xshift=3pt, yshift=-3pt]zD1.north west) {\tiny\textcolor{zDborder}{D1}\; Volatility Intelligence};
+
+            \node[intelcard] (vi1) at (8.9, 8.6) {GARCH\\Conditional Var.};
+            \node[intelcard] (vi2) at (10.5, 8.6) {HMM Regime\\Detector};
+
+            % ── Cross-commodity cluster (below) ──
+            \node[zone={zDback}{zDborder}, minimum width=3.4cm, minimum height=2.8cm] (zD2) at (9.7,-7.8) {};
+            \node[zonetitle] at ([xshift=3pt, yshift=-3pt]zD2.north west) {\tiny\textcolor{zDborder}{D2}\; Cross-Commodity Intel};
+
+            \node[intelcard] (ci1) at (8.9,-7.5) {Granger\\Causality};
+            \node[intelcard] (ci2) at (10.5,-7.5) {VAR\\Engine};
+            \node[intelcard] (ci3) at (9.7,-8.7) {Spillover\\Detection};
+
+            % augmentation arrows
+            \draw[dashedflow] (vi1.south) -- ++(0,-0.3) -| ([yshift=4pt]ag1.north);
+            \draw[dashedflow] (vi2.south) -- ++(0,-0.3) -| ([yshift=4pt, xshift=6pt]ag1.north);
+            \draw[dashedflow] (ci1.north) -- ++(0, 0.3) -| ([yshift=-4pt]ag3.south);
+            \draw[dashedflow] (ci2.north) -- ++(0, 0.3) -| ([yshift=-4pt, xshift=6pt]ag3.south);
+        \end{scope}
+
+        % ════════════════════════════════════════════════════════════
+        % ZONE E : ADAPTIVE META-ENSEMBLE HUB  (x = 13.0 .. 18.0)
+        %   ── HERO ZONE ──
+        % ════════════════════════════════════════════════════════════
+        \begin{scope}
+            \node[zone={zEback}{zEborder}, minimum width=5.0cm, minimum height=13.6cm, line width=1.4pt] (zE) at (15.5, 0) {};
+            \node[zonetitle] at ([xshift=4pt, yshift=-4pt]zE.north west) {\footnotesize\textcolor{heroGoldA}{E}\;\; \textcolor{heroGoldA}{Adaptive Meta-Ensemble}};
+
+            % central hero card
+            \node[herobox] (hero) at (15.5, 2.0) {};
+            \node[font=\sffamily\bfseries\small, text=heroGoldA] at ([yshift=-8pt]hero.north) {FUSION ENGINE};
+            \node[herocap, text width=3.8cm] at ([yshift=2pt]hero.center) {
+                {\scriptsize$\triangleright$} Dynamic Regime-Aware Weighting\\[2pt]
+                {\scriptsize$\triangleright$} Confidence Calibration\\[2pt]
+                {\scriptsize$\triangleright$} Directional Conflict Resolution\\[2pt]
+                {\scriptsize$\triangleright$} Residual Learning Correction\\[2pt]
+                {\scriptsize$\triangleright$} Horizon Normalization
+            };
+
+            % Sub-modules surrounding the hero
+            \node[card, draw=heroGoldA!60, fill=zEback, text width=1.8cm] (ew1) at (14.0, 5.0) {Walk-Forward\\Validation};
+            \node[card, draw=heroGoldA!60, fill=zEback, text width=1.8cm] (ew2) at (17.0, 5.0) {Inverse-Error\\Weighting};
+            \node[card, draw=heroGoldA!60, fill=zEback, text width=1.8cm] (ew3) at (14.0,-1.8) {Regime\\Adaptation};
+            \node[card, draw=heroGoldA!60, fill=zEback, text width=1.8cm] (ew4) at (17.0,-1.8) {Supply Stress\\Index};
+
+            % sub-module connections
+            \draw[flowgold] (ew1.south) -- ([yshift=4pt]hero.north -| ew1);
+            \draw[flowgold] (ew2.south) -- ([yshift=4pt]hero.north -| ew2);
+            \draw[flowgold] (ew3.north) -- ([yshift=-4pt]hero.south -| ew3);
+            \draw[flowgold] (ew4.north) -- ([yshift=-4pt]hero.south -| ew4);
+
+            % output arrow label
+            \node[font=\sffamily\tiny\bfseries, text=heroGoldA, align=center] (fusedlbl) at (15.5,-3.6) {Fused\\Prediction\\$\hat{P}_{t+h}$};
+            \draw[flowgold, line width=1.4pt] (hero.south) -- (fusedlbl.north);
+        \end{scope}
+
+        % agents → ensemble (three bold streams entering)
+        \draw[flowbold] (ag1.east) -- ++(0.6,0) |- ([yshift=14pt]hero.west);
+        \draw[flowbold] (ag2.east) -- ++(0.6,0) |- (hero.west);
+        \draw[flowbold] (ag3.east) -- ++(0.6,0) |- ([yshift=-14pt]hero.west);
+
+        % volatility / regime intelligence → ensemble
+        \draw[dashedflow] (vi1.east) -| ([xshift=-6pt]ew1.north);
+        \draw[dashedflow] (vi2.east) -| ([xshift=6pt]ew1.north);
+        \draw[dashedflow] (ci3.east) -| ([xshift=-6pt]ew3.south);
+
+        % ════════════════════════════════════════════════════════════
+        % ZONE F : DECISION INTELLIGENCE ENGINE  (x = 19.0 .. 23.0)
+        % ════════════════════════════════════════════════════════════
+        \begin{scope}
+            \node[zone={zFback}{zFborder}, minimum width=4.0cm, minimum height=13.6cm] (zF) at (21.0, 0) {};
+            \node[zonetitle] at ([xshift=4pt, yshift=-4pt]zF.north west) {\footnotesize\textcolor{zFborder}{F}\;\; Decision Intelligence};
+
+            \node[deccard] (dc1) at (21.0, 5.0) {Forecast\\Interpretation};
+            \node[deccard] (dc2) at (21.0, 3.2) {Recommendation\\Generation};
+            \node[deccard] (dc3) at (21.0, 1.4) {SHAP Feature\\Attribution};
+            \node[deccard] (dc4) at (21.0,-0.4) {LLM Narrative\\Translation};
+            \node[deccard] (dc5) at (21.0,-2.2) {Confidence\\Assessment};
+
+            \draw[flownavy] (dc1) -- (dc2);
+            \draw[flownavy] (dc2) -- (dc3);
+            \draw[flownavy] (dc3) -- (dc4);
+            \draw[flownavy] (dc4) -- (dc5);
+
+            % decision output pills
+            \node[pill, fill=green!12, draw=green!50!black, text=green!40!black]  (pBuy)  at (20.0,-4.2) {BUY};
+            \node[pill, fill=red!12, draw=red!60!black, text=red!50!black]        (pSell) at (21.0,-4.2) {SELL};
+            \node[pill, fill=yellow!15, draw=yellow!60!black, text=yellow!40!black] (pHold) at (22.0,-4.2) {HOLD};
+            \node[pill, fill=blue!10, draw=blue!50!black, text=blue!40!black]     (pWait) at (21.0,-5.2) {WAIT};
+
+            \draw[flownavy] (dc5.south) -- (pSell.north);
+            \draw[flownavy] (dc5.south) -| (pBuy.north);
+            \draw[flownavy] (dc5.south) -| (pHold.north);
+            \draw[flownavy] (pSell.south) -- (pWait.north);
+        \end{scope}
+
+        % ensemble → decision
+        \draw[flowgold, line width=1.4pt] (fusedlbl.south) |- ([yshift=6pt]dc1.west) -- (dc1.west);
+        % intelligence signals → decision
+        \draw[dashedflow] (vi1.north) -- ++(0,0.6) -| (21.0, 8.8) -- (21.0, 6.0) -- ([yshift=3pt]dc1.north);
+
+        % ════════════════════════════════════════════════════════════
+        % ZONE G : USER EXPERIENCE LAYER  (x = 24.0 .. 27.6)
+        % ════════════════════════════════════════════════════════════
+        \begin{scope}
+            \node[zone={zGback}{zGborder}, minimum width=3.6cm, minimum height=13.6cm] (zG) at (25.8, 0) {};
+            \node[zonetitle] at ([xshift=4pt, yshift=-4pt]zG.north west) {\footnotesize\textcolor{zGborder}{G}\;\; User Experience};
+
+            \node[usercard] (u1) at (25.8, 4.4) {Farmer\\Dashboard};
+            \node[usercard] (u2) at (25.8, 2.4) {TraderOS\\Terminal};
+            \node[usercard] (u3) at (25.8, 0.4) {REST / WS\\API Gateway};
+            \node[usercard] (u4) at (25.8,-1.8) {Real-Time\\Streaming};
+
+            % user icons (symbolic)
+            \node[font=\Large, text=zGborder] at (25.8, 5.5) {\textsf{$\oplus$}};
+            \node[font=\sffamily\tiny\itshape, text=zGborder!70] at (25.8, 5.0) {End Users};
+        \end{scope}
+
+        % decision → user
+        \draw[flownavy] (pBuy.east)  -| (u1.west);
+        \draw[flownavy] (pSell.east) -- ++(0.8,0) |- (u2.west);
+        \draw[flownavy] (pHold.east) -- ++(0.4,0) |- (u3.west);
+        \draw[flownavy] (pWait.south) |- (u4.west);
+
+        % ════════════════════════════════════════════════════════════
+        % FOUNDATION : INFRASTRUCTURE STRIP  (thin bar at very bottom)
+        % ════════════════════════════════════════════════════════════
+        \begin{scope}
+            \node[zone={infraback}{infraborder}, minimum width=27.6cm, minimum height=1.2cm] (infra) at (13.8, -8.0) {};
+            \node[font=\sffamily\bfseries\tiny, text=infraborder, anchor=west] at ([xshift=6pt]infra.west) {INFRASTRUCTURE};
+
+            \node[infranode] (if1) at (4.0, -8.0) {FastAPI\\ASGI};
+            \node[infranode] (if2) at (7.0, -8.0) {PostgreSQL\\Database};
+            \node[infranode] (if3) at (10.0,-8.0) {Redis\\Cache};
+            \node[infranode] (if4) at (13.0,-8.0) {Prediction\\Store};
+            \node[infranode] (if5) at (16.0,-8.0) {Monitoring\\Telemetry};
+            \node[infranode] (if6) at (19.0,-8.0) {Circuit\\Breakers};
+            \node[infranode] (if7) at (22.0,-8.0) {Logging\\Pipeline};
+            \node[infranode] (if8) at (25.0,-8.0) {Docker\\Runtime};
+        \end{scope}
+
+        % subtle support connections (dotted, unobtrusive)
+        \draw[supportflow] (if1.north) -- ++(0, 0.35);
+        \draw[supportflow] (if2.north) -- ++(0, 0.35);
+        \draw[supportflow] (if3.north) -- ++(0, 0.35);
+        \draw[supportflow] (if5.north) -- ++(0, 0.35);
+        \draw[supportflow] (if6.north) -- ++(0, 0.35);
+
+        % ════════════════════════════════════════════════════════════
+        % OVERALL FLOW NARRATIVE ARROWS (large spanning arcs)
+        % ════════════════════════════════════════════════════════════
+        % These wide, low-opacity arcs guide the reader's eye across the entire figure
+        \draw[accent!15, line width=6pt, -{Stealth[scale=1.2]}, shorten >=2pt, shorten <=2pt]
+            (zA.east) -- (zB.west);
+        \draw[accent!15, line width=6pt, -{Stealth[scale=1.2]}, shorten >=2pt, shorten <=2pt]
+            (zB.east) -- (zC.west);
+        \draw[heroGoldA!18, line width=6pt, -{Stealth[scale=1.2]}, shorten >=2pt, shorten <=2pt]
+            (zC.east) -- (zE.west);
+        \draw[heroGoldA!18, line width=6pt, -{Stealth[scale=1.2]}, shorten >=2pt, shorten <=2pt]
+            (zE.east) -- (zF.west);
+        \draw[deepnavy!12, line width=6pt, -{Stealth[scale=1.2]}, shorten >=2pt, shorten <=2pt]
+            (zF.east) -- (zG.west);
+
+    \end{tikzpicture}
+    \end{adjustbox}
+    \caption{MandiSense AI --- End-to-End Multi-Agent Decision Intelligence Architecture. Market signals flow left-to-right through the Intelligence Fabric (Zone~B), are processed by three parallel specialized agents (Zone~C) augmented by volatility and cross-commodity intelligence (Zone~D), fused through the adaptive meta-ensemble hub (Zone~E), translated into bounded decision directives (Zone~F), and streamed to user terminals (Zone~G), all supported by a resilient containerized infrastructure foundation.}
+    \label{fig:high_level_architecture}
+\end{figure}

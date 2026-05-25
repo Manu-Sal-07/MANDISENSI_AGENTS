@@ -1,0 +1,30 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Summary of Key Research Papers in Agricultural Price Forecasting}}{13}{table.caption.5}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Comparison of forecasting paradigms and MandiSense AI design response}}{14}{table.2.2}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces \small Project Planning Schedule (Gantt Representation)}}{23}{table.caption.8}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Overall audit report summary}}{40}{table.caption.11}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Phase-2 learned ensemble audit results}}{41}{table.caption.12}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Feature engineering validation results}}{42}{table.caption.13}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Simple Ridge regression audit results}}{42}{table.caption.14}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Learned ensemble training results}}{43}{table.caption.15}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Inference and alpha blending results}}{44}{table.caption.16}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces Fallback and determinism results}}{44}{table.caption.17}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Phase-1 meta-ensemble fusion audit results}}{45}{table.caption.18}%
+\contentsline {table}{\numberline {5.9}{\ignorespaces Conflict handling result from meta-ensemble audit}}{46}{table.caption.19}%
+\contentsline {table}{\numberline {5.10}{\ignorespaces Volatility and regime system validation coverage}}{47}{table.caption.20}%
+\contentsline {table}{\numberline {5.11}{\ignorespaces Objective-wise result mapping}}{48}{table.caption.21}%
+\contentsline {table}{\numberline {5.12}{\ignorespaces Sample Output from the "Ask-Your-Data" Query Engine}}{49}{table.caption.22}%
+\contentsline {table}{\numberline {5.13}{\ignorespaces System-level verification results}}{50}{table.caption.23}%
+\contentsline {table}{\numberline {5.14}{\ignorespaces \small Performance Benchmarking: ARIMA vs Machine Learning Ensembles}}{51}{table.caption.25}%
+\contentsline {table}{\numberline {5.15}{\ignorespaces WebSocket Synchronization and Rendering Latency}}{56}{table.caption.29}%
+\contentsline {table}{\numberline {5.16}{\ignorespaces Market Directive Mutation under Simulated Shocks}}{56}{table.caption.30}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {6.1}{\ignorespaces Comparative Evaluation of Models}}{61}{table.caption.32}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {9.1}{\ignorespaces System Evaluation Metrics}}{69}{table.caption.33}%
