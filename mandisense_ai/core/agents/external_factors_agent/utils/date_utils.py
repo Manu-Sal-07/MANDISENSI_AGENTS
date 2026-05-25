@@ -1,4 +1,7 @@
-from config.settings import CURRENT_DATE
+try:
+    from mandisense_ai.core.agents.external_factors_agent.config.settings import CURRENT_DATE
+except ImportError:
+    from config.settings import CURRENT_DATE
 
 def parse_date(date_string):
     if not isinstance(date_string, str):

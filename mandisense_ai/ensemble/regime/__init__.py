@@ -12,11 +12,11 @@ Public API:
   from ensemble.regime import RegimeAwareMetaEnsemble
 """
 
-from ensemble.regime.garch_estimator import GARCHVolatilityEstimator
-from ensemble.regime.hmm_classifier import HMMRegimeClassifier
-from ensemble.regime.weight_calculator import AdaptiveWeightCalculator
-from ensemble.regime.alert_engine import VolatilityAlertEngine
-from ensemble.regime.meta_ensemble import RegimeAwareMetaEnsemble
+from .garch_estimator import GARCHVolatilityEstimator
+from .hmm_classifier import HMMRegimeClassifier
+from .weight_calculator import AdaptiveWeightCalculator
+from .alert_engine import VolatilityAlertEngine
+from .meta_ensemble import RegimeAwareMetaEnsemble
 
 __all__ = [
     "GARCHVolatilityEstimator",

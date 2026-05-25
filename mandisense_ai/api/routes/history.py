@@ -2,10 +2,9 @@
 GET /v1/prediction/history — Historical prediction performance.
 """
 
-from fastapi import APIRouter, Query, Depends
+from fastapi import APIRouter, Query, Request
 
 from api.schemas.models import HistoryResponse, HistoryEntry, HistorySummary
-from api.app import get_db_client
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -14,10 +13,10 @@ router = APIRouter()
 
 @router.get("/prediction/history", response_model=HistoryResponse)
 async def get_prediction_history(
+    request: Request,
     commodity: str = Query(..., min_length=1),
     mandi: str = Query(..., min_length=1),
     days: int = Query(30, ge=1, le=365),
-    db_client=Depends(get_db_client),
 ):
     """
     Retrieve historical prediction accuracy for a commodity/mandi pair.
@@ -27,6 +26,7 @@ async def get_prediction_history(
     commodity_clean = commodity.strip().lower()
     mandi_clean = mandi.strip().lower()
 
+    db_client = getattr(request.app.state, "db_client", None)
     if db_client and db_client.is_connected:
         try:
             records = await db_client.get_prediction_history(

@@ -1,15 +1,26 @@
 import unittest
-from ingestion.news_ingestor import fetch_news
-from processing.event_extractor import extract_events
-from processing.normalizer import normalize_events
-from processing.deduplicator import deduplicate
-from scoring.rule_engine import apply_scoring
-from scoring.decay_engine import apply_decay
-from scoring.aggregator import aggregate
+try:
+    from mandisense_ai.core.agents.external_factors_agent.ingestion.news_ingestor import fetch_news
+    from mandisense_ai.core.agents.external_factors_agent.processing.event_extractor import extract_events
+    from mandisense_ai.core.agents.external_factors_agent.processing.normalizer import normalize_events
+    from mandisense_ai.core.agents.external_factors_agent.processing.deduplicator import deduplicate
+    from mandisense_ai.core.agents.external_factors_agent.scoring.rule_engine import apply_scoring
+    from mandisense_ai.core.agents.external_factors_agent.scoring.decay_engine import apply_decay
+    from mandisense_ai.core.agents.external_factors_agent.scoring.aggregator import aggregate
+except ImportError:
+    from ingestion.news_ingestor import fetch_news
+    from processing.event_extractor import extract_events
+    from processing.normalizer import normalize_events
+    from processing.deduplicator import deduplicate
+    from scoring.rule_engine import apply_scoring
+    from scoring.decay_engine import apply_decay
+    from scoring.aggregator import aggregate
 
 class TestPipeline(unittest.TestCase):
     def test_pipeline_flows(self):
-        news = fetch_news()
+        from unittest.mock import patch
+        with patch("mandisense_ai.core.agents.external_factors_agent.ingestion.news_ingestor.fetch_bbc_news", side_effect=RuntimeError("Force fallback")):
+            news = fetch_news()
         self.assertGreater(len(news), 0)
         
         events = extract_events(news)

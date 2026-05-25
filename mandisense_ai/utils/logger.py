@@ -34,7 +34,10 @@ def get_logger(name: str) -> logging.Logger:
     Retrieves a configured structured JSON logger instance.
     Why: Provides a consistent logging interface across all modules without having to pass the logger object around.
     """
-    from config.settings import settings
+    try:
+        from mandisense_ai.config.settings import settings
+    except ImportError:
+        from config.settings import settings
     logger = logging.getLogger(name)
     
     # Avoid duplicate handlers if get_logger is called multiple times

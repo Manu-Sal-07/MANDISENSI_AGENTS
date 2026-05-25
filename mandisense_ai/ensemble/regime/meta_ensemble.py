@@ -18,11 +18,18 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 import pandas as pd
 
-from ensemble.regime.garch_estimator import GARCHVolatilityEstimator
-from ensemble.regime.hmm_classifier import HMMRegimeClassifier
-from ensemble.regime.weight_calculator import AdaptiveWeightCalculator
-from ensemble.regime.alert_engine import VolatilityAlertEngine
-from utils.logger import get_logger
+try:
+    from mandisense_ai.ensemble.regime.garch_estimator import GARCHVolatilityEstimator
+    from mandisense_ai.ensemble.regime.hmm_classifier import HMMRegimeClassifier
+    from mandisense_ai.ensemble.regime.weight_calculator import AdaptiveWeightCalculator
+    from mandisense_ai.ensemble.regime.alert_engine import VolatilityAlertEngine
+    from mandisense_ai.utils.logger import get_logger
+except ImportError:
+    from ensemble.regime.garch_estimator import GARCHVolatilityEstimator
+    from ensemble.regime.hmm_classifier import HMMRegimeClassifier
+    from ensemble.regime.weight_calculator import AdaptiveWeightCalculator
+    from ensemble.regime.alert_engine import VolatilityAlertEngine
+    from utils.logger import get_logger
 
 logger = get_logger(__name__)
 

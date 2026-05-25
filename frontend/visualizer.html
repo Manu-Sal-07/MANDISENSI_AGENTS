@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MandiSense AI | Workflow Visualizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f1f5f9; }
+        #network-container { height: 500px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        .status-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">MandiSense AI</h1>
+                <p class="text-slate-400">Interactive Workflow Visualization Layer</p>
+            </div>
+            <div class="flex gap-4 glass p-4 rounded-xl">
+                <div>
+                    <label class="block text-xs text-slate-500 uppercase font-bold mb-1">Commodity</label>
+                    <input id="commodity" type="text" value="tomato" class="bg-slate-800 border-none rounded p-2 text-sm w-32 focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-500 uppercase font-bold mb-1">Mandi</label>
+                    <input id="mandi" type="text" value="kolar" class="bg-slate-800 border-none rounded p-2 text-sm w-32 focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button onclick="runExecution()" id="runBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold self-end transition-all active:scale-95">
+                    RUN EXECUTION
+                </button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-12 gap-6">
+            <!-- Left: Graph -->
+            <div class="col-span-12 lg:col-span-8">
+                <div id="network-container" class="rounded-2xl border border-slate-700 overflow-hidden shadow-2xl relative">
+                    <!-- Status Indicator -->
+                    <div id="statusIndicator" class="hidden absolute top-4 left-4 z-10 flex items-center gap-2 bg-blue-900/50 px-3 py-1 rounded-full border border-blue-400">
+                        <div class="w-2 h-2 bg-blue-400 rounded-full status-pulse"></div>
+                        <span class="text-xs font-bold text-blue-200">PIPELINE ACTIVE</span>
+                    </div>
+                </div>
+
+                <!-- Timeline / Log -->
+                <div class="mt-6 glass rounded-2xl p-6 h-64 flex flex-col">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Live Event Stream</h3>
+                    <div id="timeline" class="flex-1 overflow-y-auto space-y-2 text-sm mono">
+                        <div class="text-slate-500 italic">Waiting for execution trigger...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Inspector -->
+            <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+                <div class="glass rounded-2xl p-6 h-[400px] flex flex-col">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Node Inspector</h3>
+                    <div id="inspectorContent" class="flex-1 overflow-y-auto">
+                        <div class="h-full flex items-center justify-center text-center text-slate-500 px-8">
+                            No data available for this node yet. Click a completed node to inspect.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">Performance</h3>
+                    <div class="flex items-end gap-2">
+                        <span id="latency" class="text-4xl font-bold text-emerald-400">--</span>
+                        <span class="text-slate-500 mb-1">ms</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">End-to-end inference latency across all agents.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let nodes, edges, network;
+        let ws;
+        let startTime;
+        const eventData = {};
+
+        function initGraph() {
+            const container = document.getElementById('network-container');
+            
+            nodes = new vis.DataSet([
+                { id: 'query', label: 'Query Input', shape: 'box', font: { color: '#fff' } },
+                { id: 'seasonality', label: 'Seasonality Agent', shape: 'box', font: { color: '#fff' } },
+                { id: 'arrival', label: 'Arrival Agent', shape: 'box', font: { color: '#fff' } },
+                { id: 'ensemble', label: 'Ensemble Layer', shape: 'box', font: { color: '#fff' } },
+                { id: 'meta', label: 'Meta-Ensemble', shape: 'box', font: { color: '#fff' } },
+                { id: 'output', label: 'Final Output', shape: 'box', font: { color: '#fff' } }
+            ]);
+
+            edges = new vis.DataSet([
+                { from: 'query', to: 'seasonality', arrows: 'to' },
+                { from: 'query', to: 'arrival', arrows: 'to' },
+                { from: 'seasonality', to: 'ensemble', arrows: 'to' },
+                { from: 'arrival', to: 'ensemble', arrows: 'to' },
+                { from: 'ensemble', to: 'meta', arrows: 'to' },
+                { from: 'meta', to: 'output', arrows: 'to' }
+            ]);
+
+            const data = { nodes, edges };
+            const options = {
+                nodes: {
+                    borderWidth: 2,
+                    color: {
+                        border: '#475569',
+                        background: '#334155',
+                        highlight: { border: '#3b82f6', background: '#1e3a8a' }
+                    },
+                    font: { size: 14, face: 'Inter' },
+                    margin: 10
+                },
+                edges: {
+                    color: '#475569',
+                    width: 2,
+                    smooth: { type: 'cubicBezier', roundness: 0.5 }
+                },
+                layout: {
+                    hierarchical: {
+                        direction: 'LR',
+                        sortMethod: 'directed',
+                        nodeSpacing: 150
+                    }
+                },
+                interaction: { hover: true, selectConnectedEdges: false },
+                physics: false
+            };
+
+            network = new vis.Network(container, data, options);
+
+            network.on("click", (params) => {
+                if (params.nodes.length > 0) {
+                    inspectNode(params.nodes[0]);
+                }
+            });
+
+            // Set initial colors
+            nodes.forEach(node => {
+                updateNode(node.id, 'default');
+            });
+        }
+
+        function updateNode(id, state, data) {
+            const colors = {
+                'active': { border: '#3b82f6', background: '#1e3a8a' },
+                'completed': { border: '#10b981', background: '#064e3b' },
+                'error': { border: '#ef4444', background: '#7f1d1d' },
+                'default': { border: '#475569', background: '#334155' }
+            };
+            nodes.update({ id, color: colors[state] });
+            if (data) eventData[id] = data;
+        }
+
+        function logEvent(message, type = 'info') {
+            const timeline = document.getElementById('timeline');
+            const entry = document.createElement('div');
+            const color = type === 'info' ? 'text-blue-400' : (type === 'success' ? 'text-emerald-400' : 'text-rose-400');
+            
+            const time = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            entry.innerHTML = `<span class="text-slate-600">[${time}]</span> <span class="${color}">${message}</span>`;
+            timeline.appendChild(entry);
+            timeline.scrollTop = timeline.scrollHeight;
+        }
+
+        function inspectNode(id) {
+            const content = document.getElementById('inspectorContent');
+            if (!eventData[id]) {
+                content.innerHTML = `<div class="h-full flex items-center justify-center text-center text-slate-500 px-8">No data available for node: ${id}</div>`;
+                return;
+            }
+
+            const data = eventData[id];
+            content.innerHTML = `
+                <div class="space-y-4">
+                    <div class="p-3 bg-slate-800 rounded-lg border border-slate-700">
+                        <div class="text-xs text-slate-500 uppercase font-bold mb-1">Node ID</div>
+                        <div class="text-blue-400 font-bold">${id.toUpperCase()}</div>
+                    </div>
+                    <pre class="bg-slate-900 p-4 rounded-xl text-xs text-emerald-300 overflow-x-auto border border-slate-800">${JSON.stringify(data, null, 2)}</pre>
+                </div>
+            `;
+        }
+
+        function runExecution() {
+            const commodity = document.getElementById('commodity').value;
+            const mandi = document.getElementById('mandi').value;
+            
+            if (!commodity || !mandi) return alert("Please enter both commodity and mandi");
+
+            // Reset UI
+            document.getElementById('timeline').innerHTML = '';
+            document.getElementById('latency').innerText = '--';
+            document.getElementById('statusIndicator').classList.remove('hidden');
+            document.getElementById('runBtn').disabled = true;
+            document.getElementById('runBtn').classList.add('opacity-50');
+            
+            nodes.forEach(node => updateNode(node.id, 'default'));
+            Object.keys(eventData).forEach(key => delete eventData[key]);
+            
+            startTime = Date.now();
+            logEvent(`Initiating pipeline: ${commodity} @ ${mandi}...`, 'info');
+
+            // 1. Ensure WebSocket is connected
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                ws = new WebSocket(`${protocol}//${window.location.host}/ws/trace`);
+                
+                ws.onopen = () => {
+                    logEvent('Trace WebSocket connected.', 'success');
+                    triggerBackendRun(commodity, mandi);
+                };
+
+                ws.onmessage = (event) => {
+                    try {
+                        const msg = JSON.parse(event.data);
+                        handleEvent(msg);
+                    } catch (e) {
+                        console.error("Parse error", e);
+                    }
+                };
+
+                ws.onerror = (err) => logEvent('WebSocket error.', 'error');
+                ws.onclose = () => {
+                    logEvent('WebSocket closed.', 'info');
+                    document.getElementById('runBtn').disabled = false;
+                    document.getElementById('runBtn').classList.remove('opacity-50');
+                    document.getElementById('statusIndicator').classList.add('hidden');
+                };
+            } else {
+                triggerBackendRun(commodity, mandi);
+            }
+        }
+
+        async function triggerBackendRun(commodity, mandi) {
+            logEvent('Triggering backend execution...', 'info');
+            try {
+                const response = await fetch('/v1/trace-run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ commodity, mandi })
+                });
+                const result = await response.json();
+                console.log("Run triggered", result);
+            } catch (e) {
+                logEvent(`Failed to trigger: ${e.message}`, 'error');
+            }
+        }
+
+        function handleEvent(msg) {
+            const { step, data } = msg;
+
+            switch (step) {
+                case 'query_received':
+                    updateNode('query', 'completed', data);
+                    logEvent('Query received and validated.', 'success');
+                    break;
+
+                case 'seasonality_started':
+                    updateNode('seasonality', 'active');
+                    logEvent('Seasonality Agent: Processing started...', 'info');
+                    break;
+                case 'seasonality_completed':
+                    updateNode('seasonality', 'completed', data);
+                    logEvent('Seasonality Agent: Forecast generated.', 'success');
+                    break;
+
+                case 'arrival_started':
+                    updateNode('arrival', 'active');
+                    logEvent('Arrival Agent: Volume analysis started...', 'info');
+                    break;
+                case 'arrival_completed':
+                    updateNode('arrival', 'completed', data);
+                    logEvent('Arrival Agent: Supply signal ready.', 'success');
+                    break;
+
+                case 'external_started':
+                    logEvent('External Factors: News & Weather check...', 'info');
+                    break;
+                case 'external_completed':
+                    logEvent('External Factors: Signal integrated.', 'success');
+                    break;
+
+                case 'ensemble_started':
+                    updateNode('ensemble', 'active');
+                    logEvent('Ensemble Layer: Weight computation started...', 'info');
+                    break;
+                case 'ensemble_weights_computed':
+                    updateNode('ensemble', 'completed', data);
+                    logEvent('Ensemble Layer: Weights computed via Ridge correction.', 'success');
+                    break;
+
+                case 'meta_ensemble_started':
+                    updateNode('meta', 'active');
+                    logEvent('Meta-Ensemble: Final fusion active...', 'info');
+                    break;
+                case 'meta_ensemble_completed':
+                    updateNode('meta', 'completed', data);
+                    logEvent('Meta-Ensemble: System consensus reached.', 'success');
+                    break;
+
+                case 'final_output':
+                    updateNode('output', 'completed', data);
+                    const duration = Date.now() - startTime;
+                    document.getElementById('latency').innerText = duration;
+                    logEvent(`Pipeline finished in ${duration}ms.`, 'success');
+                    // We don't close WS here to allow multiple runs
+                    break;
+
+                case 'error':
+                    logEvent(`Critical Failure: ${data.message}`, 'error');
+                    nodes.forEach(n => updateNode(n.id, 'error'));
+                    break;
+            }
+        }
+
+        window.onload = initGraph;
+    </script>
+</body>
+</html>

@@ -4,7 +4,10 @@ import argparse
 from datetime import datetime
 from typing import Optional
 
-from config.settings import settings
+try:
+    from mandisense_ai.config.settings import settings
+except ImportError:
+    from config.settings import settings
 from data.repository import DataRepository
 from core.agents.seasonality.training.train_seasonality import train_seasonality_models
 from utils.logger import get_logger

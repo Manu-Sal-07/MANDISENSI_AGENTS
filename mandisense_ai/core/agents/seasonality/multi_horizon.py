@@ -36,8 +36,14 @@ from sklearn.multioutput import MultiOutputRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from config.settings import settings
-from utils.logger import get_logger
+try:
+    from mandisense_ai.config.settings import settings
+except ImportError:
+    from config.settings import settings
+try:
+    from mandisense_ai.utils.logger import get_logger
+except ImportError:
+    from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -188,7 +194,10 @@ class SeasonalityMultiHorizonPipeline:
         self.training_mean_: Optional[np.ndarray] = None
 
     def prepare_dataset(self, df: pd.DataFrame) -> pd.DataFrame:
-        data = df.sort_values(["mandi", "date"]).copy()
+        data = df.copy()
+        if "mandi" not in data.columns:
+            data["mandi"] = "unknown"
+        data = data.sort_values(["mandi", "date"]).copy()
         data["date"] = pd.to_datetime(data["date"])
 
         if "mandi_id" not in data.columns:

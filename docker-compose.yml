@@ -10,6 +10,7 @@ services:
       - DATABASE_URL=postgresql://user:pass@db:5432/mandisense
       - REDIS_URL=redis://redis:6379/0
       - APP__ENVIRONMENT=production
+      - PORT=8000
     depends_on:
       db:
         condition: service_healthy
@@ -34,6 +35,8 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pass
       - POSTGRES_DB=mandisense
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -46,6 +49,8 @@ services:
   redis:
     image: redis:7-alpine
     container_name: mandisense_redis
+    ports:
+      - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s

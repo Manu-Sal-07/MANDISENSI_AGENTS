@@ -13,14 +13,30 @@ from __future__ import annotations
 
 import time
 import uuid
+import sys
+import os
 from contextlib import asynccontextmanager
+
+# Inject project root and mandisense_ai folder into path to support mixed import styles
+_current_dir = os.path.dirname(os.path.abspath(__file__)) # .../api
+_pkg_root = os.path.dirname(_current_dir)                 # .../mandisense_ai
+_project_root = os.path.dirname(_pkg_root)               # .../MS-AI/MS-AI
+
+if _pkg_root not in sys.path:
+    sys.path.insert(0, _pkg_root)
+if _project_root not in sys.path:
+    sys.path.insert(0, _project_root)
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_client import make_asgi_app
 
-from utils.logger import get_logger
-import monitoring.metrics as metrics
+try:
+    from utils.logger import get_logger
+    import monitoring.metrics as metrics
+except ImportError:
+    from mandisense_ai.utils.logger import get_logger
+    import mandisense_ai.monitoring.metrics as metrics
 
 logger = get_logger(__name__)
 
@@ -51,6 +67,7 @@ async def lifespan(app: FastAPI):
     from db.client import AsyncDBClient
     _db_client = AsyncDBClient()
     await _db_client.init()
+    app.state.db_client = _db_client
 
     # ── 2. Initialize Redis (optional) ────────────────────────────────
     redis_client = None
@@ -69,6 +86,7 @@ async def lifespan(app: FastAPI):
     logger.info("[API] Initializing PredictionController...")
     from orchestrator.prediction_controller import PredictionController
     _controller = PredictionController(redis_client=redis_client, db_client=_db_client)
+    app.state.controller = _controller
     
     # Update Active Models Gauge
     if _controller._learned_ensemble and _controller._learned_ensemble.is_ready:

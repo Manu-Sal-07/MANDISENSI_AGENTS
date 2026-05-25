@@ -1,5 +1,6 @@
 import { MandiOpportunitySchema, MandiDetailSchema } from '@/types/schemas';
 import { logger } from './logger';
+import type { QueryResponse } from '@/types/mandi';
 
 /**
  * Phase 6: Production Hardening - API Layer
@@ -7,39 +8,66 @@ import { logger } from './logger';
  */
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_LOCALHOST_FALLBACK = API_BASE_URL.includes('localhost')
+  ? API_BASE_URL.replace('localhost', '127.0.0.1')
+  : API_BASE_URL;
 
 interface RequestOptions extends RequestInit {
   params?: Record<string, string>;
 }
 
+const makeApiRequest = async (url: string, customOptions: RequestInit) => {
+  const response = await fetch(url, {
+    ...customOptions,
+    headers: {
+      'Content-Type': 'application/json',
+      ...customOptions.headers,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`API Request Error: ${response.statusText}`);
+  }
+
+  return response.json();
+};
+
 export const apiClient = async <T>(endpoint: string, options: RequestOptions = {}): Promise<T> => {
   const { params, ...customOptions } = options;
   const startTime = Date.now();
-  
-  const url = new URL(`${API_BASE_URL}${endpoint}`);
+  const url = new URL(endpoint, API_BASE_URL);
+
   if (params) {
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
   }
 
   try {
-    const response = await fetch(url.toString(), {
-      ...customOptions,
-      headers: {
-        'Content-Type': 'application/json',
-        ...customOptions.headers,
-      },
-    });
-
+    const result = await makeApiRequest(url.toString(), customOptions);
     const duration = Date.now() - startTime;
     logger.logDebug(`API Request: ${endpoint} took ${duration}ms`);
+    return result;
+  } catch (error) {
+    if (
+      error instanceof TypeError &&
+      error.message === 'Failed to fetch' &&
+      API_LOCALHOST_FALLBACK !== API_BASE_URL
+    ) {
+      const fallbackUrl = new URL(endpoint, API_LOCALHOST_FALLBACK);
+      if (params) {
+        Object.keys(params).forEach((key) => fallbackUrl.searchParams.append(key, params[key]));
+      }
 
-    if (!response.ok) {
-      logger.logError(`API Failure: ${endpoint}`, { status: response.status, text: response.statusText });
-      throw new Error(`API Request Error: ${response.statusText}`);
+      try {
+        const fallbackResult = await makeApiRequest(fallbackUrl.toString(), customOptions);
+        const duration = Date.now() - startTime;
+        logger.logDebug(`API Request fallback: ${fallbackUrl.toString()} took ${duration}ms`);
+        return fallbackResult;
+      } catch (fallbackError) {
+        logger.logError(`Network/API Exception fallback: ${endpoint}`, fallbackError);
+        throw fallbackError;
+      }
     }
 
-    return response.json();
-  } catch (error) {
     logger.logError(`Network/API Exception: ${endpoint}`, error);
     throw error;
   }
@@ -96,8 +124,41 @@ export const mandiApi = {
     });
   },
 
+  getCognitionAvailable: async () => {
+    return await apiClient<Record<string, string[]>>('/v1/cognition/available');
+  },
+
+  getCognitionDirectives: async () => {
+    return await apiClient<{ directives: any[] }>('/v1/cognition/directives');
+  },
+
+  getMarketState: async (commodity: string, mandiId: string) => {
+    return await apiClient<any>(`/v1/cognition/state/${commodity}/${mandiId}`);
+  },
+
+  getMarketHistory: async (commodity: string, mandiId: string, limit: number = 50) => {
+    return await apiClient<any>(`/v1/cognition/history/${commodity}/${mandiId}`, {
+      params: { limit: limit.toString() },
+    });
+  },
+
+  getCognitionStates: async () => {
+    return await apiClient<any[]>('/v1/cognition/states');
+  },
+
+  getCognitionMemories: async () => {
+    return await apiClient<any[]>('/v1/cognition/memories');
+  },
+
+  simulateMarketScenario: async (commodity: string, mandiId: string, scenario: string, params: Record<string, any> = {}) => {
+    return await apiClient<any>('/v1/cognition/simulate', {
+      method: 'POST',
+      body: JSON.stringify({ commodity, mandi: mandiId, scenario_type: scenario, params }),
+    });
+  },
+
   predictQuery: async (query: string): Promise<QueryResponse> => {
-    const data = await apiClient<QueryResponse>('/query/', {
+    const data = await apiClient<QueryResponse>('/v1/query/', {
       method: 'POST',
       body: JSON.stringify({ query })
     });

@@ -1,0 +1,146 @@
+{
+  "summary": {
+    "total_days": 15,
+    "trend_accuracy": 0.533,
+    "avg_confidence": 0.95,
+    "directive_reliability": 0.587,
+    "timestamp": "2026-05-16T23:20:37.016498"
+  },
+  "log": [
+    {
+      "date": "2024-03-01T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "upward",
+      "was_accurate": true,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-02T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "upward",
+      "was_accurate": true,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-03T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "upward",
+      "was_accurate": true,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-04T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "upward",
+      "was_accurate": true,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-05T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "downward",
+      "was_accurate": false,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-06T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "upward",
+      "was_accurate": true,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-07T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "upward",
+      "was_accurate": true,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-08T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "stable",
+      "was_accurate": false,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-09T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "downward",
+      "was_accurate": false,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-10T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "downward",
+      "was_accurate": false,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-11T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "upward",
+      "was_accurate": true,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-12T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "upward",
+      "was_accurate": true,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-13T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "downward",
+      "was_accurate": false,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-14T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "downward",
+      "was_accurate": false,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    },
+    {
+      "date": "2024-03-15T00:00:00",
+      "predicted_trend": "upward",
+      "actual_trend": "downward",
+      "was_accurate": false,
+      "directive": "Active Procurement",
+      "confidence": 0.95,
+      "chaos_score": 0
+    }
+  ]
+}

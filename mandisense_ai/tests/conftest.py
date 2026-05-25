@@ -1,5 +1,8 @@
 import pytest
-from config.settings import Settings
+try:
+    from mandisense_ai.config.settings import Settings
+except ImportError:
+    from config.settings import Settings
 
 # Why: Pytest fixtures allow sharing setup code across tests.
 # Mocking the settings ensures our tests are isolated and don't accidentally mutally dependent on system environment variables.

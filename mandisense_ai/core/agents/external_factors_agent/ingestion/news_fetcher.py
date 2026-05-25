@@ -27,8 +27,6 @@ except Exception:  # pragma: no cover - fallback for direct script use
 else:
     logger = get_logger(__name__)
 
-from mandisense_ai.core.agents.external_factors_agent.orchestration.config_manager import config
-
 BBC_NEWS_API_URL = "https://newsapi.org/v2/everything"
 BBC_NEWS_SOURCE = "bbc-news"
 DEFAULT_CACHE_DIR = Path("data/cache/news")
@@ -213,7 +211,9 @@ def fetch_bbc_news(
             logger.info(f"BBC news loaded from cache: {cache_path}")
             return cached
 
-    api_key = api_key or getattr(config, "api_keys", {}).get("news_api")
+    if not api_key:
+        from mandisense_ai.core.agents.external_factors_agent.orchestration.config_manager import config
+        api_key = getattr(config, "api_keys", {}).get("news_api")
     if not api_key or api_key == "dummy":
         raise NewsFetchError("Missing valid NEWS_API_KEY for BBC News API")
 

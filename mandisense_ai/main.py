@@ -1,5 +1,8 @@
 import sys
-from config.settings import settings
+try:
+    from mandisense_ai.config.settings import settings
+except ImportError:
+    from config.settings import settings
 from utils.logger import get_logger
 
 # Initialize logger

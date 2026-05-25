@@ -48,3 +48,5 @@ mandisense_ai/data/processed/*
 !mandisense_ai/data/processed/.gitkeep
 mandisense_ai/core/agents/*/training/
 !mandisense_ai/core/agents/*/training/.gitkeep
+
+artifacts/

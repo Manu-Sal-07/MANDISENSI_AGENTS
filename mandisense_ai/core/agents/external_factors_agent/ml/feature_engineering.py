@@ -1,5 +1,8 @@
 from datetime import datetime
-from config.settings import CURRENT_DATE, COMMODITIES
+try:
+    from mandisense_ai.core.agents.external_factors_agent.config.settings import CURRENT_DATE, COMMODITIES
+except ImportError:
+    from config.settings import CURRENT_DATE, COMMODITIES
 
 def build_features(events):
     features_by_comm = {}

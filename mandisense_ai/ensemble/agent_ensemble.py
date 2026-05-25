@@ -47,7 +47,10 @@ import pandas as pd
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import TimeSeriesSplit
 
-from utils.logger import get_logger
+try:
+    from mandisense_ai.utils.logger import get_logger
+except ImportError:
+    from utils.logger import get_logger
 
 logger = get_logger(__name__)
 

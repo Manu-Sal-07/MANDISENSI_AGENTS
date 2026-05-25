@@ -45,10 +45,8 @@ export function useLocation() {
           setPersonalizationStatus('error');
         }
         
-        // Always fallback to default view on failure
-        if (viewMode !== 'manual') {
-          setViewMode('default');
-        }
+        // Always fallback to default view on failure. Manual mode returns before requesting location.
+        setViewMode('default');
       },
       {
         enableHighAccuracy: false, // Balance speed and precision

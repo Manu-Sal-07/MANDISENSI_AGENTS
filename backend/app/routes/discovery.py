@@ -16,6 +16,7 @@ LOCATION_MANDI_MAP = {
 COMMODITIES = ["tomato", "onion", "potato", "garlic", "ginger"]
 
 @router.get("/feed")
+@router.get("/mandi-feed")
 async def get_mandi_feed(location: str = "bengaluru"):
     location = location.lower()
     mandi_ids = LOCATION_MANDI_MAP.get(location, ["bengaluru_apmc", "kolar_apmc"])
@@ -44,6 +45,7 @@ async def get_mandi_feed(location: str = "bengaluru"):
     return feed
 
 @router.get("/details")
+@router.get("/mandi/{mandi_id}")
 async def get_mandi_details(mandi_id: str):
     details = {
         "mandi_id": mandi_id,

@@ -31,16 +31,28 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-from utils.logger import get_logger
-from ensemble.dataset_builder import (
-    DatasetBuilder,
-    FeatureRecord,
-    FEATURE_NAMES,
-    extract_features,
-    classify_regime,
-    _safe,
-    _SCALING_DAMPING,
-)
+try:
+    from mandisense_ai.utils.logger import get_logger
+    from mandisense_ai.ensemble.dataset_builder import (
+        DatasetBuilder,
+        FeatureRecord,
+        FEATURE_NAMES,
+        extract_features,
+        classify_regime,
+        _safe,
+        _SCALING_DAMPING,
+    )
+except ImportError:
+    from utils.logger import get_logger
+    from ensemble.dataset_builder import (
+        DatasetBuilder,
+        FeatureRecord,
+        FEATURE_NAMES,
+        extract_features,
+        classify_regime,
+        _safe,
+        _SCALING_DAMPING,
+    )
 
 logger = get_logger(__name__)
 

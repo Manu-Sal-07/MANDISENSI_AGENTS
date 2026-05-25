@@ -4,7 +4,7 @@ GET /v1/health — System health check.
 
 import time
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 
 from api.schemas.models import HealthResponse
 from utils.logger import get_logger
@@ -16,7 +16,7 @@ _boot_time = time.monotonic()
 
 
 @router.get("/health", response_model=HealthResponse)
-async def health_check():
+async def health_check(request: Request):
     """
     Lightweight health check for load balancers and monitoring.
 
@@ -27,8 +27,7 @@ async def health_check():
 
     # Check Database
     try:
-        from api.app import get_db_client
-        db = get_db_client()
+        db = getattr(request.app.state, "db_client", None)
         if db and db.is_connected:
             ping_ok = await db.ping()
             components["db"] = "ok" if ping_ok else "error"
@@ -42,8 +41,7 @@ async def health_check():
 
     # Check Redis
     try:
-        from api.app import get_controller
-        ctrl = get_controller()
+        ctrl = getattr(request.app.state, "controller", None)
         if ctrl and ctrl.redis:
             await ctrl.redis.ping()
             components["cache"] = "ok"

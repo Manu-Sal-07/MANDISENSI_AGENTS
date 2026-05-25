@@ -2,7 +2,10 @@ import hashlib
 import json
 import time
 
-from config.settings import COMMODITIES
+try:
+    from mandisense_ai.core.agents.external_factors_agent.config.settings import COMMODITIES
+except ImportError:
+    from config.settings import COMMODITIES
 from orchestration.cache_manager import cache_manager
 from orchestration.job_manager import job_manager
 from orchestration.error_handler import log_error, log_info, execute_with_fallback

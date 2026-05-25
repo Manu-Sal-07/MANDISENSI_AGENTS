@@ -26,8 +26,12 @@ import uuid
 from datetime import datetime
 from typing import Any, Dict, Optional
 
-from utils.logger import get_logger
-import monitoring.metrics as metrics
+try:
+    from utils.logger import get_logger
+    import monitoring.metrics as metrics
+except ImportError:
+    from mandisense_ai.utils.logger import get_logger
+    import mandisense_ai.monitoring.metrics as metrics
 
 logger = get_logger(__name__)
 

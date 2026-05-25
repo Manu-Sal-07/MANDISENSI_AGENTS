@@ -1,7 +1,10 @@
 import os
 import csv
 import random
-from config.settings import COMMODITIES
+try:
+    from mandisense_ai.core.agents.external_factors_agent.config.settings import COMMODITIES
+except ImportError:
+    from config.settings import COMMODITIES
 
 def build_dataset():
     filename = "data/training/dataset.csv"

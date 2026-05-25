@@ -29,7 +29,10 @@ import math
 from dataclasses import dataclass, field, asdict
 from typing import Dict, Any, Optional
 
-from utils.logger import get_logger
+try:
+    from mandisense_ai.utils.logger import get_logger
+except ImportError:
+    from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -231,6 +234,14 @@ def fuse(
         w_a = 0.65
         w_s = 0.35
 
+    # Apply volatility penalty
+    if seasonality.volatility > 0.0:
+        w_s *= (1.0 - _VOLATILITY_PENALTY_FACTOR * min(seasonality.volatility, 1.0))
+
+    # Apply trend regime boost
+    if seasonality.regime in _STRONG_TREND_REGIMES:
+        w_s *= _TREND_REGIME_BOOST
+
     # Fix 2 — Penalise overconfident bullish seasonality when arrival disagrees.
     # If seasonality is predicting a strong rise (>3%) but arrival is negative,
     # the seasonal model is likely carrying stale upward momentum.  Dampen its
@@ -347,12 +358,38 @@ def fuse(
     debug["strong_conflict"] = strong_conflict
     debug["adjusted_pred_post_conflict"] = round(adjusted_pred, 6)
 
-    # ── ⑥ Final confidence computation (Simplified) ──────────────────
+    # ── ⑥ Final confidence computation ────────────────────────────────
+    # Base confidence is a weighted average of seasonality and arrival confidence
+    base_conf = w_s * seasonality.confidence + w_a * arrival.confidence
+
+    # Blend in external confidence (10% weight)
+    if external.confidence > 0:
+        base_conf = (1.0 - _EXTERNAL_CONFIDENCE_BLEND_WEIGHT) * base_conf + _EXTERNAL_CONFIDENCE_BLEND_WEIGHT * external.confidence
+
+    # Penalty if both agents are below low confidence threshold
+    if seasonality.confidence < _LOW_CONFIDENCE_THRESHOLD and arrival.confidence < _LOW_CONFIDENCE_THRESHOLD:
+        base_conf *= _LOW_CONFIDENCE_PENALTY
+
+    # Bonus if both agents are above high confidence threshold and agree on sign
+    if (seasonality.confidence > _HIGH_CONFIDENCE_THRESHOLD 
+        and arrival.confidence > _HIGH_CONFIDENCE_THRESHOLD 
+        and not sign_disagreement):
+        base_conf *= _AGREEMENT_BONUS
+
+    # Conflict penalties
+    if strong_conflict:
+        base_conf *= _CONFLICT_CONFIDENCE_PENALTY_STRONG
+    elif sign_disagreement:
+        base_conf *= _CONFLICT_CONFIDENCE_PENALTY_SIGN
+
+    # Penalty if external dominates prediction
+    if abs(external_bias) > abs(fused_pred):
+        base_conf *= _EXTERNAL_RELIANCE_PENALTY
+
+    final_confidence = _clamp(base_conf, _CONFIDENCE_FLOOR_FINAL, _CONFIDENCE_CEILING_FINAL)
+    
     import numpy as np
     prediction_std = float(np.std([norm_s, norm_a]))
-    final_confidence = 1.0 / (1.0 + prediction_std)
-    final_confidence = _clamp(final_confidence, _CONFIDENCE_FLOOR_FINAL, _CONFIDENCE_CEILING_FINAL)
-    
     debug["prediction_std"] = round(prediction_std, 4)
 
     # ── ⑦ Final Output Prep ────────────────────────────────────────────

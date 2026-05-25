@@ -1,66 +1,608 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════
+   TRADEROS INTELLIGENCE TERMINAL — DESIGN SYSTEM
+   Premium Command-Center Visual Language
+   ═══════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff; /* Crisp White */
-  --foreground: #0f172a; /* Slate 900 */
-  --card: #ffffff;
-  --accent: #10b981;
+  /* ── Core Surfaces ── */
+  --background: #06090f;
+  --foreground: #e2e8f0;
+  --surface-0: #05080e;
+  --surface-1: #0b1420;
+  --surface-2: #101b28;
+  --surface-3: #142130;
+  --surface-4: #182a38;
+  --surface-border: rgba(148, 163, 184, 0.14);
+  --surface-strong: rgba(15, 23, 42, 0.9);
+
+  /* ── Primary Accent ── */
+  --accent: #48d0ff;
+  --accent-soft: rgba(72, 208, 255, 0.14);
+
+  /* ── Semantic Status Colors ── */
+  --bullish: #34d399;
+  --bullish-glow: rgba(52, 211, 153, 0.25);
+  --bearish: #fb7185;
+  --bearish-glow: rgba(251, 113, 133, 0.25);
+  --neutral: #94a3b8;
+  --intelligence: #38bdf8;
+
+  /* ── Panel Region Accents ── */
+  --archive-accent: #34d399;
+  --archive-accent-soft: rgba(52, 211, 153, 0.12);
+  --archive-border: rgba(52, 211, 153, 0.18);
+  --archive-surface: rgba(6, 22, 18, 0.55);
+
+  --viewport-accent: #22d3ee;
+  --viewport-accent-soft: rgba(34, 211, 238, 0.14);
+  --viewport-border: rgba(34, 211, 238, 0.22);
+  --viewport-surface: rgba(8, 47, 73, 0.25);
+
+  --recovery-accent: #a78bfa;
+  --recovery-accent-soft: rgba(167, 139, 250, 0.12);
+  --recovery-border: rgba(167, 139, 250, 0.18);
+  --recovery-surface: rgba(30, 15, 60, 0.35);
+
+  /* ── Status Spectrum ── */
+  --status-bullish: #34d399;
+  --status-bearish: #fb7185;
+  --status-stable: #38bdf8;
+  --status-warning: #fbbf24;
+  --status-confidence: #2dd4bf;
+  --status-risk: #f97316;
 }
 
 .dark {
-  --background: #000000;
-  --foreground: #f8fafc;
-  --card: #09090b;
-  --accent: #10b981;
+  --background: #04060b;
+  --foreground: #eef2ff;
+  --surface-0: #04070c;
+  --surface-1: #09131e;
+  --surface-2: #0e1725;
+  --surface-3: #131e2c;
+  --surface-4: #16263a;
+  --surface-border: rgba(148, 163, 184, 0.12);
+  --surface-strong: rgba(11, 16, 25, 0.92);
+  --accent: #5ee7ff;
+  --accent-soft: rgba(94, 231, 255, 0.16);
+  --bullish: #34d399;
+  --bearish: #fb7185;
+  --neutral: #a5b4fc;
+  --intelligence: #6ee7ff;
 }
+
+/* ═══════════════════════════════════════════════════
+   BODY & ATMOSPHERIC BACKGROUND
+   ═══════════════════════════════════════════════════ */
 
 body {
   color: var(--foreground);
   background: var(--background);
-  /* Adding a subtle premium mesh gradient for Light Mode */
-  background-image: 
-    radial-gradient(at 100% 0%, hsla(158, 82%, 96%, 1) 0, transparent 50%), 
-    radial-gradient(at 0% 100%, hsla(210, 100%, 98%, 1) 0, transparent 50%);
+  background-image:
+    radial-gradient(circle at 10% 10%, rgba(72, 208, 255, 0.08), transparent 16%),
+    radial-gradient(circle at 85% 20%, rgba(72, 208, 255, 0.05), transparent 12%),
+    linear-gradient(180deg, rgba(5, 10, 18, 1) 0%, rgba(7, 13, 24, 1) 38%, rgba(4, 6, 11, 1) 100%);
   background-attachment: fixed;
-  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  transition: background-color 0.5s ease, color 0.5s ease;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  transition: background-color 0.45s ease, color 0.45s ease, background-image 0.45s ease;
 }
 
-.dark body {
-  background-image: none;
+/* Atmospheric intelligence background layer */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(circle at 40% 10%, rgba(56, 189, 248, 0.06), transparent 24%),
+    radial-gradient(circle at 18% 72%, rgba(94, 231, 255, 0.04), transparent 14%),
+    linear-gradient(170deg, rgba(56, 189, 248, 0.03), transparent 44%),
+    linear-gradient(90deg, rgba(208, 232, 255, 0.02), transparent 65%);
+  opacity: 0.9;
+  animation: drift 28s linear infinite;
+  pointer-events: none;
 }
 
-/* Master Color Grading: High-Definition Floating Shadows */
-.floating-card {
-  box-shadow: 
-    0 1px 2px rgba(0,0,0,0.02),
-    0 4px 6px rgba(0,0,0,0.02),
-    0 12px 24px rgba(0,0,0,0.03);
+/* ═══════════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+   ═══════════════════════════════════════════════════ */
+
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(12px, -8px) scale(1.03); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
-.floating-card-hover:hover {
-  box-shadow: 
-    0 1px 2px rgba(0,0,0,0.02),
-    0 4px 6px rgba(0,0,0,0.02),
-    0 24px 48px rgba(0,0,0,0.06);
-  transform: translateY(-2px);
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
-  border-radius: 10px;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+/* Breathing glow for status indicators */
+@keyframes breathe {
+  0%, 100% { opacity: 0.6; box-shadow: 0 0 8px currentColor; }
+  50% { opacity: 1; box-shadow: 0 0 18px currentColor; }
 }
 
-:focus {
-  outline: none !important;
+/* Gentle telemetry pulse */
+@keyframes telemetryPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.08); }
+}
+
+/* Agricultural mesh background drift */
+@keyframes meshDrift {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(8px, -4px) rotate(0.3deg); }
+  66% { transform: translate(-4px, 6px) rotate(-0.2deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Subtle data flow shimmer */
+@keyframes dataFlowShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Panel edge glow breathing */
+@keyframes edgeGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Live indicator breathing */
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(52, 211, 153, 0.3); }
+  50% { box-shadow: 0 0 12px rgba(52, 211, 153, 0.6); }
+}
+
+/* Smooth entry for events */
+@keyframes eventIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Badge pulse */
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(34, 211, 238, 0); }
+}
+
+/* ═══════════════════════════════════════════════════
+   SURFACE SYSTEM — Layered Depth
+   ═══════════════════════════════════════════════════ */
+
+.surface-root {
+  background: var(--surface-0);
+}
+
+.surface-panel {
+  background: rgba(8, 15, 27, 0.88);
+  border: 1px solid var(--surface-border);
+}
+
+.surface-card {
+  background: rgba(12, 20, 33, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.surface-card-strong {
+  background: rgba(15, 23, 38, 0.95);
+  border: 1px solid rgba(72, 208, 255, 0.14);
+}
+
+.surface-interactive {
+  background: rgba(17, 26, 42, 0.96);
+  border: 1px solid rgba(94, 231, 255, 0.14);
+}
+
+/* ═══════════════════════════════════════════════════
+   PANEL REGION SURFACES — Distinct Visual Identity
+   ═══════════════════════════════════════════════════ */
+
+/* Institutional Archive — Emerald/Teal Intelligence */
+.panel-archive {
+  background:
+    linear-gradient(180deg,
+      rgba(6, 35, 28, 0.28) 0%,
+      rgba(4, 18, 14, 0.18) 30%,
+      rgba(2, 8, 6, 0.12) 100%
+    ),
+    rgba(4, 7, 12, 0.96);
+  border-right: 1px solid rgba(52, 211, 153, 0.1);
+  position: relative;
+}
+
+.panel-archive::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(52, 211, 153, 0.06), transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(45, 212, 191, 0.04), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.panel-archive > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Operational Viewport — Highest Contrast, Command Center */
+.panel-viewport {
+  background:
+    linear-gradient(180deg,
+      rgba(8, 47, 73, 0.2) 0%,
+      rgba(4, 20, 35, 0.12) 25%,
+      rgba(0, 0, 0, 0.85) 100%
+    ),
+    rgba(2, 4, 8, 0.98);
+  position: relative;
+}
+
+.panel-viewport::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(34, 211, 238, 0.07), transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(56, 189, 248, 0.04), transparent 45%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.panel-viewport > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Recovery Intelligence — Analytical Blue-Violet */
+.panel-recovery {
+  background:
+    linear-gradient(180deg,
+      rgba(30, 15, 60, 0.25) 0%,
+      rgba(15, 10, 40, 0.15) 30%,
+      rgba(6, 4, 18, 0.12) 100%
+    ),
+    rgba(4, 7, 12, 0.96);
+  border-left: 1px solid rgba(167, 139, 250, 0.1);
+  position: relative;
+}
+
+.panel-recovery::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(167, 139, 250, 0.06), transparent 60%),
+    radial-gradient(ellipse at 80% 60%, rgba(139, 92, 246, 0.04), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.panel-recovery > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION HEADERS — Panel-Aware
+   ═══════════════════════════════════════════════════ */
+
+.section-header-archive {
+  background: linear-gradient(90deg, rgba(6, 35, 28, 0.5), rgba(8, 15, 27, 0.88));
+  border-bottom: 1px solid rgba(52, 211, 153, 0.15) !important;
+}
+
+.section-header-viewport {
+  background: linear-gradient(90deg, rgba(8, 47, 73, 0.4), rgba(8, 15, 27, 0.88));
+  border-bottom: 1px solid rgba(34, 211, 238, 0.15) !important;
+}
+
+.section-header-recovery {
+  background: linear-gradient(90deg, rgba(30, 15, 60, 0.4), rgba(8, 15, 27, 0.88));
+  border-bottom: 1px solid rgba(167, 139, 250, 0.15) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   STATUS PILL SYSTEM
+   ═══════════════════════════════════════════════════ */
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+
+.status-open {
+  color: var(--intelligence);
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.22);
+}
+
+.status-active {
+  color: var(--accent);
+  background: rgba(72, 208, 255, 0.14);
+  border-color: rgba(72, 208, 255, 0.22);
+}
+
+.status-stable {
+  color: var(--neutral);
+  background: rgba(148, 163, 184, 0.12);
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+.status-warning {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.12);
+  border-color: rgba(251, 191, 36, 0.2);
+}
+
+.status-critical {
+  color: var(--bearish);
+  background: rgba(253, 170, 160, 0.16);
+  border-color: rgba(253, 170, 160, 0.22);
+}
+
+/* ═══════════════════════════════════════════════════
+   PREMIUM GLOW & DEPTH
+   ═══════════════════════════════════════════════════ */
+
+.premium-glow {
+  box-shadow:
+    0 0 0 1px rgba(94, 231, 255, 0.08),
+    0 16px 44px -24px rgba(72, 208, 255, 0.26);
+}
+
+.premium-glow-archive {
+  box-shadow:
+    0 0 0 1px rgba(52, 211, 153, 0.08),
+    0 16px 44px -24px rgba(52, 211, 153, 0.2);
+}
+
+.premium-glow-recovery {
+  box-shadow:
+    0 0 0 1px rgba(167, 139, 250, 0.08),
+    0 16px 44px -24px rgba(167, 139, 250, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════
+   COMMODITY TICKER — Status-Based Coloring
+   ═══════════════════════════════════════════════════ */
+
+.ticker-bullish {
+  border-bottom: 2px solid rgba(52, 211, 153, 0.5);
+  background: linear-gradient(180deg, rgba(52, 211, 153, 0.06), transparent);
+}
+.ticker-bullish:hover {
+  background: linear-gradient(180deg, rgba(52, 211, 153, 0.1), transparent);
+}
+
+.ticker-bearish {
+  border-bottom: 2px solid rgba(251, 113, 133, 0.5);
+  background: linear-gradient(180deg, rgba(251, 113, 133, 0.06), transparent);
+}
+.ticker-bearish:hover {
+  background: linear-gradient(180deg, rgba(251, 113, 133, 0.1), transparent);
+}
+
+.ticker-stable {
+  border-bottom: 2px solid rgba(56, 189, 248, 0.4);
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.04), transparent);
+}
+.ticker-stable:hover {
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.08), transparent);
+}
+
+.ticker-active {
+  border-bottom: 2px solid rgba(34, 211, 238, 0.7) !important;
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.12), transparent) !important;
+  box-shadow: inset 0 -1px 12px -6px rgba(34, 211, 238, 0.25);
+}
+
+/* ═══════════════════════════════════════════════════
+   AGRICULTURAL BACKGROUND MESH
+   ═══════════════════════════════════════════════════ */
+
+.agri-mesh-bg {
+  position: relative;
+}
+
+.agri-mesh-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.035;
+  pointer-events: none;
+  background-image:
+    /* Hexagonal agricultural grid pattern */
+    linear-gradient(30deg, rgba(52, 211, 153, 0.15) 1px, transparent 1px),
+    linear-gradient(150deg, rgba(52, 211, 153, 0.15) 1px, transparent 1px),
+    linear-gradient(270deg, rgba(52, 211, 153, 0.08) 1px, transparent 1px),
+    /* Network mesh nodes */
+    radial-gradient(circle 2px, rgba(34, 211, 238, 0.3) 1px, transparent 1px),
+    /* Telemetry contours */
+    linear-gradient(45deg, rgba(167, 139, 250, 0.06) 1px, transparent 1px);
+  background-size:
+    60px 104px,
+    60px 104px,
+    60px 104px,
+    80px 80px,
+    40px 40px;
+  animation: meshDrift 45s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   CONFIDENCE BAR SYSTEM
+   ═══════════════════════════════════════════════════ */
+
+.confidence-bar-fill {
+  position: relative;
+  overflow: hidden;
+}
+
+.confidence-bar-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.12) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: dataFlowShimmer 3s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   METRIC TILES — Enhanced
+   ═══════════════════════════════════════════════════ */
+
+.metric-tile-premium {
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-tile-premium::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0.3;
+}
+
+/* ═══════════════════════════════════════════════════
+   LIVE ANALYSIS BADGE
+   ═══════════════════════════════════════════════════ */
+
+.live-badge {
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════
+   AGENT BAR GRADIENTS
+   ═══════════════════════════════════════════════════ */
+
+.agent-bar-forecast {
+  background: linear-gradient(90deg, rgba(52, 211, 153, 0.6), rgba(34, 211, 238, 0.8)) !important;
+}
+
+.agent-bar-arrival {
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.6), rgba(245, 158, 11, 0.8)) !important;
+}
+
+.agent-bar-volatility {
+  background: linear-gradient(90deg, rgba(167, 139, 250, 0.6), rgba(139, 92, 246, 0.8)) !important;
+}
+
+.agent-bar-default {
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.5), rgba(34, 211, 238, 0.7)) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════ */
+
+.traderos ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.traderos ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.traderos ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.18);
+  border-radius: 4px;
+}
+
+.traderos ::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════ */
+
+.traderos .section-title {
+  letter-spacing: 0.18em;
+}
+
+.traderos .emphasis-accent {
+  color: var(--accent);
+}
+
+.traderos .fade-in-up {
+  animation: fadeInUp 220ms ease-out both;
+}
+
+/* World Map SVG Container */
+.world-map-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.world-map-container svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Plant illustration container */
+.plant-illustration {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 0 20px rgba(52, 211, 153, 0.3));
+}
+
+/* Confidence drivers section */
+.confidence-driver-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+}
+
+.confidence-driver-row .driver-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   TRANSITION CLASSES
+   ═══════════════════════════════════════════════════ */
+
+.hover-lift {
+  transition: all 200ms ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }

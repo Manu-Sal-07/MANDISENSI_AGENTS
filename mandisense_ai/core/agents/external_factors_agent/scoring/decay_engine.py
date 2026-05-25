@@ -1,6 +1,9 @@
 from datetime import datetime
 import math
-from config.settings import CURRENT_DATE, DECAY_LAMBDA, MAX_EVENT_AGE_DAYS
+try:
+    from mandisense_ai.core.agents.external_factors_agent.config.settings import CURRENT_DATE, DECAY_LAMBDA, MAX_EVENT_AGE_DAYS
+except ImportError:
+    from config.settings import CURRENT_DATE, DECAY_LAMBDA, MAX_EVENT_AGE_DAYS
 
 def apply_decay(events):
     adjusted_events = []

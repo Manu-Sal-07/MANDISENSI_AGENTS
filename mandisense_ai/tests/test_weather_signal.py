@@ -1,13 +1,22 @@
 import pandas as pd
 import pytest
 
-from core.agents.external_factors_agent.processing.weather_signal import (
-    WeatherFeatures,
-    build_weather_features,
-    get_weather_signal,
-    resolve_mandi_coordinates,
-    weather_features_to_signal,
-)
+try:
+    from mandisense_ai.core.agents.external_factors_agent.processing.weather_signal import (
+        WeatherFeatures,
+        build_weather_features,
+        get_weather_signal,
+        resolve_mandi_coordinates,
+        weather_features_to_signal,
+    )
+except ImportError:
+    from core.agents.external_factors_agent.processing.weather_signal import (
+        WeatherFeatures,
+        build_weather_features,
+        get_weather_signal,
+        resolve_mandi_coordinates,
+        weather_features_to_signal,
+    )
 
 
 class TestMandiCoordinateResolution:

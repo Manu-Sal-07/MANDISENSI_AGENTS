@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
+import { ErrorBoundary as ReactErrorBoundary, type FallbackProps } from 'react-error-boundary';
 import { AlertCircle, RefreshCcw } from 'lucide-react';
 import { logger } from '@/services/logger';
 
-function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
+function ErrorFallback({ resetErrorBoundary }: FallbackProps) {
   return (
     <div className="min-h-[400px] flex items-center justify-center p-6 text-center bg-white dark:bg-black rounded-3xl border border-zinc-100 dark:border-zinc-900 shadow-sm">
       <div className="max-w-xs space-y-6">
@@ -15,7 +15,7 @@ function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetError
         <div className="space-y-2">
           <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Something went wrong</h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            The application encountered an unexpected error. We've logged the issue.
+            The application encountered an unexpected error. We have logged the issue.
           </p>
         </div>
         <button

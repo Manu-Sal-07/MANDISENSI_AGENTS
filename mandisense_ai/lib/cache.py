@@ -36,13 +36,13 @@ def _get_redis_client() -> Optional[Any]:
     try:
         redis_url = os.getenv("REDIS_URL")
         if redis_url:
-            client = redis.Redis.from_url(redis_url, decode_responses=True)
+            client = redis.Redis.from_url(redis_url, decode_responses=True, socket_timeout=2.0, socket_connect_timeout=2.0)
         else:
             host = os.getenv("REDIS_HOST", "localhost")
             port = int(os.getenv("REDIS_PORT", "6379"))
             db = int(os.getenv("REDIS_DB", "0"))
             password = os.getenv("REDIS_PASSWORD") or None
-            client = redis.Redis(host=host, port=port, db=db, password=password, decode_responses=True)
+            client = redis.Redis(host=host, port=port, db=db, password=password, decode_responses=True, socket_timeout=2.0, socket_connect_timeout=2.0)
         
         client.ping()
         _redis_client = client

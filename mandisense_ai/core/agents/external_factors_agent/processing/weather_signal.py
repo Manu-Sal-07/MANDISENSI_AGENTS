@@ -33,32 +33,13 @@ except Exception:
     from core.agents.external_factors_agent.ingestion.weather_fetcher import fetch_weather
 
 
-MANDI_COORDS: Dict[str, Tuple[float, float]] = {
-    "kolar": (13.1377, 78.1299),
-    "hoskote": (13.0707, 77.7981),
-    "lasalgaon": (20.1420, 74.2395),
-    "guntur": (16.3067, 80.4365),
-    "neemuch": (24.4738, 74.8726),
-    "agra": (27.1767, 78.0081),
-}
-
-DISTRICT_CENTROIDS: Dict[str, Tuple[float, float]] = {
-    "kolar": (13.1367, 78.1292),
-    "bangalore rural": (13.2847, 77.6078),
-    "nashik": (20.0110, 73.7903),
-    "guntur": (16.3067, 80.4365),
-    "neemuch": (24.4738, 74.8726),
-    "agra": (27.1767, 78.0081),
-}
-
-MANDI_TO_DISTRICT: Dict[str, str] = {
-    "kolar": "kolar",
-    "hoskote": "bangalore rural",
-    "lasalgaon": "nashik",
-    "guntur": "guntur",
-    "neemuch": "neemuch",
-    "agra": "agra",
-}
+try:
+    from mandisense_ai.cognition.world_model.topology import MarketRegistry
+except ImportError:
+    # Fallback for standalone scripts
+    class MarketRegistry:
+        @classmethod
+        def resolve_coordinates(cls, mandi_id: str): return (12.9716, 77.5946) # Bengaluru fallback
 
 EPSILON = 1e-6
 
@@ -81,21 +62,18 @@ def _normalize_name(value: str) -> str:
 
 def resolve_mandi_coordinates(mandi: str, district: Optional[str] = None) -> Tuple[float, float]:
     """
-    Resolve mandi coordinates with district-centroid fallback.
-
-    The lookup tables are module-level constants so callers can extend/replace
-    them without editing function logic.
+    Resolve mandi coordinates using the Institutional Market Registry.
     """
-    mandi_key = _normalize_name(mandi)
-    if mandi_key in MANDI_COORDS:
-        return MANDI_COORDS[mandi_key]
+    coords = MarketRegistry.resolve_coordinates(mandi)
+    if coords:
+        return coords
+    
+    if district:
+        coords = MarketRegistry.resolve_coordinates(district)
+        if coords:
+            return coords
 
-    district_key = _normalize_name(district or MANDI_TO_DISTRICT.get(mandi_key, ""))
-    if district_key in DISTRICT_CENTROIDS:
-        logger.warning(f"Mandi '{mandi}' not found; using district centroid '{district_key}'")
-        return DISTRICT_CENTROIDS[district_key]
-
-    raise KeyError(f"No coordinates found for mandi='{mandi}' and district='{district or ''}'")
+    raise KeyError(f"INTEGRITY FAILURE: No coordinates found for '{mandi}' @ '{district or 'unknown_dist'}'")
 
 
 def _weighted_recent_mean(values: pd.Series, half_life_days: float = 3.0) -> float:

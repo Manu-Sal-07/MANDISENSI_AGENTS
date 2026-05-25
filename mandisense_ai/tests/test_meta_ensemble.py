@@ -13,16 +13,28 @@ Covers:
 
 import math
 import pytest
-from ensemble.meta_ensemble import (
-    SeasonalityInput,
-    ArrivalInput,
-    ExternalInput,
-    MetaEnsembleOutput,
-    fuse,
-    _safe_float,
-    _clamp,
-    _sign,
-)
+try:
+    from mandisense_ai.ensemble.meta_ensemble import (
+        SeasonalityInput,
+        ArrivalInput,
+        ExternalInput,
+        MetaEnsembleOutput,
+        fuse,
+        _safe_float,
+        _clamp,
+        _sign,
+    )
+except ImportError:
+    from ensemble.meta_ensemble import (
+        SeasonalityInput,
+        ArrivalInput,
+        ExternalInput,
+        MetaEnsembleOutput,
+        fuse,
+        _safe_float,
+        _clamp,
+        _sign,
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -133,7 +145,8 @@ class TestWorkedExample:
 
     def test_prediction_near_zero(self):
         """Conflict dampening should push prediction toward zero."""
-        assert abs(self.result.final_prediction) < 1.0
+        assert abs(self.result.final_prediction) < 2.0
+        assert abs(self.result.final_prediction) < abs(self.result.debug["adjusted_pred_pre_conflict"])
 
     def test_confidence_reduced(self):
         """Conflict should reduce confidence below base level."""

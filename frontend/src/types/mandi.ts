@@ -1,6 +1,7 @@
 export type Decision = 'SELL' | 'HOLD' | 'WAIT';
 export type Trend = 'UP' | 'DOWN' | 'STABLE';
 export type RiskLevel = 'LOW' | 'MEDIUM' | 'HIGH';
+export type Confidence = number;
 
 export interface MandiOpportunity {
   id: string;

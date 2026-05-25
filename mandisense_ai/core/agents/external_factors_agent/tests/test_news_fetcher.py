@@ -55,8 +55,8 @@ def test_fetch_bbc_news_parses_and_filters_recent_articles(monkeypatch, tmp_path
 
 def test_fetch_bbc_news_raises_without_api_key(monkeypatch, tmp_path):
     monkeypatch.setattr(
-        "mandisense_ai.core.agents.external_factors_agent.ingestion.news_fetcher.config.api_keys",
-        {"news_api": "dummy"},
+        "mandisense_ai.core.agents.external_factors_agent.orchestration.config_manager.config",
+        type("MockConfig", (), {"api_keys": {"news_api": "dummy"}})(),
     )
 
     with pytest.raises(NewsFetchError):
@@ -85,8 +85,8 @@ def test_fetch_bbc_news_caches_results(monkeypatch, tmp_path):
         fake_request,
     )
     monkeypatch.setattr(
-        "mandisense_ai.core.agents.external_factors_agent.ingestion.news_fetcher.config.api_keys",
-        {"news_api": "test-key"},
+        "mandisense_ai.core.agents.external_factors_agent.orchestration.config_manager.config",
+        type("MockConfig", (), {"api_keys": {"news_api": "test-key"}})(),
     )
 
     first = fetch_bbc_news(query="market", days_back=1, api_key="test-key", cache_dir=tmp_path)

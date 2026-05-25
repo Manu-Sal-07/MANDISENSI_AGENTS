@@ -2,22 +2,41 @@
 
 import { Activity, Bell, Search, User, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 export default function TopBar() {
   const { theme, toggleTheme, mounted } = useTheme();
+  const pathname = usePathname();
+
+  if (pathname === '/terminal') {
+    return null;
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-black/80 backdrop-blur-xl">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Activity className="text-white w-5 h-5" />
+        <div className="hidden md:flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Activity className="text-white w-5 h-5" />
+            </div>
+            <span className="font-bold text-xl tracking-tight text-zinc-900 dark:text-zinc-100">
+              MandiSense <span className="text-emerald-600">AI</span>
+            </span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-3">
+            <Link href="/market-explorer" className="text-sm font-semibold text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-300">
+              Market Explorer
+            </Link>
+            <Link href="/intelligence-lab" className="text-sm font-semibold text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-300">
+              Intelligence Lab
+            </Link>
+            <Link href="/terminal" className="text-sm font-semibold text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-300">
+              Command Center
+            </Link>
           </div>
-          <span className="font-bold text-xl tracking-tight text-zinc-900 dark:text-zinc-100">
-            MandiSense <span className="text-emerald-600">AI</span>
-          </span>
-        </Link>
+        </div>
         
         <div className="hidden md:flex flex-1 max-w-md mx-8">
           <div className="relative w-full">

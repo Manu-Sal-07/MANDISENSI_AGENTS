@@ -26,12 +26,12 @@ Public exports:
     LearnedEnsemble           — Regime-aware Ridge models + blending
 """
 
-from ensemble.agent_ensemble import AgentEnsemble
-from ensemble.feedback_store import FeedbackStore
-from ensemble.regime_detector import RegimeDetector
-from ensemble.dynamic_weighter import DynamicWeighter
+from .agent_ensemble import AgentEnsemble
+from .feedback_store import FeedbackStore
+from .regime_detector import RegimeDetector
+from .dynamic_weighter import DynamicWeighter
 
-from ensemble.regime import (
+from .regime import (
     GARCHVolatilityEstimator,
     HMMRegimeClassifier,
     AdaptiveWeightCalculator,
@@ -39,7 +39,7 @@ from ensemble.regime import (
     RegimeAwareMetaEnsemble,
 )
 
-from ensemble.meta_ensemble import (
+from .meta_ensemble import (
     fuse as meta_ensemble_fuse,
     run_meta_ensemble,
     SeasonalityInput,
@@ -48,9 +48,9 @@ from ensemble.meta_ensemble import (
     MetaEnsembleOutput,
 )
 
-from ensemble.prediction_logger import PredictionLogger
-from ensemble.dataset_builder import DatasetBuilder
-from ensemble.learned_ensemble import LearnedEnsemble
+from .prediction_logger import PredictionLogger
+from .dataset_builder import DatasetBuilder
+from .learned_ensemble import LearnedEnsemble
 
 __all__ = [
     # Existing

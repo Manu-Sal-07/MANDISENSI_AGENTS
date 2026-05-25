@@ -1,0 +1,31 @@
+{
+  "commodity": "garlic",
+  "mandi_id": "kolar_apmc",
+  "timestamp": "2026-05-16T22:46:45.148101",
+  "forecast": {
+    "price": 9114.73046875,
+    "arrivals": 64.33000183105469,
+    "trend": "downward"
+  },
+  "regimes": {
+    "volatility": "high",
+    "risk_level": "LOW"
+  },
+  "confidence": {
+    "overall": 0.95,
+    "directional": 0.72
+  },
+  "directives": {
+    "directive": "Delay Procurement (Cautious Execution)",
+    "urgency": "LOW",
+    "action_code": "DELAY_CAUTION",
+    "confidence_score": 0.95,
+    "primary_driver": "price_trend",
+    "reasoning_summary": "Price is expected to downward in kolar_apmc (LOW risk). Arrivals are predicted to be increasing, suggesting increasing supply. Market volatility is currently high."
+  },
+  "meta": {
+    "engine_version": "v3-cognition",
+    "data_source": "MandiDataService"
+  },
+  "last_updated": "2026-05-16T22:46:45.148101"
+}

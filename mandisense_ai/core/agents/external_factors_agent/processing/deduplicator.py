@@ -1,5 +1,8 @@
 from datetime import datetime
-from config.settings import DEDUP_WINDOW_DAYS
+try:
+    from mandisense_ai.core.agents.external_factors_agent.config.settings import DEDUP_WINDOW_DAYS
+except ImportError:
+    from config.settings import DEDUP_WINDOW_DAYS
 
 def deduplicate(events):
     deduped = []

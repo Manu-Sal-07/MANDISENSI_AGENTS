@@ -1,5 +1,5 @@
 # Base image: Use a slim version for smaller footprint
-FROM python:3.11-slim
+FROM python:3.11-slim-bullseye
 
 # Set working directory
 WORKDIR /app
@@ -32,10 +32,9 @@ ENV PYTHONUNBUFFERED=1 \
 # Expose port 8000 for FastAPI
 EXPOSE 8000
 
-# Production runtime command
-# Uses 2 workers for basic concurrency within the container
-# Defaulting to 10000 for Render compatibility if PORT is not set
-CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-10000} --workers 2"]
+# Production runtime command.
+# Keep a single worker because the cognition stream uses in-memory WebSocket state.
+CMD ["sh", "-c", "python -m uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
 
 
 

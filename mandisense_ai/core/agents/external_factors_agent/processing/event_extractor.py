@@ -1,4 +1,7 @@
-from config.settings import COMMODITIES
+try:
+    from mandisense_ai.core.agents.external_factors_agent.config.settings import COMMODITIES
+except ImportError:
+    from config.settings import COMMODITIES
 
 # Event keywords definition
 KEYWORDS = {
@@ -15,7 +18,7 @@ KEYWORDS = {
 def extract_events(news_list):
     events = []
     for news in news_list:
-        text = f"{news.get('title', '')} {news.get('description', '')}"
+        text = f"{news.get('title', '')} {news.get('description', '')}".lower()
         
         # 1. COMMODITY DETECTION
         matched_commodity = None

@@ -2,10 +2,9 @@
 POST /v1/predict — Core prediction endpoint.
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 
 from api.schemas.models import PredictRequest, PredictResponse
-from api.app import get_controller
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -13,14 +12,14 @@ router = APIRouter()
 
 
 @router.post("/predict", response_model=PredictResponse)
-async def predict(req: PredictRequest):
+async def predict(req: PredictRequest, request: Request):
     """
     Generate a 7-day price change prediction for a commodity/mandi pair.
 
     Runs the full pipeline: Agents → Phase-1.5 Fusion → Phase-2.5 Learned Correction.
     Results are cached for 1 hour.
     """
-    controller = get_controller()
+    controller = getattr(request.app.state, "controller", None)
     if controller is None:
         raise HTTPException(503, "Prediction engine not initialized")
 

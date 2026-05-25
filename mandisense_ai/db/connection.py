@@ -30,7 +30,7 @@ def _get_db_url() -> str:
     """Build DATABASE_URL from environment or use default."""
     url = os.environ.get(
         "DATABASE_URL",
-        "postgresql://mandisense:mandisense@localhost:5432/mandisense_db"
+        "postgresql://user:pass@localhost:5432/mandisense"
     )
     # Render/Heroku use postgres:// but asyncpg/psycopg2 might prefer postgresql://
     if url.startswith("postgres://"):

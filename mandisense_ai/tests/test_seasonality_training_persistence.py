@@ -2,14 +2,24 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from core.agents.seasonality.training.train_seasonality import (
-    align_features,
-    build_features,
-    load_seasonality_bundle,
-    predict_with_ensemble,
-    train_seasonality_models,
-)
-from core.agents.seasonality.multi_horizon import FEATURE_COLS
+try:
+    from mandisense_ai.core.agents.seasonality.training.train_seasonality import (
+        align_features,
+        build_features,
+        load_seasonality_bundle,
+        predict_with_ensemble,
+        train_seasonality_models,
+    )
+    from mandisense_ai.core.agents.seasonality.multi_horizon import FEATURE_COLS
+except ImportError:
+    from core.agents.seasonality.training.train_seasonality import (
+        align_features,
+        build_features,
+        load_seasonality_bundle,
+        predict_with_ensemble,
+        train_seasonality_models,
+    )
+    from core.agents.seasonality.multi_horizon import FEATURE_COLS
 
 
 def test_train_seasonality_models_saves_bundle(tmp_path):

@@ -1,6 +1,9 @@
 import pandas as pd
 from datetime import datetime
-from core.agents.seasonality.inference import SeasonalityInferencePipeline, FEATURE_COLS
+try:
+    from mandisense_ai.core.agents.seasonality.inference import SeasonalityInferencePipeline, FEATURE_COLS
+except ImportError:
+    from core.agents.seasonality.inference import SeasonalityInferencePipeline, FEATURE_COLS
 
 
 def test_build_inference_features_consistency():
@@ -10,7 +13,7 @@ def test_build_inference_features_consistency():
 
     pipeline = SeasonalityInferencePipeline(models_dir="test_models")
     timestamp = datetime.fromisoformat(str(dates.max().date()))
-    features = pipeline.build_inference_features(df, timestamp=timestamp, feature_columns=FEATURE_COLS)
+    features = pipeline.build_inference_features(df, timestamp=timestamp, feature_columns=FEATURE_COLS, mandi_name="test_mandi")
 
     assert list(features.columns) == FEATURE_COLS
     assert not features.iloc[-1].isna().any()
@@ -26,7 +29,7 @@ def test_build_inference_features_with_stl_components():
     pipeline = SeasonalityInferencePipeline(models_dir="test_models")
     timestamp = datetime.fromisoformat(str(dates.max().date()))
     feature_columns = FEATURE_COLS + ["trend", "seasonal", "residual"]
-    features = pipeline.build_inference_features(df, timestamp=timestamp, feature_columns=feature_columns)
+    features = pipeline.build_inference_features(df, timestamp=timestamp, feature_columns=feature_columns, mandi_name="test_mandi")
 
     assert set(["trend", "seasonal", "residual"]).issubset(set(features.columns))
     assert not features[["trend", "seasonal", "residual"]].isna().any(axis=None)
