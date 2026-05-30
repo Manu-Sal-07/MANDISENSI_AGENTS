@@ -1,0 +1,80 @@
+Slide 1: [No Title]
+Slide 2: Presentation Agenda
+Slide 3: Problem Background
+Slide 4: Problem Statement
+Slide 5: Literature Survey Overview
+Slide 6: Literature Survey -- Hybrid Forecasting \& Time Series
+Slide 7: Literature Survey -- Ensemble, Optimization \& Regime Detection
+Slide 8: Literature Survey -- Smart Agriculture, XAI \& Surveys
+Slide 9: Literature Synthesis: Key Findings
+Slide 10: Research Gaps Identified
+Slide 11: Comparative Gap Analysis
+Slide 12: Project Objectives
+Slide 13: Proposed System Architecture
+Slide 14: Technology Stack \& Deployment
+Slide 15: Domain Knowledge \& Computing Solution
+Slide 16: Who Benefits
+Slide 17: Dataset \& Experimental Design
+Slide 18: Functional Modules of MandiSense AI
+Slide 19: MandiSense AI: End-to-End Platform Realization
+Slide 20: MandiSense AI: Unified Intelligence Ecosystem
+Slide 21: Data Transformation Pipeline
+Slide 22: Agent-Specific Feature Generation
+Slide 23: Why Multi-Agent Forecasting?
+Slide 24: Multi-Agent Forecasting Framework
+Slide 25: Seasonality Agent Architecture
+Slide 26: Seasonality Agent Model Ecosystem
+Slide 27: Arrival Volume Agent Pipeline
+Slide 28: Supply Intelligence Modeling
+Slide 29: External Intelligence Pipeline
+Slide 30: Volatility Intelligence System
+Slide 31: Market Regime Detection Engine
+Slide 32: Cross-Commodity Intelligence Layer
+Slide 33: Adaptive Meta-Ensemble Architecture
+Slide 34: Learned Residual Correction Layer
+Slide 35: Decision Intelligence Engine
+Slide 36: Explainability and Reasoning Layer
+Slide 37: Enterprise Platform Architecture
+Slide 38: Real-Time Intelligence Delivery Pipeline
+Slide 39: Resilience \& Fault-Tolerance Framework
+Slide 40: Data Persistence \& High-Speed Retrieval
+Slide 41: Observability \& Operational Intelligence
+Slide 42: Farmer Decision Intelligence Experience
+Slide 43: TraderOS Command Center
+Slide 44: End-to-End Decision Journey
+Slide 45: Implementation Excellence Summary
+Slide 46: Experimental Evaluation Framework
+Slide 47: Dataset \& Benchmark Overview
+Slide 48: Validation Strategy \& Statistical Protocol
+Slide 49: Forecast Accuracy Comparison
+Slide 50: Commodity-Wise Performance Analysis
+Slide 51: Prediction vs Actual Trend Validation
+Slide 52: Agent Contribution Analysis
+Slide 53: Ablation Study
+Slide 54: Volatility Intelligence Validation
+Slide 55: Regime Detection Validation
+Slide 56: Cross-Commodity Intelligence Validation
+Slide 57: Decision Recommendation Analysis
+Slide 58: Explainability Validation
+Slide 59: Deployment Performance Evaluation
+Slide 60: Reliability \& Fault-Tolerance Validation
+Slide 61: Key Findings \& Research Insights
+Slide 62: The Farmer Decision Dilemma
+Slide 63: The Trader Intelligence Gap
+Slide 64: From Forecasting to Decision Intelligence
+Slide 65: Farmer Impact Journey
+Slide 66: TraderOS Operational Impact
+Slide 67: Agricultural Lifecycle Coverage
+Slide 68: Research Contributions Reimagined
+Slide 69: Why MandiSense AI is Different
+Slide 70: Strategic Impact \& Future Potential
+Slide 71: What We Actually Built
+Slide 72: Why MandiSense AI is Different
+Slide 73: Research Contributions Summary
+Slide 74: MandiSense AI: End-to-End Pipeline
+Slide 75: Key Findings \& Empirical Insights
+Slide 76: Future Evolution Roadmap
+Slide 77: Vision for Agri-Decision Intelligence
+Slide 78: Research Paper -- Overleaf Link
+Slide 79: References
+Slide 80: [No Title]

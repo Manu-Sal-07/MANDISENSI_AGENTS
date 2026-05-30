@@ -17,12 +17,17 @@ interface RequestOptions extends RequestInit {
 }
 
 const makeApiRequest = async (url: string, customOptions: RequestInit) => {
+  const headers: Record<string, string> = {
+    ...((customOptions.headers ?? {}) as Record<string, string>),
+  };
+
+  if (customOptions.body && !Object.prototype.hasOwnProperty.call(headers, 'Content-Type')) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   const response = await fetch(url, {
     ...customOptions,
-    headers: {
-      'Content-Type': 'application/json',
-      ...customOptions.headers,
-    },
+    headers,
   });
 
   if (!response.ok) {
@@ -128,12 +133,22 @@ export const mandiApi = {
     return await apiClient<Record<string, string[]>>('/v1/cognition/available');
   },
 
+  getProcessedMarketDataOptions: async () => {
+    return await apiClient<{ markets: Array<{ commodity: string; mandi_id: string }> }>('/v1/cognition/market-data/processed');
+  },
+
   getCognitionDirectives: async () => {
     return await apiClient<{ directives: any[] }>('/v1/cognition/directives');
   },
 
   getMarketState: async (commodity: string, mandiId: string) => {
     return await apiClient<any>(`/v1/cognition/state/${commodity}/${mandiId}`);
+  },
+
+  getMarketTimeSeries: async (commodity: string, mandiId: string, limit: number = 365) => {
+    return await apiClient<any>(`/v1/cognition/market-data/${commodity}/${mandiId}`, {
+      params: { limit: limit.toString() },
+    });
   },
 
   getMarketHistory: async (commodity: string, mandiId: string, limit: number = 50) => {

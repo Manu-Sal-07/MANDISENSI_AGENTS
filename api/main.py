@@ -119,9 +119,21 @@ app = FastAPI(
 )
 
 # ── CORS Configuration ───────────────────────────────────────────────
+local_dev_ports = ["3000", "3001", "3002", "5173"]
+local_dev_origins = []
+for port in local_dev_ports:
+    local_dev_origins.extend([
+        f"http://localhost:{port}",
+        f"http://127.0.0.1:{port}",
+    ])
+
+allow_origins = local_dev_origins
+if os.getenv("CORS_ALLOW_ALL_ORIGINS", "false").lower() == "true":
+    allow_origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
