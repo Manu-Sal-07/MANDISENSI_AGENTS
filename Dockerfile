@@ -12,17 +12,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Optimize Caching: Copy only dependency files first
-# This prevents re-installing all packages when only source code changes
 COPY pyproject.toml README.md /app/
+COPY mandisense_ai /app/mandisense_ai
+COPY api /app/api
+COPY run_agents.py /app/
 
-# Install dependencies using pip
-# --no-cache-dir: Prevents bloating the image with installation artifacts
 RUN pip install --no-cache-dir .
-
-# Copy the rest of the application code
-# .dockerignore handles excluding unnecessary files
-COPY . .
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \

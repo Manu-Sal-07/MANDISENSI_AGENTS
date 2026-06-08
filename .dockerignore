@@ -34,7 +34,6 @@ ms_env/
 # Project Specific
 logs/
 data/
-mandisense_ai/data/
 models/
 mandisense_ai/models/
 models_backup*/
