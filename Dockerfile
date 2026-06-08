@@ -34,7 +34,7 @@ EXPOSE 8000
 
 # Production runtime command.
 # Keep a single worker because the cognition stream uses in-memory WebSocket state.
-CMD ["sh", "-c", "python -m uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "python scripts/init_db.py && python -m uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
 
 
 
