@@ -58,10 +58,12 @@ class AsyncDBClient:
         if self._pool is not None:
             return
 
-        db_url = dsn or os.environ.get(
-            "DATABASE_URL",
-            "postgresql://mandisense:mandisense@localhost:5432/mandisense_db"
-        )
+        db_url = dsn or os.environ.get("DATABASE_URL")
+        if not db_url:
+            env = os.environ.get("APP__ENVIRONMENT", "development").lower()
+            if env == "production":
+                raise ValueError("DATABASE_URL environment variable is required in production environment.")
+            db_url = "postgresql://mandisense:mandisense@localhost:5432/mandisense_db"
 
         try:
             import asyncpg

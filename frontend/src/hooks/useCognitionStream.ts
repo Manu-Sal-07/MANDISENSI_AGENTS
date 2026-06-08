@@ -2,7 +2,18 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-const WS_API = API.replace(/^http/, 'ws');
+
+const getWsUrl = (apiUrl: string): string => {
+    try {
+        const url = new URL(apiUrl);
+        url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+        return url.toString().replace(/\/$/, '');
+    } catch {
+        return apiUrl.replace(/^http/, 'ws');
+    }
+};
+
+const WS_API = getWsUrl(API);
 
 export function useCognitionStream() {
     const [latestUpdate, setLatestUpdate] = useState<any>(null);

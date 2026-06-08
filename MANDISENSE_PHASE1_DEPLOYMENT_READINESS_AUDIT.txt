@@ -1,0 +1,354 @@
+MANDISENSE AI — PHASE-1 DEPLOYMENT READINESS AUDIT
+================================================================================
+ROLE: Principal Release Engineer, Senior DevOps Architect, Staff MLOps Engineer,
+      Production Readiness Auditor, GitHub Repository Reviewer, Security Engineer,
+      and Enterprise Deployment Lead.
+================================================================================
+
+================================================================================
+SECTION 1 — REPOSITORY HEALTH AUDIT
+================================================================================
+
+1. Folder Structure & File Organization:
+   - Root Directory Layout: Contains both modular project folders (`api`, `backend`, `frontend`, `mandisense_ai`) and a clutter of presentation files, build artifacts, local scripts, and execution logs.
+   - Nested Architecture: The repository contains a sub-application structure inside `mandisense_ai/` which possesses its own duplicate configuration files (`Dockerfile`, `docker-compose.yml`, `nginx.conf`, `.gitignore`, `pyproject.toml`, `.env.example`, `main.py`). This causes major configuration drift.
+
+2. Naming Consistency:
+   - Mixed conventions are present across folders and files. Core Python services use snake_case (`mandisense_ai`), while system configurations use kebab-case (`pyproject.toml`, `docker-compose.yml`, `render.yaml`).
+
+3. Deployment Artifacts:
+   - Root `Dockerfile`: Authoritative for backend uvicorn deployment but lacks separation of packaging layers (excludes `backend` from package discovery in `pyproject.toml`).
+   - Root `docker-compose.yml`: Launches DB, Redis, and API. Conflicts with `mandisense_ai/docker-compose.yml` which defines extra services (Prometheus, Grafana, Nginx).
+   - Root `render.yaml`: Provisions free-tier database, redis, and uvicorn container. Lacks a database schema initialization migration step.
+
+4. Legacy and Dead Files:
+   - `mandisense_ai/api/`: Completely dead code. Contains legacy router definitions, lifespan app factory, and configuration handlers.
+   - `mandisense_ai/main.py`: Outdated script that duplicates uvicorn launching.
+   - `backend/app/main.py`: Legacy standalone entry point.
+   - `generate_elite_presentation_script.py` & `generate_presentation_script.py`: Local scratch scripts.
+   - `slide_parse.txt` & `slide_parse_temp.py`: Local slide parser files.
+   - `mandisense_ai_elite_presentation_script.docx` & `mandisense_ai_presentation_script.docx`: Large binary documents.
+   - `test_payload.json` & `mandi_master_temp.csv`: Local test data files.
+   - Packaging metadata: Tracked `mandisense_api.egg-info/` and `mandisense_ai/mandisense_ai.egg-info/` folders.
+
+5. Duplicate Files:
+   - Configuration: Root `Dockerfile` vs `mandisense_ai/Dockerfile`.
+   - Orchestration: Root `docker-compose.yml` vs `mandisense_ai/docker-compose.yml`.
+   - Git ignores: Root `.gitignore` vs `mandisense_ai/.gitignore` vs `frontend/.gitignore`.
+   - Settings: `backend/config/settings.py` vs `mandisense_ai/config/settings.py`.
+
+6. Audit Recommendations:
+   - What should remain: `api/` (root), `backend/` (root, minus app/main.py), `frontend/`, `mandisense_ai/` (minus legacy api/ and config files), root `Dockerfile`, root `docker-compose.yml`, root `render.yaml`, root `.gitignore`, root `.dockerignore`.
+   - What should be removed: `mandisense_ai/api/`, `mandisense_ai/Dockerfile`, `mandisense_ai/docker-compose.yml`, `mandisense_ai/nginx.conf`, `mandisense_ai/pyproject.toml`, `mandisense_ai/main.py`, `backend/app/main.py`, `mandisense_api.egg-info/`, `mandisense_ai/mandisense_ai.egg-info/`, `frontend/tsconfig.tsbuildinfo`, all root-level log/temporary files.
+   - What should be archived: `presentation/`, `presentation_assets/`, `models_backup_20260503_1905/`, and `scratch/` should be archived outside the active production deployment repository.
+   - What should be ignored: local environments (`ms_env/`), caching databases (`data/cache.json`), binary model files, and dynamic runtime log directories.
+
+Cleanliness Score: 4/10
+
+================================================================================
+SECTION 2 — GIT READINESS REVIEW
+================================================================================
+
+1. Gitignore Sufficiency:
+   - INSUFFICIENT. The root `.gitignore` fails to block python build directories (`.egg-info/`), TypeScript build info caches (`.tsbuildinfo`), local test log dumps, LaTeX slide outputs, and binary ML models. Conflicting policies exist due to multiple active `.gitignore` files.
+
+2. Tracked Generated Files:
+   - YES. Local run logs (`startup_log.txt`, `startup_err.txt`, `startup_out.txt`) and LaTeX build files (`presentation/ppt.pdf`, `.aux`, `.log`, `.nav`, `.out`, `.snm`, `.toc`, `.synctex.gz`) are fully tracked in Git history.
+   - TypeScript build cache (`frontend/tsconfig.tsbuildinfo`) is tracked in Git.
+   - Python setup files (`mandisense_api.egg-info/`) are tracked in Git.
+
+3. Tracked Model Artifacts:
+   - YES. The binary XGBoost model file `mandisense_ai/core/agents/external_factors_agent/models/xgb_model.pkl` is currently tracked in Git.
+
+4. Tracked Logs:
+   - YES. Temporary execution stdout/stderr dump logs are tracked at the root level.
+
+5. Tracked Cache Files:
+   - YES. The cache file `mandisense_ai/core/agents/external_factors_agent/data/cache.json` and a massive number of JSON state snapshots (`mandisense_ai/cognition/storage/snapshots/`) are tracked in Git.
+   - Ensemble run history files (`mandisense_ai/data/ensemble/meta_predictions.jsonl` and `prediction_history.jsonl`) are tracked in Git.
+
+6. Tracked Build Artifacts:
+   - YES. Python packaging egg-info directories and TS compiler state are tracked.
+
+7. Identified Risks:
+   - Repository bloat from tracked binary models and data snapshots.
+   - Merge conflicts from tracking local typescript compiler caches.
+   - Data leak risks from tracking historical prediction data.
+
+8. Exact Fixes:
+   - Execute cleanup commands to remove files from the git index:
+     git rm -r --cached mandisense_api.egg-info/
+     git rm -r --cached mandisense_ai/core/agents/external_factors_agent/models/xgb_model.pkl
+     git rm -r --cached mandisense_ai/core/agents/external_factors_agent/data/cache.json
+     git rm -r --cached mandisense_ai/cognition/storage/snapshots/
+     git rm -r --cached mandisense_ai/data/ensemble/
+     git rm --cached frontend/tsconfig.tsbuildinfo
+     git rm --cached startup_log.txt startup_err.txt startup_out.txt test_payload.json
+     git rm -r --cached presentation/
+     git rm -r --cached presentation_assets/
+   - Update the root `.gitignore` to include:
+     # Packaging
+     *.egg-info/
+     build/
+     dist/
+     # TypeScript build cache
+     *.tsbuildinfo
+     # Presentation outputs
+     presentation/
+     presentation_assets/
+     *.pdf
+     *.aux
+     *.log
+     *.nav
+     *.out
+     *.snm
+     *.toc
+     *.synctex.gz
+     *.vrb
+     # Models & data caches
+     **/models/*.pkl
+     **/models/*.joblib
+     **/models/*.model
+     **/data/cache.json
+     **/cognition/storage/snapshots/
+     **/data/ensemble/*.jsonl
+
+================================================================================
+SECTION 3 — SECRET LEAKAGE AUDIT
+================================================================================
+
+1. Finding 1: News API Key
+   - Location: `mandisense_ai/core/agents/external_factors_agent/orchestration/config_manager.py` (Line 5)
+   - Severity: CRITICAL
+   - Risk: Hardcoded API key `0cf53d3d3f554be09c9b20505aeeefb9` is exposed. When made public, the key will be immediately scraped, exhausted, or revoked.
+   - Recommended Fix: Load the API key from environment variables:
+     self.api_keys = {"news_api": os.getenv("NEWS_API_KEY", "")}
+
+2. Finding 2: Fallback Database URL
+   - Location: `mandisense_ai/db/connection.py` (Line 33)
+   - Severity: WARNING
+   - Risk: Hardcoded fallback connection string `"postgresql://user:pass@localhost:5432/mandisense"` is defined. While localhost defaults are not exploits, standard security compliance requires throwing an error if the URL is not supplied in a production environment.
+   - Recommended Fix: Fallback to empty string and fail fast if DATABASE_URL environment variable is missing when running in production.
+
+3. Finding 3: Fallback Redis URL
+   - Location: `backend/config/settings.py` (Lines 5-8)
+   - Severity: SAFE
+   - Risk: Default localhost connection parameters. Non-exploitable locally, overridden in production.
+
+No other database passwords, private keys, JWT secrets, or AWS keys were found.
+
+================================================================================
+SECTION 4 — ENVIRONMENT CONFIGURATION REVIEW
+================================================================================
+
+1. Completeness:
+   - INSUFFICIENT. The only configuration template is `mandisense_ai/.env.example`. No environment template exists in the project root or in `frontend/`. Crucial variables for web ports, CORS restrictions, external API keys, and redis connection endpoints are missing from templates.
+
+2. Complete Production-Ready Environment Variable List:
+   - Root / Backend (Render Web Service):
+     - `APP__ENVIRONMENT`: Required. Must be set to `production`.
+     - `DATABASE_URL`: Required. PostgreSQL connection URI.
+     - `REDIS_URL`: Required. Redis cache connection URI.
+     - `NEWS_API_KEY`: Required. News API key (replaces the hardcoded secret).
+     - `PORT`: Required. Port for the FastAPI server (default `8000`).
+     - `APP__DEBUG`: Optional. Set to `false` in production.
+     - `LOGGING__LEVEL`: Optional. Set to `INFO` in production.
+     - `CORS_ALLOW_ALL_ORIGINS`: Optional. Set to `true` to allow frontend web access, or `false` with explicit trusted domains.
+     - `RATE_LIMIT_PER_SECOND`: Optional. Set API request limits (default `60`).
+   - Frontend (Vercel Host):
+     - `NEXT_PUBLIC_API_URL`: Required. The domain of the deployed FastAPI backend (e.g. `https://mandisense-api.onrender.com`).
+
+================================================================================
+SECTION 5 — FRONTEND DEPLOYMENT READINESS
+================================================================================
+
+Output: NOT DEPLOYABLE
+
+Explanation:
+1. Hardcoded API Base Path: In `frontend/src/services/api.ts` and `frontend/src/hooks/useCognitionStream.ts`, the application defaults `API_BASE_URL` to `http://localhost:8000`. Without setting the `NEXT_PUBLIC_API_URL` environment variable during deployment, client-side requests and WebSocket connections will attempt to hit localhost, crashing the client interface.
+2. Invalid Next.js Dependency: The `package.json` specifies `"next": "16.2.4"`. Next.js 16 is a future, non-existent stable version (Next.js 15 is current). This invalid package configuration will break npm install on Vercel unless legacy overrides are utilized.
+3. Tracked Local Files: TypeScript build cache `tsconfig.tsbuildinfo` is committed in Git, causing build state conflicts.
+4. Missing Config Templates: There is no `.env.example` in the `frontend` folder to document variables.
+
+================================================================================
+SECTION 6 — BACKEND DEPLOYMENT READINESS
+================================================================================
+
+Output: NOT DEPLOYABLE
+
+Explanation:
+1. No Automated Database Migration: The database schema is defined only in `mandisense_ai/db/schema.sql`. There is no script that automatically runs this schema against PostgreSQL on startup, nor is there a Render migration command set up. A deployment to Render will result in an empty database, causing all operations to crash.
+2. Hardcoded Key: The agent relies on a hardcoded API key in python scripts, which risks immediate revocation.
+3. Package Packaging Gaps: The root `pyproject.toml` packages list includes only `api*` and `mandisense_ai*`, but the active server `api/main.py` imports modules from the `backend/` directory. If setuptools packages the app, the `backend` directory is excluded, which will result in `ModuleNotFoundError` at runtime unless the container preserves the raw folder structure and leverages `PYTHONPATH`.
+4. Duplicate Entry Points: Multiple active servers exist (`api/main.py`, `backend/app/main.py`, `mandisense_ai/main.py`) with conflicting worker allocations (1 worker vs 2 workers), making it difficult for orchestrators to resolve which file is authoritative.
+
+================================================================================
+SECTION 7 — DEPLOYMENT ARTIFACT AUDIT
+================================================================================
+
+1. Intended Deployment Path:
+   - Root-level Render orchestration (`render.yaml`) paired with the root `Dockerfile` is the intended production deployment path. It deploys FastAPI backend, PostgreSQL, and Redis in the Ohio (US-East) region on a free tier.
+
+2. Authoritative Files:
+   - Root `Dockerfile`: Packages the unified API service.
+   - Root `render.yaml`: Manages Render infrastructure provisioning.
+   - Root `docker-compose.yml`: Local multi-service orchestrator.
+
+3. Outdated / Redundant Files:
+   - `mandisense_ai/Dockerfile`: Outdated. Commands target an incorrect uvicorn entry point.
+   - `mandisense_ai/docker-compose.yml`: Redundant local configuration containing Prometheus/Grafana stacks which are not present in the production release path.
+   - `mandisense_ai/nginx.conf`: Unused proxy configuration.
+   - `mandisense_ai/pyproject.toml`: Redundant configuration.
+   - `mandisense_ai/main.py`: Redundant python entry point.
+   - `backend/app/main.py`: Legacy backend entry point.
+
+4. Action Plan:
+   - Retain root configs. Completely delete `mandisense_ai/Dockerfile`, `mandisense_ai/docker-compose.yml`, `mandisense_ai/nginx.conf`, `mandisense_ai/pyproject.toml`, and `mandisense_ai/main.py`. Delete `backend/app/main.py`.
+
+================================================================================
+SECTION 8 — DEPENDENCY AUDIT
+================================================================================
+
+1. Dependency Overview:
+   - Root `pyproject.toml` is the primary package list for Python, backend requirements list exists separately in `backend/requirements.txt`, and Node packages are in `frontend/package.json`.
+
+2. Missing Dependencies:
+   - Backend: `pytest` is used for testing but not defined in dependencies.
+   - Database: Root dependencies correctly list `psycopg2-binary` and `asyncpg`.
+
+3. Unused Dependencies:
+   - `backend/requirements.txt` is redundant because all items are already covered in the root `pyproject.toml`.
+
+4. Version Conflicts and Blocks:
+   - `frontend/package.json` specifies `"next": "16.2.4"` and `"react": "19.2.4"`. Next.js 16 is not a stable package on the public registry. This will cause registry resolution errors.
+
+================================================================================
+SECTION 9 — PRODUCTION BLOCKERS
+================================================================================
+
+1. CRITICAL: Hardcoded News API Key
+   - Impact: Key compromise, usage quota exhaustion, and code security violation.
+   - Fix: Load News API key via `os.getenv("NEWS_API_KEY")`.
+   - Time: 5 minutes.
+
+2. CRITICAL: Lack of Database Schema Initialization
+   - Impact: App crash. Database will have no tables, and all query executions will fail.
+   - Fix: Write an initialization script `scripts/init_db.py` to run the `schema.sql` queries on startup or use a Render pre-deploy command.
+   - Time: 15 minutes.
+
+3. HIGH: Missing Frontend Production Endpoint Config
+   - Impact: Client fails to connect to the backend, rendering the app unusable.
+   - Fix: Set `NEXT_PUBLIC_API_URL` on Vercel and create `frontend/.env.example`.
+   - Time: 5 minutes.
+
+4. HIGH: Tracked Cache, Models, and Large Snaps in Git
+   - Impact: Repository bloat, git history pollution, and potential data leakage.
+   - Fix: Run `git rm --cached` on caches, model picklers, and snapshots, and update `.gitignore`.
+   - Time: 10 minutes.
+
+5. MEDIUM: Non-existent Next.js Version in Package JSON
+   - Impact: Deployment failure on Vercel due to npm registry package resolution failure.
+   - Fix: Downgrade Next.js to stable `"next": "^15.1.0"` and `"react": "^19.0.0"`.
+   - Time: 5 minutes.
+
+6. MEDIUM: Packaging Configuration Omits Backend Directory
+   - Impact: Potential import crashes when run as an installed package.
+   - Fix: Add `"backend*"` to root `pyproject.toml` find packages option.
+   - Time: 5 minutes.
+
+================================================================================
+SECTION 10 — PHASE-1 EXECUTION CHECKLIST
+================================================================================
+
+- [ ] Modify `mandisense_ai/core/agents/external_factors_agent/orchestration/config_manager.py` to load from `os.getenv("NEWS_API_KEY")`.
+- [ ] Create `scripts/init_db.py` that reads and executes `mandisense_ai/db/schema.sql` on the database connection pool.
+- [ ] Update `render.yaml` to trigger database initialization:
+      Add a `preDeployCommand: python scripts/init_db.py` to the web service configuration.
+- [ ] Update `frontend/package.json` to change the `"next"` dependency to `"^15.1.0"`.
+- [ ] Create `frontend/.env.example` defining `NEXT_PUBLIC_API_URL`.
+- [ ] Create root-level `.env.example` incorporating backend variables.
+- [ ] Delete legacy configurations:
+      - `mandisense_ai/Dockerfile`
+      - `mandisense_ai/docker-compose.yml`
+      - `mandisense_ai/nginx.conf`
+      - `mandisense_ai/pyproject.toml`
+      - `mandisense_ai/main.py`
+      - `backend/app/main.py`
+- [ ] Clear Git index of all tracked build artifacts, logs, model picklers, and data snapshots:
+      - `git rm -r --cached mandisense_api.egg-info/`
+      - `git rm -r --cached mandisense_ai/core/agents/external_factors_agent/models/xgb_model.pkl`
+      - `git rm -r --cached mandisense_ai/core/agents/external_factors_agent/data/cache.json`
+      - `git rm -r --cached mandisense_ai/cognition/storage/snapshots/`
+      - `git rm -r --cached mandisense_ai/data/ensemble/`
+      - `git rm --cached frontend/tsconfig.tsbuildinfo`
+      - `git rm --cached startup_log.txt startup_err.txt startup_out.txt test_payload.json`
+      - `git rm -r --cached presentation/`
+      - `git rm -r --cached presentation_assets/`
+- [ ] Add rules to the root `.gitignore` to ignore packaging folders, TS build caches, presentation outputs, model pickle files, and cache JSON files.
+- [ ] Update root `pyproject.toml` package inclusions to include `backend*`.
+
+================================================================================
+SECTION 11 — RELEASE READINESS SCORE
+================================================================================
+
+- Repository Structure: 4/10
+  Justification: Multiple redundant deployment files (`Dockerfile`, `docker-compose.yml`), outdated settings templates, scratch scripts, and legacy presentation slides are scattered in the active workspace.
+- Git Readiness: 3/10
+  Justification: Important directories (model picklers, compiler build caches, large JSON state histories) are fully tracked in Git instead of being ignored.
+- Security: 2/10
+  Justification: Hardcoded News API key presents a critical security vulnerability for public hosting.
+- Frontend Deployment: 5/10
+  Justification: Simple Next.js configuration, but defaults to localhost API connections and relies on a future/invalid Next.js package version.
+- Backend Deployment: 4/10
+  Justification: No database setup automation, packaging files miss the `backend` folder, and multiple conflicting server files exist.
+- DevOps Readiness: 5/10
+  Justification: Basic configurations exist in `render.yaml`, but lack pre-deploy commands, migration steps, health check paths, or logging controls.
+
+Overall Deployment Readiness: 3.8/10
+Justification: Critical security and runtime blockages prevent deployment.
+
+================================================================================
+SECTION 12 — FINAL GO / NO-GO DECISION
+================================================================================
+
+Decision: NO-GO
+
+Justification:
+Deploying the repository in its current state will immediately fail. The backend server will start but will crash on database operations due to uninitialized tables. The frontend will not connect because it expects localhost:8000 by default. Finally, making the repository public-facing will expose the hardcoded News API key to the public. The repository requires a complete sanitation of tracked cache/model files and hardcoded values before it can be marked as GO.
+
+================================================================================
+SECTION 13 — CHIEF RELEASE ENGINEER NOTES
+================================================================================
+
+Tasks in exact execution order:
+
+1. Replace the hardcoded key in `config_manager.py` with `os.getenv("NEWS_API_KEY")`.
+2. Clear Git index:
+   git rm -r --cached mandisense_api.egg-info/
+   git rm -r --cached mandisense_ai/core/agents/external_factors_agent/models/xgb_model.pkl
+   git rm -r --cached mandisense_ai/core/agents/external_factors_agent/data/cache.json
+   git rm -r --cached mandisense_ai/cognition/storage/snapshots/
+   git rm -r --cached mandisense_ai/data/ensemble/
+   git rm --cached frontend/tsconfig.tsbuildinfo
+   git rm --cached startup_log.txt startup_err.txt startup_out.txt test_payload.json
+   git rm -r --cached presentation/
+   git rm -r --cached presentation_assets/
+3. Update root `.gitignore` to block files cleaned in step 2.
+4. Delete legacy files:
+   - `mandisense_ai/Dockerfile`
+   - `mandisense_ai/docker-compose.yml`
+   - `mandisense_ai/nginx.conf`
+   - `mandisense_ai/pyproject.toml`
+   - `mandisense_ai/main.py`
+   - `backend/app/main.py`
+5. Write database initialization script `scripts/init_db.py` that connects to PostgreSQL using `DATABASE_URL` and executes the queries in `mandisense_ai/db/schema.sql`.
+6. Add `preDeployCommand: python scripts/init_db.py` to `render.yaml`.
+7. Add `backend*` to root `pyproject.toml` find packages list.
+8. Edit `frontend/package.json` to change the `"next"` package version from `"16.2.4"` to `"^15.1.0"`.
+9. Add `.env.example` in frontend and root directory templates.
+10. Commit all sanitization changes:
+    git add .
+    git commit -m "chore: prepare repository structure for Render and Vercel cloud deployment"
+11. Run local test build in Docker using root `docker-compose.yml` to verify that environment variables load and backend starts.
+12. Trigger Vercel frontend build with environment variable `NEXT_PUBLIC_API_URL` set.
+13. Trigger Render backend deployment.

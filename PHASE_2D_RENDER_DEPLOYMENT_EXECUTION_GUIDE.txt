@@ -1,0 +1,218 @@
+MANDISENSE AI — PHASE 2D: RENDER DEPLOYMENT EXECUTION GUIDE
+================================================================================
+ROLE: Principal Cloud Architect, Senior DevOps Engineer, Render Deployment Specialist,
+      Staff SRE, Production Infrastructure Engineer, and MLOps Deployment Lead.
+================================================================================
+
+================================================================================
+STEP 1: RENDER READINESS AUDIT
+================================================================================
+
+We audited the codebase and infrastructure configs to evaluate deployability:
+
+- Dockerfile:
+  - Uses `python:3.11-slim-bullseye` base image.
+  - Caches dependencies using layered copies of `pyproject.toml` and `README.md`.
+  - Injects `APP__ENVIRONMENT=production` and `PYTHONPATH=/app`.
+  - Configures standard runtime `CMD` which automatically runs database initialization (`python scripts/init_db.py`) followed by `uvicorn` (single worker, port variable-driven).
+  - Status: READY.
+
+- render.yaml:
+  - Standardized structure with Postgres version 15 (`mandisense-db`), Redis cache (`mandisense-redis`), and the web service (`mandisense-api`).
+  - Correctly links environment variable properties using `fromDatabase` and `fromService` references.
+  - Status: READY.
+
+- Environment Documentation:
+  - Backed by contracts `BACKEND_DEPLOYMENT_ENVIRONMENT.md` and `FRONTEND_DEPLOYMENT_ENVIRONMENT.md`.
+  - Status: READY.
+
+- Database Initialization Flow:
+  - Idempotent bootstrapping checks inside `scripts/init_db.py` run on boot.
+  - Backend startup blocks until tables exist, or errors out immediately in production.
+  - Status: READY.
+
+- Health Endpoints:
+  - Hardened to return HTTP 503 Service Unavailable if database or Redis circuit breakers are open.
+  - Status: READY.
+
+VERDICT: Deployable immediately. No remaining backend blockers.
+
+================================================================================
+STEP 2: RENDER INFRASTRUCTURE PLAN
+================================================================================
+
+We will provision three main services on Render:
+
+1. PostgreSQL Database
+   - Name: `mandisense-db`
+   - Plan: Free
+   - Region: US East (Ohio) - `ohio` (all services must reside in the same region to reduce latency)
+   - Connection string variable: `DATABASE_URL` (injected automatically into web service)
+   - Purpose: Primary persistent store for models registry, pricing records, volume arrivals, and predictions auditing logs.
+
+2. Redis Instance
+   - Name: `mandisense-redis`
+   - Plan: Free
+   - Region: US East (Ohio) - `ohio`
+   - Connection string variable: `REDIS_URL` (injected automatically into web service)
+   - Purpose: In-memory cache for prediction speedups, rate limiter token buckets, and websocket stream buffers.
+
+3. Backend Web Service
+   - Name: `mandisense-api`
+   - Plan: Free
+   - Region: US East (Ohio) - `ohio`
+   - Runtime: Docker (pulls and compiles `Dockerfile` automatically)
+   - Purpose: Core FastAPI server hosting agent pipelines, ensembles, websockets, and public REST API routes.
+
+================================================================================
+STEP 3: ENVIRONMENT VARIABLE MATRIX
+================================================================================
+
+The following environment variables must be configured on the Web Service:
+
+| Variable Name           | Value Source                          | Required? | Example Value                                | Render Configuration Location     |
+|-------------------------|---------------------------------------|-----------|----------------------------------------------|-----------------------------------|
+| `DATABASE_URL`          | Injected from `mandisense-db`         | YES       | `postgresql://user:pass@host:5432/db`        | Link property from Database       |
+| `REDIS_URL`             | Injected from `mandisense-redis`      | YES       | `redis://red-host:6379/0`                    | Link property from Redis          |
+| `APP__ENVIRONMENT`      | Hardcoded config                      | YES       | `production`                                 | Environment Variables Panel       |
+| `CORS_ALLOWED_ORIGINS`  | Input frontend public URL             | YES       | `https://mandisense-frontend.vercel.app`      | Environment Variables Panel       |
+| `PORT`                  | Port binding                          | NO        | `8000` (Render defaults to 10000 otherwise)  | Environment Variables Panel       |
+| `NEWS_API_KEY`          | Third-party API token                 | NO        | `abc123xyz789` (mock string works)           | Environment Variables Panel       |
+
+================================================================================
+STEP 4: BACKEND DEPLOYMENT PROCEDURE
+================================================================================
+
+Follow these instructions step-by-step to deploy:
+
+1. Create PostgreSQL Database:
+   - Log in to your Render Dashboard (https://dashboard.render.com).
+   - Click "New" -> "Database".
+   - Set Name: `mandisense-db`.
+   - Set PostgreSQL Version: `15`.
+   - Set Plan: `Free`.
+   - Set Region: `Oregon` or `Ohio` (use the same region for all components).
+   - Click "Create Database".
+
+2. Create Redis Instance:
+   - Click "New" -> "Redis".
+   - Set Name: `mandisense-redis`.
+   - Set Plan: `Free`.
+   - Set Region: Select same region chosen for Database.
+   - Click "Create Redis".
+
+3. Create FastAPI Web Service:
+   - Click "New" -> "Web Service".
+   - Select "Build and deploy from a Git repository".
+   - Connect your GitHub repository containing the MandiSense AI project.
+   - Set Name: `mandisense-api`.
+   - Set Region: Select same region chosen for Database and Redis.
+   - Set Branch: `main`.
+   - Set Runtime: `Docker`.
+   - Set Plan: `Free`.
+
+4. Configure Environment Variables:
+   - Expand the "Advanced" section on the creation screen.
+   - Click "Add Environment Variable":
+     - Key: `APP__ENVIRONMENT`, Value: `production`
+     - Key: `CORS_ALLOWED_ORIGINS`, Value: `*` (or your specific Vercel frontend URL)
+   - Click "Add Environment Variable from other service":
+     - Select `mandisense-db` and bind property `ConnectionString` to key `DATABASE_URL`.
+     - Select `mandisense-redis` and bind property `ConnectionString` to key `REDIS_URL`.
+
+5. Deploy:
+   - Click "Create Web Service".
+   - Wait for the Docker build pipeline to complete. Render will pull, compile, and run the container.
+
+================================================================================
+STEP 5: POST-DEPLOYMENT VALIDATION
+================================================================================
+
+Once the build logs state "Application startup complete", run these validation tests:
+
+1. Verify Health Endpoint:
+   - Endpoint: `GET /v1/health`
+   - Command: `curl -i https://mandisense-api.onrender.com/v1/health`
+   - Expected Output Status: HTTP 200 OK
+   - Expected JSON Body:
+     ```json
+     {
+       "status": "healthy",
+       "services": {
+         "api": "alive",
+         "db": "OPEN",
+         "redis": "OPEN"
+       }
+     }
+     ```
+
+2. Verify API Documentation:
+   - URL: `https://mandisense-api.onrender.com/docs`
+   - Test: Load in web browser.
+   - Expected Output: Swagger UI loads correctly, listing endpoints (`/v1/predict`, `/v1/health`, etc.).
+
+3. Verify Prediction Endpoint:
+   - Endpoint: `POST /v1/predict`
+   - Command:
+     ```bash
+     curl -X POST "https://mandisense-api.onrender.com/v1/predict" \
+          -H "Content-Type: application/json" \
+          -d '{"commodity": "tomato", "mandi": "kolar"}'
+     ```
+   - Expected Output Status: HTTP 200 OK
+   - Expected JSON Body:
+     ```json
+     {
+       "request_id": "...",
+       "prediction": ...,
+       "confidence": ...,
+       "status": "success",
+       "decision": "...",
+       "risk_level": "...",
+       "action_strength": "...",
+       "direction": "...",
+       "confidence_label": "..."
+     }
+     ```
+
+================================================================================
+STEP 6: FAILURE RECOVERY
+================================================================================
+
+If the deployment fails, use these instructions to isolate and fix:
+
+- Database connection failure:
+  - Error: `[CRITICAL] Failed to connect to database...`
+  - Fix: Check that the `DATABASE_URL` is correctly linked. If Render rotated credentials, go to Web Service -> Env Groups / Env Vars, click manual redeploy -> "Clear build cache and deploy".
+
+- Redis connection failure:
+  - Error: `redis.exceptions.ConnectionError`
+  - Fix: Verify that the `REDIS_URL` matches the connection string from the Render Redis dashboard. Ensure both services reside in the same region and are not blocked by security lists.
+
+- Container startup failure:
+  - Error: `SystemExit: 1` or `ERROR: Application startup failed. Exiting.`
+  - Fix: Review the stdout startup logs. The bootstrap check caught missing tables or schema issues. Ensure that the database user has write and table-creation permissions.
+
+- Health check failure:
+  - Error: Render reports "Health check failed" and rolls back.
+  - Fix: Check `/v1/health` log output. If status is `unhealthy` (returns 503), it means one of the circuit breakers opened. Check connectivity to Redis and PostgreSQL.
+
+================================================================================
+STEP 7: PUBLIC URL VALIDATION
+================================================================================
+
+- Generated URL format: `https://mandisense-api.onrender.com`
+- Test Method: Call `/v1/health` and verify the circuit breakers are in `"CLOSED"` state (services reported as `"OPEN"`).
+- Frontend Setup: Configure `NEXT_PUBLIC_API_URL` to `https://mandisense-api.onrender.com` in your frontend environment settings (Vercel dashboard or `.env.production`).
+
+================================================================================
+STEP 8: GO / NO-GO
+================================================================================
+
+VERDICT: GO - READY TO DEPLOY
+
+Justification:
+1. Dockerfile configuration contains the double-layered startup safety verification checks.
+2. Idempotent initialization is fully automated and safe to execute against empty databases.
+3. CORS configuration, Redis validation, and Health Check status codes are production-hardened.
+4. Next.js WebSocket protocol translates URL schemes safely without client errors.

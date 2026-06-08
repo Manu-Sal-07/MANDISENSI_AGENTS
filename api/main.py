@@ -28,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 sys.path.append(os.path.join(BASE_DIR, "mandisense_ai"))
 
-from mandisense_ai.db.connection import ping_db_async
+from mandisense_ai.db.connection import ping_db_async, execute_async, execute_write_async
 from mandisense_ai.lib.cache import ping_redis
 from run_agents import run_pipeline
 from mandisense_ai.core.decision_engine import generate_decision
@@ -127,9 +127,13 @@ for port in local_dev_ports:
         f"http://127.0.0.1:{port}",
     ])
 
-allow_origins = local_dev_origins
-if os.getenv("CORS_ALLOW_ALL_ORIGINS", "false").lower() == "true":
+cors_allowed_env = os.getenv("CORS_ALLOWED_ORIGINS", "")
+if cors_allowed_env:
+    allow_origins = [origin.strip() for origin in cors_allowed_env.split(",") if origin.strip()]
+elif os.getenv("CORS_ALLOW_ALL_ORIGINS", "false").lower() == "true":
     allow_origins = ["*"]
+else:
+    allow_origins = local_dev_origins
 
 app.add_middleware(
     CORSMiddleware,
@@ -264,10 +268,58 @@ async def add_process_time_header(request: Request, call_next):
     return response
 
 # ── Startup Validation ────────────────────────────────────────────────
+async def verify_and_initialize_db():
+    logger.info("[INIT] Performing database startup safety checks...")
+    try:
+        # Check if database is reachable
+        db_ok = await ping_db_async()
+        if not db_ok:
+            raise RuntimeError("Database connection test failed (ping unreachable).")
+        
+        # Check if tables exist in public schema
+        required_tables = {"prediction_log", "market_prices", "arrival_volumes", "model_registry", "api_request_log"}
+        query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';"
+        rows = await execute_async(query)
+        existing_tables = {row["table_name"] for row in rows} if rows else set()
+        
+        missing_tables = required_tables - existing_tables
+        if missing_tables:
+            logger.info(f"[INIT] Missing tables detected: {missing_tables}. Triggering schema bootstrapping...")
+            schema_path = os.path.join(BASE_DIR, "mandisense_ai", "db", "schema.sql")
+            if not os.path.exists(schema_path):
+                raise FileNotFoundError(f"Schema file missing at: {schema_path}")
+            
+            with open(schema_path, "r", encoding="utf-8") as f:
+                schema_sql = f.read()
+                
+            await execute_write_async(schema_sql)
+            
+            # Re-verify table existence
+            rows = await execute_async(query)
+            existing_tables = {row["table_name"] for row in rows} if rows else set()
+            still_missing = required_tables - existing_tables
+            if still_missing:
+                raise RuntimeError(f"Auto-initialization completed but tables are still missing: {still_missing}")
+            logger.info("[INIT] Database schema bootstrapped and verified successfully.")
+        else:
+            logger.info("[INIT] Database verification succeeded. All required tables are present.")
+    except Exception as e:
+        logger.critical(f"[INIT] CRITICAL DATABASE STARTUP CHECK FAILED: {e}", exc_info=True)
+        env = os.getenv("APP__ENVIRONMENT", "development").lower()
+        if env == "production":
+            logger.critical("[INIT] Production environment active. Terminating process immediately to fail-fast.")
+            import sys
+            sys.exit(1)
+        else:
+            logger.warning("[INIT] Development environment. Continuing server initialization without database verification.")
+
 @app.on_event("startup")
 async def startup_event():
     REQUEST_ID.set("system-init")
     log_event("startup_initiated")
+    
+    # Block startup until database verification and auto-initialization completes
+    await verify_and_initialize_db()
     
     # --- Background Activation ---
     # We launch the heavy sub-systems in the background to avoid blocking the event loop.
@@ -346,7 +398,7 @@ async def background_activation():
 # ── Endpoints ─────────────────────────────────────────────────────────
 
 @app.get("/v1/health")
-async def health_check():
+async def health_check(response: Response):
     """Detailed health check for all subsystems with Circuit Breakers."""
     try:
         # 1. DB Check with Circuit Breaker
@@ -377,6 +429,7 @@ async def health_check():
             status = "degraded"
         if db_breaker.state == "OPEN" or redis_breaker.state == "OPEN":
             status = "unhealthy"
+            response.status_code = 503
             
         return {
             "status": status,

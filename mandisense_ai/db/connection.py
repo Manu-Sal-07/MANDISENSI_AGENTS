@@ -28,10 +28,12 @@ logger = get_logger(__name__)
 
 def _get_db_url() -> str:
     """Build DATABASE_URL from environment or use default."""
-    url = os.environ.get(
-        "DATABASE_URL",
-        "postgresql://user:pass@localhost:5432/mandisense"
-    )
+    url = os.environ.get("DATABASE_URL")
+    if not url:
+        env = os.environ.get("APP__ENVIRONMENT", "development").lower()
+        if env == "production":
+            raise ValueError("DATABASE_URL environment variable is required in production environment.")
+        url = "postgresql://user:pass@localhost:5432/mandisense"
     # Render/Heroku use postgres:// but asyncpg/psycopg2 might prefer postgresql://
     if url.startswith("postgres://"):
         url = url.replace("postgres://", "postgresql://", 1)

@@ -50,3 +50,23 @@ mandisense_ai/core/agents/*/training/
 !mandisense_ai/core/agents/*/training/.gitkeep
 
 artifacts/
+
+# Additional Hardening & Exclusions
+*.sqlite
+build/
+coverage/
+*.tsbuildinfo
+*.egg-info/
+
+# Presentation and PDF artifacts
+presentation/
+presentation_assets/
+*.pdf
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.synctex.gz
+*.vrb

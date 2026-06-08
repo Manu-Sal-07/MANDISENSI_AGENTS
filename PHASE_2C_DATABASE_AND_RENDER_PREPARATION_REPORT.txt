@@ -1,0 +1,84 @@
+MANDISENSE AI — PHASE 2C: DATABASE & RENDER PREPARATION REPORT
+================================================================================
+ROLE: Principal Database Architect, Senior Backend Engineer, Staff DevOps Engineer,
+      Senior Cloud Architect, PostgreSQL Specialist, and Production Deployment Engineer.
+================================================================================
+
+================================================================================
+1. FILES MODIFIED / CREATED
+================================================================================
+
+1. Created: `scripts/init_db.py`
+   - Description: Database bootstrapping and verification script.
+2. Modified: `api/main.py`
+   - Description: Integrated database startup checks/verification and hardened health endpoint.
+3. Modified: `Dockerfile`
+   - Description: Updated startup `CMD` to run database initialization before uvicorn.
+
+================================================================================
+2. SCHEMA STRATEGY
+================================================================================
+
+- The initialization strategy is completely idempotent and safe for continuous delivery.
+- Uses `CREATE TABLE IF NOT EXISTS` and `CREATE INDEX IF NOT EXISTS` commands defined in `schema.sql` to avoid mutating or dropping pre-existing production tables.
+- Verification queries catalog views in `information_schema.tables` to validate existence rather than relying on side-effect testing (e.g. SELECT 1).
+
+================================================================================
+3. TABLES DETECTED
+================================================================================
+
+The following 5 tables are required and verified on database startup:
+1. `prediction_log` (Core table storing multi-agent predictions and backfilled outcomes)
+2. `market_prices` (Time-series data for daily commodity modal/min/max prices)
+3. `arrival_volumes` (Time-series data for daily arrival volumes in tonnes)
+4. `model_registry` (Active and history versions of trained ensembles per regime)
+5. `api_request_log` (Optional log table for API request/response JSON auditing)
+
+================================================================================
+4. INITIALIZATION LOGIC
+================================================================================
+
+- Container Level: `Dockerfile` executes `python scripts/init_db.py` on container boot. This uses the `psycopg2` sync connector to connect, execute `schema.sql`, and assert table existence.
+- Backend Level: `api/main.py` executes `verify_and_initialize_db` in the `@app.on_event("startup")` hook before uvicorn begins accepting traffic. This uses `asyncpg` to verify the schema.
+- Fail-Fast Mechanism: If verification fails, in a `production` environment, the process logs a critical error and calls `sys.exit(1)`. This immediately terminates the container, prompting the cloud platform (Render) to abort deployment and roll back.
+
+================================================================================
+5. RENDER CHANGES
+================================================================================
+
+- Release command integration is handled natively inside the Docker container command, eliminating the need to set up a separate and slower external release process in `render.yaml`.
+- Health check requests hitting `/v1/health` return HTTP 503 Service Unavailable if any core subsystem circuit breaker (Postgres or Redis) transitions to the `"OPEN"` state.
+
+================================================================================
+6. VALIDATION RESULTS
+================================================================================
+
+1. Standalone Script Parse & Run Check:
+   - Command: `python scripts/init_db.py`
+   - Output: Correctly parsed, read `schema.sql`, and exited with Code 1 on connection refusal (expected since local Postgres is offline).
+
+2. Backend Development Startup Check:
+   - Command: `python -m uvicorn api.main:app` (Development mode)
+   - Output: Startup checks logged the database connection warning, bypassed termination, and started successfully.
+
+3. Backend Production Fail-Fast Check:
+   - Command: `$env:APP__ENVIRONMENT="production"; python -m uvicorn api.main:app`
+   - Output: Program exited immediately with `SystemExit: 1` and code 1 when connection to Postgres was refused.
+
+4. Health Endpoint Circuit Breaker Check:
+   - Command: `python scratch/test_health_503.py` (Mocking an OPEN circuit breaker)
+   - Output: Health endpoint correctly returned status: `unhealthy` and HTTP status code `503`. Assertions passed successfully.
+
+================================================================================
+7. REMAINING DEPLOYMENT BLOCKERS
+================================================================================
+
+1. Next.js Version Drift (HIGH):
+   - Detail: The frontend `package.json` specifies `"next": "16.2.4"` which is non-existent.
+   - Action: Downgrade Next.js dependency to a stable LTS release (such as `14.x` or stable `15.x`) in Phase 2D.
+
+================================================================================
+8. FINAL VERDICT
+================================================================================
+
+Verdict: READY FOR PHASE 2D

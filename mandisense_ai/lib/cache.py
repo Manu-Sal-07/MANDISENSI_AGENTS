@@ -38,7 +38,12 @@ def _get_redis_client() -> Optional[Any]:
         if redis_url:
             client = redis.Redis.from_url(redis_url, decode_responses=True, socket_timeout=2.0, socket_connect_timeout=2.0)
         else:
-            host = os.getenv("REDIS_HOST", "localhost")
+            env = os.getenv("APP__ENVIRONMENT", "development").lower()
+            host = os.getenv("REDIS_HOST")
+            if not host:
+                if env == "production":
+                    raise ValueError("Either REDIS_URL or REDIS_HOST environment variable is required in production environment.")
+                host = "localhost"
             port = int(os.getenv("REDIS_PORT", "6379"))
             db = int(os.getenv("REDIS_DB", "0"))
             password = os.getenv("REDIS_PASSWORD") or None
