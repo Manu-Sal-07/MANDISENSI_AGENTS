@@ -15,7 +15,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from utils.logger import get_logger
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -34,9 +34,9 @@ def run_retraining(min_total: int = 50, min_per_regime: int = 20) -> dict:
     Returns:
         Training report dict
     """
-    from ensemble.prediction_logger import PredictionLogger
-    from ensemble.dataset_builder import DatasetBuilder
-    from ensemble.learned_ensemble import LearnedEnsemble
+    from mandisense_ai.ensemble.prediction_logger import PredictionLogger
+    from mandisense_ai.ensemble.dataset_builder import DatasetBuilder
+    from mandisense_ai.ensemble.learned_ensemble import LearnedEnsemble
 
     logger.info("[Retraining] Starting model retraining pipeline...")
 

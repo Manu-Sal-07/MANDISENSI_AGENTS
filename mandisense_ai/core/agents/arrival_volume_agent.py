@@ -418,7 +418,7 @@ def run_arrival_volume_agent(
         bundle = load_arrival_bundle(commodity, mandi)
     except Exception as e:
         logger.warning(f"Failed to load bundle for {commodity}_{mandi}: {str(e)}. Triggering Option A fallback.")
-        from core.agents.arrival.training.train_arrival_models import train_arrival_models
+        from mandisense_ai.core.agents.arrival.training.train_arrival_models import train_arrival_models
         train_arrival_models(data, commodity=commodity, mandi=mandi)
         bundle = load_arrival_bundle(commodity, mandi)
 

@@ -5,7 +5,7 @@ GET /v1/model/status — Model registry and health information.
 from fastapi import APIRouter
 
 from api.schemas.models import ModelStatusResponse
-from utils.logger import get_logger
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 router = APIRouter()
@@ -21,7 +21,7 @@ async def get_model_status():
     phase2_info = {"status": "not_loaded", "models": {}}
 
     try:
-        from ensemble.learned_ensemble import LearnedEnsemble
+        from mandisense_ai.ensemble.learned_ensemble import LearnedEnsemble
         le = LearnedEnsemble()
         if le.load():
             models_info = {}

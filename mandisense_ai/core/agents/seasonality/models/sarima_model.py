@@ -29,8 +29,8 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from core.agents.seasonality.models.base import BaseSeasonalityModel
-from utils.logger import get_logger
+from mandisense_ai.core.agents.seasonality.models.base import BaseSeasonalityModel
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

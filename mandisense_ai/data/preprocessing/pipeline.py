@@ -30,9 +30,9 @@ from enum import Enum
 import hashlib
 import json
 
-from utils.logger import get_logger
-from data.schemas import IngestionMetadata
-from data.ingestion.agmarknet_ingestor import AgmarknetIngestor
+from mandisense_ai.utils.logger import get_logger
+from mandisense_ai.data.schemas import IngestionMetadata
+from mandisense_ai.data.ingestion.agmarknet_ingestor import AgmarknetIngestor
 
 # Import new pipeline stages
 from .schema_normalizer import SchemaNormalizer
@@ -82,7 +82,7 @@ class PreprocessingPipeline:
             processed_dir: Path for output Parquet files (default: from settings)
             config_override: Optional custom configuration
         """
-        from config.settings import settings
+        from mandisense_ai.config.settings import settings
 
         self.raw_data_dir = Path(raw_data_dir or settings.paths.raw_data)
         self.processed_dir = Path(processed_dir or settings.paths.processed_data)

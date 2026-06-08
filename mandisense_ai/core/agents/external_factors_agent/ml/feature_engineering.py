@@ -2,7 +2,7 @@ from datetime import datetime
 try:
     from mandisense_ai.core.agents.external_factors_agent.config.settings import CURRENT_DATE, COMMODITIES
 except ImportError:
-    from config.settings import CURRENT_DATE, COMMODITIES
+    from mandisense_ai.config.settings import CURRENT_DATE, COMMODITIES
 
 def build_features(events):
     features_by_comm = {}

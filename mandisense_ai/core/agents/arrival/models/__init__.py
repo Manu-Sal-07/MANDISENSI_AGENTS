@@ -7,14 +7,14 @@ used by ArrivalVolumeAgent's ensemble pipeline.
 Adding a new model = 1 import + 1 registry line.  No other changes needed.
 """
 
-from core.agents.arrival.models.xgboost_model import XGBoostArrivalModel
-from core.agents.arrival.models.random_forest import RandomForestArrivalModel
-from core.agents.arrival.models.elasticity_linear import ElasticityLinearArrivalModel
-from core.agents.arrival.models.ridge_model import RidgeArrivalModel
-from core.agents.arrival.models.lasso_model import LassoArrivalModel
-from core.agents.arrival.models.gradient_boosting import GradientBoostingArrivalModel
-from core.agents.arrival.models.simple_baseline import SimpleBaselineArrivalModel
-from core.agents.arrival.models.polynomial_model import PolynomialArrivalModel
+from mandisense_ai.core.agents.arrival.models.xgboost_model import XGBoostArrivalModel
+from mandisense_ai.core.agents.arrival.models.random_forest import RandomForestArrivalModel
+from mandisense_ai.core.agents.arrival.models.elasticity_linear import ElasticityLinearArrivalModel
+from mandisense_ai.core.agents.arrival.models.ridge_model import RidgeArrivalModel
+from mandisense_ai.core.agents.arrival.models.lasso_model import LassoArrivalModel
+from mandisense_ai.core.agents.arrival.models.gradient_boosting import GradientBoostingArrivalModel
+from mandisense_ai.core.agents.arrival.models.simple_baseline import SimpleBaselineArrivalModel
+from mandisense_ai.core.agents.arrival.models.polynomial_model import PolynomialArrivalModel
 
 # -----------------------------------------------------------------------
 # ARRIVAL_MODEL_REGISTRY

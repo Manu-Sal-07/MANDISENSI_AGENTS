@@ -1,7 +1,7 @@
 try:
     from mandisense_ai.core.agents.external_factors_agent.config.settings import COMMODITIES
 except ImportError:
-    from config.settings import COMMODITIES
+    from mandisense_ai.config.settings import COMMODITIES
 
 def aggregate(events, ml_scores=None):
     if ml_scores is None:

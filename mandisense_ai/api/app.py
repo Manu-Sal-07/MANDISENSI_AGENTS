@@ -32,7 +32,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from prometheus_client import make_asgi_app
 
 try:
-    from utils.logger import get_logger
+    from mandisense_ai.utils.logger import get_logger
     import monitoring.metrics as metrics
 except ImportError:
     from mandisense_ai.utils.logger import get_logger

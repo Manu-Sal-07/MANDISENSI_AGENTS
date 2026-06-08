@@ -1,8 +1,8 @@
 import pandas as pd
 from pathlib import Path
-from utils.logger import get_logger
-from utils.exceptions import DataIngestionError
-from utils.helpers import normalize_commodity_name, standardize_mandi_name
+from mandisense_ai.utils.logger import get_logger
+from mandisense_ai.utils.exceptions import DataIngestionError
+from mandisense_ai.utils.helpers import normalize_commodity_name, standardize_mandi_name
 
 logger = get_logger(__name__)
 

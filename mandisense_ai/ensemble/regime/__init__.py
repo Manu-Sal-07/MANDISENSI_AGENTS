@@ -9,7 +9,7 @@ This package implements the Volatility & Regime Intelligence System:
   - RegimeAwareMetaEnsemble:    Master orchestration layer
 
 Public API:
-  from ensemble.regime import RegimeAwareMetaEnsemble
+  from mandisense_ai.ensemble.regime import RegimeAwareMetaEnsemble
 """
 
 from .garch_estimator import GARCHVolatilityEstimator

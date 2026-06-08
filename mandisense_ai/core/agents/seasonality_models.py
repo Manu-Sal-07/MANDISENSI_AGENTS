@@ -22,9 +22,9 @@ import pandas as pd
 import numpy as np
 from typing import Dict, List, Any, Optional
 
-from core.agents.seasonality.models import SEASONALITY_MODEL_REGISTRY
-from ensemble.agent_ensemble import AgentEnsemble
-from utils.logger import get_logger
+from mandisense_ai.core.agents.seasonality.models import SEASONALITY_MODEL_REGISTRY
+from mandisense_ai.ensemble.agent_ensemble import AgentEnsemble
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

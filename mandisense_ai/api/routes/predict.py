@@ -5,7 +5,7 @@ POST /v1/predict — Core prediction endpoint.
 from fastapi import APIRouter, HTTPException, Request
 
 from api.schemas.models import PredictRequest, PredictResponse
-from utils.logger import get_logger
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 router = APIRouter()

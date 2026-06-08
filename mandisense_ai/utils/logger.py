@@ -37,7 +37,7 @@ def get_logger(name: str) -> logging.Logger:
     try:
         from mandisense_ai.config.settings import settings
     except ImportError:
-        from config.settings import settings
+        from mandisense_ai.config.settings import settings
     logger = logging.getLogger(name)
     
     # Avoid duplicate handlers if get_logger is called multiple times

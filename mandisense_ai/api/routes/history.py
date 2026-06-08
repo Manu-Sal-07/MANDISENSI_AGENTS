@@ -5,7 +5,7 @@ GET /v1/prediction/history — Historical prediction performance.
 from fastapi import APIRouter, Query, Request
 
 from api.schemas.models import HistoryResponse, HistoryEntry, HistorySummary
-from utils.logger import get_logger
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 router = APIRouter()
@@ -41,7 +41,7 @@ async def get_prediction_history(
     else:
         # Fallback to JSONL
         try:
-            from ensemble.prediction_logger import PredictionLogger
+            from mandisense_ai.ensemble.prediction_logger import PredictionLogger
             plogger = PredictionLogger()
             records = plogger.read_completed(
                 commodity=commodity_clean,

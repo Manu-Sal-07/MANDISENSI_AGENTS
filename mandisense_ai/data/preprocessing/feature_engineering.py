@@ -18,7 +18,7 @@ All rolling/lag operations respect temporal ordering.
 import pandas as pd
 import numpy as np
 from typing import Dict, Any, Optional, List
-from utils.logger import get_logger
+from mandisense_ai.utils.logger import get_logger
 from .config import config
 
 logger = get_logger(__name__)

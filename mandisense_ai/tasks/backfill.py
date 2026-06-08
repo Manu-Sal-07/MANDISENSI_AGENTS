@@ -15,7 +15,7 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from utils.logger import get_logger
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -30,7 +30,7 @@ def run_backfill() -> dict:
     Returns:
         Summary dict with counts of updated records.
     """
-    from ensemble.prediction_logger import PredictionLogger
+    from mandisense_ai.ensemble.prediction_logger import PredictionLogger
 
     logger.info("[Backfill] Starting outcome backfill...")
 

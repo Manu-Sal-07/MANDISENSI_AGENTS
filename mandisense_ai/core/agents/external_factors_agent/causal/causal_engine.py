@@ -4,7 +4,7 @@ from datetime import datetime
 try:
     from mandisense_ai.core.agents.external_factors_agent.config.settings import CURRENT_DATE
 except ImportError:
-    from config.settings import CURRENT_DATE
+    from mandisense_ai.config.settings import CURRENT_DATE
 from causal.lag_handler import apply_lag
 from causal.baseline_estimator import estimate_expected_price
 from causal.window_builder import build_window

@@ -2,9 +2,9 @@ import pandas as pd
 from pathlib import Path
 from typing import Optional
 
-from config.settings import settings
-from utils.logger import get_logger
-from utils.exceptions import DataIngestionError
+from mandisense_ai.config.settings import settings
+from mandisense_ai.utils.logger import get_logger
+from mandisense_ai.utils.exceptions import DataIngestionError
 
 logger = get_logger(__name__)
 

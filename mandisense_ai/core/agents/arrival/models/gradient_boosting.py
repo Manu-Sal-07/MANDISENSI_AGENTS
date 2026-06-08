@@ -23,8 +23,8 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import GradientBoostingRegressor
 
-from core.agents.arrival.models.base import BaseArrivalModel
-from utils.logger import get_logger
+from mandisense_ai.core.agents.arrival.models.base import BaseArrivalModel
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

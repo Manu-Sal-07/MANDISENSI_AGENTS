@@ -7,10 +7,10 @@ from typing import Optional
 try:
     from mandisense_ai.config.settings import settings
 except ImportError:
-    from config.settings import settings
-from data.repository import DataRepository
-from core.agents.seasonality.training.train_seasonality import train_seasonality_models
-from utils.logger import get_logger
+    from mandisense_ai.config.settings import settings
+from mandisense_ai.data.repository import DataRepository
+from mandisense_ai.core.agents.seasonality.training.train_seasonality import train_seasonality_models
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

@@ -13,8 +13,8 @@ try:
     from mandisense_ai.ensemble.feedback_store import FeedbackStore
     from mandisense_ai.utils.logger import get_logger
 except ImportError:
-    from ensemble.feedback_store import FeedbackStore
-    from utils.logger import get_logger
+    from mandisense_ai.ensemble.feedback_store import FeedbackStore
+    from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Optional
 try:
     from mandisense_ai.utils.logger import get_logger
 except Exception:
-    from utils.logger import get_logger
+    from mandisense_ai.utils.logger import get_logger
 
 from .ingestion.news_ingestor import fetch_news
 from .processing.external_fusion import compute_external_impact

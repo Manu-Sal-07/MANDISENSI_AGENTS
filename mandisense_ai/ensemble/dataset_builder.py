@@ -26,7 +26,7 @@ from typing import Any, Dict, List, Optional, Tuple
 try:
     from mandisense_ai.utils.logger import get_logger
 except ImportError:
-    from utils.logger import get_logger
+    from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

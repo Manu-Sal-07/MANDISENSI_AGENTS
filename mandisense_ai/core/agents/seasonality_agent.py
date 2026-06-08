@@ -13,8 +13,8 @@ from scipy.stats import skew
 from mandisense_ai.ensemble.feedback_store import FeedbackStore
 from mandisense_ai.ensemble.regime_detector import RegimeDetector
 from mandisense_ai.ensemble.dynamic_weighter import DynamicWeighter
-from core.agents.seasonality.inference import SeasonalityInferencePipeline
-from core.agents.seasonality.training.train_seasonality import (
+from mandisense_ai.core.agents.seasonality.inference import SeasonalityInferencePipeline
+from mandisense_ai.core.agents.seasonality.training.train_seasonality import (
     load_seasonality_bundle,
     predict_with_ensemble,
     train_seasonality_models,

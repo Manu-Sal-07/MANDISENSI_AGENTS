@@ -18,10 +18,10 @@ if MANDISENSE_AI_PATH not in sys.path:
     sys.path.append(MANDISENSE_AI_PATH)
 
 # Import original agents
-from core.agents.seasonality_agent import run_seasonality_agent
-from core.agents.arrival_volume_agent import run_arrival_volume_agent
-from core.agents.external_factors_agent import run_external_factors_agent
-from ensemble.meta_ensemble import run_meta_ensemble
+from mandisense_ai.core.agents.seasonality_agent import run_seasonality_agent
+from mandisense_ai.core.agents.arrival_volume_agent import run_arrival_volume_agent
+from mandisense_ai.core.agents.external_factors_agent import run_external_factors_agent
+from mandisense_ai.ensemble.meta_ensemble import run_meta_ensemble
 
 logger = logging.getLogger("mandisense_visualizer")
 

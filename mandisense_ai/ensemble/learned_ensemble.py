@@ -43,8 +43,8 @@ try:
         _SCALING_DAMPING,
     )
 except ImportError:
-    from utils.logger import get_logger
-    from ensemble.dataset_builder import (
+    from mandisense_ai.utils.logger import get_logger
+    from mandisense_ai.ensemble.dataset_builder import (
         DatasetBuilder,
         FeatureRecord,
         FEATURE_NAMES,

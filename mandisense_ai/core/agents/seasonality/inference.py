@@ -14,13 +14,13 @@ from statsmodels.tsa.seasonal import STL
 try:
     from mandisense_ai.config.settings import settings
 except ImportError:
-    from config.settings import settings
+    from mandisense_ai.config.settings import settings
 try:
     from mandisense_ai.utils.logger import get_logger
     from mandisense_ai.core.agents.seasonality.multi_horizon import FEATURE_COLS, HORIZON_LABELS, SeasonalityMultiHorizonPipeline, _as_2d
 except ImportError:
-    from utils.logger import get_logger
-    from core.agents.seasonality.multi_horizon import FEATURE_COLS, HORIZON_LABELS, SeasonalityMultiHorizonPipeline, _as_2d
+    from mandisense_ai.utils.logger import get_logger
+    from mandisense_ai.core.agents.seasonality.multi_horizon import FEATURE_COLS, HORIZON_LABELS, SeasonalityMultiHorizonPipeline, _as_2d
 
 logger = get_logger(__name__)
 

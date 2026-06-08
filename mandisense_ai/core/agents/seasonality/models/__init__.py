@@ -6,15 +6,15 @@ that TieredModelPipeline uses.  Keeping registration here means adding a new
 model is a one-line change: just import and add to MODEL_REGISTRY.
 """
 
-from core.agents.seasonality.models.stl_linear import STLLinearRegressionModel
-from core.agents.seasonality.models.random_forest import RandomForestSeasonalityModel
-from core.agents.seasonality.models.xgboost_model import XGBoostSeasonalityModel
-from core.agents.seasonality.models.lightgbm_model import LightGBMSeasonalityModel
-from core.agents.seasonality.models.ridge_model import RidgeSeasonalityModel
-from core.agents.seasonality.models.lasso_model import LassoSeasonalityModel
-from core.agents.seasonality.models.moving_average import MovingAverageBaselineModel
-from core.agents.seasonality.models.lag_linear import LagLinearModel
-from core.agents.seasonality.models.sarima_model import SARIMASeasonalityModel
+from mandisense_ai.core.agents.seasonality.models.stl_linear import STLLinearRegressionModel
+from mandisense_ai.core.agents.seasonality.models.random_forest import RandomForestSeasonalityModel
+from mandisense_ai.core.agents.seasonality.models.xgboost_model import XGBoostSeasonalityModel
+from mandisense_ai.core.agents.seasonality.models.lightgbm_model import LightGBMSeasonalityModel
+from mandisense_ai.core.agents.seasonality.models.ridge_model import RidgeSeasonalityModel
+from mandisense_ai.core.agents.seasonality.models.lasso_model import LassoSeasonalityModel
+from mandisense_ai.core.agents.seasonality.models.moving_average import MovingAverageBaselineModel
+from mandisense_ai.core.agents.seasonality.models.lag_linear import LagLinearModel
+from mandisense_ai.core.agents.seasonality.models.sarima_model import SARIMASeasonalityModel
 
 # -----------------------------------------------------------------------
 # SEASONALITY_MODEL_REGISTRY

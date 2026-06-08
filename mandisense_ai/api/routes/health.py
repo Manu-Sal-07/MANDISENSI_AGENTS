@@ -7,7 +7,7 @@ import time
 from fastapi import APIRouter, Request
 
 from api.schemas.models import HealthResponse
-from utils.logger import get_logger
+from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
 router = APIRouter()
@@ -53,8 +53,8 @@ async def health_check(request: Request):
 
     # Check agent imports
     try:
-        from core.agents.seasonality_agent import run_seasonality_agent
-        from core.agents.arrival_volume_agent import run_arrival_volume_agent
+        from mandisense_ai.core.agents.seasonality_agent import run_seasonality_agent
+        from mandisense_ai.core.agents.arrival_volume_agent import run_arrival_volume_agent
         components["agents"] = "ok"
     except Exception:
         components["agents"] = "error"
@@ -62,7 +62,7 @@ async def health_check(request: Request):
 
     # Check learned models
     try:
-        from ensemble.learned_ensemble import LearnedEnsemble
+        from mandisense_ai.ensemble.learned_ensemble import LearnedEnsemble
         le = LearnedEnsemble()
         if le.load():
             components["learned_models"] = "ok"

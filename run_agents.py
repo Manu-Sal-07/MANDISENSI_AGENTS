@@ -9,12 +9,12 @@ Example: python run_agents.py tomato kolar
 
 import sys
 import json
-from core.agents.seasonality_agent import run_seasonality_agent
-from core.agents.arrival_volume_agent import run_arrival_volume_agent
-from core.agents.external_factors_agent import run_external_factors_agent
-from ensemble.meta_ensemble import run_meta_ensemble
-from utils.logger import get_logger
-from utils.event_bus import event_bus
+from mandisense_ai.core.agents.seasonality_agent import run_seasonality_agent
+from mandisense_ai.core.agents.arrival_volume_agent import run_arrival_volume_agent
+from mandisense_ai.core.agents.external_factors_agent import run_external_factors_agent
+from mandisense_ai.ensemble.meta_ensemble import run_meta_ensemble
+from mandisense_ai.utils.logger import get_logger
+from mandisense_ai.utils.event_bus import event_bus
 
 logger = get_logger(__name__)
 

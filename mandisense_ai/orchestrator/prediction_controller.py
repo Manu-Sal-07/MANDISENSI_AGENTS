@@ -27,7 +27,7 @@ from datetime import datetime
 from typing import Any, Dict, Optional
 
 try:
-    from utils.logger import get_logger
+    from mandisense_ai.utils.logger import get_logger
     import monitoring.metrics as metrics
 except ImportError:
     from mandisense_ai.utils.logger import get_logger
@@ -67,13 +67,13 @@ class PredictionController:
         """Lazy-load ML components to avoid import-time side effects."""
         # JSONL fallback logger (used when DB is unavailable)
         try:
-            from ensemble.prediction_logger import PredictionLogger
+            from mandisense_ai.ensemble.prediction_logger import PredictionLogger
             self._prediction_logger = PredictionLogger()
         except Exception as e:
             logger.warning(f"PredictionLogger unavailable: {e}")
 
         try:
-            from ensemble.learned_ensemble import LearnedEnsemble
+            from mandisense_ai.ensemble.learned_ensemble import LearnedEnsemble
             le = LearnedEnsemble()
             if le.load():
                 self._learned_ensemble = le
@@ -111,7 +111,7 @@ class PredictionController:
         s_out, a_out, e_impact, e_conf = await self._run_agents(commodity, mandi)
 
         # 3. Phase-1.5 fusion (always runs)
-        from ensemble.meta_ensemble import run_meta_ensemble
+        from mandisense_ai.ensemble.meta_ensemble import run_meta_ensemble
         phase1_result = run_meta_ensemble(
             seasonality_output=s_out,
             arrival_output=a_out,
@@ -272,9 +272,9 @@ class PredictionController:
 
     async def _run_agents(self, commodity: str, mandi: str):
         """Run all agents concurrently with timeout and failure isolation."""
-        from core.agents.seasonality_agent import run_seasonality_agent
-        from core.agents.arrival_volume_agent import run_arrival_volume_agent
-        from core.agents.external_factors_agent import run_external_factors_agent
+        from mandisense_ai.core.agents.seasonality_agent import run_seasonality_agent
+        from mandisense_ai.core.agents.arrival_volume_agent import run_arrival_volume_agent
+        from mandisense_ai.core.agents.external_factors_agent import run_external_factors_agent
 
         # Run Seasonality, Arrival, and External Factors in parallel
         results = await asyncio.gather(

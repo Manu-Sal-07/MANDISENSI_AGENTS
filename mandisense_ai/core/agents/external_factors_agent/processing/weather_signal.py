@@ -18,7 +18,7 @@ import numpy as np
 import pandas as pd
 
 try:
-    from utils.logger import get_logger
+    from mandisense_ai.utils.logger import get_logger
 
     logger = get_logger(__name__)
 except Exception:  # pragma: no cover - direct script fallback
@@ -30,7 +30,7 @@ except Exception:  # pragma: no cover - direct script fallback
 try:
     from mandisense_ai.core.agents.external_factors_agent.ingestion.weather_fetcher import fetch_weather
 except Exception:
-    from core.agents.external_factors_agent.ingestion.weather_fetcher import fetch_weather
+    from mandisense_ai.core.agents.external_factors_agent.ingestion.weather_fetcher import fetch_weather
 
 
 try:

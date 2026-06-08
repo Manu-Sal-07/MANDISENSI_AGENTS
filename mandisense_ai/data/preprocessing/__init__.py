@@ -16,7 +16,7 @@ Pipeline Stages:
 8. Storage - Parquet format with schema preservation
 
 Usage:
-    from data.preprocessing import PreprocessingPipeline
+    from mandisense_ai.data.preprocessing import PreprocessingPipeline
 
     pipeline = PreprocessingPipeline()
     results = pipeline.run()
