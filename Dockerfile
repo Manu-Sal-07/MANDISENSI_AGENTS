@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY pyproject.toml README.md /app/
 COPY mandisense_ai /app/mandisense_ai
 COPY api /app/api
+COPY scripts /app/scripts
 COPY run_agents.py /app/
 
 RUN pip install --no-cache-dir .
