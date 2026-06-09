@@ -312,10 +312,14 @@ class CognitionEngine:
         risk_val = arb.get("synthesized_risk", "MEDIUM")
         risk_str = risk_val.value if hasattr(risk_val, 'value') else str(risk_val)
 
+        forecast_price = forecast["value"] if forecast else 0.0
+        forecast_arrivals = forecast.get("metadata", {}).get("predicted_arrivals", 0.0) if forecast else 0.0
+        forecast_trend = forecast.get("metadata", {}).get("trend", "stable") if forecast else "stable"
+
         return {
             "commodity": commodity, "mandi_id": mandi_id,
             "regime": "SUPPLY_COMPRESSION" if risk_str == "CRITICAL" else "STABLE_EXPANSION",
-            "forecast": { "price": forecast["value"] if forecast else 0.0, "arrivals": 0.0, "trend": forecast.get("metadata", {}).get("trend", "stable") if forecast else "stable" },
+            "forecast": { "price": forecast_price, "arrivals": forecast_arrivals, "trend": forecast_trend },
             "regimes": { "volatility": "high" if risk_str in ["HIGH", "CRITICAL"] else "low", "risk_level": risk_str },
             "confidence": {
                 "overall": max(0.0, (forecast["confidence"] if forecast else 0.5) - meta.get("confidence_penalty", 0.0))

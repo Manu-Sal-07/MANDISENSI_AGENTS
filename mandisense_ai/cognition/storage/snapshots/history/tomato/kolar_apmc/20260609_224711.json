@@ -1,13 +1,13 @@
 {
-  "commodity": "ginger",
+  "commodity": "tomato",
   "mandi_id": "kolar_apmc",
-  "timestamp": "2026-05-22 00:33:32.112501",
-  "price_prediction": 6835.38,
+  "timestamp": "2026-06-09 22:47:11.332846",
+  "price_prediction": 1682.78,
   "confidence": {
     "score": 0.95,
     "stability": 0.8,
     "decay_rate": 0.01,
-    "last_updated": "2026-05-22 00:33:32.112501"
+    "last_updated": "2026-06-09 22:47:11.332846"
   },
   "volatility": {
     "regime": "low",
@@ -20,14 +20,14 @@
   "integrity_status": "FULL_COGNITION",
   "directives": [
     {
-      "primary_directive": "Price is expected to upward in kolar_apmc (LOW risk). Arrivals are predicted to be decreasing, suggesting tightening supply. Market volatility is currently high.",
+      "primary_directive": "Price is expected to upward in kolar_apmc (LOW risk). Arrivals are predicted to be increasing, suggesting increasing supply. Market volatility is currently high.",
       "action_code": "EXECUTE",
       "urgency": "NORMAL",
-      "reasoning": "Price is expected to upward in kolar_apmc (LOW risk). Arrivals are predicted to be decreasing, suggesting tightening supply. Market volatility is currently high.",
+      "reasoning": "Price is expected to upward in kolar_apmc (LOW risk). Arrivals are predicted to be increasing, suggesting increasing supply. Market volatility is currently high.",
       "confidence_at_synthesis": 0.95
     }
   ],
-  "forecast_arrivals": 0.0,
+  "forecast_arrivals": 63.08,
   "trend": "upward",
   "deliberation": {
     "agents": [
@@ -58,13 +58,31 @@
     "chaos_score": 0.0
   },
   "freshness": {
-    "last_computed": "2026-05-22 00:33:32.112501",
+    "last_computed": "2026-06-09 22:47:11.332846",
     "expiration_threshold_minutes": 240,
     "integrity_score": 1.0
   },
   "metadata": {
     "chaos_score": 0.0,
-    "telemetry_trust": 1.0
+    "telemetry_trust": 1.0,
+    "active_execution_plan": {
+      "id": "plan_tomato_1781025431.335857",
+      "commodity": "tomato",
+      "created_at": "2026-06-09 22:47:11.335857",
+      "actions": [
+        {
+          "id": "act_1781025431.335857_1",
+          "type": "PROCURE",
+          "target_mandi": "kolar_apmc",
+          "urgency": "NORMAL",
+          "status": "PENDING",
+          "reasoning": "Standard procurement cycle execution.",
+          "metadata": {}
+        }
+      ],
+      "overall_status": "PROPOSED",
+      "risk_level": "LOW"
+    }
   },
-  "last_updated": "2026-05-22T00:33:32.112501"
+  "last_updated": "2026-06-09T22:47:11.355081"
 }

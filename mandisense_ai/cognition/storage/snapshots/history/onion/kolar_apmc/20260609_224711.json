@@ -1,13 +1,13 @@
 {
   "commodity": "onion",
-  "mandi_id": "bangalore_apmc",
-  "timestamp": "2026-05-22 00:33:11.649208",
-  "price_prediction": 2104.28,
+  "mandi_id": "kolar_apmc",
+  "timestamp": "2026-06-09 22:47:11.656061",
+  "price_prediction": 2341.86,
   "confidence": {
     "score": 0.95,
     "stability": 0.8,
     "decay_rate": 0.01,
-    "last_updated": "2026-05-22 00:33:11.649208"
+    "last_updated": "2026-06-09 22:47:11.656061"
   },
   "volatility": {
     "regime": "low",
@@ -20,14 +20,14 @@
   "integrity_status": "FULL_COGNITION",
   "directives": [
     {
-      "primary_directive": "Price is expected to downward in bangalore_apmc (LOW risk). Arrivals are predicted to be increasing, suggesting increasing supply. Market volatility is currently low.",
+      "primary_directive": "Price is expected to downward in kolar_apmc (LOW risk). Arrivals are predicted to be decreasing, suggesting tightening supply. Market volatility is currently high.",
       "action_code": "EXECUTE",
       "urgency": "NORMAL",
-      "reasoning": "Price is expected to downward in bangalore_apmc (LOW risk). Arrivals are predicted to be increasing, suggesting increasing supply. Market volatility is currently low.",
+      "reasoning": "Price is expected to downward in kolar_apmc (LOW risk). Arrivals are predicted to be decreasing, suggesting tightening supply. Market volatility is currently high.",
       "confidence_at_synthesis": 0.95
     }
   ],
-  "forecast_arrivals": 0.0,
+  "forecast_arrivals": 62.27,
   "trend": "downward",
   "deliberation": {
     "agents": [
@@ -58,7 +58,7 @@
     "chaos_score": 0.0
   },
   "freshness": {
-    "last_computed": "2026-05-22 00:33:11.649208",
+    "last_computed": "2026-06-09 22:47:11.656061",
     "expiration_threshold_minutes": 240,
     "integrity_score": 1.0
   },
@@ -66,14 +66,14 @@
     "chaos_score": 0.0,
     "telemetry_trust": 1.0,
     "active_execution_plan": {
-      "id": "plan_onion_1779390191.652323",
+      "id": "plan_onion_1781025431.658043",
       "commodity": "onion",
-      "created_at": "2026-05-22 00:33:11.652323",
+      "created_at": "2026-06-09 22:47:11.658043",
       "actions": [
         {
-          "id": "act_1779390191.651217_1",
+          "id": "act_1781025431.658043_1",
           "type": "PROCURE",
-          "target_mandi": "bangalore_apmc",
+          "target_mandi": "kolar_apmc",
           "urgency": "NORMAL",
           "status": "PENDING",
           "reasoning": "Standard procurement cycle execution.",
@@ -84,5 +84,5 @@
       "risk_level": "LOW"
     }
   },
-  "last_updated": "2026-05-22T00:33:11.652873"
+  "last_updated": "2026-06-09T22:47:11.676211"
 }

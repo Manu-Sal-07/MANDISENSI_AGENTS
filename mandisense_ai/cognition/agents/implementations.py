@@ -27,7 +27,11 @@ class ForecastAgent(CognitiveAgent):
                 urgency=0.6 if ml_res["trend"] != "stable" else 0.2,
                 recommendation=f"Expect {ml_res['trend']} price movement.",
                 supporting_evidence=ml_res["explanation"],
-                metadata={"trend": ml_res["trend"]}
+                metadata={
+                    "trend": ml_res["trend"],
+                    "predicted_arrivals": ml_res["predicted_arrivals"],
+                    "arrival_signal": ml_res["arrival_signal"]
+                }
             )
         except Exception as e:
             logger.error(f"ForecastAgent failed: {e}")

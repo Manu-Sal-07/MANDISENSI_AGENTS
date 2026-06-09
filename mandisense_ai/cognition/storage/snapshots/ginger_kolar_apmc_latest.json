@@ -1,13 +1,13 @@
 {
   "commodity": "ginger",
   "mandi_id": "kolar_apmc",
-  "timestamp": "2026-05-29 17:09:19.838868",
+  "timestamp": "2026-06-09 22:47:11.686471",
   "price_prediction": 6835.38,
   "confidence": {
     "score": 0.95,
     "stability": 0.8,
     "decay_rate": 0.01,
-    "last_updated": "2026-05-29 17:09:19.838868"
+    "last_updated": "2026-06-09 22:47:11.686471"
   },
   "volatility": {
     "regime": "low",
@@ -27,7 +27,7 @@
       "confidence_at_synthesis": 0.95
     }
   ],
-  "forecast_arrivals": 0.0,
+  "forecast_arrivals": 63.53,
   "trend": "upward",
   "deliberation": {
     "agents": [
@@ -58,7 +58,7 @@
     "chaos_score": 0.0
   },
   "freshness": {
-    "last_computed": "2026-05-29 17:09:19.838868",
+    "last_computed": "2026-06-09 22:47:11.686471",
     "expiration_threshold_minutes": 240,
     "integrity_score": 1.0
   },
@@ -66,12 +66,12 @@
     "chaos_score": 0.0,
     "telemetry_trust": 1.0,
     "active_execution_plan": {
-      "id": "plan_ginger_1780054759.842101",
+      "id": "plan_ginger_1781025431.688365",
       "commodity": "ginger",
-      "created_at": "2026-05-29 17:09:19.842101",
+      "created_at": "2026-06-09 22:47:11.688365",
       "actions": [
         {
-          "id": "act_1780054759.842101_1",
+          "id": "act_1781025431.688365_1",
           "type": "PROCURE",
           "target_mandi": "kolar_apmc",
           "urgency": "NORMAL",
@@ -84,5 +84,5 @@
       "risk_level": "LOW"
     }
   },
-  "last_updated": "2026-05-29T17:09:19.859408"
+  "last_updated": "2026-06-09T22:47:11.708520"
 }

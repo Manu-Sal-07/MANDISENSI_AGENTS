@@ -1,13 +1,13 @@
 {
-  "commodity": "garlic",
+  "commodity": "tomato",
   "mandi_id": "bangalore_apmc",
-  "timestamp": "2026-05-22 00:33:32.107986",
-  "price_prediction": 8620.61,
+  "timestamp": "2026-06-09 22:47:11.994290",
+  "price_prediction": 1100.72,
   "confidence": {
     "score": 0.95,
     "stability": 0.8,
     "decay_rate": 0.01,
-    "last_updated": "2026-05-22 00:33:32.107986"
+    "last_updated": "2026-06-09 22:47:11.994290"
   },
   "volatility": {
     "regime": "low",
@@ -27,7 +27,7 @@
       "confidence_at_synthesis": 0.95
     }
   ],
-  "forecast_arrivals": 0.0,
+  "forecast_arrivals": 86.34,
   "trend": "downward",
   "deliberation": {
     "agents": [
@@ -58,7 +58,7 @@
     "chaos_score": 0.0
   },
   "freshness": {
-    "last_computed": "2026-05-22 00:33:32.107986",
+    "last_computed": "2026-06-09 22:47:11.994290",
     "expiration_threshold_minutes": 240,
     "integrity_score": 1.0
   },
@@ -66,5 +66,5 @@
     "chaos_score": 0.0,
     "telemetry_trust": 1.0
   },
-  "last_updated": "2026-05-22T00:33:32.108783"
+  "last_updated": "2026-06-09T22:47:11.994290"
 }
