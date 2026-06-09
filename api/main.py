@@ -179,15 +179,26 @@ async def get_visualizer():
         return {"error": "Visualizer frontend file missing", "path": target_path}
     return FileResponse(target_path)
 
-# ── Custom 404 Handler (Confirming App Identity) ──────────────────────
+from fastapi.responses import JSONResponse
+
 @app.exception_handler(404)
 async def custom_404_handler(request: Request, __):
-    return {
-        "status": "error",
-        "message": f"Endpoint {request.url.path} not found on MandiSense AI Unified Server",
-        "request_id": REQUEST_ID.get(),
-        "available_endpoints": ["/", "/v1/health", "/v1/predict", "/discovery/feed", "/visualizer", "/v1/trace-run"]
-    }
+    return JSONResponse(
+        status_code=404,
+        content={
+            "status": "error",
+            "message": f"Endpoint {request.url.path} not found on MandiSense AI Unified Server",
+            "request_id": REQUEST_ID.get(),
+            "available_endpoints": [
+                "/",
+                "/v1/health",
+                "/v1/predict",
+                "/discovery/feed",
+                "/visualizer",
+                "/v1/trace-run"
+            ]
+        }
+    )
 
 # ── Production Readiness Endpoints (Phase 4/5B Unified) ────────────────
 # (Note: Unified health_check moved to Endpoints section below for Phase 5B logic)
