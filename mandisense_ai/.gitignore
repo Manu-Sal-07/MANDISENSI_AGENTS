@@ -22,6 +22,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.pyc
 
 # Virtual Environment
 venv/
@@ -43,5 +44,6 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
-models/*
-!models/.gitkeep
+models/**/*.tmp
+models/**/__pycache__/
+models/.gitkeep

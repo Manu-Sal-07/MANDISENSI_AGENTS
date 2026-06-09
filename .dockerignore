@@ -35,8 +35,8 @@ ms_env/
 logs/
 data/
 # mandisense_ai/data/
-models/
-mandisense_ai/models/
+# models/
+# mandisense_ai/models/
 models_backup*/
 frontend/
 Dockerfile
