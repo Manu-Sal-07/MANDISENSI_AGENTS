@@ -41,7 +41,7 @@ Thumbs.db
 *.swo
 
 # Data - Keep structure but ignore large files
-data/
+/data/
 mandisense_ai/data/raw/*
 !mandisense_ai/data/raw/.gitkeep
 mandisense_ai/data/processed/*
