@@ -255,6 +255,18 @@ class PredictResponse(BaseModel):
     model_breakdown: Dict[str, Any] = Field(default_factory=dict)
 
 
+def get_canonical_mandi(mandi: str) -> str:
+    mandi = mandi.lower().strip()
+
+    if mandi == "kolar":
+        return "kolar_apmc"
+
+    if mandi in ["bangalore", "yeshwanthpur"]:
+        return "bangalore_apmc"
+
+    return mandi
+
+
 # ── Middleware ────────────────────────────────────────────────────────
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -480,7 +492,13 @@ async def predict(request: PredictRequest):
     
     # 1. Institutional Cognition Check (Market Memory)
     state_store = MarketMemoryStore()
-    state = state_store.get_latest_state(request.commodity, request.mandi)
+
+    canonical_mandi = get_canonical_mandi(request.mandi)
+
+    state = state_store.get_latest_state(
+        request.commodity,
+        canonical_mandi
+    )
     
     if state:
         log_event("cognition_consumption", 
@@ -548,7 +566,15 @@ async def simulate_market(request: SimulationRequest):
             details=f"Scenario {request.scenario_type} injected for {request.commodity} @ {request.mandi}."
         )
         # We run simulation asynchronously and it broadcasts its result via WebSocket
-        asyncio.create_task(engine.simulate_future(request.commodity, request.mandi, scenario))
+        canonical_mandi = get_canonical_mandi(request.mandi)
+
+        asyncio.create_task(
+            engine.simulate_future(
+                request.commodity,
+                canonical_mandi,
+                scenario
+            )
+        )
         return {"status": "simulation_initiated", "scenario": request.scenario_type}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
