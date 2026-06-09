@@ -34,4 +34,4 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["api*", "mandisense_ai*"]
+include = ["api*", "mandisense_ai*" , "backend*"]
