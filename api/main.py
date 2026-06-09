@@ -127,13 +127,19 @@ for port in local_dev_ports:
         f"http://127.0.0.1:{port}",
     ])
 
+explicit_origins = [
+    "https://mandisensi-agents.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+]
+
 cors_allowed_env = os.getenv("CORS_ALLOWED_ORIGINS", "")
 if cors_allowed_env:
-    allow_origins = [origin.strip() for origin in cors_allowed_env.split(",") if origin.strip()]
-elif os.getenv("CORS_ALLOW_ALL_ORIGINS", "false").lower() == "true":
-    allow_origins = ["*"]
+    env_origins = [origin.strip() for origin in cors_allowed_env.split(",") if origin.strip()]
 else:
-    allow_origins = local_dev_origins
+    env_origins = []
+
+allow_origins = list(set(explicit_origins + local_dev_origins + env_origins))
 
 app.add_middleware(
     CORSMiddleware,
