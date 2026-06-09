@@ -589,6 +589,37 @@ async def refresh_cognition():
     asyncio.create_task(engine.run_full_refresh())
     return {"status": "refresh_initiated"}
 
+@app.get("/v1/debug/state/{commodity}/{mandi}")
+async def debug_state(commodity: str, mandi: str):
+    """
+    Temporary debug endpoint.
+    Returns the exact MarketState currently loaded from cognition storage.
+    """
+    from mandisense_ai.cognition.state_store import MarketMemoryStore
+
+    state_store = MarketMemoryStore()
+
+    canonical_mandi = get_canonical_mandi(mandi)
+
+    state = state_store.get_latest_state(
+        commodity,
+        canonical_mandi
+    )
+
+    if not state:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No state found for {commodity} @ {canonical_mandi}"
+        )
+
+    if hasattr(state, "model_dump"):
+        return state.model_dump()
+
+    if hasattr(state, "dict"):
+        return state.dict()
+
+    return state
+
 @app.get("/v1/cognition/memories")
 async def get_memories(commodity: Optional[str] = None):
     """
