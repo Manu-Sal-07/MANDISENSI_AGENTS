@@ -1,0 +1,16 @@
+commodity,mandi_id,MAPE,baseline_MAPE,RMSE,improvement_pct
+potato,anekal_apmc,4.3439,6.3622,94.0261,31.72
+potato,bangalore_yeshwanthpur,5.2287,7.2533,108.0172,27.91
+potato,bangarpet_apmc,4.396,5.8363,88.6545,24.68
+potato,channapatna_apmc,5.0134,7.0029,103.9209,28.41
+potato,chickballapur_apmc,4.2816,6.0097,88.7597,28.75
+potato,doddaballapur_apmc,4.7057,6.0469,101.5968,22.18
+potato,hoskote_apmc,4.2641,5.6903,99.1923,25.06
+potato,kanakapura_apmc,4.9171,6.5774,103.7016,25.24
+potato,kolar_apmc,4.5084,6.3388,99.6569,28.88
+potato,kunigal_apmc,4.9742,6.8148,106.5655,27.01
+potato,magadi_apmc,4.4536,6.1366,99.1923,27.43
+potato,malur_apmc,4.6776,6.5159,95.4995,28.21
+potato,nelamangala_apmc,4.8197,6.6521,102.9782,27.55
+potato,ramanagara_apmc,5.0735,6.7773,104.1465,25.14
+potato,sidlaghatta_apmc,4.988,7.0862,107.6314,29.61

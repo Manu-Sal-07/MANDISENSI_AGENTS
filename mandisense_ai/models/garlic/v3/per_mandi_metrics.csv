@@ -1,0 +1,16 @@
+commodity,mandi_id,MAPE,baseline_MAPE,RMSE,improvement_pct
+garlic,anekal_apmc,4.8187,6.9481,431.5667,30.65
+garlic,bangalore_yeshwanthpur,4.4525,6.6692,435.1168,33.24
+garlic,bangarpet_apmc,4.617,6.3975,458.0272,27.83
+garlic,channapatna_apmc,4.8697,6.6986,466.8119,27.3
+garlic,chickballapur_apmc,4.4631,6.393,435.9439,30.19
+garlic,doddaballapur_apmc,4.7529,6.6046,438.9295,28.04
+garlic,hoskote_apmc,4.8033,6.9888,449.4422,31.27
+garlic,kanakapura_apmc,4.7518,6.4817,453.6235,26.69
+garlic,kolar_apmc,4.4387,6.5967,404.2961,32.71
+garlic,kunigal_apmc,4.7955,6.4421,476.0278,25.56
+garlic,magadi_apmc,5.0789,6.7693,455.5591,24.97
+garlic,malur_apmc,5.104,6.7406,460.1541,24.28
+garlic,nelamangala_apmc,4.7693,6.049,441.701,21.16
+garlic,ramanagara_apmc,4.486,6.8509,423.5227,34.52
+garlic,sidlaghatta_apmc,4.3533,5.9624,419.8099,26.99

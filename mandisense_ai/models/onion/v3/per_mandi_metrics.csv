@@ -1,0 +1,16 @@
+commodity,mandi_id,MAPE,baseline_MAPE,RMSE,improvement_pct
+onion,anekal_apmc,5.1432,7.6003,115.0946,32.33
+onion,bangalore_yeshwanthpur,4.8858,6.3427,112.7412,22.97
+onion,bangarpet_apmc,4.7368,6.393,107.0458,25.91
+onion,channapatna_apmc,5.4154,7.2546,116.2009,25.35
+onion,chickballapur_apmc,4.8657,6.7309,111.4304,27.71
+onion,doddaballapur_apmc,4.499,6.1791,110.0189,27.19
+onion,hoskote_apmc,4.7805,7.0128,111.9195,31.83
+onion,kanakapura_apmc,5.4491,7.2251,126.6452,24.58
+onion,kolar_apmc,4.5427,6.3388,112.1036,28.34
+onion,kunigal_apmc,4.7843,6.543,113.3529,26.88
+onion,magadi_apmc,4.3804,6.0513,102.5464,27.61
+onion,malur_apmc,4.7963,6.5428,110.8637,26.69
+onion,nelamangala_apmc,4.5084,6.3306,108.1763,28.78
+onion,ramanagara_apmc,4.2952,6.2499,105.597,31.28
+onion,sidlaghatta_apmc,4.8327,6.9376,114.5289,30.34

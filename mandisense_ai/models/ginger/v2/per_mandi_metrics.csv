@@ -1,0 +1,16 @@
+commodity,mandi_id,MAPE,baseline_MAPE,RMSE,improvement_pct
+ginger,anekal_apmc,4.6257,6.4083,331.4128,27.82
+ginger,bangalore_yeshwanthpur,4.4252,6.5733,336.1992,32.68
+ginger,bangarpet_apmc,4.6152,6.206,327.84,25.63
+ginger,channapatna_apmc,5.1321,6.8611,356.0514,25.2
+ginger,chickballapur_apmc,4.2374,5.8388,308.9596,27.43
+ginger,doddaballapur_apmc,4.3973,6.3005,315.1212,30.21
+ginger,hoskote_apmc,4.7218,6.1878,323.5057,23.69
+ginger,kanakapura_apmc,5.047,7.2334,330.8659,30.23
+ginger,kolar_apmc,4.94,6.9712,346.5531,29.14
+ginger,kunigal_apmc,4.5254,6.2578,320.2594,27.68
+ginger,magadi_apmc,4.2704,5.7517,307.8701,25.75
+ginger,malur_apmc,5.1408,6.9462,343.2847,25.99
+ginger,nelamangala_apmc,4.7389,6.3473,332.3988,25.34
+ginger,ramanagara_apmc,5.051,6.844,342.8549,26.2
+ginger,sidlaghatta_apmc,4.5697,6.1198,321.8665,25.33

@@ -1,0 +1,16 @@
+commodity,mandi_id,MAPE,baseline_MAPE,RMSE,improvement_pct
+tomato,anekal_apmc,4.4055,6.3256,80.1465,30.35
+tomato,bangalore_yeshwanthpur,5.0239,6.7438,88.3296,25.5
+tomato,bangarpet_apmc,4.5245,6.1037,85.4359,25.87
+tomato,channapatna_apmc,4.9568,6.8148,88.4987,27.26
+tomato,chickballapur_apmc,4.858,6.4365,85.5604,24.52
+tomato,doddaballapur_apmc,4.7671,6.4811,85.1563,26.45
+tomato,hoskote_apmc,4.8308,6.9888,85.2843,30.88
+tomato,kanakapura_apmc,4.0031,5.2263,79.7325,23.4
+tomato,kolar_apmc,5.0581,7.019,90.3899,27.94
+tomato,kunigal_apmc,4.9815,6.8954,83.9349,27.76
+tomato,magadi_apmc,4.5119,6.544,81.7554,31.05
+tomato,malur_apmc,4.2551,5.6224,81.756,24.32
+tomato,nelamangala_apmc,4.9579,6.8766,88.2233,27.9
+tomato,ramanagara_apmc,5.1345,6.7575,90.6189,24.02
+tomato,sidlaghatta_apmc,4.8163,6.7852,84.7417,29.02

@@ -1,0 +1,1 @@
+["mandi_encoded", "price_lag_1", "price_lag_3", "price_lag_7", "arrivals_lag_1", "arrivals_lag_3", "arrivals_lag_7", "arrival_trend", "rolling_mean_7", "volatility", "volatility_regime", "month", "day_of_week", "is_unstable", "is_missing", "arrivals_log"]
