@@ -182,7 +182,12 @@ async def get_visualizer():
 from fastapi.responses import JSONResponse
 
 @app.exception_handler(404)
-async def custom_404_handler(request: Request, __):
+async def custom_404_handler(request: Request, exc: Exception):
+    if hasattr(exc, "detail") and exc.detail != "Not Found":
+        return JSONResponse(
+            status_code=404,
+            content={"detail": exc.detail}
+        )
     return JSONResponse(
         status_code=404,
         content={
