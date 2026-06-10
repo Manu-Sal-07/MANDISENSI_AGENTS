@@ -44,6 +44,8 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+!data/processed/v4/
+!data/processed/v4/*
 models/**/*.tmp
 models/**/__pycache__/
 models/.gitkeep

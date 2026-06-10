@@ -46,6 +46,8 @@ mandisense_ai/data/raw/*
 !mandisense_ai/data/raw/.gitkeep
 mandisense_ai/data/processed/*
 !mandisense_ai/data/processed/.gitkeep
+!mandisense_ai/data/processed/v4/
+!mandisense_ai/data/processed/v4/*
 mandisense_ai/core/agents/*/training/__pycache__/
 mandisense_ai/core/agents/*/training/*.pyc
 
