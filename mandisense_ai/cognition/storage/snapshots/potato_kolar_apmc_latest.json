@@ -1,13 +1,13 @@
 {
   "commodity": "potato",
   "mandi_id": "kolar_apmc",
-  "timestamp": "2026-09-29 17:41:40.837893",
+  "timestamp": "2026-09-29 21:04:59.448984",
   "price_prediction": 2024.2,
   "confidence": {
     "score": 0.6499999999999999,
     "stability": 0.8,
     "decay_rate": 0.01,
-    "last_updated": "2026-09-29 17:41:40.837893"
+    "last_updated": "2026-09-29 21:04:59.448984"
   },
   "volatility": {
     "regime": "low",
@@ -58,7 +58,7 @@
     "chaos_score": 0.0
   },
   "freshness": {
-    "last_computed": "2026-09-29 17:41:40.837893",
+    "last_computed": "2026-09-29 21:04:59.448984",
     "expiration_threshold_minutes": 240,
     "integrity_score": 1.0
   },
@@ -70,12 +70,12 @@
     "decision": "WAIT",
     "reasoning": "In kolar_apmc, potato prices are expected to fall by approximately 7.1%. Declining arrivals suggest tightening supply, which supports price levels. However, there is a conflict between supply signals and price trends. Due to low risk and market uncertainty, it is safer to wait for clearer signals.",
     "active_execution_plan": {
-      "id": "plan_potato_1790683900.843425",
+      "id": "plan_potato_1790696099.452985",
       "commodity": "potato",
-      "created_at": "2026-09-29 17:41:40.843425",
+      "created_at": "2026-09-29 21:04:59.452985",
       "actions": [
         {
-          "id": "act_1790683900.843425_1",
+          "id": "act_1790696099.452985_1",
           "type": "PROCURE",
           "target_mandi": "kolar_apmc",
           "urgency": "NORMAL",
@@ -88,5 +88,5 @@
       "risk_level": "LOW"
     }
   },
-  "last_updated": "2026-09-29T17:41:40.934334"
+  "last_updated": "2026-09-29T21:04:59.516030"
 }
