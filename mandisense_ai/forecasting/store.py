@@ -386,11 +386,19 @@ class ForecastStore:
             for row in self.forecasts
             if row.get("commodity") == commodity and row.get("mandi_id") == mandi_id
         ]
-        return sorted(rows, key=lambda r: r.get("horizon_days", 0))
+        # A refused series (DORMANT, REBUILDING_HISTORY, ...) publishes its
+        # single row with `horizon_days: null` -- an absent key was never the
+        # actual shape, so the `-1` default here never fired and `None`
+        # reached the sort key directly. Comparing `None < 3` raises, which
+        # crashed every lookup for a refused series the moment its curve held
+        # more than one row (or was compared against any int elsewhere, as
+        # `get_horizon` below was doing on every call).
+        return sorted(rows, key=lambda r: r.get("horizon_days") if r.get("horizon_days") is not None else -1)
 
     def get_horizon(self, commodity: str, mandi_id: str, horizon: int) -> Optional[Dict[str, Any]]:
         for row in self.get(commodity, mandi_id):
-            if int(row.get("horizon_days", -1)) == int(horizon):
+            row_horizon = row.get("horizon_days")
+            if row_horizon is not None and int(row_horizon) == int(horizon):
                 return row
         return None
 

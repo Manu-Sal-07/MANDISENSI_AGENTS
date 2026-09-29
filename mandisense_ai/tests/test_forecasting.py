@@ -439,6 +439,59 @@ class TestForecastStoreAndService:
         curve = self._store().get("tomato", "hoskote_apmc")
         assert [row["horizon_days"] for row in curve] == [3, 5]
 
+    def test_a_refused_series_with_null_horizon_does_not_crash_lookup(self):
+        """
+        A refused series (DORMANT, REBUILDING_HISTORY, ...) publishes its one
+        row with `horizon_days: null` -- not an absent key, an explicit null.
+        `.get()`'s sort key and `.get_horizon()`'s equality check both used to
+        assume a missing key (defaulting it to -1) and never accounted for a
+        *present* key holding None, so `int(None)` -- or, once a second row
+        existed, comparing `None < int` during the sort -- crashed every
+        lookup against such a series. Reproduced this exact shape: a live
+        `/v1/query/` call against a DORMANT series in production traffic hit
+        it.
+        """
+        store = ForecastStore(
+            generated_at="2026-09-16T00:00:00+00:00",
+            as_of_date="2026-09-15",
+            model_version="1.0.0",
+            forecasts=[
+                {
+                    "commodity": "onion",
+                    "mandi_id": "lasalgaon_apmc",
+                    "horizon_days": None,
+                    "status": "DORMANT",
+                    "reason": "last traded 587 days ago",
+                },
+            ],
+            diagnostics={},
+        )
+
+        curve = store.get("onion", "lasalgaon_apmc")
+        assert len(curve) == 1
+        assert curve[0]["status"] == "DORMANT"
+
+        assert store.get_horizon("onion", "lasalgaon_apmc", 3) is None
+
+    def test_sorting_mixes_a_null_horizon_row_with_real_ones_without_crashing(self):
+        """The comparison-crash half of the same bug: sorting a curve that
+        holds both a refused row (None) and real horizons (int) used to raise
+        `TypeError: '<' not supported between instances of 'NoneType' and
+        'int'` before either row was ever inspected."""
+        store = ForecastStore(
+            generated_at="2026-09-16T00:00:00+00:00",
+            as_of_date="2026-09-15",
+            model_version="1.0.0",
+            forecasts=[
+                {"commodity": "tomato", "mandi_id": "kolar_apmc", "horizon_days": 5, "status": STATUS_OK},
+                {"commodity": "tomato", "mandi_id": "kolar_apmc", "horizon_days": None, "status": "DORMANT"},
+                {"commodity": "tomato", "mandi_id": "kolar_apmc", "horizon_days": 1, "status": STATUS_OK},
+            ],
+            diagnostics={},
+        )
+        curve = store.get("tomato", "kolar_apmc")
+        assert [row["horizon_days"] for row in curve] == [None, 1, 5]
+
     def test_nearest_horizon_substitutes_sensibly(self, tmp_path):
         path = self._store().save(tmp_path / "f.json")
         service = ForecastService(path)

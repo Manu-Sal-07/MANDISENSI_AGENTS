@@ -3,14 +3,25 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Home, LineChart, FlaskConical, Terminal as TerminalIcon } from 'lucide-react';
+import { Home, LineChart, FlaskConical, Terminal as TerminalIcon, Wrench } from 'lucide-react';
 import { isFarmRoute } from '@/lib/surfaces';
 
-const ITEMS = [
+const ANALYST_ITEMS = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/market-explorer', label: 'Markets', icon: LineChart },
   { href: '/intelligence-lab', label: 'Lab', icon: FlaskConical },
   { href: '/terminal', label: 'Terminal', icon: TerminalIcon },
+];
+
+// The farm surface has no use for Lab/Terminal (those are analyst-only
+// diagnostic views) and gains a destination the analyst nav has no
+// equivalent of: the farmer tools hub. Reusing ANALYST_ITEMS here would
+// have sent a farmer tapping "Lab" into a page built for a different
+// audience entirely.
+const FARM_ITEMS = [
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/tools', label: 'Tools', icon: Wrench },
+  { href: '/market-explorer', label: 'Markets', icon: LineChart },
 ];
 
 /**
@@ -30,6 +41,7 @@ export default function BottomNav() {
   const farm = isFarmRoute(pathname);
   const activeColour = farm ? 'var(--leaf)' : 'var(--accent-strong)';
   const idleColour = farm ? 'var(--farm-ink-faint)' : 'var(--neutral-signal)';
+  const ITEMS = farm ? FARM_ITEMS : ANALYST_ITEMS;
 
   return (
     <nav

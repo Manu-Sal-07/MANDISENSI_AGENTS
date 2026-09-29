@@ -41,7 +41,7 @@ from mandisense_ai.services.prediction_cache import (
 # Discovery/Legacy Imports
 from backend.app.routes import discovery, query, decision, predict as legacy_predict
 from backend.app.services.model_loader import init_engines
-from api import visualizer, cognition_router, cognition_streaming, cognition_seed, market_data_router, spillover_router, forecast_router, intelligence_router
+from api import visualizer, cognition_router, cognition_streaming, cognition_seed, market_data_router, spillover_router, forecast_router, intelligence_router, farmer_router
 from mandisense_ai.utils.event_bus import event_bus
 from mandisense_ai.cognition.state_store import MarketMemoryStore
 from fastapi.responses import FileResponse
@@ -182,6 +182,7 @@ app.include_router(spillover_router.router, prefix="/v1/spillover", tags=["Cross
 app.include_router(market_data_router.router, prefix="/v1/market-data", tags=["Market Data"])
 app.include_router(forecast_router.router, prefix="/v1/forecast", tags=["Scheduled Forecasting"])
 app.include_router(intelligence_router.router, prefix="/v1/intelligence", tags=["LLM Decision Intelligence"])
+app.include_router(farmer_router.router, tags=["Farmer Features"])  # prefix is already /v1/farmer on the router
 
 @app.get("/visualizer")
 async def get_visualizer():

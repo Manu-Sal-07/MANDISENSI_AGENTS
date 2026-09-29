@@ -9,5 +9,5 @@
  */
 export function isFarmRoute(pathname: string | null | undefined): boolean {
   if (!pathname) return false;
-  return pathname === '/' || pathname.startsWith('/mandi');
+  return pathname === '/' || pathname.startsWith('/mandi') || pathname.startsWith('/tools');
 }

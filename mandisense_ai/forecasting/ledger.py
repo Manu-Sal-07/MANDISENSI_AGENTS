@@ -293,10 +293,19 @@ class ForecastLedger:
 
     # ---------------------------------------------------------- reporting
 
-    def live_performance(self, horizon: Optional[int] = None) -> Dict[str, Any]:
+    def live_performance(
+        self,
+        horizon: Optional[int] = None,
+        commodity: Optional[str] = None,
+        mandi_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         Realised performance, or an honest statement that there is not enough
         of it yet.
+
+        Narrowing to one `commodity`/`mandi_id` is what a per-series track
+        record needs (see `farmer/track_record.py`); left unset, this is the
+        original system-wide rate this method has always reported.
         """
         ledger = self.read()
         if ledger.empty:
@@ -305,6 +314,10 @@ class ForecastLedger:
         scored = ledger[ledger["actual_price"].notna()]
         if horizon is not None:
             scored = scored[scored["horizon_days"] == horizon]
+        if commodity is not None:
+            scored = scored[scored["commodity"] == commodity]
+        if mandi_id is not None:
+            scored = scored[scored["mandi_id"] == mandi_id]
 
         n = int(len(scored))
         if n < MIN_SCORED_FOR_RATE:

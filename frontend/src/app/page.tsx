@@ -19,7 +19,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Clock, MapPin, X, type LucideIcon } from 'lucide-react';
 
 import FarmScene from '@/components/farm/FarmScene';
-import CallCard, { normaliseCall } from '@/components/farm/CallCard';
+import CallCard, { resolveCall } from '@/components/farm/CallCard';
 import TodaysCalls from '@/components/farm/TodaysCalls';
 import AskBar from '@/components/farm/AskBar';
 import NearbyMandis from '@/components/farm/NearbyMandis';
@@ -101,7 +101,7 @@ export default function FarmerHome() {
                     <CallCard
                       commodity={answer.metadata?.commodity || 'produce'}
                       mandiName={prettyMandi(answer.metadata?.mandi_id)}
-                      call={normaliseCall(answer.decision)}
+                      call={resolveCall({ decision: answer.decision, call_type: answer.call_type })}
                       note={answer.summary}
                       confidence={answer.metadata?.confidence ?? null}
                     />
@@ -118,7 +118,7 @@ export default function FarmerHome() {
                     <CallCard
                       commodity={headline.hot_commodity}
                       mandiName={headline.mandi_name}
-                      call={normaliseCall(headline.decision)}
+                      call={resolveCall(headline)}
                       changePct={headline.price_change_pct}
                       confidence={headline.confidence}
                       note={headline.reasoning}

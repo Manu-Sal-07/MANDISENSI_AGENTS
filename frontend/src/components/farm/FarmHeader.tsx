@@ -5,6 +5,10 @@ import { MapPin, Loader2 } from 'lucide-react';
 
 import { useLocation } from '@/hooks/useLocation';
 import { useAppStore } from '@/store/useAppStore';
+import { useLanguage } from '@/context/LanguageContext';
+import { LANGUAGE_LABELS, type Lang } from '@/lib/i18n/translations';
+
+const LANGUAGE_CYCLE: Lang[] = ['kn', 'hi', 'en'];
 
 /**
  * Header for the farmer surface.
@@ -21,9 +25,15 @@ import { useAppStore } from '@/store/useAppStore';
 export default function FarmHeader() {
   const { requestLocation } = useLocation();
   const { personalizationStatus, viewMode, resetToDefault } = useAppStore();
+  const { lang, setLang } = useLanguage();
 
   const isRequesting = personalizationStatus === 'requesting';
   const isPersonalized = viewMode === 'personalized';
+
+  const cycleLanguage = () => {
+    const next = LANGUAGE_CYCLE[(LANGUAGE_CYCLE.indexOf(lang) + 1) % LANGUAGE_CYCLE.length];
+    setLang(next);
+  };
 
   return (
     <header
@@ -48,22 +58,31 @@ export default function FarmHeader() {
           </span>
         </Link>
 
-        <button
-          onClick={isPersonalized ? resetToDefault : requestLocation}
-          disabled={isRequesting}
-          className="farm-focus shrink-0 rounded-xl border border-[var(--farm-line)] bg-white px-3.5 py-2.5 text-sm font-bold text-[var(--leaf)] transition-colors hover:border-[var(--leaf)] disabled:opacity-50"
-        >
-          {isRequesting ? (
-            <span className="flex items-center gap-1.5">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Finding
-            </span>
-          ) : isPersonalized ? (
-            'Reset'
-          ) : (
-            'Use my location'
-          )}
-        </button>
+        <div className="flex shrink-0 items-center gap-2">
+          <button
+            onClick={cycleLanguage}
+            aria-label="Change language"
+            className="farm-focus rounded-xl border border-[var(--farm-line)] bg-white px-3 py-2.5 text-sm font-bold text-[var(--farm-ink)] transition-colors hover:border-[var(--leaf)]"
+          >
+            {LANGUAGE_LABELS[lang]}
+          </button>
+          <button
+            onClick={isPersonalized ? resetToDefault : requestLocation}
+            disabled={isRequesting}
+            className="farm-focus rounded-xl border border-[var(--farm-line)] bg-white px-3.5 py-2.5 text-sm font-bold text-[var(--leaf)] transition-colors hover:border-[var(--leaf)] disabled:opacity-50"
+          >
+            {isRequesting ? (
+              <span className="flex items-center gap-1.5">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Finding
+              </span>
+            ) : isPersonalized ? (
+              'Reset'
+            ) : (
+              'Use my location'
+            )}
+          </button>
+        </div>
       </div>
     </header>
   );

@@ -2,7 +2,10 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import ProduceIcon, { resolveProduce } from './ProduceIcon';
+import { Volume2 } from 'lucide-react';
+import ProduceIcon, { resolveProduce, produceScript } from './ProduceIcon';
+import { useLanguage } from '@/context/LanguageContext';
+import { useVoiceAssistant } from '@/hooks/useVoiceAssistant';
 
 /**
  * The decision, at the size it deserves.
@@ -41,6 +44,10 @@ interface CallVisual {
   verbShort: string;
   hindi: string;
   hindiShort: string;
+  /** Kannada verb -- the first-read language for this app's actual
+      audience (every tracked mandi is in Karnataka). */
+  kannada: string;
+  kannadaShort: string;
   /** What it means, in the plainest words available. */
   plain: string;
   colour: string;
@@ -53,6 +60,8 @@ export const CALL_VISUAL: Record<Call, CallVisual> = {
     verbShort: 'Sell now',
     hindi: 'अभी बेचें',
     hindiShort: 'अभी बेचें',
+    kannada: 'ಈಗಲೇ ಮಾರಿ',
+    kannadaShort: 'ಈಗಲೇ ಮಾರಿ',
     plain: 'Prices are falling. Today is better than next week.',
     colour: 'var(--call-sell)',
     wash: 'var(--call-sell-wash)',
@@ -62,6 +71,8 @@ export const CALL_VISUAL: Record<Call, CallVisual> = {
     verbShort: 'Hold',
     hindi: 'रोकें',
     hindiShort: 'रोकें',
+    kannada: 'ಇಡಿ',
+    kannadaShort: 'ಇಡಿ',
     plain: 'Prices are climbing. Waiting should pay more.',
     colour: 'var(--call-hold)',
     wash: 'var(--call-hold-wash)',
@@ -71,6 +82,8 @@ export const CALL_VISUAL: Record<Call, CallVisual> = {
     verbShort: 'Wait',
     hindi: 'कुछ दिन रुकें',
     hindiShort: 'रुकें',
+    kannada: 'ಕೆಲವು ದಿನ ಕಾಯಿರಿ',
+    kannadaShort: 'ಕಾಯಿರಿ',
     plain: 'The market has not decided yet. Check again soon.',
     colour: 'var(--call-wait)',
     wash: 'var(--call-wait-wash)',
@@ -83,6 +96,8 @@ export const CALL_VISUAL: Record<Call, CallVisual> = {
     verbShort: 'No reading',
     hindi: 'अभी जानकारी नहीं',
     hindiShort: 'जानकारी नहीं',
+    kannada: 'ಇನ್ನೂ ಮಾಹಿತಿ ಇಲ್ಲ',
+    kannadaShort: 'ಮಾಹಿತಿ ಇಲ್ಲ',
     plain: 'We do not have enough recent mandi records for this crop yet.',
     colour: 'var(--call-unknown)',
     wash: 'var(--call-unknown-wash)',
@@ -191,6 +206,23 @@ export default function CallCard({
   const visual = CALL_VISUAL[call];
   const produce = resolveProduce(commodity);
   const rupees = formatRupees(price);
+  const { lang, speechLocale, t } = useLanguage();
+  const { speak, isSpeaking, isSynthesisSupported } = useVoiceAssistant({ locale: speechLocale });
+
+  const spokenLine = tidyNote(note, visual.plain);
+  const spokenScript = produceScript(produce, lang);
+  const readAloud = () => {
+    const verb = lang === 'kn' ? visual.kannada : lang === 'hi' ? visual.hindi : visual.verb;
+    speak(`${spokenScript.text}. ${verb}. ${spokenLine}`);
+  };
+  // An UNKNOWN call means nothing was measured, but callers routinely still
+  // pass a placeholder `changePct: 0.0` / `confidence: 0.0` alongside it
+  // (the backend's own refusal shape sets both to zero rather than
+  // omitting them). Rendering those numbers under "No reading yet" told a
+  // farmer the market was flat and we were unsure -- two measurements we
+  // never made -- so they are suppressed here rather than at every call
+  // site individually.
+  const showNumbers = call !== 'UNKNOWN';
 
   return (
     <motion.div
@@ -229,20 +261,33 @@ export default function CallCard({
             <p
               className="farm-display text-2xl leading-tight sm:text-3xl"
               style={{ color: visual.colour, opacity: 0.75 }}
-              lang="hi"
+              lang={lang === 'kn' ? 'kn' : 'hi'}
             >
-              {visual.hindi}
+              {lang === 'kn' ? visual.kannada : visual.hindi}
             </p>
 
             <p className="mt-3 max-w-[46ch] text-base leading-relaxed text-[var(--farm-ink)]">
-              {tidyNote(note, visual.plain)}
+              {spokenLine}
             </p>
+
+            {isSynthesisSupported && (
+              <button
+                type="button"
+                onClick={readAloud}
+                aria-label={t('voice.read_aloud')}
+                className="farm-focus mt-2.5 flex items-center gap-1.5 rounded-full border border-[var(--farm-line)] bg-white/70 px-3 py-1.5 text-xs font-bold text-[var(--farm-ink-soft)] transition-colors hover:border-[var(--leaf)] hover:text-[var(--leaf)]"
+              >
+                <Volume2 className={`h-3.5 w-3.5 ${isSpeaking ? 'animate-pulse' : ''}`} />
+                {t('voice.read_aloud')}
+              </button>
+            )}
           </div>
         </div>
 
         {/* Supporting numbers, kept quiet. They justify the verb; they are
-            not the answer, so they do not compete with it. */}
-        {(rupees || changePct != null || confidence != null) && (
+            not the answer, so they do not compete with it. Suppressed
+            entirely for an UNKNOWN call — see `showNumbers` above. */}
+        {showNumbers && (rupees || changePct != null || confidence != null) && (
           <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-4 border-t border-[var(--farm-line)] pt-5">
             {rupees && (
               <div>

@@ -26,6 +26,9 @@ interface ProduceVisual {
   label: string;
   /** Devanagari name — the audience reads this faster than the English. */
   hindi: string;
+  /** Kannada name — every tracked mandi is in Karnataka, where this is the
+      first-read language for most of this app's actual audience. */
+  kannada: string;
   tint: string;
   draw: React.ReactNode;
 }
@@ -37,6 +40,7 @@ const PRODUCE: Record<ProduceName, ProduceVisual> = {
   tomato: {
     label: 'Tomato',
     hindi: 'टमाटर',
+    kannada: 'ಟೊಮೇಟೊ',
     tint: '#d93a2b',
     draw: (
       <>
@@ -51,6 +55,7 @@ const PRODUCE: Record<ProduceName, ProduceVisual> = {
   onion: {
     label: 'Onion',
     hindi: 'प्याज़',
+    kannada: 'ಈರುಳ್ಳಿ',
     tint: '#9b5fa8',
     draw: (
       <>
@@ -63,6 +68,7 @@ const PRODUCE: Record<ProduceName, ProduceVisual> = {
   potato: {
     label: 'Potato',
     hindi: 'आलू',
+    kannada: 'ಆಲೂಗಡ್ಡೆ',
     tint: '#a8763f',
     draw: (
       <>
@@ -77,6 +83,7 @@ const PRODUCE: Record<ProduceName, ProduceVisual> = {
   garlic: {
     label: 'Garlic',
     hindi: 'लहसुन',
+    kannada: 'ಬೆಳ್ಳುಳ್ಳಿ',
     tint: '#8d8a7e',
     draw: (
       <>
@@ -90,6 +97,7 @@ const PRODUCE: Record<ProduceName, ProduceVisual> = {
   ginger: {
     label: 'Ginger',
     hindi: 'अदरक',
+    kannada: 'ಶುಂಠಿ',
     tint: '#c8922f',
     draw: (
       <>
@@ -103,6 +111,7 @@ const PRODUCE: Record<ProduceName, ProduceVisual> = {
   dry_chillies: {
     label: 'Chilli',
     hindi: 'मिर्च',
+    kannada: 'ಒಣ ಮೆಣಸಿನಕಾಯಿ',
     tint: '#c02a1f',
     draw: (
       <>
@@ -119,6 +128,7 @@ const PRODUCE: Record<ProduceName, ProduceVisual> = {
 const FALLBACK: ProduceVisual = {
   label: 'Produce',
   hindi: 'फ़सल',
+  kannada: 'ಬೆಳೆ',
   tint: '#8a6240',
   draw: (
     <>
@@ -128,6 +138,18 @@ const FALLBACK: ProduceVisual = {
     </>
   ),
 };
+
+/** Script and BCP-47 tag for a produce name, in the farmer's chosen
+ * language. Kannada is the default script this app renders in (see
+ * `LanguageContext`), Hindi and English are explicit opt-outs. */
+export function produceScript(
+  produce: ProduceVisual,
+  lang: 'en' | 'hi' | 'kn'
+): { text: string; bcp47: string } {
+  if (lang === 'en') return { text: produce.label, bcp47: 'en' };
+  if (lang === 'hi') return { text: produce.hindi, bcp47: 'hi' };
+  return { text: produce.kannada, bcp47: 'kn' };
+}
 
 export function resolveProduce(name: string): ProduceVisual {
   const key = (name || '').toLowerCase().replace(/[\s-]+/g, '_');

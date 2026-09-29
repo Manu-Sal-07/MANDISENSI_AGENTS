@@ -145,6 +145,17 @@ def _score_ledger(observations: pd.DataFrame) -> Dict[str, Any]:
         return _stage_result("ERROR", error=str(exc))
 
 
+def _evaluate_alerts() -> Dict[str, Any]:
+    """Check every active farmer price alert against the published forecast."""
+    try:
+        from mandisense_ai.farmer.alerts import evaluate_alerts
+
+        return _stage_result("OK", **evaluate_alerts())
+    except Exception as exc:
+        logger.warning("Alert evaluation failed: %s", exc)
+        return _stage_result("ERROR", error=str(exc))
+
+
 def _check_drift() -> Dict[str, Any]:
     """Compare realised performance against the backtest's own fold spread."""
     try:
@@ -372,6 +383,11 @@ def run_nightly(
     # served model on a partial live sample is the failure mode it exists to
     # catch, not one to reproduce.
     record["stages"]["drift"] = _check_drift()
+
+    # 6. Evaluate farmer price alerts against tonight's freshly published
+    # forecast. Same failure-isolation as the ledger stages above: a broken
+    # alert check must never be allowed to take down the publish it reads.
+    record["stages"]["alerts"] = _evaluate_alerts()
 
     forecast_status = record["stages"]["forecast"].get("status")
     record["status"] = "OK" if forecast_status == "OK" else "DEGRADED"

@@ -1,9 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Loader2, Search } from 'lucide-react';
-import { resolveProduce, type ProduceName } from './ProduceIcon';
+import { motion } from 'framer-motion';
+import { Loader2, Mic, Search } from 'lucide-react';
+import { resolveProduce, produceScript, type ProduceName } from './ProduceIcon';
 import ProduceIcon from './ProduceIcon';
+import { useLanguage } from '@/context/LanguageContext';
+import { useVoiceAssistant } from '@/hooks/useVoiceAssistant';
 
 /**
  * Asking about a crop.
@@ -24,6 +27,7 @@ interface AskBarProps {
 
 export default function AskBar({ onAsk, isLoading = false }: AskBarProps) {
   const [text, setText] = useState('');
+  const { t, lang, speechLocale } = useLanguage();
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -31,12 +35,26 @@ export default function AskBar({ onAsk, isLoading = false }: AskBarProps) {
     if (question && !isLoading) onAsk(question);
   };
 
+  // A spoken question is asked the moment recognition finishes, rather than
+  // dropped into the text box for the farmer to press "Ask" again -- voice
+  // exists precisely for someone who would rather not type at all, so
+  // requiring a second tap to submit what they just said would defeat it.
+  const { isListening, isRecognitionSupported, startListening, stopListening, error } =
+    useVoiceAssistant({
+      locale: speechLocale,
+      onResult: (said) => {
+        setText(said);
+        if (said.trim() && !isLoading) onAsk(said.trim());
+      },
+    });
+
   return (
     <div>
       {/* Crops first: the common case, answered in one tap. */}
       <div className="flex flex-wrap justify-center gap-2.5">
         {CROPS.map((crop) => {
           const produce = resolveProduce(crop);
+          const script = produceScript(produce, lang);
           return (
             <button
               key={crop}
@@ -50,11 +68,8 @@ export default function AskBar({ onAsk, isLoading = false }: AskBarProps) {
                 <span className="block text-sm font-bold text-[var(--farm-ink)]">
                   {produce.label}
                 </span>
-                <span
-                  className="block text-xs text-[var(--farm-ink-faint)]"
-                  lang="hi"
-                >
-                  {produce.hindi}
+                <span className="block text-xs text-[var(--farm-ink-faint)]" lang={script.bcp47}>
+                  {script.text}
                 </span>
               </span>
             </button>
@@ -77,6 +92,29 @@ export default function AskBar({ onAsk, isLoading = false }: AskBarProps) {
             disabled={isLoading}
             className="min-w-0 flex-1 bg-transparent py-3 text-base text-[var(--farm-ink)] outline-none placeholder:text-[var(--farm-ink-faint)]"
           />
+          {isRecognitionSupported && (
+            <button
+              type="button"
+              onClick={isListening ? stopListening : startListening}
+              disabled={isLoading}
+              aria-label={isListening ? t('voice.listening') : t('voice.tap_to_speak')}
+              className="farm-focus relative shrink-0 rounded-xl p-2.5 transition-colors disabled:opacity-40"
+              style={{
+                background: isListening ? 'var(--call-sell-wash)' : 'var(--farm-line)',
+                color: isListening ? 'var(--call-sell)' : 'var(--farm-ink-soft)',
+              }}
+            >
+              {isListening && (
+                <motion.span
+                  className="absolute inset-0 rounded-xl"
+                  style={{ background: 'var(--call-sell)' }}
+                  animate={{ opacity: [0.35, 0, 0.35], scale: [1, 1.35, 1] }}
+                  transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              )}
+              <Mic className="relative z-10 h-4 w-4" />
+            </button>
+          )}
           <button
             type="submit"
             disabled={isLoading || !text.trim()}
@@ -90,6 +128,9 @@ export default function AskBar({ onAsk, isLoading = false }: AskBarProps) {
             )}
           </button>
         </div>
+        {error === 'not_supported' && (
+          <p className="mt-1.5 px-1 text-xs text-[var(--farm-ink-faint)]">{t('voice.not_supported')}</p>
+        )}
       </form>
     </div>
   );

@@ -34,6 +34,10 @@ class QueryOrchestrator:
         if not parsed.is_complete:
             return {
                 "decision": "WAIT",
+                # Not an abstention or a refusal on a real series -- the
+                # question itself was incomplete, so nothing was looked up.
+                "call_type": "UNAVAILABLE",
+                "abstention_reason": None,
                 "summary": "I need a little more detail",
                 "reasoning": describe_gap(parsed),
                 "market_insight": "Incomplete query",
@@ -72,6 +76,13 @@ class QueryOrchestrator:
 
         return {
             "decision": action,
+            # Carried straight through from the orchestrator rather than
+            # re-derived here -- see `decision_orchestrator.py` for why a
+            # farmer must be able to tell "the policy called this" apart
+            # from "the policy declined" apart from "nothing was decided",
+            # all three of which otherwise arrive as the same string "WAIT".
+            "call_type": decision.get("call_type"),
+            "abstention_reason": decision.get("abstention_reason"),
             "summary": summary,
             "reasoning": decision.get("reasoning", ""),
             "market_insight": market_insight,
