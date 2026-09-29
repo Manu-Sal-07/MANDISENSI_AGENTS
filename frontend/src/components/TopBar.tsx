@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: '/market-explorer', label: 'Market Explorer' },
   { href: '/intelligence-lab', label: 'Intelligence Lab' },
   { href: '/terminal', label: 'Command Center' },
+  { href: '/trader-tools', label: 'Trader Tools' },
   { href: '/ai-brief', label: 'AI Brief' },
 ];
 

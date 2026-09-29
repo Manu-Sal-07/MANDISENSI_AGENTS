@@ -1095,6 +1095,18 @@ body {
   letter-spacing: -0.015em;
 }
 
+/* Baloo 2 carries no Kannada glyphs -- every tracked mandi is in
+   Karnataka, so any text marked `lang="kn"` (CallCard's verb, ProduceIcon's
+   crop names, the Tools Hub) switches to Baloo Tamma 2, the same type
+   family's Kannada-script sibling, rather than silently falling through to
+   whatever the browser's default Kannada font happens to be. `:lang()`
+   matches the element the attribute is set on and any descendant that does
+   not set its own, so this reaches farm-display headings and plain body
+   text alike with one rule. */
+:lang(kn) {
+  font-family: var(--font-farm-kn), var(--font-farm), var(--font-sans), system-ui, sans-serif;
+}
+
 /* ── The ambient field ─────────────────────────────────────────────────
    A hand-built scene rather than photography: a few KB against several
    megabytes, which is the difference between loading and not loading on a

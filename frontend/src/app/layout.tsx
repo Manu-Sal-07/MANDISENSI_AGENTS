@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono, Baloo_2 } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono, Baloo_2, Baloo_Tamma_2 } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import TopBar from "@/components/TopBar";
@@ -25,6 +25,21 @@ const spaceGrotesk = Space_Grotesk({
 const baloo = Baloo_2({
   subsets: ["latin", "devanagari"],
   variable: "--font-farm",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+// Baloo 2 has no Kannada glyphs at all — every tracked mandi is in
+// Karnataka, and Kannada text (ProduceIcon, CallCard's verb, the Tools Hub)
+// was rendering in whatever fallback font the browser picked, visually
+// inconsistent with the rest of the farm surface. Baloo Tamma 2 is the same
+// Ek Type family's Kannada-script sibling — same weight range, same
+// rounded, high-x-height design language — so farm-display text reads as
+// one typeface across scripts instead of two unrelated ones stitched
+// together by script.
+const balooKannada = Baloo_Tamma_2({
+  subsets: ["kannada"],
+  variable: "--font-farm-kn",
   display: "swap",
   weight: ["400", "500", "600", "700", "800"],
 });
@@ -71,7 +86,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${baloo.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${baloo.variable} ${balooKannada.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />

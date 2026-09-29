@@ -266,7 +266,7 @@ export default function TraderOS() {
 
   const [selectedCommodity, setSelectedCommodity] = useState<string>('ALL');
   const [selectedMandi, setSelectedMandi] = useState<string>('ALL');
-  const [selectedHorizon, setSelectedHorizon] = useState<string>('30D');
+  const [selectedHorizon, setSelectedHorizon] = useState<string>('7D');
   const [selectedMode, setSelectedMode] = useState<string>('ATTENTION');
 
   const availableMandis = useMemo(() => {
@@ -411,16 +411,24 @@ export default function TraderOS() {
     else if (queryLower.includes('ginger')) resolvedComm = 'GINGER';
 
     if (queryLower.includes('bangalore') || queryLower.includes('yeshwanthpur')) {
-      resolvedMandi = 'bangalore_yeshwanthpur_apmc';
+      // The canonical id has no "_apmc" suffix (see forecasting/naming.py) --
+      // this typo meant a Bangalore-scoped question never matched any real
+      // series and silently fell through to the active/global fallback.
+      resolvedMandi = 'bangalore_yeshwanthpur';
     } else if (queryLower.includes('kolar')) {
       resolvedMandi = 'kolar_apmc';
     }
 
+    // Only 1/3/5/7-day horizons are ever published (see
+    // forecasting/config.py FORECAST_HORIZONS) -- 14D/30D/SEASONAL/LONG_TERM
+    // were offered in the dropdown but resolved to a horizon that does not
+    // exist, and the resolved value was sent in a `context` object the
+    // backend's QueryRequest schema has no field for and silently drops, so
+    // none of this ever reached the model regardless of what matched here.
     if (queryLower.includes('7d') || queryLower.includes('7 days') || queryLower.includes('1 week')) resolvedHorizon = '7D';
-    else if (queryLower.includes('14d') || queryLower.includes('14 days') || queryLower.includes('2 weeks')) resolvedHorizon = '14D';
-    else if (queryLower.includes('30d') || queryLower.includes('30 days') || queryLower.includes('1 month')) resolvedHorizon = '30D';
-    else if (queryLower.includes('seasonal') || queryLower.includes('season')) resolvedHorizon = 'SEASONAL';
-    else if (queryLower.includes('long term') || queryLower.includes('long-term') || queryLower.includes('strategic')) resolvedHorizon = 'LONG_TERM';
+    else if (queryLower.includes('5d') || queryLower.includes('5 days')) resolvedHorizon = '5D';
+    else if (queryLower.includes('3d') || queryLower.includes('3 days')) resolvedHorizon = '3D';
+    else if (queryLower.includes('1d') || queryLower.includes('1 day') || queryLower.includes('tomorrow')) resolvedHorizon = '1D';
 
     // Priority 2/3: Active context / Global scope resolution
     const targetState = allStates.find((s) => {
@@ -433,32 +441,58 @@ export default function TraderOS() {
     const commName = targetState?.commodity?.toUpperCase() || 'PORTFOLIO';
     const mandiName = targetState?.mandi_id?.replace('_apmc', '').replace(/_/g, ' ').toUpperCase() || 'ALL APMCS';
 
-    // Call backend
+    // Call backend. `QueryRequest` (backend/app/schemas/request.py) has a
+    // single `query: str` field -- the `context` object this used to send
+    // alongside it has no matching field and was dropped before the
+    // orchestrator ever saw it, so the commodity/mandi/horizon dropdowns
+    // had zero effect on what was actually asked. The backend's own parser
+    // (query_parser.py) reads commodity, mandi and horizon out of the free
+    // text itself, so the resolved context is folded into the text instead.
+    const enrichedQuery = [
+      queryText,
+      resolvedComm && !queryLower.includes(resolvedComm.toLowerCase()) ? resolvedComm : null,
+      resolvedMandi && !queryLower.includes(resolvedMandi.replace(/_/g, ' ')) ? `at ${resolvedMandi.replace(/_apmc$/, '').replace(/_/g, ' ')}` : null,
+      resolvedHorizon ? `over ${resolvedHorizon.replace('D', '')} days` : null,
+    ].filter(Boolean).join(' ');
+
     try {
       const res = await fetch(`${API_BASE_URL}/v1/query/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          query: queryText,
-          context: {
-            commodity: resolvedComm || targetState?.commodity,
-            mandi: resolvedMandi || targetState?.mandi_id,
-            horizon: resolvedHorizon
-          }
-        })
+        body: JSON.stringify({ query: enrichedQuery }),
       });
       if (res.ok) {
         const data = await res.json();
-        
+        // `confidence` can be a real 0.0 (the backend's honest answer for an
+        // unavailable series) -- `? :` treats 0.0 as falsy, which silently
+        // swapped a real "we know nothing" for a fabricated 88%. Checking
+        // for null/undefined explicitly instead, and reporting "Unknown"
+        // rather than inventing a number when it truly is absent.
+        const rawConfidence = data.metadata?.confidence;
+        const confidenceStr =
+          rawConfidence !== null && rawConfidence !== undefined
+            ? `${(rawConfidence * 100).toFixed(0)}%`
+            : 'Unknown';
+        // `call_type` is ADVISED / ABSTAINED / UNAVAILABLE (see
+        // decision_orchestrator.py) -- the one field that distinguishes a
+        // validated call from "no forecast exists for this series at all".
+        const unavailable = data.call_type === 'UNAVAILABLE';
+
         setCopilotResponse({
-          recommendation: data.decision 
+          recommendation: unavailable
+            ? `No forecast is available for ${commName} at ${mandiName}. ${data.reasoning || ''}`
+            : data.decision
             ? `Decision: ${data.decision.toUpperCase()}. ${data.summary || data.reasoning}`
             : `DECISION ADVISORY for ${commName} at ${mandiName}.`,
           evidence: data.reasoning || `Resolved scoping to ${commName} at ${mandiName} under ${resolvedHorizon} forecast.`,
-          risk: data.market_insight || `Volatility indicator matches standard historical bounds.`,
-          businessImpact: metrics ? `₹${(metrics.financialImpact / 100000).toFixed(2)} Lakhs projected exposure variance` : '₹0.00 Lakhs',
-          confidence: data.metadata?.confidence ? `${(data.metadata.confidence * 100).toFixed(0)}%` : '88%',
-          nextAction: `Model risk mitigation ROI using the shift simulator for ${commName}.`
+          risk: unavailable ? 'No live signal to assess.' : (data.market_insight || `Volatility indicator matches standard historical bounds.`),
+          businessImpact: unavailable
+            ? 'Not available -- no forecast to size a position against.'
+            : (metrics ? `₹${(metrics.financialImpact / 100000).toFixed(2)} Lakhs projected exposure variance` : 'Not available'),
+          confidence: unavailable ? 'Unknown' : confidenceStr,
+          nextAction: unavailable
+            ? 'Check back once this series has enough recent history to forecast.'
+            : `Model risk mitigation ROI using the shift simulator for ${commName}.`,
         });
         setLoading(false);
         return;
@@ -543,9 +577,12 @@ export default function TraderOS() {
     
     let memoText = "";
     if (activeState.risk_level === 'CRITICAL' || activeState.risk_level === 'HIGH') {
-      memoText = `STRATEGIC ADVISORY: ${comm} markets at ${mandi} are under high pressure. Pricing trend is ${activeState.trend} with a predicted modal rate of ₹${activeState.price_prediction?.toFixed(0)}/MT. Volatility regime is classified as ${activeState.volatility?.regime || 'ELEVATED'}. We advise immediate LOCK CONTRACTS action. Expected exposure variance is ₹${(metrics.financialImpact / 100000).toFixed(2)} Lakhs, and delaying procurement by 48 hours could incur a cost of ₹${(metrics.costOfDelay / 100000).toFixed(2)} Lakhs.`;
+      // The archive prices in rupees per quintal (see forecasting/config.py),
+      // never per metric tonne -- "/MT" here was a unit that does not match
+      // the number it labelled.
+      memoText = `STRATEGIC ADVISORY: ${comm} markets at ${mandi} are under high pressure. Pricing trend is ${activeState.trend} with a predicted modal rate of ₹${activeState.price_prediction?.toFixed(0)}/quintal. Volatility regime is classified as ${activeState.volatility?.regime || 'ELEVATED'}. We advise immediate LOCK CONTRACTS action. Expected exposure variance is ₹${(metrics.financialImpact / 100000).toFixed(2)} Lakhs (illustrative, assumed volume), and delaying procurement by 48 hours could incur a cost of ₹${(metrics.costOfDelay / 100000).toFixed(2)} Lakhs.`;
     } else {
-      memoText = `MARKET OVERVIEW: ${comm} markets at ${mandi} remain stable. Pricing trend is ${activeState.trend} with a predicted modal rate of ₹${activeState.price_prediction?.toFixed(0)}/MT. Volatility regime is classified as ${activeState.volatility?.regime || 'NOMINAL'}. The recommended posture is ${metrics.actionName}. Estimated exposure variance is ₹${(metrics.financialImpact / 100000).toFixed(2)} Lakhs. Standard sourcing corridors are fully operational.`;
+      memoText = `MARKET OVERVIEW: ${comm} markets at ${mandi} remain stable. Pricing trend is ${activeState.trend} with a predicted modal rate of ₹${activeState.price_prediction?.toFixed(0)}/quintal. Volatility regime is classified as ${activeState.volatility?.regime || 'NOMINAL'}. The recommended posture is ${metrics.actionName}. Estimated exposure variance is ₹${(metrics.financialImpact / 100000).toFixed(2)} Lakhs (illustrative, assumed volume). Standard sourcing corridors are fully operational.`;
     }
     return memoText;
   }, [activeState]);
@@ -674,11 +711,14 @@ export default function TraderOS() {
                   onChange={(e) => setSelectedHorizon(e.target.value)}
                   className="bg-transparent border-none text-[11px] font-semibold font-display text-white outline-none cursor-pointer pr-1 focus:ring-0"
                 >
-                  <option value="7D" className="bg-[#141724] text-white">7 Days (Short)</option>
-                  <option value="14D" className="bg-[#141724] text-white">14 Days</option>
-                  <option value="30D" className="bg-[#141724] text-white">30 Days (Standard)</option>
-                  <option value="SEASONAL" className="bg-[#141724] text-white">Seasonal Forecast</option>
-                  <option value="LONG_TERM" className="bg-[#141724] text-white">Long Term (Strategic)</option>
+                  {/* Only 1/3/5/7-day horizons are ever published (see
+                      forecasting/config.py FORECAST_HORIZONS) -- longer
+                      options here used to resolve to a horizon that does
+                      not exist and had no effect on the answer anyway. */}
+                  <option value="1D" className="bg-[#141724] text-white">1 Day</option>
+                  <option value="3D" className="bg-[#141724] text-white">3 Days</option>
+                  <option value="5D" className="bg-[#141724] text-white">5 Days</option>
+                  <option value="7D" className="bg-[#141724] text-white">7 Days (Standard)</option>
                 </select>
               </div>
 
@@ -754,16 +794,19 @@ export default function TraderOS() {
                   </div>
 
                   <div className="border border-[#1e2335] bg-[#131622]/60 p-4 rounded-xl relative overflow-hidden backdrop-blur-md">
-                    <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Sourcing Exposure</span>
+                    <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Sourcing Exposure (illustrative)</span>
                     <div className="flex items-baseline gap-1.5 mt-2">
                       <span className="font-display text-2xl font-extrabold text-white">₹{(portfolioMetrics.totalExposure / 100000).toFixed(1)}L</span>
                       <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest font-semibold">Unhedged</span>
                     </div>
-                    <p className="text-[9px] text-slate-400 font-mono mt-3">Active exposure monitored in corridors</p>
+                    {/* Assumed trade volume per commodity, not a real position -- see
+                        the Trader Tools position book for exposure priced against
+                        what is actually held. */}
+                    <p className="text-[9px] text-slate-400 font-mono mt-3">Assumed volume, not a real position -- see Trader Tools</p>
                   </div>
 
                   <div className="border border-[#1e2335] bg-[#131622]/60 p-4 rounded-xl relative overflow-hidden backdrop-blur-md">
-                    <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Contract Variance Opportunity</span>
+                    <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Contract Variance Opportunity (illustrative)</span>
                     <div className="flex items-baseline gap-1.5 mt-2">
                       <span className="font-display text-2xl font-extrabold text-emerald-400">₹{(portfolioMetrics.totalOpportunity / 100000).toFixed(1)}L</span>
                       <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest font-semibold">Hedge ROI</span>

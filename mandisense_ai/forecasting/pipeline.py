@@ -42,6 +42,67 @@ def _stage_result(status: str, **extra: Any) -> Dict[str, Any]:
     return {"status": status, **extra}
 
 
+def _backfill_arrivals_from_ceda(fetched: pd.DataFrame) -> Dict[str, Any]:
+    """
+    Fill in arrival volumes for tonight's fetched rows from CEDA, in place.
+
+    Deliberately arrivals-only, never prices: `datagov.py` is this project's
+    established, tested price source, and blending in a second live price
+    feed would mean deciding whose number wins on the nights they disagree
+    -- a real correctness question this system has no basis to answer yet.
+    Arrivals carry no such conflict: the datagov feed has never published
+    them at all (see `datagov.py`'s module docstring), so there is nothing
+    to disagree with, and every row CEDA fills here is a row that would
+    otherwise be silently absent.
+
+    A no-op, not a failure, when `CEDA_API_KEY` is unset -- this runs on
+    every ingestion from the day this function shipped, and stays inert
+    until a key exists. When one does, nothing else needs to change; ingestion
+    starts carrying real arrivals on its very next run.
+    """
+    from mandisense_ai.forecasting.sources import ceda
+
+    if not ceda.is_configured():
+        return {"status": "NOT_CONFIGURED"}
+
+    try:
+        as_of = pd.to_datetime(fetched["date"]).max()
+        date_str = as_of.strftime("%Y-%m-%d")
+        mandi_ids = sorted(fetched["mandi_id"].dropna().unique().tolist())
+        commodities = sorted(fetched["commodity"].dropna().unique().tolist())
+
+        ceda_frame = ceda.fetch_daily_prices_and_arrivals(
+            date_str, date_str, commodities=commodities, mandi_ids=mandi_ids,
+        )
+    except Exception as exc:
+        # A CEDA outage or a bad key must never take down the price
+        # ingestion this system already depends on -- logged and skipped,
+        # not raised.
+        logger.warning("CEDA arrivals backfill skipped: %s", exc)
+        return {"status": "ERROR", "error": str(exc)}
+
+    if ceda_frame.empty:
+        return {"status": "OK", "matched": 0}
+
+    lookup = (
+        ceda_frame.dropna(subset=["arrivals"])
+        .drop_duplicates(subset=["date", "commodity", "mandi_id"], keep="last")
+        .set_index(["date", "commodity", "mandi_id"])["arrivals"]
+    )
+    fetched_dates = pd.to_datetime(fetched["date"])
+    keys = list(zip(fetched_dates, fetched["commodity"], fetched["mandi_id"]))
+    matched_arrivals = pd.Series([lookup.get(k) for k in keys], index=fetched.index)
+
+    # Never overwrites an arrival value datagov already carried -- there
+    # currently are none (see above), but a future upstream change adding
+    # them must not have CEDA silently override an established source.
+    missing = fetched["arrivals"].isna()
+    fill_mask = missing & matched_arrivals.notna()
+    fetched.loc[fill_mask, "arrivals"] = matched_arrivals[fill_mask]
+
+    return {"status": "OK", "matched": int(fill_mask.sum())}
+
+
 def run_ingestion(config: ForecastConfig = DEFAULT_CONFIG) -> Dict[str, Any]:
     """
     Fetch today's prices from the live feed, grade them, and upsert them.
@@ -75,6 +136,8 @@ def run_ingestion(config: ForecastConfig = DEFAULT_CONFIG) -> Dict[str, Any]:
     if fetched.empty:
         return _stage_result("NO_RECORDS", rows=0)
 
+    ceda_stage = _backfill_arrivals_from_ceda(fetched)
+
     history = store.read()
 
     hard_accepted, hard_report = validate_observations(fetched, history=history)
@@ -103,7 +166,8 @@ def run_ingestion(config: ForecastConfig = DEFAULT_CONFIG) -> Dict[str, Any]:
 
     counts = store.upsert(scored)
     return _stage_result(
-        "OK", **counts, validation=hard_report.as_dict(), quality=quality_report.as_dict()
+        "OK", **counts, ceda_arrivals=ceda_stage,
+        validation=hard_report.as_dict(), quality=quality_report.as_dict()
     )
 
 
