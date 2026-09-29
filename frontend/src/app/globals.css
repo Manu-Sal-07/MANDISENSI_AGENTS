@@ -1,112 +1,430 @@
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════════
-   TRADEROS INTELLIGENCE TERMINAL — DESIGN SYSTEM
-   Premium Command-Center Visual Language
-   ═══════════════════════════════════════════════════ */
+/* Tailwind v4 defaults `dark:` to the OS `prefers-color-scheme` media query.
+   This app toggles a `.dark` class on <html> (ThemeContext + the no-flash
+   script in layout.tsx), and with no tailwind.config.js in this project that
+   class-based toggle was never wired up — every `dark:` utility across the
+   codebase (evaluator views, intelligence-lab, etc.) was silently reacting
+   to the OS theme instead of the in-app switch. This line is what makes
+   `dark:` respect `.dark` on an ancestor, matching the toggle everywhere. */
+@custom-variant dark (&:where(.dark, .dark *));
 
+/* ═══════════════════════════════════════════════════════════════════════
+   MANDISENSE AI — UNIFIED DESIGN SYSTEM
+   One visual language across every surface: a premium, data-dense trading
+   terminal aesthetic — dark-native, glass-layered, calm but alive.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Raw theme tokens — the only place light/dark values are decided ── */
 :root {
-  /* ── Core Surfaces ── */
-  --background: #06090f;
-  --foreground: #e2e8f0;
-  --surface-0: #05080e;
-  --surface-1: #0b1420;
-  --surface-2: #101b28;
-  --surface-3: #142130;
-  --surface-4: #182a38;
-  --surface-border: rgba(148, 163, 184, 0.14);
-  --surface-strong: rgba(15, 23, 42, 0.9);
+  color-scheme: light;
 
-  /* ── Primary Accent ── */
-  --accent: #48d0ff;
-  --accent-soft: rgba(72, 208, 255, 0.14);
+  --background: #f5f6fa;
+  --foreground: #10131c;
 
-  /* ── Semantic Status Colors ── */
-  --bullish: #34d399;
-  --bullish-glow: rgba(52, 211, 153, 0.25);
-  --bearish: #fb7185;
-  --bearish-glow: rgba(251, 113, 133, 0.25);
-  --neutral: #94a3b8;
-  --intelligence: #38bdf8;
+  --surface-0: #ffffff;
+  --surface-1: #f8f9fc;
+  --surface-2: #f0f2f7;
+  --surface-3: #e7eaf2;
+  --surface-4: #dadfec;
+  --surface-border: rgba(16, 19, 28, 0.09);
+  --surface-border-strong: rgba(16, 19, 28, 0.16);
+  --surface-glass: rgba(255, 255, 255, 0.72);
 
-  /* ── Panel Region Accents ── */
-  --archive-accent: #34d399;
-  --archive-accent-soft: rgba(52, 211, 153, 0.12);
-  --archive-border: rgba(52, 211, 153, 0.18);
-  --archive-surface: rgba(6, 22, 18, 0.55);
+  --accent: #4f46e5;
+  --accent-strong: #4338ca;
+  --accent-soft: rgba(79, 70, 229, 0.1);
+  --accent-glow: rgba(79, 70, 229, 0.22);
 
-  --viewport-accent: #22d3ee;
-  --viewport-accent-soft: rgba(34, 211, 238, 0.14);
-  --viewport-border: rgba(34, 211, 238, 0.22);
-  --viewport-surface: rgba(8, 47, 73, 0.25);
+  --intelligence: #0891b2;
+  --intelligence-soft: rgba(8, 145, 178, 0.1);
 
-  --recovery-accent: #a78bfa;
-  --recovery-accent-soft: rgba(167, 139, 250, 0.12);
-  --recovery-border: rgba(167, 139, 250, 0.18);
-  --recovery-surface: rgba(30, 15, 60, 0.35);
+  --bullish: #059669;
+  --bullish-glow: rgba(5, 150, 105, 0.18);
+  --bearish: #e11d48;
+  --bearish-glow: rgba(225, 29, 72, 0.18);
+  --warning: #d97706;
+  --warning-glow: rgba(217, 119, 6, 0.18);
+  --analytical: #7c3aed;
+  --analytical-glow: rgba(124, 58, 237, 0.16);
+  --neutral-signal: #64748b;
 
-  /* ── Status Spectrum ── */
-  --status-bullish: #34d399;
-  --status-bearish: #fb7185;
-  --status-stable: #38bdf8;
-  --status-warning: #fbbf24;
-  --status-confidence: #2dd4bf;
-  --status-risk: #f97316;
+  --shadow-color: 220 40% 30%;
 }
 
-.dark {
-  --background: #04060b;
-  --foreground: #eef2ff;
-  --surface-0: #04070c;
-  --surface-1: #09131e;
-  --surface-2: #0e1725;
-  --surface-3: #131e2c;
-  --surface-4: #16263a;
+:root.dark {
+  color-scheme: dark;
+
+  --background: #05070c;
+  --foreground: #e7ecf5;
+
+  --surface-0: #05070c;
+  --surface-1: #0a0e17;
+  --surface-2: #0e1420;
+  --surface-3: #131a2a;
+  --surface-4: #182036;
   --surface-border: rgba(148, 163, 184, 0.12);
-  --surface-strong: rgba(11, 16, 25, 0.92);
-  --accent: #5ee7ff;
-  --accent-soft: rgba(94, 231, 255, 0.16);
+  --surface-border-strong: rgba(148, 163, 184, 0.22);
+  --surface-glass: rgba(10, 14, 23, 0.7);
+
+  --accent: #6366f1;
+  --accent-strong: #818cf8;
+  --accent-soft: rgba(99, 102, 241, 0.14);
+  --accent-glow: rgba(99, 102, 241, 0.35);
+
+  --intelligence: #22d3ee;
+  --intelligence-soft: rgba(34, 211, 238, 0.12);
+
   --bullish: #34d399;
+  --bullish-glow: rgba(52, 211, 153, 0.28);
   --bearish: #fb7185;
-  --neutral: #a5b4fc;
-  --intelligence: #6ee7ff;
+  --bearish-glow: rgba(251, 113, 133, 0.28);
+  --warning: #fbbf24;
+  --warning-glow: rgba(251, 191, 36, 0.24);
+  --analytical: #a78bfa;
+  --analytical-glow: rgba(167, 139, 250, 0.22);
+  --neutral-signal: #94a3b8;
+
+  --shadow-color: 220 90% 3%;
 }
 
-/* ═══════════════════════════════════════════════════
-   BODY & ATMOSPHERIC BACKGROUND
-   ═══════════════════════════════════════════════════ */
+/* Legacy alias kept for existing markup that still targets .dark directly
+   (some components toggle a bare `.dark` class rather than `:root.dark`). */
+.dark {
+  color-scheme: dark;
+}
+
+/* ── Motion & easing tokens ── */
+:root {
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --duration-slow: 420ms;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TAILWIND THEME BINDINGS
+   Semantic tokens become first-class utilities: bg-background, text-accent,
+   border-border, bg-surface-2, etc. Values resolve at runtime via var(),
+   so a single class works correctly in both themes.
+   ═══════════════════════════════════════════════════════════════════════ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-4: var(--surface-4);
+  --color-border: var(--surface-border);
+  --color-border-strong: var(--surface-border-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-intelligence: var(--intelligence);
+
+  --color-bullish: var(--bullish);
+  --color-bearish: var(--bearish);
+  --color-warning: var(--warning);
+  --color-analytical: var(--analytical);
+  --color-neutral-signal: var(--neutral-signal);
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-display), var(--font-sans), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   EXTENDED COLOR RAMP
+   Tailwind ships 100-unit steps. A handful of legacy components in this
+   codebase were authored against a finer 50-unit ramp that never existed
+   (e.g. text-slate-450, text-emerald-450), which Tailwind silently drops —
+   the classes render as nothing. Rather than hunt every call site, the
+   gaps are filled here via perceptual (OKLCH) interpolation of Tailwind's
+   own adjacent shades, so every one of those classes now resolves exactly
+   as originally intended, and any future half-step usage just works too.
+   ═══════════════════════════════════════════════════════════════════════ */
+@theme {
+  /* slate half-steps */
+  --color-slate-150: color-mix(in oklch, var(--color-slate-100) 50%, var(--color-slate-200) 50%);
+  --color-slate-250: color-mix(in oklch, var(--color-slate-200) 50%, var(--color-slate-300) 50%);
+  --color-slate-350: color-mix(in oklch, var(--color-slate-300) 50%, var(--color-slate-400) 50%);
+  --color-slate-450: color-mix(in oklch, var(--color-slate-400) 50%, var(--color-slate-500) 50%);
+  --color-slate-550: color-mix(in oklch, var(--color-slate-500) 50%, var(--color-slate-600) 50%);
+  --color-slate-650: color-mix(in oklch, var(--color-slate-600) 50%, var(--color-slate-700) 50%);
+  --color-slate-750: color-mix(in oklch, var(--color-slate-700) 50%, var(--color-slate-800) 50%);
+  --color-slate-850: color-mix(in oklch, var(--color-slate-800) 50%, var(--color-slate-900) 50%);
+  /* gray half-steps */
+  --color-gray-150: color-mix(in oklch, var(--color-gray-100) 50%, var(--color-gray-200) 50%);
+  --color-gray-250: color-mix(in oklch, var(--color-gray-200) 50%, var(--color-gray-300) 50%);
+  --color-gray-350: color-mix(in oklch, var(--color-gray-300) 50%, var(--color-gray-400) 50%);
+  --color-gray-450: color-mix(in oklch, var(--color-gray-400) 50%, var(--color-gray-500) 50%);
+  --color-gray-550: color-mix(in oklch, var(--color-gray-500) 50%, var(--color-gray-600) 50%);
+  --color-gray-650: color-mix(in oklch, var(--color-gray-600) 50%, var(--color-gray-700) 50%);
+  --color-gray-750: color-mix(in oklch, var(--color-gray-700) 50%, var(--color-gray-800) 50%);
+  --color-gray-850: color-mix(in oklch, var(--color-gray-800) 50%, var(--color-gray-900) 50%);
+  /* zinc half-steps */
+  --color-zinc-150: color-mix(in oklch, var(--color-zinc-100) 50%, var(--color-zinc-200) 50%);
+  --color-zinc-250: color-mix(in oklch, var(--color-zinc-200) 50%, var(--color-zinc-300) 50%);
+  --color-zinc-350: color-mix(in oklch, var(--color-zinc-300) 50%, var(--color-zinc-400) 50%);
+  --color-zinc-450: color-mix(in oklch, var(--color-zinc-400) 50%, var(--color-zinc-500) 50%);
+  --color-zinc-550: color-mix(in oklch, var(--color-zinc-500) 50%, var(--color-zinc-600) 50%);
+  --color-zinc-650: color-mix(in oklch, var(--color-zinc-600) 50%, var(--color-zinc-700) 50%);
+  --color-zinc-750: color-mix(in oklch, var(--color-zinc-700) 50%, var(--color-zinc-800) 50%);
+  --color-zinc-850: color-mix(in oklch, var(--color-zinc-800) 50%, var(--color-zinc-900) 50%);
+  /* neutral half-steps */
+  --color-neutral-150: color-mix(in oklch, var(--color-neutral-100) 50%, var(--color-neutral-200) 50%);
+  --color-neutral-250: color-mix(in oklch, var(--color-neutral-200) 50%, var(--color-neutral-300) 50%);
+  --color-neutral-350: color-mix(in oklch, var(--color-neutral-300) 50%, var(--color-neutral-400) 50%);
+  --color-neutral-450: color-mix(in oklch, var(--color-neutral-400) 50%, var(--color-neutral-500) 50%);
+  --color-neutral-550: color-mix(in oklch, var(--color-neutral-500) 50%, var(--color-neutral-600) 50%);
+  --color-neutral-650: color-mix(in oklch, var(--color-neutral-600) 50%, var(--color-neutral-700) 50%);
+  --color-neutral-750: color-mix(in oklch, var(--color-neutral-700) 50%, var(--color-neutral-800) 50%);
+  --color-neutral-850: color-mix(in oklch, var(--color-neutral-800) 50%, var(--color-neutral-900) 50%);
+  /* stone half-steps */
+  --color-stone-150: color-mix(in oklch, var(--color-stone-100) 50%, var(--color-stone-200) 50%);
+  --color-stone-250: color-mix(in oklch, var(--color-stone-200) 50%, var(--color-stone-300) 50%);
+  --color-stone-350: color-mix(in oklch, var(--color-stone-300) 50%, var(--color-stone-400) 50%);
+  --color-stone-450: color-mix(in oklch, var(--color-stone-400) 50%, var(--color-stone-500) 50%);
+  --color-stone-550: color-mix(in oklch, var(--color-stone-500) 50%, var(--color-stone-600) 50%);
+  --color-stone-650: color-mix(in oklch, var(--color-stone-600) 50%, var(--color-stone-700) 50%);
+  --color-stone-750: color-mix(in oklch, var(--color-stone-700) 50%, var(--color-stone-800) 50%);
+  --color-stone-850: color-mix(in oklch, var(--color-stone-800) 50%, var(--color-stone-900) 50%);
+  /* red half-steps */
+  --color-red-150: color-mix(in oklch, var(--color-red-100) 50%, var(--color-red-200) 50%);
+  --color-red-250: color-mix(in oklch, var(--color-red-200) 50%, var(--color-red-300) 50%);
+  --color-red-350: color-mix(in oklch, var(--color-red-300) 50%, var(--color-red-400) 50%);
+  --color-red-450: color-mix(in oklch, var(--color-red-400) 50%, var(--color-red-500) 50%);
+  --color-red-550: color-mix(in oklch, var(--color-red-500) 50%, var(--color-red-600) 50%);
+  --color-red-650: color-mix(in oklch, var(--color-red-600) 50%, var(--color-red-700) 50%);
+  --color-red-750: color-mix(in oklch, var(--color-red-700) 50%, var(--color-red-800) 50%);
+  --color-red-850: color-mix(in oklch, var(--color-red-800) 50%, var(--color-red-900) 50%);
+  /* orange half-steps */
+  --color-orange-150: color-mix(in oklch, var(--color-orange-100) 50%, var(--color-orange-200) 50%);
+  --color-orange-250: color-mix(in oklch, var(--color-orange-200) 50%, var(--color-orange-300) 50%);
+  --color-orange-350: color-mix(in oklch, var(--color-orange-300) 50%, var(--color-orange-400) 50%);
+  --color-orange-450: color-mix(in oklch, var(--color-orange-400) 50%, var(--color-orange-500) 50%);
+  --color-orange-550: color-mix(in oklch, var(--color-orange-500) 50%, var(--color-orange-600) 50%);
+  --color-orange-650: color-mix(in oklch, var(--color-orange-600) 50%, var(--color-orange-700) 50%);
+  --color-orange-750: color-mix(in oklch, var(--color-orange-700) 50%, var(--color-orange-800) 50%);
+  --color-orange-850: color-mix(in oklch, var(--color-orange-800) 50%, var(--color-orange-900) 50%);
+  /* amber half-steps */
+  --color-amber-150: color-mix(in oklch, var(--color-amber-100) 50%, var(--color-amber-200) 50%);
+  --color-amber-250: color-mix(in oklch, var(--color-amber-200) 50%, var(--color-amber-300) 50%);
+  --color-amber-350: color-mix(in oklch, var(--color-amber-300) 50%, var(--color-amber-400) 50%);
+  --color-amber-450: color-mix(in oklch, var(--color-amber-400) 50%, var(--color-amber-500) 50%);
+  --color-amber-550: color-mix(in oklch, var(--color-amber-500) 50%, var(--color-amber-600) 50%);
+  --color-amber-650: color-mix(in oklch, var(--color-amber-600) 50%, var(--color-amber-700) 50%);
+  --color-amber-750: color-mix(in oklch, var(--color-amber-700) 50%, var(--color-amber-800) 50%);
+  --color-amber-850: color-mix(in oklch, var(--color-amber-800) 50%, var(--color-amber-900) 50%);
+  /* yellow half-steps */
+  --color-yellow-150: color-mix(in oklch, var(--color-yellow-100) 50%, var(--color-yellow-200) 50%);
+  --color-yellow-250: color-mix(in oklch, var(--color-yellow-200) 50%, var(--color-yellow-300) 50%);
+  --color-yellow-350: color-mix(in oklch, var(--color-yellow-300) 50%, var(--color-yellow-400) 50%);
+  --color-yellow-450: color-mix(in oklch, var(--color-yellow-400) 50%, var(--color-yellow-500) 50%);
+  --color-yellow-550: color-mix(in oklch, var(--color-yellow-500) 50%, var(--color-yellow-600) 50%);
+  --color-yellow-650: color-mix(in oklch, var(--color-yellow-600) 50%, var(--color-yellow-700) 50%);
+  --color-yellow-750: color-mix(in oklch, var(--color-yellow-700) 50%, var(--color-yellow-800) 50%);
+  --color-yellow-850: color-mix(in oklch, var(--color-yellow-800) 50%, var(--color-yellow-900) 50%);
+  /* lime half-steps */
+  --color-lime-150: color-mix(in oklch, var(--color-lime-100) 50%, var(--color-lime-200) 50%);
+  --color-lime-250: color-mix(in oklch, var(--color-lime-200) 50%, var(--color-lime-300) 50%);
+  --color-lime-350: color-mix(in oklch, var(--color-lime-300) 50%, var(--color-lime-400) 50%);
+  --color-lime-450: color-mix(in oklch, var(--color-lime-400) 50%, var(--color-lime-500) 50%);
+  --color-lime-550: color-mix(in oklch, var(--color-lime-500) 50%, var(--color-lime-600) 50%);
+  --color-lime-650: color-mix(in oklch, var(--color-lime-600) 50%, var(--color-lime-700) 50%);
+  --color-lime-750: color-mix(in oklch, var(--color-lime-700) 50%, var(--color-lime-800) 50%);
+  --color-lime-850: color-mix(in oklch, var(--color-lime-800) 50%, var(--color-lime-900) 50%);
+  /* green half-steps */
+  --color-green-150: color-mix(in oklch, var(--color-green-100) 50%, var(--color-green-200) 50%);
+  --color-green-250: color-mix(in oklch, var(--color-green-200) 50%, var(--color-green-300) 50%);
+  --color-green-350: color-mix(in oklch, var(--color-green-300) 50%, var(--color-green-400) 50%);
+  --color-green-450: color-mix(in oklch, var(--color-green-400) 50%, var(--color-green-500) 50%);
+  --color-green-550: color-mix(in oklch, var(--color-green-500) 50%, var(--color-green-600) 50%);
+  --color-green-650: color-mix(in oklch, var(--color-green-600) 50%, var(--color-green-700) 50%);
+  --color-green-750: color-mix(in oklch, var(--color-green-700) 50%, var(--color-green-800) 50%);
+  --color-green-850: color-mix(in oklch, var(--color-green-800) 50%, var(--color-green-900) 50%);
+  /* emerald half-steps */
+  --color-emerald-150: color-mix(in oklch, var(--color-emerald-100) 50%, var(--color-emerald-200) 50%);
+  --color-emerald-250: color-mix(in oklch, var(--color-emerald-200) 50%, var(--color-emerald-300) 50%);
+  --color-emerald-350: color-mix(in oklch, var(--color-emerald-300) 50%, var(--color-emerald-400) 50%);
+  --color-emerald-450: color-mix(in oklch, var(--color-emerald-400) 50%, var(--color-emerald-500) 50%);
+  --color-emerald-550: color-mix(in oklch, var(--color-emerald-500) 50%, var(--color-emerald-600) 50%);
+  --color-emerald-650: color-mix(in oklch, var(--color-emerald-600) 50%, var(--color-emerald-700) 50%);
+  --color-emerald-750: color-mix(in oklch, var(--color-emerald-700) 50%, var(--color-emerald-800) 50%);
+  --color-emerald-850: color-mix(in oklch, var(--color-emerald-800) 50%, var(--color-emerald-900) 50%);
+  /* teal half-steps */
+  --color-teal-150: color-mix(in oklch, var(--color-teal-100) 50%, var(--color-teal-200) 50%);
+  --color-teal-250: color-mix(in oklch, var(--color-teal-200) 50%, var(--color-teal-300) 50%);
+  --color-teal-350: color-mix(in oklch, var(--color-teal-300) 50%, var(--color-teal-400) 50%);
+  --color-teal-450: color-mix(in oklch, var(--color-teal-400) 50%, var(--color-teal-500) 50%);
+  --color-teal-550: color-mix(in oklch, var(--color-teal-500) 50%, var(--color-teal-600) 50%);
+  --color-teal-650: color-mix(in oklch, var(--color-teal-600) 50%, var(--color-teal-700) 50%);
+  --color-teal-750: color-mix(in oklch, var(--color-teal-700) 50%, var(--color-teal-800) 50%);
+  --color-teal-850: color-mix(in oklch, var(--color-teal-800) 50%, var(--color-teal-900) 50%);
+  /* cyan half-steps */
+  --color-cyan-150: color-mix(in oklch, var(--color-cyan-100) 50%, var(--color-cyan-200) 50%);
+  --color-cyan-250: color-mix(in oklch, var(--color-cyan-200) 50%, var(--color-cyan-300) 50%);
+  --color-cyan-350: color-mix(in oklch, var(--color-cyan-300) 50%, var(--color-cyan-400) 50%);
+  --color-cyan-450: color-mix(in oklch, var(--color-cyan-400) 50%, var(--color-cyan-500) 50%);
+  --color-cyan-550: color-mix(in oklch, var(--color-cyan-500) 50%, var(--color-cyan-600) 50%);
+  --color-cyan-650: color-mix(in oklch, var(--color-cyan-600) 50%, var(--color-cyan-700) 50%);
+  --color-cyan-750: color-mix(in oklch, var(--color-cyan-700) 50%, var(--color-cyan-800) 50%);
+  --color-cyan-850: color-mix(in oklch, var(--color-cyan-800) 50%, var(--color-cyan-900) 50%);
+  /* sky half-steps */
+  --color-sky-150: color-mix(in oklch, var(--color-sky-100) 50%, var(--color-sky-200) 50%);
+  --color-sky-250: color-mix(in oklch, var(--color-sky-200) 50%, var(--color-sky-300) 50%);
+  --color-sky-350: color-mix(in oklch, var(--color-sky-300) 50%, var(--color-sky-400) 50%);
+  --color-sky-450: color-mix(in oklch, var(--color-sky-400) 50%, var(--color-sky-500) 50%);
+  --color-sky-550: color-mix(in oklch, var(--color-sky-500) 50%, var(--color-sky-600) 50%);
+  --color-sky-650: color-mix(in oklch, var(--color-sky-600) 50%, var(--color-sky-700) 50%);
+  --color-sky-750: color-mix(in oklch, var(--color-sky-700) 50%, var(--color-sky-800) 50%);
+  --color-sky-850: color-mix(in oklch, var(--color-sky-800) 50%, var(--color-sky-900) 50%);
+  /* blue half-steps */
+  --color-blue-150: color-mix(in oklch, var(--color-blue-100) 50%, var(--color-blue-200) 50%);
+  --color-blue-250: color-mix(in oklch, var(--color-blue-200) 50%, var(--color-blue-300) 50%);
+  --color-blue-350: color-mix(in oklch, var(--color-blue-300) 50%, var(--color-blue-400) 50%);
+  --color-blue-450: color-mix(in oklch, var(--color-blue-400) 50%, var(--color-blue-500) 50%);
+  --color-blue-550: color-mix(in oklch, var(--color-blue-500) 50%, var(--color-blue-600) 50%);
+  --color-blue-650: color-mix(in oklch, var(--color-blue-600) 50%, var(--color-blue-700) 50%);
+  --color-blue-750: color-mix(in oklch, var(--color-blue-700) 50%, var(--color-blue-800) 50%);
+  --color-blue-850: color-mix(in oklch, var(--color-blue-800) 50%, var(--color-blue-900) 50%);
+  /* indigo half-steps */
+  --color-indigo-150: color-mix(in oklch, var(--color-indigo-100) 50%, var(--color-indigo-200) 50%);
+  --color-indigo-250: color-mix(in oklch, var(--color-indigo-200) 50%, var(--color-indigo-300) 50%);
+  --color-indigo-350: color-mix(in oklch, var(--color-indigo-300) 50%, var(--color-indigo-400) 50%);
+  --color-indigo-450: color-mix(in oklch, var(--color-indigo-400) 50%, var(--color-indigo-500) 50%);
+  --color-indigo-550: color-mix(in oklch, var(--color-indigo-500) 50%, var(--color-indigo-600) 50%);
+  --color-indigo-650: color-mix(in oklch, var(--color-indigo-600) 50%, var(--color-indigo-700) 50%);
+  --color-indigo-750: color-mix(in oklch, var(--color-indigo-700) 50%, var(--color-indigo-800) 50%);
+  --color-indigo-850: color-mix(in oklch, var(--color-indigo-800) 50%, var(--color-indigo-900) 50%);
+  /* violet half-steps */
+  --color-violet-150: color-mix(in oklch, var(--color-violet-100) 50%, var(--color-violet-200) 50%);
+  --color-violet-250: color-mix(in oklch, var(--color-violet-200) 50%, var(--color-violet-300) 50%);
+  --color-violet-350: color-mix(in oklch, var(--color-violet-300) 50%, var(--color-violet-400) 50%);
+  --color-violet-450: color-mix(in oklch, var(--color-violet-400) 50%, var(--color-violet-500) 50%);
+  --color-violet-550: color-mix(in oklch, var(--color-violet-500) 50%, var(--color-violet-600) 50%);
+  --color-violet-650: color-mix(in oklch, var(--color-violet-600) 50%, var(--color-violet-700) 50%);
+  --color-violet-750: color-mix(in oklch, var(--color-violet-700) 50%, var(--color-violet-800) 50%);
+  --color-violet-850: color-mix(in oklch, var(--color-violet-800) 50%, var(--color-violet-900) 50%);
+  /* purple half-steps */
+  --color-purple-150: color-mix(in oklch, var(--color-purple-100) 50%, var(--color-purple-200) 50%);
+  --color-purple-250: color-mix(in oklch, var(--color-purple-200) 50%, var(--color-purple-300) 50%);
+  --color-purple-350: color-mix(in oklch, var(--color-purple-300) 50%, var(--color-purple-400) 50%);
+  --color-purple-450: color-mix(in oklch, var(--color-purple-400) 50%, var(--color-purple-500) 50%);
+  --color-purple-550: color-mix(in oklch, var(--color-purple-500) 50%, var(--color-purple-600) 50%);
+  --color-purple-650: color-mix(in oklch, var(--color-purple-600) 50%, var(--color-purple-700) 50%);
+  --color-purple-750: color-mix(in oklch, var(--color-purple-700) 50%, var(--color-purple-800) 50%);
+  --color-purple-850: color-mix(in oklch, var(--color-purple-800) 50%, var(--color-purple-900) 50%);
+  /* fuchsia half-steps */
+  --color-fuchsia-150: color-mix(in oklch, var(--color-fuchsia-100) 50%, var(--color-fuchsia-200) 50%);
+  --color-fuchsia-250: color-mix(in oklch, var(--color-fuchsia-200) 50%, var(--color-fuchsia-300) 50%);
+  --color-fuchsia-350: color-mix(in oklch, var(--color-fuchsia-300) 50%, var(--color-fuchsia-400) 50%);
+  --color-fuchsia-450: color-mix(in oklch, var(--color-fuchsia-400) 50%, var(--color-fuchsia-500) 50%);
+  --color-fuchsia-550: color-mix(in oklch, var(--color-fuchsia-500) 50%, var(--color-fuchsia-600) 50%);
+  --color-fuchsia-650: color-mix(in oklch, var(--color-fuchsia-600) 50%, var(--color-fuchsia-700) 50%);
+  --color-fuchsia-750: color-mix(in oklch, var(--color-fuchsia-700) 50%, var(--color-fuchsia-800) 50%);
+  --color-fuchsia-850: color-mix(in oklch, var(--color-fuchsia-800) 50%, var(--color-fuchsia-900) 50%);
+  /* pink half-steps */
+  --color-pink-150: color-mix(in oklch, var(--color-pink-100) 50%, var(--color-pink-200) 50%);
+  --color-pink-250: color-mix(in oklch, var(--color-pink-200) 50%, var(--color-pink-300) 50%);
+  --color-pink-350: color-mix(in oklch, var(--color-pink-300) 50%, var(--color-pink-400) 50%);
+  --color-pink-450: color-mix(in oklch, var(--color-pink-400) 50%, var(--color-pink-500) 50%);
+  --color-pink-550: color-mix(in oklch, var(--color-pink-500) 50%, var(--color-pink-600) 50%);
+  --color-pink-650: color-mix(in oklch, var(--color-pink-600) 50%, var(--color-pink-700) 50%);
+  --color-pink-750: color-mix(in oklch, var(--color-pink-700) 50%, var(--color-pink-800) 50%);
+  --color-pink-850: color-mix(in oklch, var(--color-pink-800) 50%, var(--color-pink-900) 50%);
+  /* rose half-steps */
+  --color-rose-150: color-mix(in oklch, var(--color-rose-100) 50%, var(--color-rose-200) 50%);
+  --color-rose-250: color-mix(in oklch, var(--color-rose-200) 50%, var(--color-rose-300) 50%);
+  --color-rose-350: color-mix(in oklch, var(--color-rose-300) 50%, var(--color-rose-400) 50%);
+  --color-rose-450: color-mix(in oklch, var(--color-rose-400) 50%, var(--color-rose-500) 50%);
+  --color-rose-550: color-mix(in oklch, var(--color-rose-500) 50%, var(--color-rose-600) 50%);
+  --color-rose-650: color-mix(in oklch, var(--color-rose-600) 50%, var(--color-rose-700) 50%);
+  --color-rose-750: color-mix(in oklch, var(--color-rose-700) 50%, var(--color-rose-800) 50%);
+  --color-rose-850: color-mix(in oklch, var(--color-rose-800) 50%, var(--color-rose-900) 50%);
+  /* one-off aliases for stray shade values found in legacy components */
+  --color-slate-305: var(--color-slate-300);
+  --color-slate-455: var(--color-slate-450);
+  --color-slate-505: var(--color-slate-500);
+  --color-slate-905: var(--color-slate-900);
+  --color-sky-455: var(--color-sky-450);
+  --color-rose-455: var(--color-rose-450);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BASE ELEMENTS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+* {
+  border-color: var(--surface-border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   color: var(--foreground);
   background: var(--background);
   background-image:
-    radial-gradient(circle at 10% 10%, rgba(72, 208, 255, 0.08), transparent 16%),
-    radial-gradient(circle at 85% 20%, rgba(72, 208, 255, 0.05), transparent 12%),
-    linear-gradient(180deg, rgba(5, 10, 18, 1) 0%, rgba(7, 13, 24, 1) 38%, rgba(4, 6, 11, 1) 100%);
+    radial-gradient(circle at 12% 8%, color-mix(in oklch, var(--accent) 10%, transparent), transparent 22%),
+    radial-gradient(circle at 88% 18%, color-mix(in oklch, var(--intelligence) 8%, transparent), transparent 20%),
+    radial-gradient(circle at 50% 100%, color-mix(in oklch, var(--analytical) 6%, transparent), transparent 30%);
   background-attachment: fixed;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  transition: background-color 0.45s ease, color 0.45s ease, background-image 0.45s ease;
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+  transition: background-color var(--duration-slow) var(--ease-premium), color var(--duration-slow) var(--ease-premium);
 }
 
-/* Atmospheric intelligence background layer */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    radial-gradient(circle at 40% 10%, rgba(56, 189, 248, 0.06), transparent 24%),
-    radial-gradient(circle at 18% 72%, rgba(94, 231, 255, 0.04), transparent 14%),
-    linear-gradient(170deg, rgba(56, 189, 248, 0.03), transparent 44%),
-    linear-gradient(90deg, rgba(208, 232, 255, 0.02), transparent 65%);
-  opacity: 0.9;
-  animation: drift 28s linear infinite;
-  pointer-events: none;
+::selection {
+  background: var(--accent-glow);
 }
 
-/* ═══════════════════════════════════════════════════
+/* Tabular figures for anything numeric — the single detail that separates
+   a real trading terminal from a marketing page. Apply to prices, deltas,
+   timers, IDs. */
+.font-tabular,
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv02" 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SCROLLBARS — applied globally, not just inside legacy .traderos scope
+   ═══════════════════════════════════════════════════════════════════════ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-border-strong) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-border-strong);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklch, var(--surface-border-strong) 60%, var(--foreground) 40%);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    KEYFRAME ANIMATIONS
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 @keyframes drift {
   0% { transform: translate(0, 0) scale(1); }
@@ -119,19 +437,21 @@ body::before {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Breathing glow for status indicators */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 @keyframes breathe {
   0%, 100% { opacity: 0.6; box-shadow: 0 0 8px currentColor; }
   50% { opacity: 1; box-shadow: 0 0 18px currentColor; }
 }
 
-/* Gentle telemetry pulse */
 @keyframes telemetryPulse {
   0%, 100% { opacity: 0.4; transform: scale(1); }
   50% { opacity: 0.8; transform: scale(1.08); }
 }
 
-/* Agricultural mesh background drift */
 @keyframes meshDrift {
   0% { transform: translate(0, 0) rotate(0deg); }
   33% { transform: translate(8px, -4px) rotate(0.3deg); }
@@ -139,176 +459,220 @@ body::before {
   100% { transform: translate(0, 0) rotate(0deg); }
 }
 
-/* Subtle data flow shimmer */
 @keyframes dataFlowShimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
 
-/* Panel edge glow breathing */
 @keyframes edgeGlow {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 1; }
 }
 
-/* Live indicator breathing */
 @keyframes livePulse {
   0%, 100% { box-shadow: 0 0 4px rgba(52, 211, 153, 0.3); }
   50% { box-shadow: 0 0 12px rgba(52, 211, 153, 0.6); }
 }
 
-/* Smooth entry for events */
 @keyframes eventIn {
   from { opacity: 0; transform: translateX(-8px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* Badge pulse */
 @keyframes badgePulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4); }
   50% { box-shadow: 0 0 0 6px rgba(34, 211, 238, 0); }
 }
 
-/* ═══════════════════════════════════════════════════
-   SURFACE SYSTEM — Layered Depth
-   ═══════════════════════════════════════════════════ */
-
-.surface-root {
-  background: var(--surface-0);
+@keyframes floatSlow {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0, -14px); }
 }
 
+@keyframes shimmerSweep {
+  0% { background-position: -150% 0; }
+  100% { background-position: 150% 0; }
+}
+
+@keyframes flashUp {
+  0% { background-color: transparent; }
+  25% { background-color: var(--bullish-glow); }
+  100% { background-color: transparent; }
+}
+
+@keyframes flashDown {
+  0% { background-color: transparent; }
+  25% { background-color: var(--bearish-glow); }
+  100% { background-color: transparent; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SURFACE SYSTEM — Layered Depth (theme-aware)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.surface-root { background: var(--surface-0); }
+
 .surface-panel {
-  background: rgba(8, 15, 27, 0.88);
+  background: color-mix(in oklch, var(--surface-1) 88%, transparent);
   border: 1px solid var(--surface-border);
 }
 
 .surface-card {
-  background: rgba(12, 20, 33, 0.92);
-  border: 1px solid rgba(148, 163, 184, 0.08);
+  background: color-mix(in oklch, var(--surface-2) 92%, transparent);
+  border: 1px solid var(--surface-border);
 }
 
 .surface-card-strong {
-  background: rgba(15, 23, 38, 0.95);
-  border: 1px solid rgba(72, 208, 255, 0.14);
+  background: color-mix(in oklch, var(--surface-2) 95%, transparent);
+  border: 1px solid color-mix(in oklch, var(--accent) 20%, var(--surface-border));
 }
 
 .surface-interactive {
-  background: rgba(17, 26, 42, 0.96);
-  border: 1px solid rgba(94, 231, 255, 0.14);
+  background: color-mix(in oklch, var(--surface-3) 96%, transparent);
+  border: 1px solid color-mix(in oklch, var(--intelligence) 18%, var(--surface-border));
 }
 
-/* ═══════════════════════════════════════════════════
-   PANEL REGION SURFACES — Distinct Visual Identity
-   ═══════════════════════════════════════════════════ */
+/* Elite card — the single canonical card treatment used across the app.
+   Border/bg/radius/motion in one place instead of re-declared per file. */
+.elite-card {
+  position: relative;
+  background: color-mix(in oklch, var(--surface-1) 90%, transparent);
+  border: 1px solid var(--surface-border);
+  border-radius: 1.25rem;
+  transition: transform var(--duration-base) var(--ease-premium),
+              border-color var(--duration-base) var(--ease-premium),
+              box-shadow var(--duration-base) var(--ease-premium),
+              background-color var(--duration-base) var(--ease-premium);
+}
 
-/* Institutional Archive — Emerald/Teal Intelligence */
+.elite-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in oklch, var(--accent) 30%, var(--surface-border));
+  box-shadow: 0 18px 40px -20px color-mix(in oklch, hsl(var(--shadow-color)) 45%, transparent);
+}
+
+/* Frosted glass — for floating chrome (nav bars, command bars, sheets) */
+.glass-panel {
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--surface-border);
+}
+
+/* Subtle noise grain for premium depth on large flat surfaces */
+.noise-overlay {
+  position: relative;
+  isolation: isolate;
+}
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/* Legacy alias — some components already reference `.floating-card`. */
+.floating-card {
+  background: color-mix(in oklch, var(--surface-1) 92%, transparent);
+  border: 1px solid var(--surface-border);
+  box-shadow: 0 1px 2px color-mix(in oklch, hsl(var(--shadow-color)) 8%, transparent),
+              0 12px 32px -16px color-mix(in oklch, hsl(var(--shadow-color)) 30%, transparent);
+}
+.floating-card-hover {
+  transition: transform var(--duration-base) var(--ease-premium),
+              box-shadow var(--duration-base) var(--ease-premium),
+              border-color var(--duration-base) var(--ease-premium);
+}
+.floating-card-hover:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in oklch, var(--accent) 26%, var(--surface-border));
+  box-shadow: 0 24px 48px -20px color-mix(in oklch, hsl(var(--shadow-color)) 45%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PANEL REGION SURFACES — Distinct Visual Identity
+   ═══════════════════════════════════════════════════════════════════════ */
+
 .panel-archive {
   background:
-    linear-gradient(180deg,
-      rgba(6, 35, 28, 0.28) 0%,
-      rgba(4, 18, 14, 0.18) 30%,
-      rgba(2, 8, 6, 0.12) 100%
-    ),
-    rgba(4, 7, 12, 0.96);
-  border-right: 1px solid rgba(52, 211, 153, 0.1);
+    linear-gradient(180deg, color-mix(in oklch, var(--bullish) 8%, transparent) 0%, transparent 55%),
+    color-mix(in oklch, var(--surface-0) 96%, transparent);
+  border-right: 1px solid color-mix(in oklch, var(--bullish) 16%, transparent);
   position: relative;
 }
-
 .panel-archive::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(52, 211, 153, 0.06), transparent 60%),
-    radial-gradient(ellipse at 20% 80%, rgba(45, 212, 191, 0.04), transparent 50%);
+    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--bullish) 8%, transparent), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
+.panel-archive > * { position: relative; z-index: 1; }
 
-.panel-archive > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Operational Viewport — Highest Contrast, Command Center */
 .panel-viewport {
   background:
-    linear-gradient(180deg,
-      rgba(8, 47, 73, 0.2) 0%,
-      rgba(4, 20, 35, 0.12) 25%,
-      rgba(0, 0, 0, 0.85) 100%
-    ),
-    rgba(2, 4, 8, 0.98);
+    linear-gradient(180deg, color-mix(in oklch, var(--intelligence) 8%, transparent) 0%, transparent 40%),
+    color-mix(in oklch, var(--surface-0) 98%, transparent);
   position: relative;
 }
-
 .panel-viewport::before {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 20%, rgba(34, 211, 238, 0.07), transparent 50%),
-    radial-gradient(ellipse at 80% 70%, rgba(56, 189, 248, 0.04), transparent 45%);
+  background: radial-gradient(ellipse at 50% 20%, color-mix(in oklch, var(--intelligence) 9%, transparent), transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
+.panel-viewport > * { position: relative; z-index: 1; }
 
-.panel-viewport > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Recovery Intelligence — Analytical Blue-Violet */
 .panel-recovery {
   background:
-    linear-gradient(180deg,
-      rgba(30, 15, 60, 0.25) 0%,
-      rgba(15, 10, 40, 0.15) 30%,
-      rgba(6, 4, 18, 0.12) 100%
-    ),
-    rgba(4, 7, 12, 0.96);
-  border-left: 1px solid rgba(167, 139, 250, 0.1);
+    linear-gradient(180deg, color-mix(in oklch, var(--analytical) 8%, transparent) 0%, transparent 55%),
+    color-mix(in oklch, var(--surface-0) 96%, transparent);
+  border-left: 1px solid color-mix(in oklch, var(--analytical) 16%, transparent);
   position: relative;
 }
-
 .panel-recovery::before {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(167, 139, 250, 0.06), transparent 60%),
-    radial-gradient(ellipse at 80% 60%, rgba(139, 92, 246, 0.04), transparent 50%);
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--analytical) 8%, transparent), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
-
-.panel-recovery > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* ═══════════════════════════════════════════════════
-   SECTION HEADERS — Panel-Aware
-   ═══════════════════════════════════════════════════ */
+.panel-recovery > * { position: relative; z-index: 1; }
 
 .section-header-archive {
-  background: linear-gradient(90deg, rgba(6, 35, 28, 0.5), rgba(8, 15, 27, 0.88));
-  border-bottom: 1px solid rgba(52, 211, 153, 0.15) !important;
+  background: linear-gradient(90deg, color-mix(in oklch, var(--bullish) 10%, transparent), transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--bullish) 18%, transparent) !important;
 }
-
 .section-header-viewport {
-  background: linear-gradient(90deg, rgba(8, 47, 73, 0.4), rgba(8, 15, 27, 0.88));
-  border-bottom: 1px solid rgba(34, 211, 238, 0.15) !important;
+  background: linear-gradient(90deg, color-mix(in oklch, var(--intelligence) 10%, transparent), transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--intelligence) 18%, transparent) !important;
 }
-
 .section-header-recovery {
-  background: linear-gradient(90deg, rgba(30, 15, 60, 0.4), rgba(8, 15, 27, 0.88));
-  border-bottom: 1px solid rgba(167, 139, 250, 0.15) !important;
+  background: linear-gradient(90deg, color-mix(in oklch, var(--analytical) 10%, transparent), transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--analytical) 18%, transparent) !important;
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════
    STATUS PILL SYSTEM
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 .status-pill {
   display: inline-flex;
@@ -316,242 +680,263 @@ body::before {
   gap: 0.4rem;
   padding: 0.2rem 0.65rem;
   border-radius: 9999px;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1;
   border: 1px solid transparent;
+  white-space: nowrap;
 }
 
-.status-open {
-  color: var(--intelligence);
-  background: rgba(56, 189, 248, 0.12);
-  border-color: rgba(56, 189, 248, 0.22);
+.status-open { color: var(--intelligence); background: var(--intelligence-soft); border-color: color-mix(in oklch, var(--intelligence) 30%, transparent); }
+.status-active { color: var(--accent-strong); background: var(--accent-soft); border-color: color-mix(in oklch, var(--accent) 30%, transparent); }
+.status-stable { color: var(--neutral-signal); background: color-mix(in oklch, var(--neutral-signal) 14%, transparent); border-color: color-mix(in oklch, var(--neutral-signal) 22%, transparent); }
+.status-warning { color: var(--warning); background: var(--warning-glow); border-color: color-mix(in oklch, var(--warning) 32%, transparent); }
+.status-critical { color: var(--bearish); background: var(--bearish-glow); border-color: color-mix(in oklch, var(--bearish) 32%, transparent); }
+
+/* Semantic chips reused by decision/tone labels app-wide */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--surface-border);
+  background: var(--surface-2);
+  color: var(--foreground);
+  transition: all var(--duration-fast) var(--ease-premium);
+}
+.chip-active {
+  border-color: color-mix(in oklch, var(--accent) 45%, transparent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
 }
 
-.status-active {
-  color: var(--accent);
-  background: rgba(72, 208, 255, 0.14);
-  border-color: rgba(72, 208, 255, 0.22);
+/* ═══════════════════════════════════════════════════════════════════════
+   TYPOGRAPHY HELPERS — unify the dozens of repeated micro-label patterns
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.label-caps {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--neutral-signal);
 }
 
-.status-stable {
-  color: var(--neutral);
-  background: rgba(148, 163, 184, 0.12);
-  border-color: rgba(148, 163, 184, 0.14);
+.gradient-text {
+  background: linear-gradient(120deg, var(--foreground), color-mix(in oklch, var(--accent-strong) 70%, var(--foreground)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.status-warning {
-  color: #fbbf24;
-  background: rgba(251, 191, 36, 0.12);
-  border-color: rgba(251, 191, 36, 0.2);
+.gradient-text-brand {
+  background: linear-gradient(120deg, var(--accent-strong), var(--intelligence));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.status-critical {
-  color: var(--bearish);
-  background: rgba(253, 170, 160, 0.16);
-  border-color: rgba(253, 170, 160, 0.22);
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════════════════════════════════ */
 
-/* ═══════════════════════════════════════════════════
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 0.85rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: white;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 8px 24px -10px var(--accent-glow);
+  transition: transform var(--duration-fast) var(--ease-premium), box-shadow var(--duration-fast) var(--ease-premium), filter var(--duration-fast);
+}
+.btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+.btn-primary:disabled { opacity: 0.5; pointer-events: none; }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 0.85rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--foreground);
+  background: var(--surface-2);
+  border: 1px solid var(--surface-border);
+  transition: all var(--duration-fast) var(--ease-premium);
+}
+.btn-ghost:hover { background: var(--surface-3); border-color: var(--surface-border-strong); }
+.btn-ghost:active { transform: scale(0.98); }
+
+/* ═══════════════════════════════════════════════════════════════════════
    PREMIUM GLOW & DEPTH
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 .premium-glow {
-  box-shadow:
-    0 0 0 1px rgba(94, 231, 255, 0.08),
-    0 16px 44px -24px rgba(72, 208, 255, 0.26);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--intelligence) 10%, transparent),
+              0 16px 44px -24px color-mix(in oklch, var(--accent) 30%, transparent);
 }
-
 .premium-glow-archive {
-  box-shadow:
-    0 0 0 1px rgba(52, 211, 153, 0.08),
-    0 16px 44px -24px rgba(52, 211, 153, 0.2);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--bullish) 10%, transparent),
+              0 16px 44px -24px color-mix(in oklch, var(--bullish) 24%, transparent);
 }
-
 .premium-glow-recovery {
-  box-shadow:
-    0 0 0 1px rgba(167, 139, 250, 0.08),
-    0 16px 44px -24px rgba(167, 139, 250, 0.2);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--analytical) 10%, transparent),
+              0 16px 44px -24px color-mix(in oklch, var(--analytical) 24%, transparent);
 }
 
-/* ═══════════════════════════════════════════════════
-   COMMODITY TICKER — Status-Based Coloring
-   ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   COMMODITY TICKER
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.ticker-bullish {
-  border-bottom: 2px solid rgba(52, 211, 153, 0.5);
-  background: linear-gradient(180deg, rgba(52, 211, 153, 0.06), transparent);
-}
-.ticker-bullish:hover {
-  background: linear-gradient(180deg, rgba(52, 211, 153, 0.1), transparent);
-}
-
-.ticker-bearish {
-  border-bottom: 2px solid rgba(251, 113, 133, 0.5);
-  background: linear-gradient(180deg, rgba(251, 113, 133, 0.06), transparent);
-}
-.ticker-bearish:hover {
-  background: linear-gradient(180deg, rgba(251, 113, 133, 0.1), transparent);
-}
-
-.ticker-stable {
-  border-bottom: 2px solid rgba(56, 189, 248, 0.4);
-  background: linear-gradient(180deg, rgba(56, 189, 248, 0.04), transparent);
-}
-.ticker-stable:hover {
-  background: linear-gradient(180deg, rgba(56, 189, 248, 0.08), transparent);
-}
-
+.ticker-bullish { border-bottom: 2px solid color-mix(in oklch, var(--bullish) 55%, transparent); background: linear-gradient(180deg, color-mix(in oklch, var(--bullish) 7%, transparent), transparent); }
+.ticker-bullish:hover { background: linear-gradient(180deg, color-mix(in oklch, var(--bullish) 11%, transparent), transparent); }
+.ticker-bearish { border-bottom: 2px solid color-mix(in oklch, var(--bearish) 55%, transparent); background: linear-gradient(180deg, color-mix(in oklch, var(--bearish) 7%, transparent), transparent); }
+.ticker-bearish:hover { background: linear-gradient(180deg, color-mix(in oklch, var(--bearish) 11%, transparent), transparent); }
+.ticker-stable { border-bottom: 2px solid color-mix(in oklch, var(--intelligence) 42%, transparent); background: linear-gradient(180deg, color-mix(in oklch, var(--intelligence) 5%, transparent), transparent); }
+.ticker-stable:hover { background: linear-gradient(180deg, color-mix(in oklch, var(--intelligence) 9%, transparent), transparent); }
 .ticker-active {
-  border-bottom: 2px solid rgba(34, 211, 238, 0.7) !important;
-  background: linear-gradient(180deg, rgba(34, 211, 238, 0.12), transparent) !important;
-  box-shadow: inset 0 -1px 12px -6px rgba(34, 211, 238, 0.25);
+  border-bottom: 2px solid color-mix(in oklch, var(--intelligence) 75%, transparent) !important;
+  background: linear-gradient(180deg, color-mix(in oklch, var(--intelligence) 13%, transparent), transparent) !important;
+  box-shadow: inset 0 -1px 12px -6px color-mix(in oklch, var(--intelligence) 30%, transparent);
 }
 
-/* ═══════════════════════════════════════════════════
+.price-flash-up { animation: flashUp 900ms var(--ease-premium); }
+.price-flash-down { animation: flashDown 900ms var(--ease-premium); }
+
+/* Continuous ticker tape (marquee) */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.ticker-track:hover { animation-play-state: paused; }
+
+/* ═══════════════════════════════════════════════════════════════════════
    AGRICULTURAL BACKGROUND MESH
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.agri-mesh-bg {
-  position: relative;
-}
-
+.agri-mesh-bg { position: relative; }
 .agri-mesh-bg::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
-  opacity: 0.035;
+  opacity: 0.05;
   pointer-events: none;
   background-image:
-    /* Hexagonal agricultural grid pattern */
-    linear-gradient(30deg, rgba(52, 211, 153, 0.15) 1px, transparent 1px),
-    linear-gradient(150deg, rgba(52, 211, 153, 0.15) 1px, transparent 1px),
-    linear-gradient(270deg, rgba(52, 211, 153, 0.08) 1px, transparent 1px),
-    /* Network mesh nodes */
-    radial-gradient(circle 2px, rgba(34, 211, 238, 0.3) 1px, transparent 1px),
-    /* Telemetry contours */
-    linear-gradient(45deg, rgba(167, 139, 250, 0.06) 1px, transparent 1px);
-  background-size:
-    60px 104px,
-    60px 104px,
-    60px 104px,
-    80px 80px,
-    40px 40px;
+    linear-gradient(30deg, color-mix(in oklch, var(--bullish) 25%, transparent) 1px, transparent 1px),
+    linear-gradient(150deg, color-mix(in oklch, var(--bullish) 25%, transparent) 1px, transparent 1px),
+    linear-gradient(270deg, color-mix(in oklch, var(--bullish) 14%, transparent) 1px, transparent 1px),
+    radial-gradient(circle 2px, color-mix(in oklch, var(--intelligence) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(45deg, color-mix(in oklch, var(--analytical) 10%, transparent) 1px, transparent 1px);
+  background-size: 60px 104px, 60px 104px, 60px 104px, 80px 80px, 40px 40px;
   animation: meshDrift 45s linear infinite;
 }
 
-/* ═══════════════════════════════════════════════════
-   CONFIDENCE BAR SYSTEM
-   ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   CONFIDENCE / PROGRESS BARS
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.confidence-bar-fill {
-  position: relative;
-  overflow: hidden;
-}
-
+.confidence-bar-fill { position: relative; overflow: hidden; }
 .confidence-bar-fill::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,255,255,0.12) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.14) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: dataFlowShimmer 3s ease-in-out infinite;
 }
 
-/* ═══════════════════════════════════════════════════
-   METRIC TILES — Enhanced
-   ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   SKELETON LOADING
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.metric-tile-premium {
+.skeleton {
   position: relative;
   overflow: hidden;
+  background: var(--surface-3);
+  border-radius: 0.6rem;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--foreground) 8%, transparent), transparent);
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.6s ease-in-out infinite;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   METRIC TILES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.metric-tile-premium { position: relative; overflow: hidden; }
 .metric-tile-premium::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg, transparent, currentColor, transparent);
   opacity: 0.3;
 }
 
-/* ═══════════════════════════════════════════════════
-   LIVE ANALYSIS BADGE
-   ═══════════════════════════════════════════════════ */
-
-.live-badge {
-  animation: badgePulse 2s ease-in-out infinite;
+.kpi-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════
+   LIVE / STATUS INDICATORS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.live-badge { animation: badgePulse 2s ease-in-out infinite; }
+
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bullish);
+}
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  background: var(--bullish);
+  opacity: 0.5;
+  animation: telemetryPulse 1.8s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    AGENT BAR GRADIENTS
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.agent-bar-forecast {
-  background: linear-gradient(90deg, rgba(52, 211, 153, 0.6), rgba(34, 211, 238, 0.8)) !important;
-}
+.agent-bar-forecast { background: linear-gradient(90deg, color-mix(in oklch, var(--bullish) 65%, transparent), color-mix(in oklch, var(--intelligence) 85%, transparent)) !important; }
+.agent-bar-arrival { background: linear-gradient(90deg, color-mix(in oklch, var(--warning) 65%, transparent), color-mix(in oklch, var(--warning) 90%, black)) !important; }
+.agent-bar-volatility { background: linear-gradient(90deg, color-mix(in oklch, var(--analytical) 65%, transparent), color-mix(in oklch, var(--analytical) 90%, black)) !important; }
+.agent-bar-default { background: linear-gradient(90deg, color-mix(in oklch, var(--intelligence) 55%, transparent), color-mix(in oklch, var(--intelligence) 75%, transparent)) !important; }
 
-.agent-bar-arrival {
-  background: linear-gradient(90deg, rgba(251, 191, 36, 0.6), rgba(245, 158, 11, 0.8)) !important;
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   DECORATIVE / ILLUSTRATION LAYERS
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.agent-bar-volatility {
-  background: linear-gradient(90deg, rgba(167, 139, 250, 0.6), rgba(139, 92, 246, 0.8)) !important;
-}
-
-.agent-bar-default {
-  background: linear-gradient(90deg, rgba(56, 189, 248, 0.5), rgba(34, 211, 238, 0.7)) !important;
-}
-
-/* ═══════════════════════════════════════════════════
-   SCROLLBAR
-   ═══════════════════════════════════════════════════ */
-
-.traderos ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-.traderos ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.traderos ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.18);
-  border-radius: 4px;
-}
-
-.traderos ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.3);
-}
-
-/* ═══════════════════════════════════════════════════
-   UTILITY CLASSES
-   ═══════════════════════════════════════════════════ */
-
-.traderos .section-title {
-  letter-spacing: 0.18em;
-}
-
-.traderos .emphasis-accent {
-  color: var(--accent);
-}
-
-.traderos .fade-in-up {
-  animation: fadeInUp 220ms ease-out both;
-}
-
-/* World Map SVG Container */
 .world-map-container {
   position: absolute;
   inset: 0;
@@ -560,14 +945,8 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
+.world-map-container svg { width: 100%; height: 100%; object-fit: cover; }
 
-.world-map-container svg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Plant illustration container */
 .plant-illustration {
   position: absolute;
   right: 5%;
@@ -576,17 +955,23 @@ body::before {
   opacity: 0.12;
   pointer-events: none;
   z-index: 0;
-  filter: drop-shadow(0 0 20px rgba(52, 211, 153, 0.3));
+  filter: drop-shadow(0 0 20px var(--bullish-glow));
 }
 
-/* Confidence drivers section */
+.aurora-blob {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(90px);
+  pointer-events: none;
+  animation: floatSlow 12s ease-in-out infinite;
+}
+
 .confidence-driver-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.35rem 0;
 }
-
 .confidence-driver-row .driver-dot {
   width: 6px;
   height: 6px;
@@ -594,15 +979,317 @@ body::before {
   flex-shrink: 0;
 }
 
-/* ═══════════════════════════════════════════════════
-   TRANSITION CLASSES
-   ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   TRANSITIONS & UTILITIES
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.hover-lift {
-  transition: all 200ms ease;
+.hover-lift { transition: transform var(--duration-base) var(--ease-premium), box-shadow var(--duration-base) var(--ease-premium); }
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px -14px color-mix(in oklch, hsl(var(--shadow-color)) 40%, transparent);
 }
 
-.hover-lift:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+.section-title { letter-spacing: 0.18em; }
+.emphasis-accent { color: var(--accent-strong); }
+
+.fade-in-up { animation: fadeInUp 320ms var(--ease-premium) both; }
+.scale-in { animation: scaleIn 220ms var(--ease-premium) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Retained for legacy scoped scrollbar selector used inside .traderos trees;
+   the global rule above already covers it, this keeps specificity parity. */
+.traderos ::-webkit-scrollbar { width: 6px; height: 6px; }
+.traderos ::-webkit-scrollbar-track { background: transparent; }
+.traderos ::-webkit-scrollbar-thumb { background: var(--surface-border-strong); border-radius: 4px; }
+.traderos ::-webkit-scrollbar-thumb:hover { background: color-mix(in oklch, var(--surface-border-strong) 60%, var(--foreground) 40%); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FARMER SURFACE
+   ───────────────────────────────────────────────────────────────────────
+   A separate visual language for the farmer-facing pages (home, mandi
+   detail). The trader surfaces stay on the dark terminal system above;
+   nothing here leaks out of `.farm-surface`.
+
+   Why it diverges rather than reusing the terminal tokens:
+
+   * It is read outdoors. A farmer checks this at a mandi gate in direct
+     sun on a cheap phone, where a dark theme is genuinely unreadable. The
+     background is the brightest surface in the whole product, and the
+     contrast floor is higher than the rest of the app's.
+   * The decision has to land before the words do. Colour and shape carry
+     it — green hold, amber wait, red sell — so a user who reads slowly, or
+     reads Devanagari rather than Latin, still gets the answer.
+   * Palette is taken from the actual place: sun through a tarpaulin,
+     banana leaf, turmeric, tomato, and the brown of worked soil instead of
+     black, which is softer under glare.
+
+   The surface stays light even when the app is in dark mode. That is
+   deliberate: the theme toggle is for the analyst views, and inverting the
+   farmer surface would defeat the reason it exists.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* The palette lives on :root, not on .farm-surface, because the shared
+   chrome (header, bottom nav) renders outside the page wrapper and still
+   has to reach these values. Every name is prefixed or specific enough
+   that nothing collides with the terminal tokens above. */
+:root,
+:root.dark {
+  --farm-sky: #fbfdf6;
+  --farm-paper: #ffffff;
+  --farm-paper-warm: #fdf8ec;
+  --farm-ink: #2a2119;
+  --farm-ink-soft: #6b5f52;
+  --farm-ink-faint: #9c9084;
+  --farm-line: rgba(42, 33, 25, 0.1);
+  --farm-line-strong: rgba(42, 33, 25, 0.18);
+
+  --leaf: #1b7a3e;
+  --leaf-deep: #135c2e;
+  --leaf-wash: #e8f4ec;
+
+  --turmeric: #e8a020;
+  --turmeric-wash: #fdf1dc;
+
+  --tomato: #d93a2b;
+  --tomato-wash: #fdeae8;
+
+  --soil: #8a6240;
+
+  /* One decision vocabulary, used identically on every farmer surface. */
+  --call-sell: var(--tomato);
+  --call-sell-wash: var(--tomato-wash);
+  --call-hold: var(--leaf);
+  --call-hold-wash: var(--leaf-wash);
+  --call-wait: #b8801a;
+  --call-wait-wash: var(--turmeric-wash);
+  /* No reading yet. Deliberately the only call colour that is not a colour:
+     an absent forecast must not compete for attention with a real one, and
+     dressing it in amber made "we have no data" look like a cautious
+     recommendation. */
+  --call-unknown: var(--farm-ink-faint);
+  --call-unknown-wash: rgba(42, 33, 25, 0.04);
+}
+
+/* Applying the surface is separate from defining it: only a farmer page
+   paints itself with these, so the analyst views are untouched even
+   though they can see the tokens. */
+.farm-surface,
+:root.dark .farm-surface {
+  color-scheme: light;
+  background: var(--farm-sky);
+  color: var(--farm-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.farm-display {
+  font-family: var(--font-farm), var(--font-sans), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+/* ── The ambient field ─────────────────────────────────────────────────
+   A hand-built scene rather than photography: a few KB against several
+   megabytes, which is the difference between loading and not loading on a
+   rural connection. It sits behind content and never competes with it. */
+
+.farm-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(115% 75% at 50% -8%, #fff6d9 0%, #fdf3e0 28%, #f2f8e4 58%, #e4f0d2 100%);
+}
+
+.farm-sun {
+  position: absolute;
+  top: -3.5rem;
+  left: 50%;
+  width: 20rem;
+  height: 20rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 198, 77, 0.92) 0%,
+    rgba(255, 210, 110, 0.5) 34%,
+    rgba(255, 224, 150, 0.22) 58%,
+    transparent 74%
+  );
+  animation: farm-sun-breathe 14s ease-in-out infinite;
+}
+
+@keyframes farm-sun-breathe {
+  0%, 100% { opacity: 0.85; transform: translateX(-50%) scale(1); }
+  50%      { opacity: 1;    transform: translateX(-50%) scale(1.07); }
+}
+
+/* Produce drifts slowly across the field, like crates going past on a
+   cart. Slow enough to register as atmosphere rather than as animation
+   demanding attention. */
+.farm-drift {
+  position: absolute;
+  animation: farm-drift-across linear infinite;
+  will-change: transform;
+}
+
+@keyframes farm-drift-across {
+  from { transform: translateX(-14vw) translateY(0) rotate(-6deg); }
+  50%  { transform: translateX(45vw) translateY(-14px) rotate(4deg); }
+  to   { transform: translateX(114vw) translateY(0) rotate(-3deg); }
+}
+
+.farm-sway {
+  transform-origin: 50% 100%;
+  animation: farm-sway-gentle 7s ease-in-out infinite;
+}
+
+@keyframes farm-sway-gentle {
+  0%, 100% { transform: rotate(-1.6deg); }
+  50%      { transform: rotate(1.6deg); }
+}
+
+/* ── Surfaces ──────────────────────────────────────────────────────────
+   Radius and elevation encode hierarchy rather than being applied
+   uniformly: the decision card is the largest and most lifted thing on
+   the page, list rows are quieter, and chips are flat. */
+
+.farm-card {
+  background: var(--farm-paper);
+  border: 1px solid var(--farm-line);
+  border-radius: 1.5rem;
+  box-shadow: 0 1px 2px rgba(42, 33, 25, 0.04), 0 8px 24px -14px rgba(42, 33, 25, 0.18);
+}
+
+.farm-card-lift {
+  border-radius: 2rem;
+  box-shadow: 0 2px 4px rgba(42, 33, 25, 0.05), 0 22px 48px -22px rgba(42, 33, 25, 0.3);
+}
+
+.farm-row {
+  background: var(--farm-paper);
+  border: 1px solid var(--farm-line);
+  border-radius: 1.125rem;
+  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+@media (hover: hover) {
+  .farm-row:hover {
+    border-color: var(--farm-line-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -18px rgba(42, 33, 25, 0.34);
+  }
+}
+
+/* ── Section framing ──────────────────────────────────────────────────
+   Below the hero, the page used to be a bare stack of headings with raw
+   content under each — nothing tied "Today's calls" and "Mandis near
+   you" to the same visual system, so the page read as loose, unrelated
+   pieces rather than one surface. Each section now sits in its own
+   paper panel with an icon-badge header, the same elevation language as
+   `.farm-card`, so the page reads as one connected sheet. */
+.farm-section {
+  background: var(--farm-paper);
+  border: 1px solid var(--farm-line);
+  border-radius: 1.75rem;
+  padding: 1.15rem;
+  box-shadow: 0 1px 2px rgba(42, 33, 25, 0.03), 0 16px 40px -28px rgba(42, 33, 25, 0.22);
+}
+@media (min-width: 640px) {
+  .farm-section { padding: 1.75rem; }
+}
+
+/* A warm variant for the section that carries today's most time-critical
+   information — the same warm paper already used for the transport
+   callout on the mandi detail page, reused here so "urgent, today" has a
+   consistent temperature across the app rather than one-off colour. */
+.farm-section-warm {
+  background: var(--farm-paper-warm);
+}
+
+.farm-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.farm-section-icon {
+  display: flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+}
+
+/* On a phone the hero is necessarily one column: question, decision,
+   then ask, stacked, because there is no width to spare. On a desktop
+   window that same stack leaves the whole right two-thirds of the
+   screen empty. Past `lg` the ask bar becomes a companion panel beside
+   the decision instead of a full-width block underneath it — framed
+   like `.farm-section` so it reads as a deliberate second panel rather
+   than the same content just narrower. Below `lg` this class does
+   nothing, so the phone layout is byte-for-byte unchanged. */
+@media (min-width: 1024px) {
+  .farm-ask-panel {
+    background: var(--farm-paper);
+    border: 1px solid var(--farm-line);
+    border-radius: 1.75rem;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 1px 2px rgba(42, 33, 25, 0.03), 0 16px 40px -28px rgba(42, 33, 25, 0.22);
+  }
+}
+
+/* Horizontal, snap-scrolling strip — used where a grid would leave an
+   orphaned trailing tile (five items against fixed columns always does).
+   This reads as a native "swipe for more" pattern instead of a layout
+   compromise, and it is how a farmer would flick through a ticker anyway. */
+.farm-scroll-x {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  margin: 0 -0.1rem;
+  padding: 0.1rem;
+}
+.farm-scroll-x > * {
+  scroll-snap-align: start;
+}
+
+/* Touch targets are sized for a thumb, outdoors, possibly with dusty
+   hands — comfortably above the 44px minimum. */
+.farm-tap {
+  min-height: 3.25rem;
+}
+
+.farm-focus:focus-visible {
+  outline: 3px solid var(--leaf);
+  outline-offset: 2px;
+}
+
+/* ── Motion ────────────────────────────────────────────────────────────
+   One orchestrated arrival on the decision, and the ambient field. A user
+   who has asked for less motion gets a still scene, not a broken one. */
+
+@media (prefers-reduced-motion: reduce) {
+  .farm-sun,
+  .farm-drift,
+  .farm-sway {
+    animation: none !important;
+  }
+  .farm-drift {
+    /* Hold the drifting produce at a readable resting position instead of
+       leaving it stacked off-screen at its start offset. */
+    transform: translateX(38vw);
+  }
 }

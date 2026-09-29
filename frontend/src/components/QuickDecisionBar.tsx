@@ -2,66 +2,93 @@
 
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import { mandiApi } from '@/services/api';
 import { Zap, Loader2, MapPin } from 'lucide-react';
+import CommodityGlyph from './CommodityGlyph';
+import { resolveCall } from './farm/CallCard';
+
+const DECISION_COLOR: Record<string, string> = {
+  SELL: 'text-bearish',
+  HOLD: 'text-bullish',
+  WAIT: 'text-warning',
+  // Absence is drawn as absence. Amber here read as a cautious call.
+  UNKNOWN: 'text-neutral-signal',
+};
+
+const DECISION_LABEL: Record<string, string> = {
+  SELL: 'SELL',
+  HOLD: 'HOLD',
+  WAIT: 'WAIT',
+  UNKNOWN: 'NO READING',
+};
 
 export default function QuickDecisionBar() {
   const { data, isLoading } = useQuery({
     queryKey: ['quick-decisions'],
     queryFn: () => mandiApi.getQuickDecisions('bengaluru'),
-    staleTime: 1000 * 60 * 2, // 2 mins
+    staleTime: 1000 * 60 * 2,
   });
-
-  const getDecisionColor = (decision: string) => {
-    switch (decision) {
-      case 'SELL': return 'text-red-600 dark:text-red-400';
-      case 'HOLD': return 'text-emerald-600 dark:text-emerald-400';
-      default: return 'text-amber-500';
-    }
-  };
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-4 bg-white dark:bg-zinc-900/50 p-6 rounded-[2rem] border border-dashed border-zinc-200 dark:border-zinc-800 animate-pulse">
-        <Loader2 className="w-5 h-5 text-zinc-400 animate-spin" />
-        <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Syncing with market agents...</span>
+      <div className="elite-card flex items-center gap-3 border-dashed p-6">
+        <Loader2 className="h-4 w-4 animate-spin text-neutral-signal" />
+        <span className="label-caps text-[10.5px]">Syncing with market agents…</span>
       </div>
     );
   }
 
   return (
-    <div className="bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md rounded-[3rem] p-8 floating-card border border-white dark:border-zinc-800 relative overflow-hidden group">
-      <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+    <div className="elite-card noise-overlay relative overflow-hidden p-6 sm:p-7">
+      <div
+        className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-40 blur-[70px]"
+        style={{ background: 'var(--accent-glow)' }}
+      />
+      <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-600 rounded-[1.8rem] flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:rotate-6 transition-transform">
-            <Zap className="w-7 h-7 text-white fill-current" />
+          <div
+            className="flex h-12 w-12 items-center justify-center rounded-2xl"
+            style={{ background: 'linear-gradient(135deg, var(--accent), var(--intelligence))', boxShadow: '0 8px 20px -8px var(--accent-glow)' }}
+          >
+            <Zap className="h-6 w-6 fill-current text-white" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-emerald-500" />
-              <span className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">{data?.location || 'BENGALURU REGION'}</span>
+              <MapPin className="h-3.5 w-3.5 text-bullish" />
+              <span className="label-caps text-[10px]">{data?.location || 'Bengaluru Region'}</span>
             </div>
-            <h3 className="text-xl font-black tracking-tight text-zinc-900 dark:text-zinc-100">Market Flash Advice</h3>
+            <h3 className="font-display text-lg font-semibold tracking-tight text-foreground">
+              Market Flash Advice
+            </h3>
           </div>
         </div>
 
-        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-1 lg:pb-0">
-          {data?.decisions.map((item: any) => (
-            <div key={item.commodity} className="flex-none bg-white dark:bg-white/5 border border-zinc-100 dark:border-white/5 rounded-[2rem] px-6 py-4 flex items-center gap-5 hover:border-emerald-500/30 transition-all group/item shadow-sm hover:shadow-md">
-              <span className="text-3xl group-hover/item:scale-110 transition-transform">
-                {item.commodity.includes('Tomato') ? '🍅' : item.commodity.includes('Onion') ? '🧅' : item.commodity.includes('Potato') ? '🥔' : item.commodity.includes('Garlic') ? '🧄' : '🫚'}
-              </span>
+        <div className="no-scrollbar flex gap-3 overflow-x-auto pb-1 lg:pb-0">
+          {data?.decisions.map((item: { commodity: string; decision: string; call_type?: string | null }, i: number) => {
+            // `call_type` is authoritative: an UNAVAILABLE result still
+            // carries the verb "WAIT", and rendering that verb is the bug.
+            const call = resolveCall(item);
+            return (
+            <motion.div
+              key={item.commodity}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05, duration: 0.35 }}
+              className="group flex flex-none items-center gap-3.5 rounded-2xl border border-border bg-surface-1 px-4 py-3 transition-colors hover:border-border-strong"
+            >
+              <CommodityGlyph name={item.commodity} size="sm" />
               <div>
-                <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.1em]">{item.commodity}</p>
-                <p className={`text-lg font-black italic tracking-tighter ${getDecisionColor(item.decision)}`}>
-                  {item.decision}
+                <p className="label-caps text-[9px]">{item.commodity}</p>
+                <p className={`text-base font-black tracking-tight ${DECISION_COLOR[call]}`}>
+                  {DECISION_LABEL[call]}
                 </p>
               </div>
-            </div>
-          ))}
+            </motion.div>
+            );
+          })}
         </div>
       </div>
-      <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500 blur-[80px] opacity-5 -mr-24 -mt-24 group-hover:opacity-10 transition-opacity" />
     </div>
   );
 }

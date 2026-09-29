@@ -1,58 +1,88 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Loader2, Mic } from 'lucide-react';
+import { Search, Loader2, Mic, ArrowRight } from 'lucide-react';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
   isLoading?: boolean;
 }
 
+// Every suggestion names a commodity *and* a mandi, because the query engine
+// needs both to give an answer. Earlier copy here ("Best time to sell potatoes
+// this week?") named no market and could only ever come back asking for one.
+const SUGGESTIONS = [
+  'Should I sell tomatoes in Kolar today?',
+  'Can I hold my onion stock in Bengaluru?',
+  'Best time to sell potatoes in Hoskote?',
+];
+
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, isLoading }) => {
   const [query, setQuery] = useState('');
+  const [focused, setFocused] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (query.trim()) {
-      onSearch(query);
-    }
+    if (query.trim()) onSearch(query);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative w-full max-w-2xl mx-auto">
-      <div className="relative group">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          {isLoading ? (
-            <Loader2 className="h-5 w-5 text-orange-500 animate-spin" />
-          ) : (
-            <Search className="h-5 w-5 text-zinc-400 group-focus-within:text-orange-500 transition-colors" />
-          )}
-        </div>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder='Try "Can I sell 5 tonnes of tomatoes today?"'
-          className="block w-full pl-11 pr-24 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all placeholder:text-zinc-400 text-zinc-900 dark:text-zinc-100 font-medium"
-        />
-        <div className="absolute inset-y-0 right-24 pr-4 flex items-center">
-          <button 
-            type="button" 
-            className="p-2 text-zinc-400 hover:text-orange-500 transition-colors"
+    <div className="mx-auto w-full max-w-2xl">
+      <form onSubmit={handleSubmit} className="relative">
+        <div
+          className="relative flex items-center rounded-2xl border bg-surface-1 transition-all"
+          style={{
+            borderColor: focused ? 'color-mix(in oklch, var(--accent) 45%, transparent)' : 'var(--surface-border)',
+            boxShadow: focused ? '0 0 0 4px var(--accent-soft)' : 'none',
+          }}
+        >
+          <div className="pointer-events-none flex items-center pl-4">
+            {isLoading ? (
+              <Loader2 className="h-5 w-5 animate-spin text-accent-strong" />
+            ) : (
+              <Search className="h-5 w-5 text-neutral-signal" />
+            )}
+          </div>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            placeholder="Ask a trading question…"
+            className="w-full bg-transparent py-4 pl-3 pr-2 text-[15px] font-medium text-foreground outline-none placeholder:text-neutral-signal"
+          />
+          <button
+            type="button"
+            className="hidden shrink-0 p-2 text-neutral-signal transition-colors hover:text-accent-strong sm:block"
             title="Ask by voice"
           >
             <Mic className="h-5 w-5" />
           </button>
+          <button
+            type="submit"
+            disabled={isLoading || !query.trim()}
+            className="btn-primary m-1.5 shrink-0 !rounded-xl !px-5"
+          >
+            <span className="hidden sm:inline">Ask AI</span>
+            <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
-        <button
-          type="submit"
-          disabled={isLoading || !query.trim()}
-          className="absolute right-2 top-2 bottom-2 px-6 bg-orange-500 text-white rounded-xl font-bold text-sm hover:bg-orange-600 active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none"
-        >
-          Ask AI
-        </button>
+      </form>
+
+      <div className="mt-3 flex flex-wrap justify-center gap-2">
+        {SUGGESTIONS.map((s) => (
+          <button
+            key={s}
+            onClick={() => onSearch(s)}
+            disabled={isLoading}
+            className="chip disabled:opacity-50"
+          >
+            {s}
+          </button>
+        ))}
       </div>
-    </form>
+    </div>
   );
 };
 

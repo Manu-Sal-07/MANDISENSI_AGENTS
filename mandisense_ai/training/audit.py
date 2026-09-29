@@ -3,6 +3,11 @@ import logging
 from pathlib import Path
 from typing import Dict, List, Any
 
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+
 logger = logging.getLogger("CognitionAudit")
 
 class InstitutionalAudit:
@@ -10,7 +15,7 @@ class InstitutionalAudit:
     Mandatory Post-Training Audit.
     Identifies overfitting, regime fragility, and volatility blindness.
     """
-    def __init__(self, registry_path: Path = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/models/registry.json")):
+    def __init__(self, registry_path: Path = Path(_PACKAGE_ROOT / "models" / "registry.json")):
         self.registry_path = registry_path
         
     def run_audit(self) -> Dict[str, Any]:

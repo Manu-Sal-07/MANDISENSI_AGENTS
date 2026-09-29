@@ -8,7 +8,9 @@ import json
 # --- CONFIGURATION ---
 VERSION = "v1"
 COMMODITIES = ["tomato", "onion", "potato", "garlic", "ginger"]
-PROJECT_ROOT = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai")
+# Anchored on the installed package rather than a developer machine, so this
+# resolves identically in a checkout, in the Docker image and on Render.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = PROJECT_ROOT / "config/mandi_master.csv"
 DATA_RAW_DIR = PROJECT_ROOT / "data/raw" / VERSION
 LOG_DIR = PROJECT_ROOT / "logs"

@@ -5,6 +5,11 @@ from pathlib import Path
 from typing import Dict, Any, List, Optional
 from pydantic import BaseModel
 
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+
 logger = logging.getLogger("ModelRegistry")
 
 class ModelArtifact(BaseModel):
@@ -24,7 +29,7 @@ class ModelArtifactRegistry:
     """
     def __init__(self, models_root: Optional[Path] = None):
         if models_root is None:
-            self.models_root = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/models")
+            self.models_root = _PACKAGE_ROOT / "models"
         else:
             self.models_root = models_root
             
@@ -89,5 +94,5 @@ class ArtifactResolver:
         artifact = self.registry.get_active_artifact(commodity, model_type)
         if not artifact:
             # Fallback to legacy path if no active artifact in registry
-            return Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/models") / commodity / "v3"
+            return _PACKAGE_ROOT / "models" / commodity / "v3"
         return Path(artifact.path)

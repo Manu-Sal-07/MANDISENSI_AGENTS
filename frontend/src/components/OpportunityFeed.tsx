@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import MandiCard from './MandiCard';
 import SkeletonCard from './SkeletonCard';
 import { mandiApi } from '@/services/api';
@@ -11,38 +12,46 @@ interface OpportunityFeedProps {
   variant?: 'grid' | 'horizontal';
 }
 
+interface Opportunity {
+  id: string;
+  mandi_name: string;
+  hot_commodity: string;
+  decision: 'SELL' | 'HOLD' | 'WAIT';
+  reasoning?: string;
+  price_change_pct: number;
+  confidence: number;
+  risk_level: string;
+}
+
 export default function OpportunityFeed({ variant = 'grid' }: OpportunityFeedProps) {
   const [location, setLocation] = useState('bengaluru');
   const [isDetecting, setIsDetecting] = useState(true);
 
-  // 1. Simulate Location Detection
   useEffect(() => {
     const timer = setTimeout(() => {
-      // In a real app, use Geolocation API here
       setLocation('bengaluru');
       setIsDetecting(false);
     }, 800);
     return () => clearTimeout(timer);
   }, []);
 
-  // 2. Fetch Discovery Feed
   const { data: feedData, isLoading: isFeedLoading, isError } = useQuery({
     queryKey: ['discovery-feed', location],
     queryFn: () => mandiApi.getDiscoveryFeed(location),
     enabled: !isDetecting,
-    staleTime: 1000 * 60 * 5, // Cache for 5 mins
+    staleTime: 1000 * 60 * 5,
   });
 
   if (isDetecting || (isFeedLoading && !feedData)) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center gap-2 px-4">
-          <Loader2 className="w-4 h-4 text-zinc-400 animate-spin" />
-          <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Detecting nearest mandis...</span>
+        <div className="flex items-center gap-2 px-1">
+          <Loader2 className="h-4 w-4 animate-spin text-neutral-signal" />
+          <span className="label-caps text-[10px]">Detecting nearest mandis…</span>
         </div>
-        <div className={variant === 'grid' ? "grid grid-cols-1 md:grid-cols-2 gap-6 p-4" : "flex gap-6 overflow-x-auto no-scrollbar pb-4"}>
+        <div className={variant === 'grid' ? 'grid grid-cols-1 gap-6 md:grid-cols-2' : 'no-scrollbar flex gap-6 overflow-x-auto pb-4'}>
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className={variant === 'horizontal' ? 'flex-none w-[300px]' : ''}>
+            <div key={i} className={variant === 'horizontal' ? 'w-[300px] flex-none' : ''}>
               <SkeletonCard />
             </div>
           ))}
@@ -53,24 +62,36 @@ export default function OpportunityFeed({ variant = 'grid' }: OpportunityFeedPro
 
   return (
     <div className="space-y-6">
-      <div className="px-4 flex items-center justify-between">
+      <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-orange-500" />
-          <span className="text-[10px] font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-widest">
+          <MapPin className="h-4 w-4 text-accent-strong" />
+          <span className="label-caps text-[10px] text-foreground">
             Mandis near {location.charAt(0).toUpperCase() + location.slice(1)}
           </span>
         </div>
-        {isError && <WifiOff className="w-4 h-4 text-red-500" />}
+        {isError && <WifiOff className="h-4 w-4 text-bearish" />}
       </div>
 
       {!feedData || feedData.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className={variant === 'grid' ? "grid grid-cols-1 lg:grid-cols-2 gap-8 px-4 pb-12" : "flex gap-6 overflow-x-auto no-scrollbar px-4 pb-10 snap-x"}>
-          {feedData.map((opp: any) => (
-            <div key={opp.id} className={variant === 'horizontal' ? 'flex-none w-[320px] snap-start' : ''}>
+        <div
+          className={
+            variant === 'grid'
+              ? 'grid grid-cols-1 gap-6 pb-12 lg:grid-cols-2'
+              : 'no-scrollbar flex snap-x gap-6 overflow-x-auto pb-10'
+          }
+        >
+          {feedData.map((opp: Opportunity, i: number) => (
+            <motion.div
+              key={opp.id}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className={variant === 'horizontal' ? 'w-[320px] flex-none snap-start' : ''}
+            >
               <MandiCard opportunity={opp} />
-            </div>
+            </motion.div>
           ))}
         </div>
       )}
@@ -79,12 +100,12 @@ export default function OpportunityFeed({ variant = 'grid' }: OpportunityFeedPro
 }
 
 const EmptyState = React.memo(() => (
-  <div className="flex flex-col items-center justify-center py-20 px-4 text-center animate-in fade-in zoom-in duration-500">
-    <div className="w-20 h-20 bg-zinc-100 dark:bg-zinc-900 rounded-full flex items-center justify-center mb-4 shadow-inner">
-      <Search className="w-8 h-8 text-zinc-400" />
+  <div className="flex flex-col items-center justify-center px-4 py-20 text-center">
+    <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-surface-2">
+      <Search className="h-8 w-8 text-neutral-signal" />
     </div>
-    <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">No mandis found nearby</h3>
-    <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2 max-w-xs leading-relaxed">
+    <h3 className="text-xl font-bold tracking-tight text-foreground">No mandis found nearby</h3>
+    <p className="mt-2 max-w-xs text-sm leading-relaxed text-neutral-signal">
       Try searching for a specific location or check back later.
     </p>
   </div>

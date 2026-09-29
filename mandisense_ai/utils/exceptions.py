@@ -21,3 +21,11 @@ class AgentError(MandiSenseError):
 class EnsembleError(MandiSenseError):
     """Raised when the meta-ensemble layer fails to aggregate agent predictions."""
     pass
+
+class StoreLockTimeoutError(MandiSenseError):
+    """Raised when a write lock could not be acquired and the holder is not
+    stale enough to be presumed abandoned. Raised rather than proceeding
+    unprotected, because a read-modify-write that runs without the lock it
+    was supposed to wait for can silently overwrite a concurrent run's
+    inserts."""
+    pass

@@ -5,9 +5,14 @@ import json
 from pathlib import Path
 from datetime import datetime
 
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[2]
+
 # --- CONFIGURATION ---
-MODELS_ROOT = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/models")
-DATA_V4_DIR = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/data/processed/v4")
+MODELS_ROOT = _PACKAGE_ROOT / "models"
+DATA_V4_DIR = _PACKAGE_ROOT / "data" / "processed" / "v4"
 
 class InferenceEngine:
     def __init__(self):

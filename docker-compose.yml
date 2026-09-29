@@ -36,7 +36,7 @@ services:
       - POSTGRES_PASSWORD=pass
       - POSTGRES_DB=mandisense
     ports:
-      - "5432:5432"
+      - "5433:5432"  # host 5432 already taken by another project's postgres container
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -50,7 +50,7 @@ services:
     image: redis:7-alpine
     container_name: mandisense_redis
     ports:
-      - "6379:6379"
+      - "6380:6379"  # host 6379 already taken by another project's redis container
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s

@@ -11,6 +11,11 @@ from mandisense_ai.models.registry import ModelArtifactRegistry, ModelArtifact
 from mandisense_ai.evaluation.backtester import CognitionBacktester
 from mandisense_ai.cognition.engine import CognitionEngine
 
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("IndustrialTraining")
 
@@ -23,7 +28,7 @@ class IndustrialTrainingOrchestrator:
         self.registry = ModelArtifactRegistry()
         self.engine = CognitionEngine()
         self.backtester = CognitionBacktester(self.engine)
-        self.models_root = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/models")
+        self.models_root = Path(_PACKAGE_ROOT / "models")
 
     async def run_full_industrial_cycle(self):
         """
@@ -99,7 +104,7 @@ class IndustrialTrainingOrchestrator:
 
     def _audit_dataset(self, commodity: str) -> bool:
         # Check for temporal consistency and missing values
-        processed_dir = Path(f"d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/data/processed/{commodity}")
+        processed_dir = Path(f_PACKAGE_ROOT / "data" / "processed" / "{commodity}")
         if not (processed_dir / "X_train.csv").exists():
             return False
         return True

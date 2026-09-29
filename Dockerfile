@@ -1,5 +1,6 @@
 # Base image: Use a slim version for smaller footprint
-FROM python:3.11-slim-bullseye
+# (bookworm, not bullseye — bullseye's security repo has aged out and 404s on apt-get install)
+FROM python:3.11-slim-bookworm
 
 # Set working directory
 WORKDIR /app

@@ -28,6 +28,8 @@ export function useCognitionStream() {
     const [quickHealth, setQuickHealth] = useState<any>(null);
     const [allDirectives, setAllDirectives] = useState<any>(null);
     const [isSeeding, setIsSeeding] = useState(false);
+    const [plans, setPlans] = useState<any[]>([]);
+    const [isSimulating, setIsSimulating] = useState(false);
     const ws = useRef<WebSocket | null>(null);
     const pollRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -99,6 +101,58 @@ export function useCognitionStream() {
             }
         } catch {}
     }, []);
+    
+    const fetchPlans = useCallback(async () => {
+        try {
+            const res = await fetch(`${API}/v1/orchestration/plans`);
+            if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data)) setPlans(data);
+            }
+        } catch {}
+    }, []);
+
+    const approveAction = useCallback(async (planId: string, actionId: string) => {
+        addEvent(`Authorizing action: ${actionId}...`, 'system');
+        try {
+            const res = await fetch(`${API}/v1/orchestration/approve`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ plan_id: planId, action_id: actionId })
+            });
+            if (res.ok) {
+                addEvent(`Action approved successfully: ${actionId}`, 'success');
+                fetchPlans();
+                fetchAuditLog();
+            }
+        } catch {
+            addEvent(`Action authorization failed`, 'error');
+        }
+    }, [addEvent, fetchPlans, fetchAuditLog]);
+
+    const simulateScenario = useCallback(async (commodity: string, mandi: string, scenarioType: string) => {
+        setIsSimulating(true);
+        addEvent(`Injecting scenario: ${scenarioType} for ${commodity.toUpperCase()}...`, 'simulation');
+        try {
+            const res = await fetch(`${API}/v1/cognition/simulate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ commodity, mandi, scenario_type: scenarioType, params: {} })
+            });
+            if (res.ok) {
+                addEvent(`Scenario registered successfully: ${scenarioType}`, 'success');
+                setTimeout(() => {
+                    fetchMemories();
+                    fetchPlans();
+                    fetchAuditLog();
+                }, 1500);
+            }
+        } catch {
+            addEvent(`Scenario shock injection failed`, 'error');
+        } finally {
+            setIsSimulating(false);
+        }
+    }, [addEvent, fetchMemories, fetchPlans, fetchAuditLog]);
 
     const seedCognition = useCallback(async () => {
         setIsSeeding(true);
@@ -120,7 +174,7 @@ export function useCognitionStream() {
         } finally {
             setIsSeeding(false);
         }
-    }, [addEvent, fetchAllStates, fetchAllDirectives, fetchAuditLog, fetchMemories]);
+    }, [addEvent, fetchAllStates, fetchAllDirectives, fetchAuditLog, fetchMemories, fetchPlans]);
 
     const refreshAll = useCallback(() => {
         fetchHealth();
@@ -129,7 +183,8 @@ export function useCognitionStream() {
         fetchAllDirectives();
         fetchAuditLog();
         fetchMemories();
-    }, [fetchHealth, fetchQuickHealth, fetchAllStates, fetchAllDirectives, fetchAuditLog, fetchMemories]);
+        fetchPlans();
+    }, [fetchHealth, fetchQuickHealth, fetchAllStates, fetchAllDirectives, fetchAuditLog, fetchMemories, fetchPlans]);
 
     // WebSocket connection
     useEffect(() => {
@@ -152,8 +207,13 @@ export function useCognitionStream() {
                             addEvent(`Cognition evolved: ${data.commodity?.toUpperCase()} @ ${data.mandi_id} — ${data.state?.directives?.[0]?.primary_directive || 'Updated'}`, 'update');
                             fetchAllStates();
                             fetchAuditLog();
+                            fetchMemories();
+                            fetchPlans();
                         } else if (data.type === 'SIMULATION_EVOLVED') {
                             addEvent(`Simulation: ${data.scenario_type} for ${data.commodity?.toUpperCase()}`, 'simulation');
+                            fetchMemories();
+                            fetchPlans();
+                            fetchAuditLog();
                         } else if (data.type === 'PONG') {
                             // heartbeat ack
                         }
@@ -235,6 +295,7 @@ export function useCognitionStream() {
         latestUpdate, status, memories, systemHealth,
         auditLog, allStates, cognitionEvents, queryResult,
         isQuerying, isSeeding, quickHealth, allDirectives,
+        plans, isSimulating, fetchPlans, approveAction, simulateScenario,
         submitQuery, seedCognition, triggerRefresh, refreshAll
     };
 }

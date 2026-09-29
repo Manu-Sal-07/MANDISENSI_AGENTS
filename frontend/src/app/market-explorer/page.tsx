@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState, useRef } from 'react';
+import ForecastPanel from '@/components/ForecastPanel';
 import { apiClient, mandiApi } from '@/services/api';
 import marketCache, { MarketAnalysis, HistoricalSeriesEntry } from '@/services/marketCache';
 import {
@@ -99,7 +100,7 @@ const formatPrice = (price: number | null | undefined) => {
 };
 
 const formatLabel = (market: MarketOption) =>
-  `${market.commodity.toUpperCase()} • ${market.mandi_id.replace('_apmc', '').toUpperCase()}`;
+  `${market.commodity.toUpperCase()} • ${market.mandi_id.replace('_apmc', '').replace(/_/g, ' ').toUpperCase()}`;
 
 export default function MarketExplorerPage() {
   const [marketOptions, setMarketOptions] = useState<MarketOption[]>(ALL_MARKETS);
@@ -108,20 +109,25 @@ export default function MarketExplorerPage() {
   const [marketHistory, setMarketHistory] = useState<MarketHistoryEntry[]>([]);
   const [marketAnalysis, setMarketAnalysis] = useState<MarketAnalysis | null>(null);
   const [displaySeries, setDisplaySeries] = useState<HistoricalSeriesEntry[]>([]);
-  const [allStates, setAllStates] = useState<MarketState[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+  const [comparisonRanking, setComparisonRanking] = useState<Array<{ commodity: string; change_pct: number }>>([]);
+
+  // The underlying data is a daily close (see mandisense_ai/data/processed/v4),
+  // so "1D" isn't a real range — it resolves to a single point and a chart
+  // that can't draw a line. It's dropped here for the same reason the
+  // TraderOS terminal only offers Week/Month/Year: no intraday data exists.
+  // "5Y" is dropped too since real history currently spans ~3.3 years, so
+  // it would always render identically to "ALL" — an option that can never
+  // show anything "ALL" doesn't is dead weight, not a real choice.
   const TIME_RANGE_OPTIONS = [
-    { key: '1D' as const, label: '1D', ms: 24 * 60 * 60 * 1000 },
     { key: '1W' as const, label: '1W', ms: 7 * 24 * 60 * 60 * 1000 },
     { key: '1M' as const, label: '1M', ms: 30 * 24 * 60 * 60 * 1000 },
     { key: '3M' as const, label: '3M', ms: 90 * 24 * 60 * 60 * 1000 },
     { key: '6M' as const, label: '6M', ms: 180 * 24 * 60 * 60 * 1000 },
     { key: '1Y' as const, label: '1Y', ms: 365 * 24 * 60 * 60 * 1000 },
     { key: '3Y' as const, label: '3Y', ms: 3 * 365 * 24 * 60 * 60 * 1000 },
-    { key: '5Y' as const, label: '5Y', ms: 5 * 365 * 24 * 60 * 60 * 1000 },
     { key: 'ALL' as const, label: 'ALL', ms: Infinity },
   ];
   type TimeRangeKey = (typeof TIME_RANGE_OPTIONS)[number]['key'];
@@ -129,7 +135,7 @@ export default function MarketExplorerPage() {
   // Custom interactive states for Bloomberg/TradingView workstation look
   const [timeRange, setTimeRange] = useState<TimeRangeKey>('1Y');
   const [hoveredPoint, setHoveredPoint] = useState<any | null>(null);
-  const [activeTab, setActiveTab] = useState<'dna' | 'narrative' | 'comparison'>('dna');
+  const [activeTab, setActiveTab] = useState<'dna' | 'forecast' | 'narrative' | 'comparison'>('dna');
 
   // Replay Engine States
   const [isReplaying, setIsReplaying] = useState(false);
@@ -188,7 +194,6 @@ export default function MarketExplorerPage() {
   useEffect(() => {
     if (!selectedMarket) return;
 
-    const selectedKey = `${selectedMarket.commodity}|${selectedMarket.mandi_id}`;
     let isCurrent = true;
 
     // A. Sync Lookup from Cache first (Instantaneous UI updates - zero spinner!)
@@ -200,7 +205,6 @@ export default function MarketExplorerPage() {
     setMarketHistory(cachedHistory || []);
     setMarketAnalysis(cachedAnalysis);
     setDisplaySeries(getSeriesForRange(cachedAnalysis?.historicalSeries ?? [], timeRange));
-    setAllStates(marketCache.getAllStates());
     setIsReplaying(false);
     setReplayIndex(0);
 
@@ -213,7 +217,6 @@ export default function MarketExplorerPage() {
           setMarketHistory(marketCache.getHistory(selectedMarket.commodity, selectedMarket.mandi_id));
           setMarketAnalysis(analysis);
           setDisplaySeries(getSeriesForRange(analysis.historicalSeries, timeRange));
-          setAllStates(marketCache.getAllStates());
         }
       })
       .catch((error) => {
@@ -230,8 +233,38 @@ export default function MarketExplorerPage() {
     };
   }, [selectedMarket, timeRange]);
 
+  // 3. Comparison Lab — real trailing-month % change per commodity at the
+  // selected mandi, instead of the old "live volatility score" reading
+  // (which was mostly undefined outside the 2-mandi cognition registry and
+  // never actually compared anything across commodities).
+  useEffect(() => {
+    if (!selectedMarket?.mandi_id) return;
+    let isCurrent = true;
+    mandiApi
+      .getTraderComparison(selectedMarket.mandi_id, 'month')
+      .then((res) => {
+        if (!isCurrent) return;
+        setComparisonRanking(Array.isArray(res?.ranking) ? res.ranking : []);
+      })
+      .catch((err) => {
+        if (!isCurrent) return;
+        console.warn('getTraderComparison failed', err);
+        setComparisonRanking([]);
+      });
+    return () => {
+      isCurrent = false;
+    };
+  }, [selectedMarket?.mandi_id]);
+
   // Derived datasets
   const historicalSeries = displaySeries;
+  // The cognition engine only ever forecasts 2 of the 15 real mandis
+  // (kolar_apmc, bangalore_apmc canonically), so marketState is null for
+  // most markets. Rather than show a bare "--" for benchmark price on
+  // every other market, fall back to the latest real observed price from
+  // the historical series — which exists for all 75 commodity/mandi pairs.
+  const latestObservedPrice = historicalSeries.length ? historicalSeries[historicalSeries.length - 1].price : undefined;
+  const displayPrice = marketState?.price_prediction ?? latestObservedPrice;
   const seasonalityIndex = marketAnalysis?.seasonalityIndex ?? Array(12).fill(100);
   const dnaMetrics = marketAnalysis?.dnaMetrics ?? [
     { axis: 'Volatility', value: 50, label: 'Live volatility signal' },
@@ -287,7 +320,11 @@ export default function MarketExplorerPage() {
   // Price memory map envelope computations
   const priceMemory = useMemo(() => {
     if (marketAnalysis?.priceMemory) return marketAnalysis.priceMemory;
-    const currentPrice = marketState?.price_prediction || 2500;
+    // 2500 as a universal fallback made no sense across commodities whose
+    // real prices range from ~800 (potato) to ~8000 (ginger) — fall back to
+    // the latest real observed price instead, which exists for every
+    // market this page can now select.
+    const currentPrice = marketState?.price_prediction || latestObservedPrice || 2500;
     return {
       low: currentPrice * 0.65,
       median: currentPrice * 0.95,
@@ -296,7 +333,7 @@ export default function MarketExplorerPage() {
       percentile: 72,
       currentPosition: currentPrice
     };
-  }, [marketAnalysis, marketState]);
+  }, [marketAnalysis, marketState, latestObservedPrice]);
 
   // Ensemble Deliberation Research Synthesis (Answers: What does the market tell me? no buy/sell directives)
   const researchSynthesis = useMemo(() => {
@@ -449,18 +486,18 @@ export default function MarketExplorerPage() {
   }, [activePoint, recentSeries]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans transition-colors duration-200">
-      
-      {/* Upper sub-header bar */}
-      <div className="border-b border-zinc-800 bg-zinc-900 px-6 py-4">
+    <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-200">
+
+      {/* Page context bar — global TopBar already carries brand identity */}
+      <div className="border-b border-border bg-surface-1/60 backdrop-blur-sm px-6 py-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-950/40 text-emerald-450 text-emerald-400 rounded-lg border border-emerald-800/40">
+            <div className="p-2 bg-bullish/10 text-bullish rounded-lg border border-bullish/25">
               <Sliders className="w-5 h-5 animate-pulse" />
             </div>
             <div>
-              <h1 className="text-xl font-black tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">MS-AI TraderOS</h1>
-              <p className="text-[10px] uppercase font-bold text-zinc-500 tracking-[0.2em]">Commodity Intelligence & Research Workstation</p>
+              <h1 className="text-lg font-bold tracking-tight text-foreground font-display">Research Workstation</h1>
+              <p className="label-caps text-[9.5px]">Commodity Intelligence &amp; Historical Analysis</p>
             </div>
           </div>
 
@@ -513,14 +550,14 @@ export default function MarketExplorerPage() {
               <h2 className="text-2xl font-black tracking-tight text-white uppercase">
                 {selectedMarket?.commodity}
               </h2>
-              <p className="text-[10px] font-extrabold text-emerald-500 uppercase tracking-widest">{selectedMarket?.mandi_id.replace('_apmc', '').replace('_', ' ')} terminal depot</p>
+              <p className="text-[10px] font-extrabold text-emerald-500 uppercase tracking-widest">{selectedMarket?.mandi_id.replace('_apmc', '').replace(/_/g, ' ')} terminal depot</p>
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-4 pt-6 border-t border-zinc-800">
               <div>
                 <span className="text-[9px] font-black uppercase text-zinc-550 text-zinc-450 tracking-wider">Benchmark price</span>
                 <p className="text-lg font-black mt-0.5 text-white">
-                  ₹{formatPrice(marketState?.price_prediction)}
+                  ₹{formatPrice(displayPrice)}
                   <span className="text-[10px] text-zinc-500 font-medium ml-1">/ Qtl</span>
                 </p>
               </div>
@@ -528,7 +565,7 @@ export default function MarketExplorerPage() {
                 <span className="text-[9px] font-black uppercase text-zinc-550 text-zinc-450 tracking-wider">Active regime</span>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-black text-emerald-400 mt-1 uppercase tracking-wider">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                  {marketState?.regime?.replace(/_/g, ' ') || 'STABLE'}
+                  {marketState?.regime?.replace(/_/g, ' ') || (marketState ? 'STABLE' : 'HISTORICAL')}
                 </span>
               </div>
             </div>
@@ -536,7 +573,7 @@ export default function MarketExplorerPage() {
 
           {/* TAB SELECTOR FOR DETAILS */}
           <div className="flex border-b border-zinc-800">
-            {(['dna', 'narrative', 'comparison'] as const).map((tab) => (
+            {(['dna', 'forecast', 'narrative', 'comparison'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -546,10 +583,27 @@ export default function MarketExplorerPage() {
                     : 'border-transparent text-zinc-500 hover:text-zinc-350'
                 }`}
               >
-                {tab === 'dna' ? 'Market DNA' : tab === 'narrative' ? 'Research Digest' : 'Comparison Lab'}
+                {tab === 'dna'
+                  ? 'Market DNA'
+                  : tab === 'forecast'
+                    ? 'Forecast'
+                    : tab === 'narrative'
+                      ? 'Research Digest'
+                      : 'Comparison Lab'}
               </button>
             ))}
           </div>
+
+          {/* Phase 2: scheduled forecast for the selected series. Keyed on the
+              selection so switching market refetches rather than showing the
+              previous series' numbers under a new heading. */}
+          {activeTab === 'forecast' && selectedMarket && (
+            <ForecastPanel
+              key={`${selectedMarket.commodity}:${selectedMarket.mandi_id}`}
+              commodity={selectedMarket.commodity}
+              mandiId={selectedMarket.mandi_id}
+            />
+          )}
 
           {/* Section 7: MARKET DNA Radar profile */}
           {activeTab === 'dna' && (
@@ -637,14 +691,17 @@ export default function MarketExplorerPage() {
           {activeTab === 'comparison' && (
             <div className="bg-zinc-900/20 rounded-2xl border border-zinc-800 p-6 shadow-md space-y-4">
               <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 flex items-center justify-between">
-                <span>Commodity Volatility Matrix</span>
+                <span>30-Day Performance Matrix</span>
                 <ArrowRightLeft className="w-3.5 h-3.5 text-zinc-500" />
               </h3>
+              <p className="text-[9px] text-zinc-500 -mt-2">
+                Trailing month price change at {selectedMarket ? selectedMarket.mandi_id.replace('_apmc', '').replace(/_/g, ' ').toUpperCase() : 'the selected mandi'}
+              </p>
 
               <div className="space-y-3">
                 {compareList.map((commodityKey) => {
-                  const state = allStates.find((s) => s.commodity === commodityKey);
-                  const volatility = state?.volatility?.score ?? null;
+                  const ranking = comparisonRanking.find((r) => r.commodity === commodityKey);
+                  const changePct = ranking?.change_pct ?? null;
                   return (
                     <button
                       key={commodityKey}
@@ -661,30 +718,35 @@ export default function MarketExplorerPage() {
                     >
                       <div className="flex items-center gap-2">
                         <div className={`w-2.5 h-2.5 rounded-full ${
-                          commodityKey === 'tomato' ? 'bg-red-500' : commodityKey === 'onion' ? 'bg-amber-500' : commodityKey === 'potato' ? 'bg-yellow-600' : 'bg-emerald-600'
+                          commodityKey === 'tomato' ? 'bg-red-500' : commodityKey === 'onion' ? 'bg-amber-500' : commodityKey === 'potato' ? 'bg-yellow-600' : commodityKey === 'garlic' ? 'bg-emerald-600' : commodityKey === 'ginger' ? 'bg-orange-500' : 'bg-zinc-500'
                         }`} />
                         <span className="text-xs font-bold uppercase">{commodityKey}</span>
                       </div>
                       <div className="text-right text-[10px]">
-                        <span className="text-zinc-500">Live volatility: </span>
-                        <span className="font-extrabold text-zinc-350">{volatility !== null ? volatility.toFixed(2) : 'N/A'}</span>
+                        <span className="text-zinc-500">30D change: </span>
+                        <span className={`font-extrabold ${changePct === null ? 'text-zinc-350' : changePct >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {changePct !== null ? `${changePct >= 0 ? '+' : ''}${changePct.toFixed(1)}%` : 'N/A'}
+                        </span>
                       </div>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Lab interactive micro chart mapping comparative lines */}
+              {/* Lab interactive micro chart mapping comparative % change */}
               <div className="pt-4 border-t border-zinc-800">
                 <span className="text-[9px] font-black uppercase text-zinc-500 tracking-wider">Comparative Matrix Mapping</span>
                 <div className="h-24 flex items-end gap-2 mt-4 pt-2">
                   {compareList.map((commodityKey) => {
-                    const state = allStates.find((s) => s.commodity === commodityKey);
-                    const value = state?.volatility?.score ?? 0.35;
-                    const height = Math.min(100, Math.max(8, value * 80));
+                    const ranking = comparisonRanking.find((r) => r.commodity === commodityKey);
+                    const changePct = ranking?.change_pct ?? 0;
+                    const height = Math.min(100, Math.max(8, Math.abs(changePct) * 4));
                     return (
                       <div key={commodityKey} className="flex-1 text-center">
-                        <div className="mx-auto w-4 rounded-sm transition-all duration-500" style={{ height: `${height}px`, backgroundColor: commodityKey === 'tomato' ? '#ef4444' : commodityKey === 'onion' ? '#f59e0b' : '#ca8a04' }} />
+                        <div
+                          className="mx-auto w-4 rounded-sm transition-all duration-500"
+                          style={{ height: `${height}px`, backgroundColor: changePct >= 0 ? '#10b981' : '#ef4444' }}
+                        />
                         <div className="text-[8px] font-black text-zinc-500 mt-2 uppercase">{commodityKey}</div>
                       </div>
                     );
@@ -1196,7 +1258,7 @@ export default function MarketExplorerPage() {
               </div>
 
               <div className="text-[10px] leading-relaxed text-zinc-500 pt-3 border-t border-zinc-800">
-                Current price of <span className="font-extrabold text-zinc-350">₹{formatPrice(marketState?.price_prediction)}</span> sits higher than <span className="font-black text-emerald-400">{priceMemory.percentile}%</span> of all observed historical points on the master record.
+                Current price of <span className="font-extrabold text-zinc-350">₹{formatPrice(displayPrice)}</span> sits higher than <span className="font-black text-emerald-400">{priceMemory.percentile}%</span> of all observed historical points on the master record.
               </div>
             </div>
 

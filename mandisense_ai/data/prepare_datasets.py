@@ -3,10 +3,16 @@ import numpy as np
 import os
 import json
 from sklearn.preprocessing import StandardScaler
+from pathlib import Path
+
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 
 # Constants
-RAW_DATA_DIR = r"d:\BMS COLL\PROJECT\MS-AI\MS-AI\mandisense_ai\data\raw"
-PROCESSED_DATA_DIR = r"d:\BMS COLL\PROJECT\MS-AI\MS-AI\mandisense_ai\data\processed"
+RAW_DATA_DIR = _PACKAGE_ROOT / "data" / "raw"
+PROCESSED_DATA_DIR = _PACKAGE_ROOT / "data" / "processed"
 
 # Mandi Mapping for Encoding
 MANDI_MAP = {

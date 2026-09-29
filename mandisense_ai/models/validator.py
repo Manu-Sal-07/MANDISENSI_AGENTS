@@ -2,12 +2,18 @@ import os
 import json
 import pickle
 import logging
+from pathlib import Path
+
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
-MODELS_ROOT = r"d:\BMS COLL\PROJECT\MS-AI\MS-AI\mandisense_ai\models"
+MODELS_ROOT = _PACKAGE_ROOT / "models"
 AGENTS = ["seasonality", "arrival"]
 COMMODITIES = ["tomato", "onion", "potato", "dry_chillis", "garlic"]
 

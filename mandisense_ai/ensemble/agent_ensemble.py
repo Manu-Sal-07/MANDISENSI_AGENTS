@@ -10,10 +10,10 @@ Design:
   │  AgentEnsemble.fit(X, y, regime_flags)                              │
   │    ├── For each model in self.models:                               │
   │    │     ├── TimeSeriesSplit(n_splits) walk-forward CV              │
-  │    │     ├── Collect per-fold MAPE                                  │
+  │    │     ├── Collect per-fold MAE                                   │
   │    │     └── Store: fold predictions, fold errors                   │
-  │    ├── Rank models by avg MAPE                                      │
-  │    ├── Compute weights: w_i = (1/MAPE_i) / Σ(1/MAPE_j)            │
+  │    ├── Rank models by avg MAE                                       │
+  │    ├── Compute weights: w_i = (1/MAE_i) / Σ(1/MAE_j)               │
   │    └── Refit all top-N models on FULL training data                 │
   │                                                                      │
   │  AgentEnsemble.predict(X)                                           │
@@ -134,7 +134,7 @@ class AgentEnsemble:
             X:            Feature DataFrame (NaN-free is preferred; fillna(0) applied internally).
             y:            Target Series.
             regime_flags: Optional binary Series — 1 if festival, 0 otherwise.
-                          Used only for per-regime MAPE logging; does not affect weights.
+                          Used only for per-regime MAE logging; does not affect weights.
 
         Returns:
             self (for chaining)
@@ -227,10 +227,19 @@ class AgentEnsemble:
                     f"folds={len(fold_maes)}"
                 )
 
+                # Named for what these actually are: mean *absolute error* on
+                # the raw target, not MAPE. MAPE was tried and abandoned here
+                # (it explodes past 1e17 when a price-change target sits near
+                # zero, which eliminates every ML model and leaves only the
+                # baseline) — the keys just kept the old name through that
+                # change. Nothing outside this method's own scope reads these
+                # exact keys (`self.errors`/`get_ensemble_log()` expose a flat
+                # {model_name: value} shape instead), so there is no external
+                # compatibility this rename could break.
                 cv_results[model_name] = {
-                    "avg_mape":        avg_mae,   # kept same key for backward compat
-                    "fest_mape":       avg_fest_mae,
-                    "fold_mapes":      fold_maes,
+                    "avg_mae":         avg_mae,
+                    "fest_mae":        avg_fest_mae,
+                    "fold_maes":       fold_maes,
                     "last_fold_model": last_fold_model,
                 }
             else:
@@ -245,14 +254,14 @@ class AgentEnsemble:
             )
 
         # ── Step 3: Weight calculation ───────────────────────────────── #
-        #   weight_i = (1 / MAPE_i) / Σ_j (1 / MAPE_j)
-        #   Cap individual model MAPE at 999 to prevent div-by-zero dominance.
-        ranked = sorted(cv_results.items(), key=lambda x: x[1]["avg_mape"])
+        #   weight_i = (1 / MAE_i) / Σ_j (1 / MAE_j)
+        #   Cap individual model MAE at 999 to prevent div-by-zero dominance.
+        ranked = sorted(cv_results.items(), key=lambda x: x[1]["avg_mae"])
         top_n_results = ranked[: self.top_n]
 
-        # Compute raw inverse-MAPE weights
+        # Compute raw inverse-MAE weights
         raw_weights: Dict[str, float] = {
-            name: 1.0 / (res["avg_mape"] + 1e-9)
+            name: 1.0 / (res["avg_mae"] + 1e-9)
             for name, res in top_n_results
         }
         total_inv = sum(raw_weights.values()) + 1e-12
@@ -267,7 +276,7 @@ class AgentEnsemble:
             if w >= self.min_weight_threshold
         }
         if not active_weights:
-            # Safety: if all weights are tiny (very flat MAPE), keep the best
+            # Safety: if all weights are tiny (very flat MAE), keep the best
             best_name = top_n_results[0][0]
             active_weights = {best_name: 1.0}
 
@@ -275,9 +284,9 @@ class AgentEnsemble:
         self.weights = {name: w / total_active for name, w in active_weights.items()}
 
         # Store errors and per-fold errors for audit
-        self.errors = {name: cv_results[name]["avg_mape"]
+        self.errors = {name: cv_results[name]["avg_mae"]
                        for name in self.weights}
-        self.cv_fold_errors = {name: cv_results[name]["fold_mapes"]
+        self.cv_fold_errors = {name: cv_results[name]["fold_maes"]
                                for name in self.weights}
 
         logger.info(
@@ -383,11 +392,11 @@ class AgentEnsemble:
         Keys:
           fit_metadata          – timing, data dimensions, n_models
           model_weights         – normalised weight per active model
-          model_errors          – avg CV MAPE per active model
-          model_cv_fold_errors  – per-fold MAPE list per model (for diagnostics)
+          model_errors          – avg CV MAE per active model
+          model_cv_fold_errors  – per-fold MAE list per model (for diagnostics)
           last_predictions      – scalar prediction from each model at last predict()
           last_ensemble_pred    – the final weighted prediction scalar
-          ranked_models         – models sorted by ascending MAPE
+          ranked_models         – models sorted by ascending MAE
         """
         if not self._is_fitted:
             return {"status": "unfitted", "models": list(self.models.keys())}
@@ -431,7 +440,7 @@ class AgentEnsemble:
 
     @property
     def best_model_name(self) -> Optional[str]:
-        """Name of the model with the lowest CV MAPE."""
+        """Name of the model with the lowest CV MAE."""
         if not self.errors:
             return None
         return min(self.errors, key=self.errors.get)

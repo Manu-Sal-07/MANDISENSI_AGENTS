@@ -1,173 +1,244 @@
 'use client';
 
+/**
+ * Farmer home.
+ *
+ * The page answers one question — sell today or wait — for whoever is
+ * holding the phone at a mandi gate. Everything is arranged around that:
+ * the decision is the hero rather than the brand, the produce is drawn
+ * rather than coded, and the surface stays bright because it is read
+ * outdoors in direct sun.
+ *
+ * The trader views (terminal, market explorer, intelligence lab) keep the
+ * dark data-dense system; the divergence is scoped to `.farm-surface`.
+ */
+
 import React, { useState } from 'react';
-import LocationBar from '@/components/LocationBar';
-import SearchBar from '@/components/SearchBar';
-import OpportunityFeed from '@/components/OpportunityFeed';
-import QuickDecisionBar from '@/components/QuickDecisionBar';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
+import { Clock, MapPin, X, type LucideIcon } from 'lucide-react';
+
+import FarmScene from '@/components/farm/FarmScene';
+import CallCard, { normaliseCall } from '@/components/farm/CallCard';
+import TodaysCalls from '@/components/farm/TodaysCalls';
+import AskBar from '@/components/farm/AskBar';
+import NearbyMandis from '@/components/farm/NearbyMandis';
 import { mandiApi } from '@/services/api';
 import { QueryResponse } from '@/types/mandi';
-import { RefreshCw, CheckCircle } from 'lucide-react';
 
-/**
- * Phase 7: Swiggy-style UI — Mandi Discovery & Smart Query
- */
-export default function Homepage() {
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchResult, setSearchResult] = useState<QueryResponse | null>(null);
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+export default function FarmerHome() {
+  const [isAsking, setIsAsking] = useState(false);
+  const [answer, setAnswer] = useState<QueryResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [showQuickDecisions, setShowQuickDecisions] = useState(true);
 
-  const handleSmartSearch = async (query: string) => {
-    setIsSearching(true);
-    setSearchResult(null);
+  // The headline call is whatever the market is shouting loudest about
+  // today. It fills the hero before the farmer has typed anything, so the
+  // page is useful on arrival rather than only after a search.
+  const { data: feed } = useQuery({
+    queryKey: ['discovery-feed', 'bengaluru'],
+    queryFn: () => mandiApi.getDiscoveryFeed('bengaluru'),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const headline = Array.isArray(feed) && feed.length ? feed[0] : null;
+
+  const handleAsk = async (question: string) => {
+    setIsAsking(true);
+    setAnswer(null);
     setError(null);
     try {
-      const result = await mandiApi.predictQuery(query);
-      setSearchResult(result);
-    } catch (err) {
-      setError("Data not available right now. Please try again.");
+      setAnswer(await mandiApi.predictQuery(question));
+    } catch {
+      setError('Could not reach the market right now. Try again in a moment.');
     } finally {
-      setIsSearching(false);
-    }
-  };
-
-  const getDecisionColor = (decision: string) => {
-    switch (decision) {
-      case 'SELL': return 'text-red-500';
-      case 'HOLD': return 'text-green-500';
-      case 'WAIT': return 'text-yellow-500';
-      default: return 'text-zinc-500';
+      setIsAsking(false);
     }
   };
 
   return (
-    <div className="flex flex-col">
-      {/* 1. Contextual Header */}
-      <LocationBar />
-      
-      <div className="flex-1 max-w-5xl mx-auto w-full px-4 py-6 space-y-10">
-        {/* 2. Smart Query Input */}
-        <section className="space-y-4">
-          <div className="text-center space-y-2">
-            <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100">
-              MandiSense <span className="text-emerald-600">AI</span>
-            </h1>
-            <p className="text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-[0.3em] text-[10px]">
-              Daily Decision Guide for Farmers
+    <div className="farm-surface relative min-h-screen pb-28 md:pb-16">
+      {/* ── The field ─────────────────────────────────────────── */}
+      <section className="relative isolate overflow-hidden px-4 pb-8 pt-10 sm:pt-14">
+        <FarmScene />
+
+        <div className="relative mx-auto max-w-2xl lg:max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="text-center"
+          >
+            <p
+              className="farm-display text-[2rem] leading-tight text-[var(--farm-ink)] sm:text-4xl"
+              lang="hi"
+            >
+              आज बेचें या रुकें?
             </p>
-          </div>
-          <SearchBar onSearch={handleSmartSearch} isLoading={isSearching} />
-          {error && <p className="text-center text-red-500 text-xs font-bold">{error}</p>}
-        </section>
+            <p className="mt-1 text-lg font-semibold text-[var(--farm-ink-soft)] sm:text-xl">
+              Sell today, or wait?
+            </p>
+          </motion.div>
 
-        {/* 2.5 Quick Decision Bar (Toggleable) */}
-        <section className="space-y-4">
-          <div className="flex justify-between items-center px-2">
-            <label className="flex items-center gap-2 cursor-pointer group">
-              <input 
-                type="checkbox" 
-                checked={showQuickDecisions} 
-                onChange={(e) => setShowQuickDecisions(e.target.checked)}
-                className="w-4 h-4 rounded border-zinc-300 text-orange-500 focus:ring-orange-500"
-              />
-              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 group-hover:text-zinc-600 transition-colors">
-                Show Quick Advice
-              </span>
-            </label>
-          </div>
-          {showQuickDecisions && <QuickDecisionBar />}
-        </section>
-
-        {/* 3. Search Results (if any) */}
-        {searchResult && (
-          <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="bg-zinc-950 text-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden border border-white/5">
-              <div className="relative z-10 space-y-8">
-                <div className="flex justify-between items-start">
-                  <div className="space-y-1">
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">
-                      Strategy for {searchResult?.metadata?.mandi_id?.replace('_apmc', '').toUpperCase() || 'MARKET'}
-                    </span>
-                    <h2 className={`text-6xl md:text-8xl font-black tracking-tighter ${getDecisionColor(searchResult.decision)}`}>
-                      {searchResult.decision}
-                    </h2>
-                  </div>
-                  <button 
-                    onClick={() => setSearchResult(null)}
-                    className="text-zinc-500 hover:text-white transition-colors"
+          {/* On a phone this is one column: answer, then ask, stacked —
+              there is no width to spare. From `lg` up, the ask bar moves
+              beside the decision as a companion panel instead of sitting
+              in the empty space beneath it. */}
+          <div className="mt-7 lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-start lg:gap-8">
+            {/* ── The answer ──────────────────────────────────────── */}
+            <div>
+              <AnimatePresence mode="wait">
+                {answer ? (
+                  <motion.div
+                    key="answer"
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.4, ease: EASE }}
+                    className="relative"
                   >
-                    <RefreshCw className="w-5 h-5" />
-                  </button>
-                </div>
-                
-                <div className="space-y-6 max-w-2xl">
-                  <p className="text-2xl md:text-3xl font-bold tracking-tight leading-tight">
-                    {searchResult.summary}
-                  </p>
-                  
-                  <div className="space-y-4">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Reasoning</h4>
-                    <p className="text-zinc-400 font-medium leading-relaxed">
-                      {searchResult.reasoning}
-                    </p>
-                  </div>
-
-                  <div className="bg-white/5 rounded-3xl p-6 border border-white/5">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Market Insight</h4>
-                    <p className="text-lg font-bold text-zinc-200 italic">
-                      &ldquo;{searchResult.market_insight}&rdquo;
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-6 pt-8 border-t border-white/5">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-500">
-                      {searchResult?.metadata?.confidence > 0.85 ? 'High confidence' : 'Medium confidence'}
-                    </span>
-                  </div>
-                  <div className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Data Updated Today</div>
-                </div>
-              </div>
-              <div className="absolute top-0 right-0 w-96 h-96 bg-zinc-800 blur-[120px] opacity-20 -mr-48 -mt-48 pointer-events-none" />
+                    <CallCard
+                      commodity={answer.metadata?.commodity || 'produce'}
+                      mandiName={prettyMandi(answer.metadata?.mandi_id)}
+                      call={normaliseCall(answer.decision)}
+                      note={answer.summary}
+                      confidence={answer.metadata?.confidence ?? null}
+                    />
+                    <button
+                      onClick={() => setAnswer(null)}
+                      aria-label="Clear this answer"
+                      className="farm-focus absolute right-4 top-6 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-[var(--farm-ink-soft)] backdrop-blur transition-colors hover:text-[var(--farm-ink)]"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </motion.div>
+                ) : headline ? (
+                  <motion.div key="headline">
+                    <CallCard
+                      commodity={headline.hot_commodity}
+                      mandiName={headline.mandi_name}
+                      call={normaliseCall(headline.decision)}
+                      changePct={headline.price_change_pct}
+                      confidence={headline.confidence}
+                      note={headline.reasoning}
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="waiting"
+                    className="farm-card farm-card-lift h-56 animate-pulse bg-white/70"
+                  />
+                )}
+              </AnimatePresence>
             </div>
-          </section>
-        )}
-        
-        {/* 4. Location-Aware Mandi Discovery */}
-        <section className="space-y-6 pt-6">
-          <div className="px-2 flex flex-col gap-1">
-            <h2 className="text-2xl font-black tracking-tighter text-zinc-900 dark:text-zinc-100 italic">Market Intelligence</h2>
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em]">Nearby Mandis & Signal Audits</p>
-          </div>
-          
-          <OpportunityFeed variant="grid" />
-        </section>
 
-        {/* 6. Footer Trust Signals */}
-        <section className="py-10 text-center space-y-4">
-          <div className="flex items-center justify-center gap-4 text-zinc-400">
-            <div className="flex items-center gap-1.5">
-              <CheckCircle className="w-4 h-4 text-green-500" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Safe & Trusted</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <RefreshCw className="w-4 h-4 text-orange-500" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Real-time Trends</span>
+            {/* ── Ask ─────────────────────────────────────────────── */}
+            <div className="farm-ask-panel mt-6 lg:mt-0">
+              <p className="farm-display mb-4 hidden text-sm text-[var(--farm-ink-faint)] lg:block">
+                Ask about another crop
+              </p>
+              <AskBar onAsk={handleAsk} isLoading={isAsking} />
+              <AnimatePresence>
+                {error && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    role="status"
+                    className="mt-3 text-center text-sm font-semibold text-[var(--call-sell)]"
+                  >
+                    {error}
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </div>
           </div>
-          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-[0.4em]">Powered by MandiSense AI Engine v3</p>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      {/* Persistent Bottom Navigation Placeholder */}
-      <div className="fixed bottom-0 left-0 right-0 h-16 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-900 flex items-center justify-around px-6 z-50">
-        <div className="w-6 h-6 bg-zinc-900 dark:bg-zinc-100 rounded-lg"></div>
-        <div className="w-6 h-6 bg-zinc-100 dark:bg-zinc-800 rounded-lg"></div>
-        <div className="w-6 h-6 bg-zinc-100 dark:bg-zinc-800 rounded-lg"></div>
+      {/* ── Today's calls + Mandis near you ─────────────────────── *
+          Two independent lists, so on a wide window they sit side by
+          side instead of one narrow column stacked above the other with
+          the rest of the screen empty. On a phone `lg:grid-cols-2` never
+          applies, so this is still a plain vertical stack. */}
+      <section className="mx-auto mt-6 grid w-full max-w-3xl gap-6 px-4 lg:max-w-5xl lg:grid-cols-2 lg:items-start">
+        <div className="farm-section farm-section-warm">
+          <SectionHeading
+            icon={Clock}
+            tint="turmeric"
+            english="Today's calls"
+            hindi="आज की सलाह"
+          />
+          <TodaysCalls />
+        </div>
+
+        <div className="farm-section">
+          <SectionHeading
+            icon={MapPin}
+            tint="leaf"
+            english="Mandis near you"
+            hindi="आस-पास की मंडियाँ"
+          />
+          <NearbyMandis />
+        </div>
+      </section>
+
+      <footer className="mx-auto mt-14 max-w-3xl px-4 pb-4 text-center">
+        <p className="text-sm text-[var(--farm-ink-faint)]">
+          Prices come from government mandi records. Advice is guidance, not a
+          guarantee.
+        </p>
+      </footer>
+    </div>
+  );
+}
+
+/**
+ * A section header carries an icon badge rather than plain text alone.
+ * It borrows the same tinted-circle language FarmHeader already uses for
+ * the location pin, so "today's calls" (turmeric — time-sensitive) and
+ * "mandis near you" (leaf — place) read as two rooms of one house
+ * instead of two unrelated headings.
+ */
+function SectionHeading({
+  icon: Icon,
+  tint,
+  english,
+  hindi,
+}: {
+  icon: LucideIcon;
+  tint: 'leaf' | 'turmeric';
+  english: string;
+  hindi: string;
+}) {
+  const wash = tint === 'leaf' ? 'var(--leaf-wash)' : 'var(--turmeric-wash)';
+  const fg = tint === 'leaf' ? 'var(--leaf)' : 'var(--call-wait)';
+  return (
+    <div className="farm-section-header">
+      <span className="farm-section-icon" style={{ background: wash }}>
+        <Icon className="h-5 w-5" style={{ color: fg }} />
+      </span>
+      <div className="min-w-0">
+        <h2 className="farm-display text-xl leading-tight text-[var(--farm-ink)] sm:text-2xl">
+          {english}
+        </h2>
+        <span
+          className="farm-display block text-sm text-[var(--farm-ink-faint)] sm:text-base"
+          lang="hi"
+        >
+          {hindi}
+        </span>
       </div>
     </div>
   );
+}
+
+function prettyMandi(id?: string | null): string {
+  if (!id) return 'your mandi';
+  return id
+    .replace(/_apmc$/, '')
+    .split('_')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }

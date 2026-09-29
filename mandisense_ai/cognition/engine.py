@@ -88,6 +88,70 @@ class CognitionEngine:
         self.registry.register(VolatilityAgent())
         self.registry.register(ArrivalAgent())
 
+    def _measure_market_context(self, commodity: str, mandi_id: str) -> Dict[str, Any]:
+        """
+        Real measurements for the council's volatility and arrival agents.
+
+        Both agents read context keys that nothing ever populated, so each
+        silently fell back to a hardcoded default and returned an identical
+        verdict for every series. Anything that genuinely cannot be measured
+        is left absent here rather than defaulted, so the agent abstains
+        instead of asserting a number nobody computed.
+
+        Volatility comes from the published forecast's calibrated 90% band
+        width as a share of price — already validated for coverage, so it is
+        a measured spread rather than an assumed one. Arrival trend compares
+        recent arrivals against their own trailing average.
+        """
+        measured: Dict[str, Any] = {}
+
+        try:
+            from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
+            from mandisense_ai.forecasting.service import get_forecast_service
+
+            service = get_forecast_service()
+            if service.is_available:
+                resolved_commodity = canonical_commodity(commodity) or commodity
+                resolved_mandi = canonical_market(mandi_id) or mandi_id
+                for row in service.get_curve(resolved_commodity, resolved_mandi):
+                    if row.get("status") != "OK":
+                        continue
+                    interval = row.get("interval") or {}
+                    low, high = interval.get("p05"), interval.get("p95")
+                    base = row.get("last_observed_price")
+                    if low is not None and high is not None and base:
+                        measured["volatility_score"] = float((high - low) / base)
+                        break
+        except Exception as exc:
+            logger.warning(f"Could not measure volatility for {commodity}/{mandi_id}: {exc}")
+
+        try:
+            import pandas as pd
+
+            from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
+            from mandisense_ai.forecasting.store import ObservationStore
+
+            resolved_commodity = canonical_commodity(commodity) or commodity
+            resolved_mandi = canonical_market(mandi_id) or mandi_id
+            series = ObservationStore().read_series(resolved_commodity, resolved_mandi, limit=30)
+            if not series.empty and "arrivals" in series.columns:
+                arrivals = pd.to_numeric(series["arrivals"], errors="coerce").dropna()
+                if len(arrivals) >= 7:
+                    recent = float(arrivals.tail(3).mean())
+                    baseline = float(arrivals.mean())
+                    if baseline > 0:
+                        ratio = recent / baseline
+                        if ratio > 1.15:
+                            measured["arrival_trend"] = "increasing"
+                        elif ratio < 0.85:
+                            measured["arrival_trend"] = "decreasing"
+                        else:
+                            measured["arrival_trend"] = "stable"
+        except Exception as exc:
+            logger.warning(f"Could not measure arrivals for {commodity}/{mandi_id}: {exc}")
+
+        return measured
+
     def get_health(self) -> Dict[str, Any]:
         uptime = time.time() - self._start_time
         return {
@@ -142,6 +206,10 @@ class CognitionEngine:
             # 2. Context & Council Execution
             prev_state = self.state_store.get_latest_state(commodity, mandi_id)
             context = { "prev_state": prev_state, "telemetry_trust": avg_trust }
+            # The volatility and arrival agents read these two keys. They were
+            # never set, so both agents fell through to their defaults and
+            # returned the same constant for every series on every run.
+            context.update(self._measure_market_context(commodity, mandi_id))
             
             # 3. Agent Execution (Bypass if artifacts missing)
             if integrity == CognitionStatus.MODEL_UNAVAILABLE:
@@ -160,6 +228,32 @@ class CognitionEngine:
             snapshot = self._map_to_snapshot(commodity, mandi_id, arbitration_res, meta_res)
             snapshot["meta"]["telemetry_trust"] = avg_trust
             snapshot["integrity_status"] = integrity
+            
+            try:
+                from mandisense_ai.core.agents.decision_engine import MandiDecisionEngine
+                from mandisense_ai.core.data.data_service import MandiDataService
+                ds = MandiDataService.get_instance()
+                series, _, _ = await ds.get_mandi_series(commodity, mandi_id, window=1)
+                last_price = float(series['price'].iloc[-1])
+            except Exception:
+                last_price = prev_state.price_prediction if prev_state else snapshot["forecast"]["price"]
+                
+            forecast_price = snapshot["forecast"]["price"]
+            price_change_pct = (forecast_price - last_price) / (last_price or 1.0)
+            
+            try:
+                decision_engine = MandiDecisionEngine()
+                decision_res = await decision_engine.get_decision(commodity, mandi_id)
+                decision = decision_res.get("decision", "WAIT")
+                reasoning = decision_res.get("reasoning", "")
+            except Exception:
+                decision = "WAIT"
+                reasoning = ""
+
+            snapshot["meta"]["price_change_pct"] = float(round(price_change_pct, 4))
+            snapshot["meta"]["last_price"] = float(last_price)
+            snapshot["meta"]["decision"] = decision
+            snapshot["meta"]["reasoning"] = reasoning
             
             evolved_state = self.state_store.evolve_state(snapshot)
             evolved_state.integrity_status = integrity

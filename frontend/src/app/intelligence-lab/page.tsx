@@ -72,7 +72,8 @@ type MarketState = {
 
 type ScenarioProjection = {
   name: string;
-  price: number;
+  priceChangePct: number;
+  projectedPrice: number;
   confidence: number;
   regime: string;
   risk: string;
@@ -85,97 +86,144 @@ const formatMarketLabel = (state: MarketState) =>
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
+// price_prediction is an absolute rupee quote (e.g. ₹1682.78), never a percentage.
+// The percentage change lives in metadata.price_change_pct as a fraction (0.0613 = 6.13%).
+const getPriceChangePct = (state: MarketState) => {
+  const raw = state.metadata?.price_change_pct;
+  return typeof raw === 'number' ? raw * 100 : 0;
+};
+
+const formatCurrency = (value: number | null | undefined) => {
+  if (value === null || value === undefined || Number.isNaN(value)) return '--';
+  return new Intl.NumberFormat('en-IN').format(Math.round(value));
+};
+
+const formatSignedPct = (value: number) => `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+
+const formatAnalogDate = (timestamp?: string) => {
+  if (!timestamp) return 'Unknown date';
+  const date = new Date(timestamp);
+  return Number.isNaN(date.getTime()) ? 'Unknown date' : date.toLocaleDateString();
+};
+
 const buildScenarioProjection = (state: MarketState, scenario: string): ScenarioProjection => {
-  const basePrice = state.price_prediction ?? 0;
+  const actualPrice = state.price_prediction ?? 0;
+  const basePct = getPriceChangePct(state);
   const baseConfidence = state.confidence?.score ?? 0.45;
   const baseRisk = state.risk_level ?? 'MEDIUM';
   const forecast = state.forecast_arrivals ?? 0;
   const volatility = state.volatility?.score ?? 0.5;
 
-  const diff = (multiplier: number) => clamp(basePrice * multiplier, -12, 12);
-  const confidenceShift = (delta: number) => clamp(baseConfidence + delta, 0.05, 0.98);
+  const diff = (multiplier: number) => clamp(basePct * multiplier, -12, 12);
+  const confidenceShift = (delta: number) => Math.round(clamp(baseConfidence + delta, 0.05, 0.98) * 100);
+  const projectPrice = (pctChange: number) => Math.max(0, actualPrice * (1 + clamp(pctChange, -60, 60) / 100));
+
+  const finalize = (name: string, pctChange: number, confidence: number, regime: string, risk: string, resilience: number, narrative: string): ScenarioProjection => ({
+    name,
+    priceChangePct: pctChange,
+    projectedPrice: projectPrice(pctChange),
+    confidence,
+    regime,
+    risk,
+    resilience,
+    narrative,
+  });
 
   switch (scenario) {
-    case 'arrival_increase':
-      return {
-        name: 'Arrival Increase',
-        price: basePrice + diff(0.25) - forecast * 0.02,
-        confidence: confidenceShift(0.07),
-        regime: volatility > 0.7 ? 'ELEVATED_VOLATILITY' : 'STABLE_EXPANSION',
-        risk: basePrice > 0 ? 'MEDIUM' : 'HIGH',
-        resilience: clamp(75 - volatility * 20, 15, 90),
-        narrative: 'Extra arrivals amplify current dynamics and reveal where hidden supply pressure will force a regime test.',
-      };
-    case 'arrival_decrease':
-      return {
-        name: 'Arrival Decrease',
-        price: basePrice - diff(0.35),
-        confidence: confidenceShift(-0.08),
-        regime: 'RECOVERY_STABILIZATION',
-        risk: basePrice < 0 ? 'HIGH' : 'MEDIUM',
-        resilience: clamp(65 - volatility * 25, 10, 80),
-        narrative: 'Sharp removal of arrivals triggers a transition test and exposes structural strength in demand.',
-      };
-    case 'volatility_spike':
-      return {
-        name: 'Volatility Spike',
-        price: basePrice + diff(0.5),
-        confidence: confidenceShift(-0.18),
-        regime: 'ELEVATED_VOLATILITY',
-        risk: 'CRITICAL',
-        resilience: clamp(40 - volatility * 15, 5, 60),
-        narrative: 'A volatility pulse fractures the signal and surfaces where the market is most fragile.',
-      };
-    case 'volatility_collapse':
-      return {
-        name: 'Volatility Collapse',
-        price: basePrice + diff(0.12),
-        confidence: confidenceShift(0.12),
-        regime: 'STABLE_EXPANSION',
-        risk: basePrice > 0 ? 'LOW' : 'MEDIUM',
-        resilience: clamp(85 - forecast * 8, 40, 98),
-        narrative: 'Quieter volatility consolidates the opinion and reveals latent confidence in the twin.',
-      };
-    case 'demand_surge':
-      return {
-        name: 'Demand Surge',
-        price: basePrice + diff(0.55),
-        confidence: confidenceShift(0.05),
-        regime: 'RECOVERY_STABILIZATION',
-        risk: 'MEDIUM',
-        resilience: clamp(70 - volatility * 10, 20, 88),
-        narrative: 'A demand shock re-prices the opportunity and surfaces how quickly conviction can strengthen.',
-      };
-    case 'demand_contract':
-      return {
-        name: 'Demand Contraction',
-        price: basePrice - diff(0.5),
-        confidence: confidenceShift(-0.12),
-        regime: 'TRANSITIONAL_STRESS',
-        risk: 'HIGH',
-        resilience: clamp(45 - volatility * 10, 10, 70),
-        narrative: 'Demand evaporation stresses the market and reveals the weak points in the existing regime.',
-      };
-    case 'external_shock':
-      return {
-        name: 'External Shock',
-        price: basePrice + (basePrice >= 0 ? diff(0.4) : diff(-0.4)),
-        confidence: confidenceShift(-0.2),
-        regime: 'TRANSITIONAL_STRESS',
-        risk: 'CRITICAL',
-        resilience: clamp(35 - volatility * 12, 5, 60),
-        narrative: 'A shock event fractures consensus and forces the digital twin to reveal its worst-case trajectory.',
-      };
+    case 'arrival_increase': {
+      const pctChange = basePct + diff(0.25) - forecast * 0.05;
+      return finalize(
+        'Arrival Increase',
+        pctChange,
+        confidenceShift(0.07),
+        volatility > 0.7 ? 'ELEVATED_VOLATILITY' : 'STABLE_EXPANSION',
+        pctChange >= 0 ? 'MEDIUM' : 'HIGH',
+        clamp(75 - volatility * 20, 15, 90),
+        'Extra arrivals amplify current dynamics and reveal where hidden supply pressure will force a regime test.'
+      );
+    }
+    case 'arrival_decrease': {
+      const pctChange = basePct - diff(0.35);
+      return finalize(
+        'Arrival Decrease',
+        pctChange,
+        confidenceShift(-0.08),
+        'RECOVERY_STABILIZATION',
+        pctChange < 0 ? 'HIGH' : 'MEDIUM',
+        clamp(65 - volatility * 25, 10, 80),
+        'Sharp removal of arrivals triggers a transition test and exposes structural strength in demand.'
+      );
+    }
+    case 'volatility_spike': {
+      const pctChange = basePct + diff(0.5);
+      return finalize(
+        'Volatility Spike',
+        pctChange,
+        confidenceShift(-0.18),
+        'ELEVATED_VOLATILITY',
+        'CRITICAL',
+        clamp(40 - volatility * 15, 5, 60),
+        'A volatility pulse fractures the signal and surfaces where the market is most fragile.'
+      );
+    }
+    case 'volatility_collapse': {
+      const pctChange = basePct + diff(0.12);
+      return finalize(
+        'Volatility Collapse',
+        pctChange,
+        confidenceShift(0.12),
+        'STABLE_EXPANSION',
+        pctChange >= 0 ? 'LOW' : 'MEDIUM',
+        clamp(85 - forecast * 8, 40, 98),
+        'Quieter volatility consolidates the opinion and reveals latent confidence in the twin.'
+      );
+    }
+    case 'demand_surge': {
+      const pctChange = basePct + diff(0.55);
+      return finalize(
+        'Demand Surge',
+        pctChange,
+        confidenceShift(0.05),
+        'RECOVERY_STABILIZATION',
+        'MEDIUM',
+        clamp(70 - volatility * 10, 20, 88),
+        'A demand shock re-prices the opportunity and surfaces how quickly conviction can strengthen.'
+      );
+    }
+    case 'demand_contract': {
+      const pctChange = basePct - diff(0.5);
+      return finalize(
+        'Demand Contraction',
+        pctChange,
+        confidenceShift(-0.12),
+        'TRANSITIONAL_STRESS',
+        'HIGH',
+        clamp(45 - volatility * 10, 10, 70),
+        'Demand evaporation stresses the market and reveals the weak points in the existing regime.'
+      );
+    }
+    case 'external_shock': {
+      const pctChange = basePct + (basePct >= 0 ? diff(0.4) : diff(-0.4));
+      return finalize(
+        'External Shock',
+        pctChange,
+        confidenceShift(-0.2),
+        'TRANSITIONAL_STRESS',
+        'CRITICAL',
+        clamp(35 - volatility * 12, 5, 60),
+        'A shock event fractures consensus and forces the digital twin to reveal its worst-case trajectory.'
+      );
+    }
     default:
-      return {
-        name: 'Baseline',
-        price: basePrice,
-        confidence: baseConfidence,
-        regime: state.regime ?? 'STABLE_EXPANSION',
-        risk: baseRisk,
-        resilience: clamp(70 - volatility * 15, 15, 92),
-        narrative: 'Current market intelligence baseline used for comparative discovery.',
-      };
+      return finalize(
+        'Baseline',
+        basePct,
+        Math.round(baseConfidence * 100),
+        state.regime ?? 'STABLE_EXPANSION',
+        baseRisk,
+        clamp(70 - volatility * 15, 15, 92),
+        'Current market intelligence baseline used for comparative discovery.'
+      );
   }
 };
 
@@ -258,8 +306,8 @@ const IntelligenceLabPage = () => {
     if (!allStates.length) return [];
 
     const trendState = allStates.reduce((best, item) => {
-      const value = Math.abs(item.price_prediction ?? 0);
-      return value > Math.abs(best.price_prediction ?? 0) ? item : best;
+      const value = Math.abs(getPriceChangePct(item));
+      return value > Math.abs(getPriceChangePct(best)) ? item : best;
     }, allStates[0]);
 
     const convictionState = allStates.reduce((best, item) => {
@@ -273,14 +321,16 @@ const IntelligenceLabPage = () => {
     }, allStates[0]);
 
     const unusualState = allStates.reduce((best, item) => {
-      const volatility = item.volatility?.score ?? 0;
-      const discord = Math.abs((item.price_prediction ?? 0) - ((item.directives?.[0]?.confidence_at_synthesis ?? 0) * 100));
-      return volatility + discord > ((best.volatility?.score ?? 0) + Math.abs((best.price_prediction ?? 0) - ((best.directives?.[0]?.confidence_at_synthesis ?? 0) * 100))) ? item : best;
+      const volatility = (item.volatility?.score ?? 0) * 100;
+      const discord = Math.abs(getPriceChangePct(item) - ((item.directives?.[0]?.confidence_at_synthesis ?? 0) * 100));
+      const bestVolatility = (best.volatility?.score ?? 0) * 100;
+      const bestDiscord = Math.abs(getPriceChangePct(best) - ((best.directives?.[0]?.confidence_at_synthesis ?? 0) * 100));
+      return volatility + discord > bestVolatility + bestDiscord ? item : best;
     }, allStates[0]);
 
     const opportunityState = allStates.reduce((best, item) => {
-      const score = Math.abs(item.price_prediction ?? 0) * (item.confidence?.score ?? 0) * ((item.freshness?.integrity_score ?? 0) + 0.15);
-      const bestScore = Math.abs(best.price_prediction ?? 0) * (best.confidence?.score ?? 0) * ((best.freshness?.integrity_score ?? 0) + 0.15);
+      const score = Math.abs(getPriceChangePct(item)) * (item.confidence?.score ?? 0) * ((item.freshness?.integrity_score ?? 0) + 0.15);
+      const bestScore = Math.abs(getPriceChangePct(best)) * (best.confidence?.score ?? 0) * ((best.freshness?.integrity_score ?? 0) + 0.15);
       return score > bestScore ? item : best;
     }, allStates[0]);
 
@@ -288,13 +338,13 @@ const IntelligenceLabPage = () => {
       {
         label: 'Hidden Opportunity',
         value: formatMarketLabel(opportunityState),
-        note: `Signal: ${(opportunityState.price_prediction ?? 0).toFixed(1)}%`,
+        note: `Signal: ${formatSignedPct(getPriceChangePct(opportunityState))}`,
         tone: 'emerald',
       },
       {
         label: 'Emerging Trend',
         value: formatMarketLabel(trendState),
-        note: `Trend: ${(trendState.price_prediction ?? 0).toFixed(1)}%`,
+        note: `Trend: ${formatSignedPct(getPriceChangePct(trendState))}`,
         tone: 'sky',
       },
       {
@@ -322,14 +372,15 @@ const IntelligenceLabPage = () => {
     if (!allStates.length) return [];
     return [...allStates]
       .map((state) => {
-        const strength = Math.abs(state.price_prediction ?? 0);
+        const pct = getPriceChangePct(state);
+        const strength = Math.abs(pct);
         const neglect = 1 - (state.confidence?.score ?? 0);
         const catalyst = (state.volatility?.score ?? 0) + ((state.forecast_arrivals ?? 0) / 20);
         return {
           label: formatMarketLabel(state),
           opportunity: Math.round(strength * 10 + neglect * 15),
           neglectScore: Math.round(neglect * 100),
-          expectedUpside: `${(state.price_prediction ?? 0).toFixed(1)}%`,
+          expectedUpside: formatSignedPct(pct),
           catalyst: `${catalyst.toFixed(1)} / 10`,
           confidence: Math.round((state.confidence?.score ?? 0) * 100),
         };
@@ -361,30 +412,35 @@ const IntelligenceLabPage = () => {
 
   const collectiveIndex = useMemo(() => {
     if (!allStates.length) return { quality: 0, clarity: 0, readiness: 0, agreement: 0 };
-    const quality = allStates.reduce((sum, state) => sum + (state.freshness?.integrity_score ?? 0), 0) / allStates.length;
-    const clarity = allStates.reduce((sum, state) => sum + (state.confidence?.stability ?? 0.4), 0) / allStates.length;
-    const agreement = allStates.filter((state) => {
-      const directive = state.directives?.[0]?.primary_directive?.toUpperCase() ?? '';
-      const price = state.price_prediction ?? 0;
-      return (directive.includes('SELL') && price < 0) || (directive.includes('BUY') && price > 0) || (directive.includes('HOLD') && Math.abs(price) < 1);
-    }).length / allStates.length;
+    const qualityPct = (allStates.reduce((sum, state) => sum + (state.freshness?.integrity_score ?? 0), 0) / allStates.length) * 100;
+    const clarityPct = (allStates.reduce((sum, state) => sum + (state.confidence?.stability ?? 0.4), 0) / allStates.length) * 100;
+    const agreementPct = (allStates.filter((state) => {
+      const decision = (state.metadata?.decision ?? '').toUpperCase();
+      const pctChange = getPriceChangePct(state);
+      return (decision === 'SELL' && pctChange < 0) || (decision === 'BUY' && pctChange > 0) || ((decision === 'HOLD' || decision === 'WAIT') && Math.abs(pctChange) < 2);
+    }).length / allStates.length) * 100;
     return {
-      quality: Math.round(quality * 100),
-      clarity: Math.round(clarity * 100),
-      readiness: Math.round((quality * 0.4 + clarity * 0.4 + agreement * 100 * 0.2)),
-      agreement: Math.round(agreement * 100),
+      quality: Math.round(qualityPct),
+      clarity: Math.round(clarityPct),
+      readiness: Math.round(qualityPct * 0.4 + clarityPct * 0.4 + agreementPct * 0.2),
+      agreement: Math.round(agreementPct),
     };
   }, [allStates]);
 
   const anomalyRadar = useMemo(() => {
     return allStates
-      .filter((state) => (state.volatility?.score ?? 0) > 0.75 || Math.abs(state.price_prediction ?? 0) > 7 || (state.freshness?.integrity_score ?? 1) < 0.5)
+      .filter((state) => (state.volatility?.score ?? 0) > 0.75 || Math.abs(getPriceChangePct(state)) > 5 || (state.freshness?.integrity_score ?? 1) < 0.5)
       .slice(0, 4)
-      .map((state) => ({
-        title: formatMarketLabel(state),
-        reason: state.volatility?.score ?? 0 > 0.75 ? 'Volatility surge' : Math.abs(state.price_prediction ?? 0) > 7 ? 'Large directional signal' : 'Integrity risk',
-        impact: Math.round(((state.volatility?.score ?? 0) + Math.abs(state.price_prediction ?? 0) / 15) * 100),
-      }));
+      .map((state) => {
+        const volatility = state.volatility?.score ?? 0;
+        const pctChange = Math.abs(getPriceChangePct(state));
+        const reason = volatility > 0.75 ? 'Volatility surge' : pctChange > 5 ? 'Large directional signal' : 'Integrity risk';
+        return {
+          title: formatMarketLabel(state),
+          reason,
+          impact: Math.round(clamp(volatility * 60 + pctChange * 4, 0, 100)),
+        };
+      });
   }, [allStates]);
 
   const signalGenome = useMemo(() => {
@@ -412,7 +468,7 @@ const IntelligenceLabPage = () => {
     const integrity = marketState.freshness?.integrity_score ?? 0;
     if (confidence > 0.75 && integrity > 0.75) return 'Expansion';
     if (confidence > 0.55) return 'Validation';
-    if ((marketState.price_prediction ?? 0) > 3) return 'Maturity';
+    if (Math.abs(getPriceChangePct(marketState)) > 5) return 'Maturity';
     return 'Discovery';
   }, [marketState]);
 
@@ -420,7 +476,7 @@ const IntelligenceLabPage = () => {
     if (!marketState) return 'Select a market to reveal the hidden narrative and structural thesis behind the signal.';
     const directive = marketState.directives?.[0]?.primary_directive || 'HOLD';
     const analog = marketState.historical_analogs?.[0];
-    return `The Intelligence Lab has detected ${marketState.regime || 'a regime'} profile in ${marketState.commodity} @ ${marketState.mandi_id}. ${directive} appears to be the dominant signal, supported by ${Math.round((marketState.confidence?.score ?? 0) * 100)}% conviction and ${Math.round((marketState.freshness?.integrity_score ?? 0) * 100)}% intelligence quality. ${analog ? `A historical analog from ${new Date(analog.timestamp || '').toLocaleDateString()} matches with ${((analog.similarity ?? 0) * 100).toFixed(0)}% similarity.` : 'No close analog was found in the short-term archive.'}`;
+    return `The Intelligence Lab has detected ${marketState.regime || 'a regime'} profile in ${marketState.commodity} @ ${marketState.mandi_id}. ${directive} appears to be the dominant signal, supported by ${Math.round((marketState.confidence?.score ?? 0) * 100)}% conviction and ${Math.round((marketState.freshness?.integrity_score ?? 0) * 100)}% intelligence quality. ${analog ? `A historical analog from ${formatAnalogDate(analog.timestamp)} matches with ${((analog.similarity ?? 0) * 100).toFixed(0)}% similarity.` : 'No close analog was found in the short-term archive.'}`;
   }, [marketState]);
 
   const handleSimulationLaunch = async () => {
@@ -439,7 +495,7 @@ const IntelligenceLabPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-100">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-[1480px] px-4 py-8">
         <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-4">
@@ -521,16 +577,27 @@ const IntelligenceLabPage = () => {
               </div>
 
               <div className="mt-6 grid gap-4 md:grid-cols-3">
-                {['price', 'confidence', 'resilience'].map((metric) => {
-                  const value = selectedProjection ? selectedProjection[metric as keyof ScenarioProjection] : '--';
-                  const suffix = metric === 'confidence' ? '%' : metric === 'price' ? '%' : '';
-                  return (
-                    <div key={metric} className="rounded-3xl bg-zinc-100 p-4 dark:bg-zinc-900">
-                      <p className="text-[10px] uppercase tracking-[0.36em] text-zinc-500">{metric.replace(/^[a-z]/, (c) => c.toUpperCase())}</p>
-                      <p className="mt-3 text-3xl font-black text-zinc-900 dark:text-zinc-100">{typeof value === 'number' ? `${value.toFixed(1)}${suffix}` : value}</p>
-                    </div>
-                  );
-                })}
+                <div className="rounded-3xl bg-zinc-100 p-4 dark:bg-zinc-900">
+                  <p className="text-[10px] uppercase tracking-[0.36em] text-zinc-500">Projected Price</p>
+                  <p className="mt-3 text-3xl font-black text-zinc-900 dark:text-zinc-100">
+                    {selectedProjection ? `₹${formatCurrency(selectedProjection.projectedPrice)}` : '--'}
+                  </p>
+                  <p className="mt-1 text-xs text-zinc-500">
+                    {selectedProjection ? `${formatSignedPct(selectedProjection.priceChangePct)} vs current` : ''}
+                  </p>
+                </div>
+                <div className="rounded-3xl bg-zinc-100 p-4 dark:bg-zinc-900">
+                  <p className="text-[10px] uppercase tracking-[0.36em] text-zinc-500">Confidence</p>
+                  <p className="mt-3 text-3xl font-black text-zinc-900 dark:text-zinc-100">
+                    {selectedProjection ? `${selectedProjection.confidence.toFixed(0)}%` : '--'}
+                  </p>
+                </div>
+                <div className="rounded-3xl bg-zinc-100 p-4 dark:bg-zinc-900">
+                  <p className="text-[10px] uppercase tracking-[0.36em] text-zinc-500">Resilience</p>
+                  <p className="mt-3 text-3xl font-black text-zinc-900 dark:text-zinc-100">
+                    {selectedProjection ? `${selectedProjection.resilience.toFixed(0)}%` : '--'}
+                  </p>
+                </div>
               </div>
 
               <div className="mt-6 grid gap-3 rounded-3xl bg-zinc-100 p-4 dark:bg-zinc-900">
@@ -570,7 +637,7 @@ const IntelligenceLabPage = () => {
                 </div>
                 <div className="rounded-3xl bg-zinc-100 p-5 dark:bg-zinc-900">
                   <p className="text-[10px] uppercase tracking-[0.36em] text-zinc-500">Supply pressure</p>
-                  <p className="mt-3 text-xl font-semibold text-zinc-900 dark:text-zinc-100">{marketState ? `${marketState.forecast_arrivals?.toFixed(1) ?? '--'}%` : '--'}</p>
+                  <p className="mt-3 text-xl font-semibold text-zinc-900 dark:text-zinc-100">{marketState?.forecast_arrivals !== undefined ? `${marketState.forecast_arrivals.toFixed(1)} MT` : '--'}</p>
                 </div>
                 <div className="rounded-3xl bg-zinc-100 p-5 dark:bg-zinc-900">
                   <p className="text-[10px] uppercase tracking-[0.36em] text-zinc-500">Volatility posture</p>
@@ -629,7 +696,7 @@ const IntelligenceLabPage = () => {
                   marketState.historical_analogs.slice(0, 3).map((analog, index) => (
                     <div key={index} className="rounded-3xl border border-zinc-200 bg-zinc-100 p-4 dark:border-zinc-800 dark:bg-zinc-900">
                       <div className="flex items-center justify-between gap-3 text-sm text-zinc-500">
-                        <span>{new Date(analog.timestamp || '').toLocaleDateString() || 'Unknown date'}</span>
+                        <span>{formatAnalogDate(analog.timestamp)}</span>
                         <span>{((analog.similarity ?? 0) * 100).toFixed(0)}%</span>
                       </div>
                       <p className="mt-3 font-semibold text-zinc-900 dark:text-zinc-100">{analog.regime || 'Unknown regime'}</p>
@@ -652,7 +719,7 @@ const IntelligenceLabPage = () => {
                 </div>
                 <div className="rounded-3xl bg-zinc-100 p-4 dark:bg-zinc-900">
                   <p className="text-xs uppercase tracking-[0.35em] text-zinc-500">Opportunity strength</p>
-                  <p className="mt-2 text-xl font-semibold">{marketState ? `${Math.round(Math.abs(marketState.price_prediction ?? 0) * 11)} / 100` : '--'}</p>
+                  <p className="mt-2 text-xl font-semibold">{marketState ? `${Math.round(clamp(Math.abs(getPriceChangePct(marketState)) * 8, 0, 100))} / 100` : '--'}</p>
                 </div>
                 <div className="rounded-3xl bg-zinc-100 p-4 dark:bg-zinc-900">
                   <p className="text-xs uppercase tracking-[0.35em] text-zinc-500">Urgency</p>

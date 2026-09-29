@@ -21,6 +21,7 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from mandisense_ai.ensemble.feedback_store import default_ensemble_dir
 
 try:
     from mandisense_ai.utils.logger import get_logger
@@ -30,7 +31,10 @@ except ImportError:
 logger = get_logger(__name__)
 
 # Default storage path (relative to working directory)
-_DEFAULT_LOG_DIR = Path("data") / "ensemble"
+# Shares one canonical, absolute location with FeedbackStore. A relative
+# literal here made the log file follow the process working directory, which
+# split the prediction history across two directories.
+_DEFAULT_LOG_DIR = default_ensemble_dir()
 _DEFAULT_LOG_FILE = "meta_predictions.jsonl"
 
 

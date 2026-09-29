@@ -57,13 +57,45 @@ class OperationalVerificationEngine:
         return outcome
 
     def get_institutional_effectiveness(self) -> Dict[str, Any]:
+        """
+        In-process plan bookkeeping — deliberately *not* a measure of forecast
+        accuracy.
+
+        Two properties of this number were quietly wrong and are now stated
+        rather than hidden:
+
+        1. With no outcomes it used to return `overall_effectiveness: 1.0`.
+           A system that has verified nothing scored perfectly, and
+           `/v1/institutional/metrics` published that as an institutional
+           result. An empty sample now reports that it is empty.
+        2. `effectiveness_score` is computed from `price_prediction` deltas —
+           two *predictions* differenced against each other. It says how much
+           the plan moved the model's own expectation, which is a measure of
+           deliberation, not of whether the market agreed. It is labelled as
+           such so it cannot be read as realised skill.
+
+        Realised skill is measured in `forecasting/ledger.py`, against
+        observed prices, and is what the metrics endpoint reports first.
+        """
         if not self.outcomes:
-            return {"overall_effectiveness": 1.0, "total_verified_plans": 0}
-            
+            return {
+                "status": "NO_VERIFIED_PLANS",
+                "total_verified_plans": 0,
+                "overall_effectiveness": None,
+                "note": (
+                    "No plan has been verified in this process. Plan outcomes "
+                    "are held in memory and reset on restart; realised "
+                    "forecast accuracy is tracked durably in the forecast "
+                    "ledger, not here."
+                ),
+            }
+
         avg_score = sum(o.effectiveness_score for o in self.outcomes) / len(self.outcomes)
         total_saved = sum(o.price_delta_saved for o in self.outcomes)
-        
+
         return {
+            "status": "OK",
+            "measures": "deliberation_effect_on_own_forecast",
             "overall_effectiveness": avg_score,
             "total_verified_plans": len(self.outcomes),
             "total_price_delta_stabilized": total_saved,

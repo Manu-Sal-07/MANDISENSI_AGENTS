@@ -3,6 +3,7 @@ from pathlib import Path
 from mandisense_ai.utils.logger import get_logger
 from mandisense_ai.utils.exceptions import DataIngestionError
 from mandisense_ai.utils.helpers import normalize_commodity_name, standardize_mandi_name
+from mandisense_ai.utils.dates import parse_market_dates
 
 logger = get_logger(__name__)
 
@@ -55,7 +56,7 @@ class AgmarknetIngestor:
                 return pd.DataFrame()
             
             # Type casting heavily considering unscrubbed strings
-            df['date'] = pd.to_datetime(df['date'], errors='coerce', dayfirst=True)
+            df['date'] = parse_market_dates(df['date'])
             for num_col in ['arrivals_tonnes', 'modal_price', 'min_price', 'max_price']:
                 if num_col in df.columns:
                     df[num_col] = pd.to_numeric(df[num_col], errors='coerce').fillna(0.0)

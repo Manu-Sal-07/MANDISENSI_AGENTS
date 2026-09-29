@@ -4,11 +4,16 @@ import os
 from pathlib import Path
 from datetime import datetime
 
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+
 # --- CONFIGURATION ---
-V1_DIR = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/data/raw/v1")
-V2_DIR = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/data/raw/v2")
-CONFIG_PATH = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/config/mandi_master.csv")
-LOG_DIR = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/logs")
+V1_DIR = Path(_PACKAGE_ROOT / "data" / "raw" / "v1")
+V2_DIR = Path(_PACKAGE_ROOT / "data" / "raw" / "v2")
+CONFIG_PATH = Path(_PACKAGE_ROOT / "config" / "mandi_master.csv")
+LOG_DIR = Path(_PACKAGE_ROOT / "logs")
 
 V2_DIR.mkdir(parents=True, exist_ok=True)
 LOG_DIR.mkdir(parents=True, exist_ok=True)

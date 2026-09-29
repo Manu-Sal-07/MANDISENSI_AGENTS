@@ -1,21 +1,58 @@
 'use client';
 
+/**
+ * One mandi, every crop.
+ *
+ * The farmer arrived here from a row on the home page, so the question has
+ * narrowed: they are considering taking a load to this market and want to
+ * know which of their crops it is paying for today.
+ *
+ * Crops are listed, not gridded. A grid of equal cards asks the eye to
+ * travel in two directions to do one job; a single column of rows sorted
+ * loudest-first puts the best reason to make the trip at the top.
+ */
+
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { ChevronLeft, Loader2, Truck, WifiOff } from 'lucide-react';
+
 import { mandiApi } from '@/services/api';
-import { 
-  ChevronLeft, 
-  Loader2, 
-  TrendingUp, 
-  TrendingDown, 
-  Info, 
-  CheckCircle, 
-  AlertTriangle,
-  MapPin,
-  Calendar,
-  Zap
-} from 'lucide-react';
+import ProduceIcon, { resolveProduce } from '@/components/farm/ProduceIcon';
+import {
+  CALL_VISUAL,
+  resolveCall,
+  tidyNote,
+  type Call,
+} from '@/components/farm/CallCard';
+import FarmScene from '@/components/farm/FarmScene';
+
+interface CommodityDetail {
+  name: string;
+  decision: string;
+  /** Which of the three outcomes produced `decision`. See CallCard. */
+  call_type?: string | null;
+  /** Why there is no forecast, when there is none. */
+  reason?: string | null;
+  reasoning?: string;
+  price_change: number;
+  price: number;
+  confidence: number;
+}
+
+// Sell is the most time-critical instruction, so it leads; wait is the
+// least, so it trails. Sorting by urgency rather than alphabetically means
+// the row that needs acting on today is the first one seen.
+// UNKNOWN trails everything: a crop we have no reading for is the last
+// thing a farmer needs to look at, and floating it above a real SELL would
+// be the ranking equivalent of the bug this taxonomy fixes.
+const CALL_URGENCY: Record<Call, number> = { SELL: 0, HOLD: 1, WAIT: 2, UNKNOWN: 3 };
+
+const formatRupees = (value?: number | null) =>
+  value == null || Number.isNaN(value)
+    ? '—'
+    : `₹${new Intl.NumberFormat('en-IN').format(Math.round(value))}`;
 
 export default function MandiDetailPage() {
   const params = useParams();
@@ -28,156 +65,214 @@ export default function MandiDetailPage() {
     enabled: !!mandiId,
   });
 
-  const getDecisionColor = (decision: string) => {
-    switch (decision) {
-      case 'SELL': return 'text-red-500';
-      case 'HOLD': return 'text-green-500';
-      case 'WAIT': return 'text-yellow-500';
-      default: return 'text-zinc-500';
-    }
-  };
-
-  const calculateMoneyImpact = (price: number, pct: number) => {
-    const impact = Math.abs(Math.round(price * (pct / 100)));
-    return `₹${impact - 10}–₹${impact + 10}`;
-  };
-
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center py-40 gap-4">
-        <Loader2 className="w-10 h-10 text-orange-500 animate-spin" />
-        <p className="text-sm font-black uppercase tracking-[0.3em] text-zinc-400">Loading Market Intelligence...</p>
+      <div className="farm-surface flex min-h-screen flex-col items-center justify-center gap-4">
+        <Loader2 className="h-9 w-9 animate-spin" style={{ color: 'var(--leaf)' }} />
+        <p className="text-base font-semibold text-[var(--farm-ink-soft)]">
+          Checking today&rsquo;s prices…
+        </p>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="max-w-xl mx-auto py-40 px-6 text-center space-y-6">
-        <div className="w-20 h-20 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto">
-          <AlertTriangle className="w-10 h-10 text-red-500" />
+      <div className="farm-surface flex min-h-screen items-center justify-center px-6">
+        <div className="farm-card max-w-sm p-8 text-center">
+          <WifiOff className="mx-auto h-10 w-10 text-[var(--farm-ink-faint)]" />
+          <h2 className="farm-display mt-4 text-2xl text-[var(--farm-ink)]">
+            No connection
+          </h2>
+          <p className="mt-2 text-base text-[var(--farm-ink-soft)]">
+            The mandi records could not be reached. Check your network, then
+            try again.
+          </p>
+          <button
+            onClick={() => refetch()}
+            className="farm-focus farm-tap mt-6 w-full rounded-2xl text-base font-bold text-white"
+            style={{ background: 'var(--leaf)' }}
+          >
+            Try again
+          </button>
         </div>
-        <h2 className="text-2xl font-black tracking-tight">Intelligence Fetch Failed</h2>
-        <p className="text-zinc-500 font-medium">We couldn&apos;t reach the market agents. This might be due to a network error or the backend being offline.</p>
-        <button 
-          onClick={() => refetch()}
-          className="bg-zinc-900 dark:bg-white text-white dark:text-black px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] active:scale-95 transition-all"
-        >
-          Retry Connection
-        </button>
       </div>
     );
   }
 
+  const commodities: CommodityDetail[] = [...(data?.commodities ?? [])].sort(
+    (a, b) =>
+      CALL_URGENCY[resolveCall(a)] -
+      CALL_URGENCY[resolveCall(b)]
+  );
+
+  const sellCount = commodities.filter(
+    (c) => resolveCall(c) === 'SELL'
+  ).length;
+
   return (
-    <div className="pb-20">
-      <div className="max-w-5xl mx-auto px-4 pt-8 space-y-10">
-        {/* 1. Header Navigation */}
-        <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-4">
-            <button 
-              onClick={() => router.back()}
-              className="flex items-center gap-2 text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors group"
-            >
-              <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Back to Market Feed</span>
-            </button>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-orange-500" />
-                <h1 className="text-4xl md:text-6xl font-black text-zinc-900 dark:text-zinc-100 tracking-tighter">
-                  {data?.mandi_name}
-                </h1>
-              </div>
-              <p className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-xs">
-                Complete Market Audit & Decision Report
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-4 bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-100 dark:border-zinc-800">
-            <Calendar className="w-5 h-5 text-zinc-400" />
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Last Updated</p>
-              <p className="text-sm font-black text-zinc-900 dark:text-zinc-100">Today, {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-            </div>
-          </div>
+    <div className="farm-surface relative min-h-screen pb-28 md:pb-16">
+      {/* A shallow band of the same field as the home page — enough to
+          place the page, not so much that it competes with five rows of
+          prices. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 overflow-hidden">
+        <FarmScene />
+      </div>
+
+      <div className="relative mx-auto max-w-3xl px-4 pt-6 lg:max-w-5xl">
+        <button
+          onClick={() => router.back()}
+          className="farm-focus -ml-2 flex items-center gap-1.5 rounded-lg px-2 py-2 text-base font-semibold text-[var(--farm-ink-soft)] transition-colors hover:text-[var(--farm-ink)]"
+        >
+          <ChevronLeft className="h-5 w-5" />
+          Back
+        </button>
+
+        <header className="mt-3">
+          <h1 className="farm-display text-4xl leading-tight text-[var(--farm-ink)] sm:text-5xl">
+            {data?.mandi_name}
+          </h1>
+          <p className="mt-1.5 text-base text-[var(--farm-ink-soft)]">
+            {sellCount > 0
+              ? `${sellCount} ${sellCount === 1 ? 'crop is' : 'crops are'} worth selling here today.`
+              : 'Nothing urgent here today — prices are steady.'}
+          </p>
         </header>
 
-        {/* 2. Commodity Intelligence Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {data?.commodities.map((comm: any) => (
-            <div 
-              key={comm.name} 
-              className="bg-white dark:bg-zinc-900 rounded-[2.5rem] p-8 shadow-sm border border-zinc-100 dark:border-zinc-800 space-y-6"
-            >
-              <div className="flex justify-between items-start">
-                <div className="w-14 h-14 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center text-3xl">
-                  {comm.name.includes('Tomato') ? '🍅' : comm.name.includes('Onion') ? '🧅' : comm.name.includes('Potato') ? '🥔' : comm.name.includes('Garlic') ? '🧄' : '🫚'}
-                </div>
-                <div className={`text-2xl font-black italic tracking-tighter ${getDecisionColor(comm.decision)}`}>
-                  {comm.decision}
-                </div>
-              </div>
+        {/* ── Crops ─────────────────────────────────────────────── */}
+        <ul className="farm-section mt-7 space-y-3">
+          {commodities.map((comm, index) => {
+            const call = resolveCall(comm);
+            const visual = CALL_VISUAL[call];
+            const produce = resolveProduce(comm.name);
+            const rising = comm.price_change > 0;
+            // Price, weekly move and confidence are all placeholder zeros
+            // when no forecast exists. Rendering them drew a ₹0 crop sitting
+            // flat at 0.0% with zero confidence dots -- three fabricated
+            // measurements presented with the same furniture as real ones.
+            const unknown = call === 'UNKNOWN';
 
-              <div>
-                <h3 className="text-2xl font-black tracking-tight">{comm.name}</h3>
-                <p className="text-xs font-bold text-zinc-500 mt-1 italic leading-relaxed">
-                  {comm.reasoning}
-                </p>
-              </div>
+            return (
+              <motion.li
+                key={comm.name}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05, duration: 0.35 }}
+                className="farm-row overflow-hidden"
+              >
+                <div className="flex">
+                  <div className="w-1.5 shrink-0" style={{ background: visual.colour }} />
 
-              <div className="grid grid-cols-2 gap-4 pt-6 border-t border-zinc-50 dark:border-zinc-800">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Impact</span>
-                  <p className="text-lg font-black text-zinc-900 dark:text-zinc-100">
-                    {comm.price_change > 0 ? <TrendingUp className="inline w-4 h-4 text-green-500 mr-1" /> : <TrendingDown className="inline w-4 h-4 text-red-500 mr-1" />}
-                    {calculateMoneyImpact(comm.price, comm.price_change)}
-                  </p>
-                  <p className="text-[9px] font-bold text-zinc-400 mt-0.5 uppercase">Per Quintal</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Confidence</span>
-                  <p className="text-lg font-black text-zinc-900 dark:text-zinc-100">
-                    {Math.round(comm.confidence * 100)}%
-                  </p>
-                  <p className="text-[9px] font-bold text-green-600 dark:text-green-400 mt-0.5 uppercase">Verified AI</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+                  <div className="min-w-0 flex-1 p-4 sm:p-5">
+                    <div className="flex items-start gap-4">
+                      <ProduceIcon name={comm.name} size="lg" />
 
-        {/* 3. Transport & Logistics Suggestion */}
-        <div className="bg-zinc-900 text-white rounded-[3rem] p-8 md:p-12 shadow-2xl relative overflow-hidden group">
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-10">
-            <div className="space-y-4 max-w-xl">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-orange-500 fill-current" />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-baseline gap-x-3">
+                          <h3 className="text-lg font-bold text-[var(--farm-ink)]">
+                            {produce.label}
+                          </h3>
+                          <span
+                            className="farm-display text-base text-[var(--farm-ink-faint)]"
+                            lang="hi"
+                          >
+                            {produce.hindi}
+                          </span>
+                        </div>
+
+                        <p
+                          className="farm-display text-2xl leading-tight"
+                          style={{ color: visual.colour }}
+                        >
+                          {visual.verb}
+                        </p>
+
+                        {/* Same filter as the hero card: the engine's raw
+                            sentence prints the mandi slug and the figure
+                            already shown below it, so only a well-formed
+                            reason survives. */}
+                        <p className="mt-1.5 max-w-[52ch] text-sm leading-relaxed text-[var(--farm-ink-soft)]">
+                          {unknown
+                            ? comm.reason || visual.plain
+                            : tidyNote(comm.reasoning, visual.plain)}
+                        </p>
+                      </div>
+                    </div>
+
+                    {unknown ? (
+                      <p className="mt-4 border-t border-[var(--farm-line)] pt-3.5 text-sm font-medium text-[var(--farm-ink-faint)]">
+                        No price, expected move or confidence is shown for this
+                        crop, because none was calculated.
+                      </p>
+                    ) : (
+                    <dl className="mt-4 flex flex-wrap gap-x-7 gap-y-3 border-t border-[var(--farm-line)] pt-3.5">
+                      <div>
+                        <dt className="text-xs font-semibold text-[var(--farm-ink-faint)]">
+                          Price per quintal
+                        </dt>
+                        <dd className="farm-display text-xl text-[var(--farm-ink)]">
+                          {formatRupees(comm.price)}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-xs font-semibold text-[var(--farm-ink-faint)]">
+                          This week
+                        </dt>
+                        <dd
+                          className="farm-display text-xl"
+                          style={{ color: visual.colour }}
+                        >
+                          {rising ? '▲' : '▼'} {Math.abs(comm.price_change).toFixed(1)}%
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-xs font-semibold text-[var(--farm-ink-faint)]">
+                          How sure
+                        </dt>
+                        <dd className="flex items-center gap-1.5 pt-2">
+                          {[0, 1, 2, 3].map((i) => (
+                            <span
+                              key={i}
+                              className="block h-2.5 w-5 rounded-full"
+                              style={{
+                                background:
+                                  i < Math.round((comm.confidence || 0) * 4)
+                                    ? visual.colour
+                                    : 'var(--farm-line)',
+                              }}
+                            />
+                          ))}
+                        </dd>
+                      </div>
+                    </dl>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-2xl font-black tracking-tight">Logistics Advice</h3>
-                  <p className="text-zinc-400 font-bold uppercase tracking-widest text-[10px]">Optimized for Freshness</p>
-                </div>
-              </div>
-              <p className="text-lg md:text-xl text-zinc-300 font-medium leading-relaxed italic">
-                &ldquo;{data?.transport_suggestion || "Early morning transport recommended to avoid peak traffic and maintain moisture levels."}&rdquo;
-              </p>
-            </div>
-            
-            <div className="flex-none flex flex-col items-center gap-4 bg-white/5 border border-white/10 rounded-[2.5rem] p-8">
-              <div className="text-center">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-1">Market Volatility</p>
-                <div className="text-3xl font-black text-orange-500 uppercase italic">Medium</div>
-              </div>
-              <div className="flex items-center gap-2 bg-green-500/10 text-green-500 px-4 py-2 rounded-full border border-green-500/20">
-                <CheckCircle className="w-4 h-4 fill-current" />
-                <span className="text-[10px] font-black uppercase tracking-widest">Safe to Proceed</span>
-              </div>
-            </div>
+              </motion.li>
+            );
+          })}
+        </ul>
+
+        {/* ── Getting there ─────────────────────────────────────── */}
+        <div
+          className="farm-card mt-8 flex items-start gap-4 p-5 sm:p-6"
+          style={{ background: 'var(--farm-paper-warm)' }}
+        >
+          <span
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
+            style={{ background: 'var(--turmeric-wash)' }}
+          >
+            <Truck className="h-6 w-6" style={{ color: 'var(--turmeric)' }} />
+          </span>
+          <div>
+            <h3 className="farm-display text-xl text-[var(--farm-ink)]">
+              Getting your load there
+            </h3>
+            <p className="mt-1.5 max-w-[56ch] text-base leading-relaxed text-[var(--farm-ink-soft)]">
+              {data?.transport_suggestion ||
+                'Leave early. Produce that travels in the cool of the morning arrives fresher and grades better.'}
+            </p>
           </div>
-          <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500 blur-[120px] opacity-10 -mr-48 -mt-48 group-hover:opacity-20 transition-opacity" />
         </div>
       </div>
     </div>

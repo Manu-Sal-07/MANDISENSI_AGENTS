@@ -1,0 +1,92 @@
+{
+  "commodity": "ginger",
+  "mandi_id": "kolar_apmc",
+  "timestamp": "2026-09-16 17:59:54.834195",
+  "price_prediction": 6835.38,
+  "confidence": {
+    "score": 0.95,
+    "stability": 0.8,
+    "decay_rate": 0.01,
+    "last_updated": "2026-09-16 17:59:54.834195"
+  },
+  "volatility": {
+    "regime": "low",
+    "score": 0.5,
+    "is_escalating": false,
+    "momentum": 0.0
+  },
+  "regime": "STABLE_EXPANSION",
+  "risk_level": "LOW",
+  "integrity_status": "FULL_COGNITION",
+  "directives": [
+    {
+      "primary_directive": "Price is expected to upward in kolar_apmc (LOW risk). Arrivals are predicted to be decreasing, suggesting tightening supply. Market volatility is currently high.",
+      "action_code": "EXECUTE",
+      "urgency": "NORMAL",
+      "reasoning": "Price is expected to upward in kolar_apmc (LOW risk). Arrivals are predicted to be decreasing, suggesting tightening supply. Market volatility is currently high.",
+      "confidence_at_synthesis": 0.95
+    }
+  ],
+  "forecast_arrivals": 63.53,
+  "trend": "upward",
+  "deliberation": {
+    "agents": [
+      {
+        "agent_id": "forecast_agent",
+        "signal": "upward",
+        "confidence": 0.95,
+        "weight": 1.0,
+        "metadata": {}
+      },
+      {
+        "agent_id": "volatility_agent",
+        "signal": "stable",
+        "confidence": 0.85,
+        "weight": 1.0,
+        "metadata": {}
+      },
+      {
+        "agent_id": "arrival_agent",
+        "signal": "stable",
+        "confidence": 0.75,
+        "weight": 1.0,
+        "metadata": {}
+      }
+    ],
+    "contradictions": [],
+    "dominant_agent_id": "forecast_agent",
+    "chaos_score": 0.0
+  },
+  "freshness": {
+    "last_computed": "2026-09-16 17:59:54.834195",
+    "expiration_threshold_minutes": 240,
+    "integrity_score": 1.0
+  },
+  "metadata": {
+    "chaos_score": 0.0,
+    "telemetry_trust": 1.0,
+    "price_change_pct": 0.0264,
+    "last_price": 6659.25,
+    "decision": "WAIT",
+    "reasoning": "In kolar_apmc, ginger prices are expected to upward by approximately 2.6%. Declining arrivals suggest tightening supply, which supports price levels. Due to low risk and market uncertainty, it is safer to wait for clearer signals.",
+    "active_execution_plan": {
+      "id": "plan_ginger_1789561794.836195",
+      "commodity": "ginger",
+      "created_at": "2026-09-16 17:59:54.836195",
+      "actions": [
+        {
+          "id": "act_1789561794.836195_1",
+          "type": "PROCURE",
+          "target_mandi": "kolar_apmc",
+          "urgency": "NORMAL",
+          "status": "PENDING",
+          "reasoning": "Standard procurement cycle execution.",
+          "metadata": {}
+        }
+      ],
+      "overall_status": "PROPOSED",
+      "risk_level": "LOW"
+    }
+  },
+  "last_updated": "2026-09-16T17:59:54.866212"
+}

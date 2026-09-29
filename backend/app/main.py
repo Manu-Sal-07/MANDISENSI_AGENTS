@@ -54,7 +54,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={
             "status": "error",
             "message": f"An internal error occurred: {str(exc)}",
-            "fallback_decision": "WAIT"
+            "fallback_decision": "WAIT" 
         }
     )
 

@@ -8,6 +8,11 @@ import pandas as pd
 from mandisense_ai.cognition.engine import CognitionEngine
 from mandisense_ai.cognition.ontology import MarketState
 
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+
 logger = logging.getLogger("CognitionBacktester")
 
 class CognitionBacktester:
@@ -17,7 +22,7 @@ class CognitionBacktester:
     """
     def __init__(self, engine: CognitionEngine):
         self.engine = engine
-        self.results_root = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/evaluation/results")
+        self.results_root = _PACKAGE_ROOT / "evaluation" / "results"
         self.results_root.mkdir(parents=True, exist_ok=True)
 
     async def run_historical_replay(self, commodity: str, mandi_id: str, start_date: str, end_date: str):
@@ -27,7 +32,7 @@ class CognitionBacktester:
         logger.info(f"Starting Historical Replay for {commodity} @ {mandi_id} from {start_date} to {end_date}")
         
         # 1. Load Historical Data
-        raw_dir = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/data/raw")
+        raw_dir = _PACKAGE_ROOT / "data" / "raw"
         # Try to find a file that contains both commodity and mandi_id
         files = list(raw_dir.glob(f"agmarknet_{commodity.capitalize()}*.csv"))
         data_path = None
