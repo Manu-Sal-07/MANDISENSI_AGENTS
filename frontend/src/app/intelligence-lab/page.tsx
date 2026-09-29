@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
 import { mandiApi } from '@/services/api';
 import {
   Activity,
@@ -546,12 +547,18 @@ const IntelligenceLabPage = () => {
         </div>
 
         <section className="mb-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-          {topBoard.map((item) => (
-            <div key={item.label} className="rounded-[2rem] border border-zinc-200 bg-white/90 p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950/80">
+          {topBoard.map((item, index) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="rounded-[2rem] border border-zinc-200 bg-white/90 p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950/80"
+            >
               <p className="text-[10px] uppercase tracking-[0.4em] text-zinc-500">{item.label}</p>
               <p className="mt-4 text-xl font-semibold text-zinc-900 dark:text-zinc-100">{item.value}</p>
               <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">{item.note}</p>
-            </div>
+            </motion.div>
           ))}
         </section>
 
