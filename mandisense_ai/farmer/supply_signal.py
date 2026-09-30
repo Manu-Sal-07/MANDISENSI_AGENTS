@@ -24,8 +24,8 @@ from typing import Any, Dict, Optional
 import numpy as np
 import pandas as pd
 
-from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
-from mandisense_ai.forecasting.store import ObservationStore
+from mandisense_ai.farmer import registry, world
+from mandisense_ai.forecasting.naming import canonical_commodity
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -42,10 +42,10 @@ docstring), so this will very often be older than the price data next to it."""
 
 def supply_reading(commodity: str, mandi_id: str) -> Dict[str, Any]:
     resolved_commodity = canonical_commodity(commodity) or str(commodity).strip().lower()
-    resolved_mandi = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+    resolved_mandi = registry.series_place(mandi_id)
 
     try:
-        series = ObservationStore().read_series(resolved_commodity, resolved_mandi)
+        series = world.district_series(resolved_commodity, resolved_mandi)
     except Exception as exc:
         logger.error("Supply signal: observation read failed: %s", exc)
         series = pd.DataFrame()

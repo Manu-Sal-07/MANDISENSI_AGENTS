@@ -12,39 +12,33 @@ import pandas as pd
 import pytest
 
 from mandisense_ai.farmer.fair_price import _verdict_bucket, check_offer
-from mandisense_ai.forecasting.store import ObservationStore
 
-COLUMNS = [
-    "date", "commodity", "mandi_id", "modal_price", "min_price", "max_price",
-    "arrivals", "state", "district", "source", "ingested_at",
-]
+COLUMNS = ["date", "commodity", "mandi_id", "district", "min_price", "modal_price", "max_price", "arrivals"]
 
 
 def _write_observations(tmp_path, rows):
     frame = pd.DataFrame(rows, columns=COLUMNS)
-    path = tmp_path / "observations.parquet"
+    frame["date"] = pd.to_datetime(frame["date"])
+    path = tmp_path / "mandi_prices.parquet"
     frame.to_parquet(path, index=False)
     return path
 
 
 def _row(date, price, low=None, high=None):
     return [
-        date, "tomato", "kolar_apmc", price,
-        low if low is not None else price * 0.9,
-        high if high is not None else price * 1.1,
-        100.0, "Karnataka", "Kolar", "test", date,
+        date, "tomato", "kolar_apmc", "kolar",
+        low if low is not None else price * 0.9, price,
+        high if high is not None else price * 1.1, 100.0,
     ]
 
 
 @pytest.fixture(autouse=True)
 def _patch_observation_store(tmp_path, monkeypatch):
     path = _write_observations(tmp_path, [_row("2026-09-20", 2000.0, 1800.0, 2200.0)])
-    monkeypatch.setattr(
-        "mandisense_ai.forecasting.store.observations_path", lambda: path
-    )
+    monkeypatch.setattr("mandisense_ai.farmer.world.MANDI_PRICES", path)
     # No forecast service configured in these tests unless explicitly patched.
     monkeypatch.setattr(
-        "mandisense_ai.forecasting.service.get_forecast_service",
+        "mandisense_ai.farmer.world.forecast_service",
         lambda: _NoForecastService(),
     )
 

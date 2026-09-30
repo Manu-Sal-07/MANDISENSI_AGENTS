@@ -30,7 +30,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
+from mandisense_ai.farmer import registry, world
+from mandisense_ai.forecasting.naming import canonical_commodity
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -82,7 +83,7 @@ def create_alert(
         return {"status": "ERROR", "reason": f"{alert_type} requires a threshold price"}
 
     resolved_commodity = canonical_commodity(commodity) or str(commodity).strip().lower()
-    resolved_mandi = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+    resolved_mandi = registry.series_place(mandi_id)
 
     alert = {
         "id": uuid.uuid4().hex[:12],
@@ -143,9 +144,7 @@ def evaluate_alerts() -> Dict[str, int]:
         return {"checked": 0, "triggered": 0}
 
     try:
-        from mandisense_ai.forecasting.service import get_forecast_service
-
-        service = get_forecast_service()
+        service = world.forecast_service()
     except Exception as exc:
         logger.error("Alert evaluation: forecast service unavailable: %s", exc)
         return {"checked": len(active), "triggered": 0, "error": str(exc)}

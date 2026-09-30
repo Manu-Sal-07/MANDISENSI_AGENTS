@@ -25,8 +25,8 @@ from typing import Any, Dict, Optional
 import pandas as pd
 
 from mandisense_ai.forecasting.config import DEFAULT_CONFIG, ForecastConfig
-from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
-from mandisense_ai.forecasting.store import ObservationStore
+from mandisense_ai.farmer import registry, world
+from mandisense_ai.forecasting.naming import canonical_commodity
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -42,10 +42,10 @@ def seasonal_reading(
     config: ForecastConfig = DEFAULT_CONFIG,
 ) -> Dict[str, Any]:
     resolved_commodity = canonical_commodity(commodity) or str(commodity).strip().lower()
-    resolved_mandi = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+    resolved_mandi = registry.series_place(mandi_id)
 
     try:
-        series = ObservationStore().read_series(resolved_commodity, resolved_mandi)
+        series = world.district_series(resolved_commodity, resolved_mandi)
     except Exception as exc:
         logger.error("Seasonal memory: observation read failed: %s", exc)
         series = pd.DataFrame()
@@ -89,7 +89,7 @@ def seasonal_reading(
     try:
         from mandisense_ai.forecasting.train import ForecastBundle
 
-        bundle = ForecastBundle.load()
+        bundle = ForecastBundle.load(world.BUNDLE_DIR)
         table = getattr(bundle, "seasonal_climatology_table", {}) or {}
         entry = table.get((resolved_commodity, resolved_mandi, bucket))
         if entry and entry.get("median_price", 0) > 0:

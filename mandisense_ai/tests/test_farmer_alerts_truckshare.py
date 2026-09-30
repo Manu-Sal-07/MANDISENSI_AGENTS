@@ -77,7 +77,7 @@ def test_evaluate_alerts_never_raises_when_forecast_service_is_unavailable(monke
         is_available = False
 
     monkeypatch.setattr(
-        "mandisense_ai.forecasting.service.get_forecast_service", lambda: _Unavailable()
+        "mandisense_ai.farmer.world.forecast_service", lambda: _Unavailable()
     )
     result = alerts.evaluate_alerts()
     assert result["checked"] == 1
@@ -93,7 +93,7 @@ def test_evaluate_alerts_triggers_on_a_crossed_threshold(monkeypatch):
         def get_curve(self, commodity, mandi_id):
             return [{"horizon_days": 1, "status": "OK", "forecast_price": 2100.0, "decision": "HOLD"}]
 
-    monkeypatch.setattr("mandisense_ai.forecasting.service.get_forecast_service", lambda: _Service())
+    monkeypatch.setattr("mandisense_ai.farmer.world.forecast_service", lambda: _Service())
     result = alerts.evaluate_alerts()
     assert result["triggered"] == 1
 
@@ -111,7 +111,7 @@ def test_evaluate_alerts_does_not_trigger_when_threshold_not_crossed(monkeypatch
         def get_curve(self, commodity, mandi_id):
             return [{"horizon_days": 1, "status": "OK", "forecast_price": 2100.0, "decision": "HOLD"}]
 
-    monkeypatch.setattr("mandisense_ai.forecasting.service.get_forecast_service", lambda: _Service())
+    monkeypatch.setattr("mandisense_ai.farmer.world.forecast_service", lambda: _Service())
     result = alerts.evaluate_alerts()
     assert result["triggered"] == 0
 

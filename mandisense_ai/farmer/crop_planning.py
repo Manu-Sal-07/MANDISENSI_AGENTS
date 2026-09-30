@@ -19,8 +19,7 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 
 from mandisense_ai.forecasting.config import DEFAULT_CONFIG, TARGET_COMMODITIES, ForecastConfig
-from mandisense_ai.forecasting.naming import canonical_market
-from mandisense_ai.forecasting.store import ObservationStore
+from mandisense_ai.farmer import registry, world
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -46,12 +45,12 @@ def seasonal_crop_comparison(
     has historically compared to its own yearly average -- ranked so the
     crop most reliably *above* its own norm in that month sorts first.
     """
-    resolved_mandi = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+    resolved_mandi = registry.series_place(mandi_id)
     if not (1 <= target_month <= 12):
         return {"status": "ERROR", "reason": "target_month must be 1-12."}
 
     try:
-        observations = ObservationStore().read()
+        observations = world.district_observations()
     except Exception as exc:
         logger.error("Crop planning: observation read failed: %s", exc)
         return {"status": "UNAVAILABLE", "reason": "Observation data unavailable."}

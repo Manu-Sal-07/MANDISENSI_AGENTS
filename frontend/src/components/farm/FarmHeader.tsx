@@ -1,38 +1,24 @@
 'use client';
 
-import Link from 'next/link';
-import { MapPin, Loader2 } from 'lucide-react';
-
-import { useLocation } from '@/hooks/useLocation';
-import { useAppStore } from '@/store/useAppStore';
 import { useLanguage } from '@/context/LanguageContext';
 import { LANGUAGE_LABELS, type Lang } from '@/lib/i18n/translations';
+import PlacePicker from './PlacePicker';
 
 const LANGUAGE_CYCLE: Lang[] = ['kn', 'hi', 'en'];
 
 /**
  * Header for the farmer surface.
  *
- * The trader header carries brand, a product nav and a theme switch. None
- * of that helps here: there is one place to go, and the only piece of
- * state a farmer needs at the top of the screen is *which mandi am I
- * seeing prices for*, because every number below depends on it.
- *
- * So the location is the header. It is also the one control, sized as a
- * real button rather than a bracketed link, because it is tapped with a
- * thumb outdoors.
+ * There is no brand bar and no product navigation: the only two things a
+ * farmer needs at the top of every screen are *whose prices am I looking at*
+ * (the district) and *in which language*. Both are real buttons, sized for a
+ * thumb used outdoors.
  */
 export default function FarmHeader() {
-  const { requestLocation } = useLocation();
-  const { personalizationStatus, viewMode, resetToDefault } = useAppStore();
   const { lang, setLang } = useLanguage();
 
-  const isRequesting = personalizationStatus === 'requesting';
-  const isPersonalized = viewMode === 'personalized';
-
   const cycleLanguage = () => {
-    const next = LANGUAGE_CYCLE[(LANGUAGE_CYCLE.indexOf(lang) + 1) % LANGUAGE_CYCLE.length];
-    setLang(next);
+    setLang(LANGUAGE_CYCLE[(LANGUAGE_CYCLE.indexOf(lang) + 1) % LANGUAGE_CYCLE.length]);
   };
 
   return (
@@ -41,48 +27,14 @@ export default function FarmHeader() {
       style={{ background: 'rgba(251, 253, 246, 0.92)', backdropFilter: 'blur(12px)' }}
     >
       <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3 lg:max-w-5xl">
-        <Link href="/" className="farm-focus flex min-w-0 items-center gap-3 rounded-xl">
-          <span
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
-            style={{ background: 'var(--leaf-wash)' }}
-          >
-            <MapPin className="h-5 w-5" style={{ color: 'var(--leaf)' }} />
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate text-base font-bold leading-tight text-[var(--farm-ink)]">
-              {isPersonalized ? 'Mandis near you' : 'Bengaluru mandis'}
-            </span>
-            <span className="block truncate text-xs text-[var(--farm-ink-faint)]">
-              Today&rsquo;s prices
-            </span>
-          </span>
-        </Link>
-
-        <div className="flex shrink-0 items-center gap-2">
-          <button
-            onClick={cycleLanguage}
-            aria-label="Change language"
-            className="farm-focus rounded-xl border border-[var(--farm-line)] bg-white px-3 py-2.5 text-sm font-bold text-[var(--farm-ink)] transition-colors hover:border-[var(--leaf)]"
-          >
-            {LANGUAGE_LABELS[lang]}
-          </button>
-          <button
-            onClick={isPersonalized ? resetToDefault : requestLocation}
-            disabled={isRequesting}
-            className="farm-focus rounded-xl border border-[var(--farm-line)] bg-white px-3.5 py-2.5 text-sm font-bold text-[var(--leaf)] transition-colors hover:border-[var(--leaf)] disabled:opacity-50"
-          >
-            {isRequesting ? (
-              <span className="flex items-center gap-1.5">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Finding
-              </span>
-            ) : isPersonalized ? (
-              'Reset'
-            ) : (
-              'Use my location'
-            )}
-          </button>
-        </div>
+        <PlacePicker />
+        <button
+          onClick={cycleLanguage}
+          aria-label="Change language"
+          className="farm-focus shrink-0 rounded-xl border border-[var(--farm-line)] bg-white px-3.5 py-2.5 text-sm font-bold text-[var(--farm-ink)] transition-colors hover:border-[var(--leaf)]"
+        >
+          {LANGUAGE_LABELS[lang]}
+        </button>
       </div>
     </header>
   );

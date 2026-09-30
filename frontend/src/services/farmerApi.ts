@@ -223,6 +223,206 @@ export interface TruckTrip {
   claims: Array<{ phone: string; name: string; quantity_quintals: number; joined_at: string }>;
 }
 
+
+// ── The farmer app's read model (mandisense_ai/farmer/dashboard.py) ────────
+
+export type CropId = 'tomato' | 'onion' | 'potato' | 'ginger' | 'garlic';
+
+export interface PlaceNames {
+  en: string;
+  kn: string;
+  hi: string;
+}
+
+export interface CatalogDistrict {
+  id: string;
+  name: string;
+  name_kn: string;
+  name_hi: string;
+  lat: number;
+  lon: number;
+  mandis: Array<{ id: string; name: string; name_kn: string; name_hi: string }>;
+  crops: Array<{ crop: CropId; has_call: boolean }>;
+}
+
+export interface FarmCatalog {
+  data_through: string | null;
+  forecast_as_of: string | null;
+  crops: Array<{ id: CropId; name_kn: string }>;
+  districts: CatalogDistrict[];
+  served_horizons: number[];
+}
+
+export type FarmCall =
+  | { type: 'NONE' | 'RANGE_ONLY'; reason?: string }
+  | { type: 'ABSTAINED'; decision: 'WAIT'; horizon: number; expected_change_pct: number | null }
+  | {
+      type: 'ADVISED';
+      decision: 'SELL' | 'HOLD';
+      horizon: number;
+      date: string | null;
+      expected_change_pct: number | null;
+      confidence: number | null;
+    };
+
+export interface OverviewCrop {
+  crop: CropId;
+  price: number;
+  date: string;
+  d7: number | null;
+  d1: number | null;
+  spark: number[];
+  call: FarmCall;
+}
+
+export interface FarmOverview {
+  district: string;
+  district_name: PlaceNames | null;
+  crops: OverviewCrop[];
+}
+
+export interface ForecastPoint {
+  horizon: number;
+  date: string | null;
+  price: number | null;
+  p05: number | null;
+  p25: number | null;
+  p75: number | null;
+  p95: number | null;
+  change_pct: number | null;
+  decision: string | null;
+  p_decline: number | null;
+}
+
+export interface MandiToday {
+  id: string;
+  name: string;
+  name_kn: string;
+  name_hi: string;
+  district: string;
+  in_district: boolean;
+  date: string;
+  price: number;
+  min: number;
+  max: number;
+  arrivals: number;
+}
+
+export interface FarmReason {
+  code:
+    | 'price_up_week'
+    | 'price_down_week'
+    | 'arrivals_high'
+    | 'arrivals_low'
+    | 'above_last_year'
+    | 'below_last_year'
+    | 'model_expects_up'
+    | 'model_expects_down'
+    | 'spoils_fast';
+  value: number | null;
+  days?: number;
+}
+
+export interface FarmBoard {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  district: string;
+  district_name: PlaceNames | null;
+  crop: CropId;
+  price: { value: number; date: string; age_days: number; arrivals: number | null };
+  changes: { d1: number | null; d7: number | null; d30: number | null };
+  history: Array<{ d: string; p: number; a: number | null }>;
+  history_last_year: Array<{ d: string; p: number }>;
+  forecast: ForecastPoint[];
+  call: FarmCall;
+  reasons: FarmReason[];
+  supply: SupplySignalResult | null;
+  seasonal: SeasonalMemoryResult | null;
+  mandis: MandiToday[];
+  shelf: { days: number; daily_loss_pct: number; category: string };
+  accuracy: { forecasts?: number; skill_vs_no_change?: number; direction_right?: number; serves_call?: boolean };
+}
+
+export interface MandiPage {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  mandi?: { id: string; name: string; name_kn: string; name_hi: string; district: string };
+  crops?: Array<{
+    crop: CropId;
+    date: string;
+    price: number;
+    min: number;
+    max: number;
+    arrivals: number;
+    d7: number | null;
+    days_reported: number;
+  }>;
+}
+
+export interface SellPlanOption {
+  choice: 'sell_today' | 'travel' | 'wait';
+  mandi_id: string;
+  mandi_name: string;
+  mandi_name_kn: string;
+  mandi_name_hi: string;
+  target_date: string | null;
+  price_per_quintal: number;
+  transport_cost_per_quintal: number;
+  total: number;
+  distance_km?: number;
+  horizon?: number;
+  spoilage_pct?: number;
+  range_low?: number | null;
+  range_high?: number | null;
+  typical_arrivals_tonnes?: number;
+  thin_for_load?: boolean;
+}
+
+export interface SellPlanResult {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  crop?: CropId;
+  quantity_quintals?: number;
+  baseline_total?: number;
+  best?: SellPlanOption['choice'];
+  gain_vs_baseline?: number;
+  options?: SellPlanOption[];
+  call?: FarmCall;
+  transport_rate_per_quintal_per_km?: number;
+  shelf?: { days: number; daily_loss_pct: number; category: string };
+}
+
+export interface SeriesQuality {
+  forecasts: number;
+  skill_vs_no_change: number;
+  direction_right: number | null;
+  base_rate_price_fell: number;
+  skill_latest_fold: number | null;
+  serves_call: boolean;
+}
+
+export interface AccuracyReport {
+  available: boolean;
+  generated_at?: string;
+  data?: { source: string; series: number; rows: number; from: string; to: string };
+  method?: string;
+  served_horizons?: number[];
+  overall?: { forecasts: number; skill_vs_no_change: number; direction_right: number | null; base_rate_price_fell: number };
+  last_fold_window?: [string, string] | null;
+  horizons?: Record<string, {
+    promoted: boolean;
+    skill_vs_no_change: number | null;
+    direction_right?: number | null;
+    coverage_90?: number | null;
+    mean_band_width_pct?: number | null;
+    decision?: { threshold: number; precision_sell: number; precision_hold: number; coverage: number };
+  }>;
+  by_crop?: Record<string, { forecasts: number; skill_vs_no_change: number; direction_right: number | null }>;
+  by_district?: Record<string, { forecasts: number; skill_vs_no_change: number; direction_right: number | null }>;
+  series_quality?: Record<string, SeriesQuality>;
+  call_rule?: { min_skill: number; min_direction_right: number; also_required: string };
+}
+
 // ── Price on a Date (verification for the "My Money" ledger) ──────────────
 
 export interface PriceOnDateResult {
@@ -343,6 +543,31 @@ export const farmerApi = {
         joiner_phone: joinerPhone,
         joiner_name: joinerName,
       }),
+    }),
+
+  catalog: () => apiClient<FarmCatalog>('/v1/farmer/catalog'),
+
+  overview: (district: string) => apiClient<FarmOverview>(`/v1/farmer/overview/${district}`),
+
+  board: (district: string, crop: string) => apiClient<FarmBoard>(`/v1/farmer/board/${district}/${crop}`),
+
+  sellPlan: (crop: string, mandiId: string, quantityQuintals: number) =>
+    apiClient<SellPlanResult>(`/v1/farmer/sell-plan/${crop}/${mandiId}`, {
+      params: { quantity_quintals: String(quantityQuintals) },
+    }),
+
+  mandi: (mandiId: string) => apiClient<MandiPage>(`/v1/farmer/mandi/${mandiId}`),
+
+  accuracy: () => apiClient<AccuracyReport>('/v1/farmer/accuracy'),
+
+  ask: (q: string, district?: string) =>
+    apiClient<{ crop: CropId | null; district: string | null; understood: boolean }>('/v1/farmer/ask', {
+      params: { q, ...(district ? { district } : {}) },
+    }),
+
+  nearestDistrict: (lat: number, lon: number) =>
+    apiClient<{ district: string; distance_km: number }>('/v1/farmer/nearest-district', {
+      params: { lat: String(lat), lon: String(lon) },
     }),
 
   priceOnDate: (commodity: string, mandiId: string, date: string) =>

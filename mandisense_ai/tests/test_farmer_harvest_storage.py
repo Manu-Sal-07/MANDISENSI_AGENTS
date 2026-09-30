@@ -43,7 +43,7 @@ def _curve(base_price=2000.0, points=None):
 
 def _patch_service(monkeypatch, curve, available=True):
     monkeypatch.setattr(
-        "mandisense_ai.forecasting.service.get_forecast_service",
+        "mandisense_ai.farmer.world.forecast_service",
         lambda: _FakeService(curve, available),
     )
 

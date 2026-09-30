@@ -26,8 +26,8 @@ from typing import Any, Dict, Optional
 
 import pandas as pd
 
-from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
-from mandisense_ai.forecasting.store import ObservationStore
+from mandisense_ai.farmer import registry, world
+from mandisense_ai.forecasting.naming import canonical_commodity
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -76,6 +76,18 @@ def _verdict_bucket(offered: float, low: float, high: float) -> str:
     return "well_above"
 
 
+def _recent(commodity: str, place: str) -> pd.DataFrame:
+    """The latest week of prints for a place: a mandi's own min / modal / max
+    where it reports them, otherwise its district's weighted price."""
+    if place in registry.MANDIS:
+        prices = world.mandi_prices()
+        if prices.empty:
+            return prices
+        sub = prices[(prices["commodity"] == commodity) & (prices["mandi_id"] == place)]
+        return sub.sort_values("date").tail(7)
+    return world.district_series(commodity, place).tail(7)
+
+
 def check_offer(
     commodity: str,
     mandi_id: str,
@@ -91,10 +103,10 @@ def check_offer(
     never the reverse, since a forecast implies observed history exists.
     """
     resolved_commodity = canonical_commodity(commodity) or str(commodity).strip().lower()
-    resolved_mandi = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+    resolved_mandi = registry.resolve_place(mandi_id)
 
     try:
-        recent = ObservationStore().read_series(resolved_commodity, resolved_mandi, limit=7)
+        recent = _recent(resolved_commodity, resolved_mandi)
     except Exception as exc:
         logger.error("Fair price check: observation read failed: %s", exc)
         recent = pd.DataFrame()
@@ -129,10 +141,8 @@ def check_offer(
 
     forecast_reading = None
     try:
-        from mandisense_ai.forecasting.service import get_forecast_service
-
-        service = get_forecast_service()
-        if service.is_available:
+        service = world.forecast_service()
+        if service.is_available and registry.is_district(resolved_mandi):
             row = service.get_horizon(resolved_commodity, resolved_mandi, 1) or service.nearest_horizon(
                 resolved_commodity, resolved_mandi, 1
             )

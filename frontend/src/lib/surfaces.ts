@@ -14,6 +14,7 @@ export function isFarmRoute(pathname: string | null | undefined): boolean {
     pathname.startsWith('/mandi') ||
     pathname.startsWith('/tools') ||
     pathname.startsWith('/sell-plan') ||
-    pathname.startsWith('/my-money')
+    pathname.startsWith('/my-money') ||
+    pathname.startsWith('/accuracy')
   );
 }

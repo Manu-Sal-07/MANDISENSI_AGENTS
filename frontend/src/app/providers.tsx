@@ -7,6 +7,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 
 import { ThemeProvider } from '@/context/ThemeContext';
 import { LanguageProvider } from '@/context/LanguageContext';
+import { FarmProvider } from '@/context/FarmContext';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -31,7 +32,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <LanguageProvider>
-            {children}
+            <FarmProvider>{children}</FarmProvider>
           </LanguageProvider>
         </ThemeProvider>
         <ReactQueryDevtools initialIsOpen={false} />

@@ -18,8 +18,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, Optional
 
-from mandisense_ai.forecasting.ledger import ForecastLedger
-from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
+from mandisense_ai.farmer import registry, world
+from mandisense_ai.forecasting.naming import canonical_commodity
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -31,10 +31,10 @@ def track_record(
     horizon_days: Optional[int] = None,
 ) -> Dict[str, Any]:
     resolved_commodity = canonical_commodity(commodity) or str(commodity).strip().lower()
-    resolved_mandi = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+    resolved_mandi = registry.series_place(mandi_id)
 
     try:
-        performance = ForecastLedger().live_performance(
+        performance = world.ledger().live_performance(
             horizon=horizon_days, commodity=resolved_commodity, mandi_id=resolved_mandi
         )
     except Exception as exc:

@@ -7,7 +7,8 @@ import { useToolSelection } from '@/context/ToolContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { farmerApi } from '@/services/farmerApi';
 
-const CROPS: ProduceName[] = ['tomato', 'onion', 'potato', 'garlic', 'ginger', 'dry_chillies'];
+// Only crops the farmer data covers: dry chillies has no Karnataka prices.
+const CROPS: ProduceName[] = ['tomato', 'onion', 'potato', 'ginger', 'garlic'];
 
 /**
  * The crop + mandi selector every tool panel opens with.

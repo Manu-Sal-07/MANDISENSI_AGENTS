@@ -22,8 +22,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from mandisense_ai.farmer.reference import MANDI_DISPLAY_NAMES
-from mandisense_ai.forecasting.naming import canonical_market
+from mandisense_ai.farmer import registry
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -61,7 +60,7 @@ def post_trip(
     posted_by_phone: str,
     posted_by_name: Optional[str] = None,
 ) -> Dict[str, Any]:
-    resolved_mandi = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+    resolved_mandi = registry.resolve_place(mandi_id)
     try:
         parsed_date = str(date.fromisoformat(travel_date))
     except ValueError:
@@ -74,7 +73,7 @@ def post_trip(
     trip = {
         "id": uuid.uuid4().hex[:12],
         "mandi_id": resolved_mandi,
-        "mandi_name": MANDI_DISPLAY_NAMES.get(resolved_mandi, resolved_mandi),
+        "mandi_name": registry.display_name(resolved_mandi),
         "travel_date": parsed_date,
         "total_capacity_quintals": capacity,
         "claimed_quintals": 0.0,
@@ -93,7 +92,7 @@ def post_trip(
 def list_trips(mandi_id: Optional[str] = None, on_or_after: Optional[str] = None) -> List[Dict[str, Any]]:
     trips = [t for t in _load() if t.get("status") == "OPEN"]
     if mandi_id:
-        resolved = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+        resolved = registry.resolve_place(mandi_id)
         trips = [t for t in trips if t["mandi_id"] == resolved]
     if on_or_after:
         trips = [t for t in trips if t["travel_date"] >= on_or_after]

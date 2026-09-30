@@ -17,7 +17,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
-from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
+from mandisense_ai.farmer import registry, world
+from mandisense_ai.forecasting.naming import canonical_commodity
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -31,13 +32,11 @@ def plan_harvest(
     """Every published horizon for this series, converted to rupees for
     `quantity_quintals`, plus which day maximises expected rupee return."""
     resolved_commodity = canonical_commodity(commodity) or str(commodity).strip().lower()
-    resolved_mandi = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+    resolved_mandi = registry.series_place(mandi_id)
     qty = float(quantity_quintals)
 
     try:
-        from mandisense_ai.forecasting.service import get_forecast_service
-
-        service = get_forecast_service()
+        service = world.forecast_service()
         if not service.is_available:
             return {
                 "commodity": resolved_commodity, "mandi_id": resolved_mandi,

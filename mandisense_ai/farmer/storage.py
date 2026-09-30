@@ -23,7 +23,8 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional
 
 from mandisense_ai.farmer.reference import shelf_profile
-from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
+from mandisense_ai.farmer import registry, world
+from mandisense_ai.forecasting.naming import canonical_commodity
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -35,14 +36,12 @@ def hold_or_sell(
     quantity_quintals: Optional[float] = 1.0,
 ) -> Dict[str, Any]:
     resolved_commodity = canonical_commodity(commodity) or str(commodity).strip().lower()
-    resolved_mandi = canonical_market(mandi_id) or str(mandi_id).strip().lower()
+    resolved_mandi = registry.series_place(mandi_id)
     qty = float(quantity_quintals or 1.0)
     profile = shelf_profile(resolved_commodity)
 
     try:
-        from mandisense_ai.forecasting.service import get_forecast_service
-
-        service = get_forecast_service()
+        service = world.forecast_service()
         curve = service.get_curve(resolved_commodity, resolved_mandi) if service.is_available else []
     except Exception as exc:
         logger.error("Hold-or-rot: forecast lookup failed: %s", exc)

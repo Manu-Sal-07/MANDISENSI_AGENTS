@@ -44,6 +44,31 @@ NEXT_PUBLIC_API_URL=http://localhost:8000 npm run dev -- -p 3001
 
 Then open `http://localhost:3001`.
 
+## The farmer app and its data
+
+The farmer screens (`/`, `/sell-plan`, `/my-money`, `/accuracy`, `/mandi/[id]`, `/tools`) run on
+their own real-data world, separate from the trader analytics: a different observation store, model
+bundle, forecast store and ledger, so retraining the farmer model cannot move a trader number.
+
+- `mandisense_ai/farmer/registry.py` — the districts, mandis and crops the data covers.
+- `mandisense_ai/farmer/world.py` — where the farmer data and models live, and the accessors every
+  farmer feature reads through.
+- `mandisense_ai/farmer/dashboard.py` — the read model behind the app (catalog, field board,
+  overview, sale planner, accuracy).
+- `scripts/build_farmer_world.py` — builds the world from the Agmarknet downloads kept in
+  `mandisense_ai/data/farmer/source/` (district report, Jan 2021 onward; per-mandi reports, Nov 2025
+  onward), trains and publishes the forecasts, and writes the out-of-sample accuracy report.
+
+```bash
+python scripts/build_farmer_world.py                 # ingest + train + publish
+python scripts/build_farmer_world.py --report        # rebuild only the accuracy report
+```
+
+A sell/hold *call* is issued only for a crop and district whose walk-forward record earned one
+(`series_quality` in `mandisense_ai/models/farmer/model_report.json`); elsewhere the app shows the
+price and likely range and says so. The sale planner never recommends a mandi too small for the load,
+one priced out of line with its neighbours, or a haul too long for a perishable crop.
+
 ## Tests
 
 ```bash
@@ -56,5 +81,5 @@ Real observed prices come from data.gov.in's Agmarknet dataset (`mandisense_ai/f
 and, optionally, the CEDA Agri Market API. A `DATAGOV_API_KEY` env var is recommended for
 production (a shared rate-limited sample key is used otherwise — see
 `mandisense_ai/forecasting/config.py`). The bundled `mandisense_ai/data/processed/v4/`
-Karnataka dataset used by some trader-side views does **not** match the real Agmarknet
+Karnataka dataset that some trader-side views still use does **not** match the real Agmarknet
 archive and should not be treated as real market history; see the papers' audit of this.

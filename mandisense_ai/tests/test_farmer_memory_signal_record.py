@@ -8,6 +8,7 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
+from mandisense_ai.farmer import registry
 from mandisense_ai.farmer.crop_planning import seasonal_crop_comparison
 from mandisense_ai.farmer.seasonal_memory import seasonal_reading
 from mandisense_ai.farmer.supply_signal import supply_reading
@@ -22,6 +23,10 @@ COLUMNS = [
 
 def _write_observations(tmp_path, rows):
     frame = pd.DataFrame(rows, columns=COLUMNS)
+    # The farmer store keeps one series per district, so a mandi id in a test
+    # row stands for its district.
+    frame["mandi_id"] = frame["mandi_id"].map(registry.district_of)
+    frame["date"] = pd.to_datetime(frame["date"])
     path = tmp_path / "observations.parquet"
     frame.to_parquet(path, index=False)
     return path
@@ -31,7 +36,7 @@ def _write_observations(tmp_path, rows):
 def patch_observations(tmp_path, monkeypatch):
     def _apply(rows):
         path = _write_observations(tmp_path, rows)
-        monkeypatch.setattr("mandisense_ai.forecasting.store.observations_path", lambda: path)
+        monkeypatch.setattr("mandisense_ai.farmer.world.DISTRICT_OBSERVATIONS", path)
         return path
 
     return _apply
@@ -41,13 +46,12 @@ def patch_observations(tmp_path, monkeypatch):
 
 
 def test_track_record_reports_insufficient_evidence_below_the_minimum(tmp_path, monkeypatch):
-    monkeypatch.setattr(
-        "mandisense_ai.forecasting.ledger.ledger_path", lambda: tmp_path / "ledger.parquet"
-    )
+    monkeypatch.setattr("mandisense_ai.farmer.world.LEDGER", tmp_path / "ledger.parquet")
     result = track_record("tomato", "kolar_apmc")
     assert result["status"] == "NO_RECORDS"
     assert result["commodity"] == "tomato"
-    assert result["mandi_id"] == "kolar_apmc"
+    # Forecasts are kept per district, so a mandi resolves to its district.
+    assert result["mandi_id"] == "kolar"
 
 
 def test_track_record_is_scoped_to_one_series_not_the_whole_system(tmp_path, monkeypatch):
@@ -60,7 +64,7 @@ def test_track_record_is_scoped_to_one_series_not_the_whole_system(tmp_path, mon
     # bound to be observed. `track_record()` constructs its own
     # `ForecastLedger()` with no path, so this is what makes it read the
     # same file this test writes to.
-    monkeypatch.setattr("mandisense_ai.forecasting.ledger.ledger_path", lambda: ledger_path)
+    monkeypatch.setattr("mandisense_ai.farmer.world.LEDGER", ledger_path)
 
     ledger = ForecastLedger(path=ledger_path)
 

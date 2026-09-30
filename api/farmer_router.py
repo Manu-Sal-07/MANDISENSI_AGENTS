@@ -222,23 +222,84 @@ async def price_on_date(commodity: str, mandi_id: str, date: str = Query(..., mi
 
 @router.get("/mandis")
 async def list_mandis():
-    from mandisense_ai.farmer.reference import MANDI_COORDINATES, MANDI_DISPLAY_NAMES
+    from mandisense_ai.farmer import registry
 
     return {
         "mandis": [
-            {
-                "mandi_id": mandi_id,
-                "mandi_name": MANDI_DISPLAY_NAMES[mandi_id],
-                "lat": coords[0],
-                "lon": coords[1],
-            }
-            for mandi_id, coords in MANDI_COORDINATES.items()
+            {"mandi_id": m.id, "mandi_name": m.name, "mandi_name_kn": m.name_kn, "mandi_name_hi": m.name_hi,
+             "district": m.district, "lat": m.lat, "lon": m.lon}
+            for m in registry.MANDIS.values()
         ]
     }
 
 
 @router.get("/mandis/nearest")
-async def nearest_mandis_endpoint(lat: float = Query(...), lon: float = Query(...), limit: int = Query(5, ge=1, le=15)):
-    from mandisense_ai.farmer.reference import nearest_mandis
+async def nearest_mandis_endpoint(lat: float = Query(...), lon: float = Query(...), limit: int = Query(5, ge=1, le=20)):
+    from mandisense_ai.farmer import registry
 
-    return {"mandis": nearest_mandis(lat, lon, limit)}
+    ranked = sorted(registry.MANDIS.values(), key=lambda m: registry.haversine_km((lat, lon), (m.lat, m.lon)))
+    return {"mandis": [
+        {"mandi_id": m.id, "mandi_name": m.name, "distance_km": round(registry.haversine_km((lat, lon), (m.lat, m.lon)), 1)}
+        for m in ranked[:limit]
+    ]}
+
+
+# ── The farmer app's read model ─────────────────────────────────────────────
+# One call per screen; see mandisense_ai/farmer/dashboard.py.
+
+
+@router.get("/catalog")
+async def farmer_catalog():
+    from mandisense_ai.farmer.dashboard import catalog
+
+    return catalog()
+
+
+@router.get("/nearest-district")
+async def nearest_district_endpoint(lat: float = Query(...), lon: float = Query(...)):
+    from mandisense_ai.farmer import registry
+
+    district, km = registry.nearest_district(lat, lon)
+    return {"district": district.id, "distance_km": km}
+
+
+@router.get("/overview/{district}")
+async def farmer_overview(district: str):
+    from mandisense_ai.farmer.dashboard import overview
+
+    return overview(district)
+
+
+@router.get("/mandi/{mandi_id}")
+async def farmer_mandi(mandi_id: str):
+    from mandisense_ai.farmer.dashboard import mandi_page
+
+    return mandi_page(mandi_id)
+
+
+@router.get("/board/{district}/{crop}")
+async def farmer_board(district: str, crop: str):
+    from mandisense_ai.farmer.dashboard import board
+
+    return board(district, crop)
+
+
+@router.get("/sell-plan/{crop}/{mandi_id}")
+async def farmer_sell_plan(crop: str, mandi_id: str, quantity_quintals: float = Query(..., gt=0)):
+    from mandisense_ai.farmer.dashboard import sell_plan
+
+    return sell_plan(crop, mandi_id, quantity_quintals)
+
+
+@router.get("/accuracy")
+async def farmer_accuracy():
+    from mandisense_ai.farmer import world
+
+    return world.model_report()
+
+
+@router.get("/ask")
+async def farmer_ask(q: str = Query(..., min_length=1, max_length=300), district: Optional[str] = None):
+    from mandisense_ai.farmer.dashboard import ask
+
+    return ask(q, district)

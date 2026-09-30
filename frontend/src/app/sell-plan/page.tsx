@@ -1,250 +1,229 @@
 'use client';
 
 /**
- * Plan My Harvest Sale.
+ * Plan my sale.
  *
- * The single highest-value screen on the farmer surface: one answer that
- * combines three already-shipped features (My Harvest in Rupees, Hold-or-Rot,
- * Where to Sell) into where, when and for how much, instead of asking a
- * farmer to open three tools and do the comparison in their head.
- *
- * Every rupee figure here is one the backend already computed for a single
- * tool; this page adds no new arithmetic beyond picking the largest of the
- * three totals it already trusts.
+ * One load, one answer. Every rupee figure is on the same footing: what the
+ * farmer's own mandi printed, less what travelling or waiting costs. A mandi
+ * too small to take the load, or whose price is out of line with its
+ * neighbours, is never recommended (see `farmer/transport.py`); waiting is
+ * offered only for a crop whose record earned a call, and is shown with the
+ * spoilage already taken off.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { Check, Loader2, MapPin, PiggyBank, Sparkles } from 'lucide-react';
+import { Check, Loader2, Minus, PiggyBank, Plus, Truck, Hourglass, Store } from 'lucide-react';
 
+import ProduceIcon, { produceScript, resolveProduce } from '@/components/farm/ProduceIcon';
 import UnavailableNotice from '@/components/farm/tools/UnavailableNotice';
-import { CropPicker, MandiPicker, QuantityPicker } from '@/components/farm/tools/ContextPicker';
-import { ToolProvider, useToolSelection } from '@/context/ToolContext';
+import { useFarm } from '@/context/FarmContext';
 import { useLanguage } from '@/context/LanguageContext';
-import { farmerApi, type HarvestPlan, type HoldOrRotResult, type WhereToSellResult } from '@/services/farmerApi';
-import { savePlan, type PlanChoice } from '@/lib/myMoney';
-import { formatDate, formatRupees } from '@/lib/format';
-import { resolveProduce } from '@/components/farm/ProduceIcon';
+import { placeName, rupees, say, shortDate, tri } from '@/lib/i18n/farmCopy';
+import { savePlan } from '@/lib/myMoney';
+import { farmerApi, type CropId, type SellPlanOption } from '@/services/farmerApi';
 
-interface Option {
-  choice: PlanChoice;
-  title: string;
-  subtitle: string;
-  total: number;
-  targetDate: string;
-  targetMandiId: string;
-  targetMandiName: string;
-}
+const ICON = { sell_today: Store, travel: Truck, wait: Hourglass } as const;
 
-function SellPlanBody() {
-  const { commodity, mandiId, quantityQuintals } = useToolSelection();
-  const { t } = useLanguage();
+const optionPlace = (o: SellPlanOption, lang: 'en' | 'hi' | 'kn') =>
+  lang === 'kn' ? o.mandi_name_kn : lang === 'hi' ? o.mandi_name_hi : o.mandi_name;
+
+export default function SellPlanPage() {
+  const { districtInfo, crop, setCrop, mandi, setMandi, quantity, setQuantity } = useFarm();
+  const { lang, t } = useLanguage();
   const [saved, setSaved] = useState(false);
-  const produce = resolveProduce(commodity);
 
-  const harvest = useQuery<HarvestPlan>({
-    queryKey: ['sellplan-harvest', commodity, mandiId, quantityQuintals],
-    queryFn: () => farmerApi.harvestPlan(commodity, mandiId, quantityQuintals),
-  });
-  const hold = useQuery<HoldOrRotResult>({
-    queryKey: ['sellplan-hold', commodity, mandiId, quantityQuintals],
-    queryFn: () => farmerApi.holdOrSell(commodity, mandiId, quantityQuintals),
-  });
-  const travel = useQuery<WhereToSellResult>({
-    queryKey: ['sellplan-travel', commodity, mandiId, quantityQuintals],
-    queryFn: () => farmerApi.whereToSell(commodity, { mandiId }, quantityQuintals),
+  const mandis = districtInfo?.mandis ?? [];
+  const activeMandi = mandi && mandis.some((m) => m.id === mandi) ? mandi : mandis[0]?.id ?? null;
+  useEffect(() => setSaved(false), [crop, activeMandi, quantity]);
+
+  const { data: plan, isFetching } = useQuery({
+    queryKey: ['farm-sellplan', crop, activeMandi, quantity],
+    queryFn: () => farmerApi.sellPlan(crop, activeMandi as string, quantity),
+    enabled: !!activeMandi && quantity > 0,
   });
 
-  const isLoading = harvest.isFetching || hold.isFetching || travel.isFetching;
+  const options = useMemo(() => (plan?.status === 'OK' ? plan.options ?? [] : []), [plan]);
+  const top = useMemo(() => Math.max(1, ...options.map((o) => o.total)), [options]);
+  const best = options.find((o) => o.choice === plan?.best);
 
-  const { options, winner, mandiName, unavailable } = useMemo(() => {
-    const mandiRow = travel.data?.mandis?.find((m) => m.mandi_id === mandiId);
-    const localMandiName = mandiRow?.mandi_name ?? mandiId;
+  const label = (o: SellPlanOption) =>
+    o.choice === 'sell_today' ? t('sellplan.option_sell_today') : o.choice === 'travel' ? t('sellplan.option_travel') : t('sellplan.option_wait');
 
-    if (hold.data?.status !== 'OK' || !hold.data.sell_today_value) {
-      return { options: [] as Option[], winner: null as Option | null, mandiName: localMandiName, unavailable: true };
-    }
-
-    const opts: Option[] = [
-      {
-        choice: 'sell_today',
-        title: t('sellplan.option_sell_today'),
-        subtitle: localMandiName,
-        total: hold.data.sell_today_value,
-        targetDate: new Date().toISOString().slice(0, 10),
-        targetMandiId: mandiId,
-        targetMandiName: localMandiName,
-      },
-    ];
-
-    if (hold.data.best_option && hold.data.best_option.net_value > hold.data.sell_today_value) {
-      opts.push({
-        choice: 'wait',
-        title: t('sellplan.option_wait'),
-        subtitle: localMandiName,
-        total: hold.data.best_option.net_value,
-        targetDate: hold.data.best_option.target_date || new Date().toISOString().slice(0, 10),
-        targetMandiId: mandiId,
-        targetMandiName: localMandiName,
-      });
-    }
-
-    if (travel.data?.status === 'OK' && travel.data.best_mandi_id && travel.data.best_mandi_id !== mandiId) {
-      const bestRow = travel.data.mandis?.find((m) => m.mandi_id === travel.data!.best_mandi_id);
-      if (bestRow && bestRow.net_total > hold.data.sell_today_value) {
-        opts.push({
-          choice: 'travel',
-          title: t('sellplan.option_travel'),
-          subtitle: bestRow.mandi_name,
-          total: bestRow.net_total,
-          targetDate: new Date().toISOString().slice(0, 10),
-          targetMandiId: bestRow.mandi_id,
-          targetMandiName: bestRow.mandi_name,
-        });
-      }
-    }
-
-    const best = opts.reduce((a, b) => (b.total > a.total ? b : a), opts[0]);
-    return { options: opts, winner: best, mandiName: localMandiName, unavailable: false };
-  }, [hold.data, travel.data, mandiId, t]);
-
-  const handleFollow = () => {
-    if (!winner || !hold.data?.sell_today_value) return;
+  const follow = () => {
+    if (!plan || !best || !activeMandi) return;
+    const here = options[0];
     savePlan({
-      commodity,
-      mandiId,
-      mandiName,
-      quantityQuintals,
-      choice: winner.choice,
-      planTotal: winner.total,
-      baselineTotal: hold.data.sell_today_value,
-      targetDate: winner.targetDate,
-      targetMandiId: winner.targetMandiId,
-      targetMandiName: winner.targetMandiName,
+      commodity: crop,
+      mandiId: activeMandi,
+      mandiName: placeName(mandis.find((m) => m.id === activeMandi) ?? null, 'en') || here.mandi_name,
+      quantityQuintals: quantity,
+      choice: best.choice,
+      planTotal: best.total,
+      baselineTotal: plan.baseline_total ?? here.total,
+      targetDate: best.target_date ?? new Date().toISOString().slice(0, 10),
+      targetMandiId: best.mandi_id,
+      targetMandiName: best.mandi_name,
     });
     setSaved(true);
   };
 
   return (
     <div className="farm-surface min-h-screen pb-28">
-      <main className="mx-auto max-w-2xl px-4 pb-10 pt-6 lg:max-w-3xl">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-          <h1 className="farm-display text-2xl text-[var(--farm-ink)] sm:text-3xl">{t('sellplan.title')}</h1>
-          <p className="mt-1 text-sm text-[var(--farm-ink-faint)]">{t('sellplan.subtitle')}</p>
-        </motion.div>
+      <main className="mx-auto max-w-2xl px-4 pb-10 pt-7 lg:max-w-3xl">
+        <h1 className="farm-display text-3xl text-[var(--farm-ink)]">{t('sellplan.title')}</h1>
+        <p className="mt-1 text-sm text-[var(--farm-ink-faint)]">{t('sellplan.subtitle')}</p>
 
+        {/* What are you selling, where, how much */}
         <div className="farm-card mt-5 space-y-4 p-4">
-          <CropPicker />
-          <div className="grid grid-cols-2 gap-3">
-            <MandiPicker />
-            <QuantityPicker />
+          <div className="flex flex-wrap gap-2">
+            {(districtInfo?.crops ?? []).map(({ crop: c }) => {
+              const active = c === crop;
+              return (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setCrop(c as CropId)}
+                  className="farm-focus flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-bold"
+                  style={{
+                    borderColor: active ? 'var(--leaf)' : 'var(--farm-line)',
+                    background: active ? 'var(--leaf-wash)' : 'var(--farm-paper)',
+                    color: active ? 'var(--leaf-deep)' : 'var(--farm-ink-soft)',
+                  }}
+                >
+                  <ProduceIcon name={c} size="sm" plated={false} />
+                  {produceScript(resolveProduce(c), lang).text}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="grid grid-cols-[1fr_auto] items-end gap-3">
+            <label className="block">
+              <span className="mb-1.5 block text-xs font-bold text-[var(--farm-ink-faint)]">{tri(lang, 'Your mandi', 'ನಿಮ್ಮ ಮಂಡಿ', 'आपकी मंडी')}</span>
+              <select
+                value={activeMandi ?? ''}
+                onChange={(e) => setMandi(e.target.value)}
+                className="farm-focus farm-tap w-full rounded-xl border border-[var(--farm-line)] bg-white px-3 text-base font-semibold text-[var(--farm-ink)]"
+              >
+                {mandis.map((m) => (
+                  <option key={m.id} value={m.id}>{placeName(m, lang)}</option>
+                ))}
+              </select>
+            </label>
+
+            <div>
+              <span className="mb-1.5 block text-xs font-bold text-[var(--farm-ink-faint)]">{tri(lang, 'Quintals', 'ಕ್ವಿಂಟಾಲ್', 'क्विंटल')}</span>
+              <div className="flex items-center rounded-xl border border-[var(--farm-line)] bg-white">
+                <button type="button" aria-label="Less" onClick={() => setQuantity(Math.max(1, quantity - 5))} className="farm-focus flex h-11 w-11 items-center justify-center rounded-l-xl text-[var(--farm-ink-soft)] hover:bg-[var(--farm-paper-warm)]"><Minus className="h-4 w-4" /></button>
+                <input
+                  type="number"
+                  min={1}
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
+                  className="w-14 bg-transparent text-center text-base font-bold tabular-nums text-[var(--farm-ink)] outline-none"
+                  aria-label="Quintals"
+                />
+                <button type="button" aria-label="More" onClick={() => setQuantity(quantity + 5)} className="farm-focus flex h-11 w-11 items-center justify-center rounded-r-xl text-[var(--farm-ink-soft)] hover:bg-[var(--farm-paper-warm)]"><Plus className="h-4 w-4" /></button>
+              </div>
+            </div>
           </div>
         </div>
 
-        {isLoading && (
-          <div className="mt-8 flex items-center justify-center gap-2 py-10 text-sm text-[var(--farm-ink-faint)]">
-            <Loader2 className="h-4 w-4 animate-spin" /> Working out {produce.label.toLowerCase()}&rsquo;s best plan…
-          </div>
+        {isFetching && !plan && (
+          <div className="mt-10 flex items-center justify-center gap-2 text-sm text-[var(--farm-ink-faint)]"><Loader2 className="h-4 w-4 animate-spin" /> …</div>
         )}
 
-        {!isLoading && unavailable && (
-          <div className="mt-6">
-            <UnavailableNotice reason={hold.data?.reason} />
-          </div>
-        )}
+        {plan?.status === 'UNAVAILABLE' && <div className="mt-6"><UnavailableNotice reason={plan.reason} /></div>}
 
-        {!isLoading && !unavailable && winner && (
-          <>
-            {/* ── The one answer ──────────────────────────────────── */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
-              className="farm-card farm-card-lift relative mt-6 overflow-hidden"
-            >
-              <div className="h-2.5 w-full" style={{ background: 'var(--leaf)' }} />
+        {plan?.status === 'OK' && best && (
+          <motion.div key={`${crop}-${activeMandi}-${quantity}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}>
+            {/* The answer */}
+            <section className="farm-card mt-6 overflow-hidden">
+              <div className="h-2 bg-[var(--leaf)]" />
               <div className="p-6">
-                <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[var(--leaf)]">
-                  <Sparkles className="h-3.5 w-3.5" /> {t('sellplan.best_plan')}
+                <p className="text-sm font-semibold text-[var(--leaf-deep)]">{t('sellplan.best_plan')}</p>
+                <h2 className="farm-display mt-1 text-3xl leading-tight text-[var(--farm-ink)]">{label(best)}</h2>
+                <p className="mt-1 text-base font-semibold text-[var(--farm-ink-soft)]">
+                  {optionPlace(best, lang)}
+                  {best.choice !== 'sell_today' && best.target_date ? ` · ${shortDate(best.target_date, lang)}` : ''}
                 </p>
-                <h2 className="farm-display mt-2 text-3xl leading-tight text-[var(--farm-ink)] sm:text-4xl">
-                  {winner.title}
-                </h2>
-                <p className="mt-1.5 flex items-center gap-1.5 text-base font-semibold text-[var(--farm-ink-soft)]">
-                  <MapPin className="h-4 w-4 shrink-0" />
-                  {winner.subtitle}
-                  {winner.choice !== 'sell_today' && (
-                    <span className="text-[var(--farm-ink-faint)]"> · {formatDate(winner.targetDate)}</span>
-                  )}
-                </p>
-                <p className="farm-display mt-4 text-4xl text-[var(--leaf-deep)] sm:text-5xl">
-                  {formatRupees(winner.total)}
-                </p>
-                {winner.total > (hold.data?.sell_today_value ?? 0) && winner.choice !== 'sell_today' && (
-                  <p className="mt-1 text-sm font-semibold text-[var(--leaf-deep)]">
-                    +{formatRupees(winner.total - (hold.data?.sell_today_value ?? 0))}{' '}
-                    {t('sellplan.vs_selling_today')}
+                <p className="farm-display mt-4 text-[2.75rem] leading-none tabular-nums text-[var(--leaf-deep)]">{rupees(best.total)}</p>
+                {(plan.gain_vs_baseline ?? 0) > 0 && (
+                  <p className="mt-1.5 text-sm font-bold text-[var(--leaf-deep)]">+{rupees(plan.gain_vs_baseline)} {t('sellplan.vs_selling_today')}</p>
+                )}
+                {best.choice === 'wait' && best.range_low != null && best.range_high != null && (
+                  <p className="mt-2 text-sm tabular-nums text-[var(--farm-ink-soft)]">
+                    {tri(lang, 'Likely between', 'ಸಂಭವನೀಯ ಶ್ರೇಣಿ', 'संभावित दायरा')} {rupees(best.range_low)} – {rupees(best.range_high)}
                   </p>
                 )}
-                {winner.choice === 'wait' && (
-                  <p className="mt-3 text-xs leading-relaxed text-[var(--farm-ink-faint)]">
-                    {t('sellplan.spoilage_note')}
+                {best.choice === 'travel' && best.distance_km != null && (
+                  <p className="mt-2 text-sm text-[var(--farm-ink-soft)]">
+                    {best.distance_km} km · {tri(lang, 'transport', 'ಸಾಗಣೆ', 'ढुलाई')} {rupees(best.transport_cost_per_quintal * quantity)} {tri(lang, 'already taken off', 'ಈಗಾಗಲೇ ಕಳೆಯಲಾಗಿದೆ', 'पहले ही घटाया गया')}
                   </p>
                 )}
+                {best.choice === 'wait' && <p className="mt-2 text-xs leading-relaxed text-[var(--farm-ink-faint)]">{t('sellplan.spoilage_note')}</p>}
 
                 <button
                   type="button"
-                  onClick={handleFollow}
+                  onClick={follow}
                   disabled={saved}
-                  className="farm-focus mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-base font-bold text-white transition-transform active:scale-[0.99] disabled:opacity-70"
-                  style={{ background: saved ? 'var(--farm-line-strong)' : 'var(--leaf)' }}
+                  className="farm-focus mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-base font-bold text-white disabled:opacity-80"
+                  style={{ background: saved ? 'var(--farm-ink-soft)' : 'var(--leaf)' }}
                 >
                   {saved ? <Check className="h-4 w-4" /> : <PiggyBank className="h-4 w-4" />}
                   {saved ? t('sellplan.saved_to_my_money') : t('sellplan.follow_this')}
                 </button>
               </div>
-            </motion.div>
+            </section>
 
-            {/* ── Every option, compared ──────────────────────────── */}
-            <div className="mt-5 space-y-2.5">
-              {options.map((opt, i) => (
-                <motion.div
-                  key={opt.choice}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.3 }}
-                  className="farm-row flex items-center justify-between p-3.5"
-                  style={
-                    opt.choice === winner.choice
-                      ? { borderColor: 'var(--leaf)', background: 'var(--leaf-wash)' }
-                      : undefined
-                  }
-                >
-                  <div className="min-w-0">
-                    <p className="text-sm font-bold text-[var(--farm-ink)]">{opt.title}</p>
-                    <p className="mt-0.5 truncate text-xs text-[var(--farm-ink-faint)]">
-                      {opt.subtitle}
-                      {opt.choice !== 'sell_today' && ` · ${formatDate(opt.targetDate)}`}
+            {/* Every option on one scale */}
+            <ul className="mt-5 space-y-3">
+              {options.map((o, i) => {
+                const Icon = ICON[o.choice];
+                const isBest = o.choice === plan.best;
+                return (
+                  <li key={o.choice} className="farm-row p-4" style={isBest ? { borderColor: 'var(--leaf)' } : undefined}>
+                    <div className="flex items-baseline justify-between gap-3">
+                      <p className="flex min-w-0 items-center gap-2 text-sm font-bold text-[var(--farm-ink)]">
+                        <Icon className="h-4 w-4 shrink-0 text-[var(--farm-ink-soft)]" />
+                        <span className="truncate">{label(o)} · {optionPlace(o, lang)}</span>
+                      </p>
+                      <p className="farm-display shrink-0 text-lg tabular-nums text-[var(--farm-ink)]">{rupees(o.total)}</p>
+                    </div>
+                    <div className="mt-2.5 h-2.5 overflow-hidden rounded-full bg-[var(--farm-line)]">
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{ background: isBest ? 'var(--leaf)' : 'var(--farm-ink-faint)' }}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${(o.total / top) * 100}%` }}
+                        transition={{ delay: 0.15 + i * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                      />
+                    </div>
+                    <p className="mt-1.5 text-xs tabular-nums text-[var(--farm-ink-faint)]">
+                      {rupees(o.price_per_quintal)} {say('unit.qtl', lang)}
+                      {o.transport_cost_per_quintal > 0 && ` − ${rupees(o.transport_cost_per_quintal)} ${tri(lang, 'transport', 'ಸಾಗಣೆ', 'ढुलाई')}`}
+                      {o.spoilage_pct ? ` − ${o.spoilage_pct}% ${tri(lang, 'spoilage', 'ಹಾಳಾಗುವಿಕೆ', 'खराबी')}` : ''}
                     </p>
-                  </div>
-                  <span className="farm-display shrink-0 text-lg text-[var(--farm-ink)]">
-                    {formatRupees(opt.total)}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {plan.call && plan.call.type !== 'ADVISED' && (
+              <p className="mt-4 rounded-xl bg-[var(--farm-paper-warm)] p-3.5 text-sm leading-relaxed text-[var(--farm-ink-soft)]">
+                {tri(
+                  lang,
+                  'We have no proven hold advice for this crop here, so waiting is not offered. The comparison is across mandis.',
+                  'ಇಲ್ಲಿ ಈ ಬೆಳೆಗೆ ಸಾಬೀತಾದ ಇಡುವ ಸಲಹೆ ಇಲ್ಲ, ಆದ್ದರಿಂದ ಕಾಯುವ ಆಯ್ಕೆ ಇಲ್ಲ. ಹೋಲಿಕೆ ಮಂಡಿಗಳ ನಡುವೆ ಮಾತ್ರ.',
+                  'यहाँ इस फसल के लिए रोकने की साबित सलाह नहीं है, इसलिए रुकने का विकल्प नहीं दिया। तुलना मंडियों के बीच है।'
+                )}
+              </p>
+            )}
+          </motion.div>
         )}
       </main>
     </div>
-  );
-}
-
-export default function SellPlanPage() {
-  return (
-    <ToolProvider>
-      <SellPlanBody />
-    </ToolProvider>
   );
 }
