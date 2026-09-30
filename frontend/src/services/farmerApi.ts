@@ -223,6 +223,19 @@ export interface TruckTrip {
   claims: Array<{ phone: string; name: string; quantity_quintals: number; joined_at: string }>;
 }
 
+// ── Price on a Date (verification for the "My Money" ledger) ──────────────
+
+export interface PriceOnDateResult {
+  commodity: string;
+  mandi_id: string;
+  status: 'OK' | 'UNAVAILABLE' | 'ERROR';
+  reason?: string;
+  requested_date?: string;
+  matched_date?: string;
+  modal_price?: number;
+  gap_days?: number;
+}
+
 // ── Reference ──────────────────────────────────────────────────────────────
 
 export interface MandiReference {
@@ -330,6 +343,11 @@ export const farmerApi = {
         joiner_phone: joinerPhone,
         joiner_name: joinerName,
       }),
+    }),
+
+  priceOnDate: (commodity: string, mandiId: string, date: string) =>
+    apiClient<PriceOnDateResult>(`/v1/farmer/price-on-date/${commodity}/${mandiId}`, {
+      params: { date },
     }),
 
   listMandis: () => apiClient<{ mandis: MandiReference[] }>('/v1/farmer/mandis'),

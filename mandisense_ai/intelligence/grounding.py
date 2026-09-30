@@ -43,7 +43,8 @@ _IGNORE_BELOW = 32
 #   - the band's own label ("90% interval", "the 90% band")
 #   - ordinals attached to horizons ("5-day", "h5")
 _DATELIKE = re.compile(r"\d{4}-\d{2}-\d{2}(?:[T ][\d:.+\-]+)?")
-_BAND_LABEL = re.compile(r"\b(?:50|90|95)\s*%")
+# The lookbehind stops "51.95%" being read as the label "95%" plus a stray "51.".
+_BAND_LABEL = re.compile(r"(?<![\d.])(?:50|90|95)\s*%")
 
 
 def _strip_non_claims(text: str) -> str:

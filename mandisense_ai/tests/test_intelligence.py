@@ -151,6 +151,56 @@ class TestGrounding:
         assert brief.grounded is True, brief.grounding_issues
         assert brief.grounding_issues == []
 
+    @pytest.mark.parametrize(
+        "policy,action,confidence",
+        [("SELL", "SELL", "MEDIUM"), ("HOLD", "HOLD", "MEDIUM"), ("WAIT", "WAIT", "LOW")],
+    )
+    def test_brief_follows_the_validated_policy(self, bundle, policy, action, confidence):
+        bundle.facts["forecast.h5.decision"] = policy
+        brief = DecisionIntelligenceService(
+            provider=DeterministicProvider()
+        ).build_brief("tomato", "hoskote_apmc", evidence=bundle)
+
+        assert brief.action == action
+        assert brief.confidence == confidence
+        assert brief.grounded is True, brief.grounding_issues
+
+    def test_hold_is_overridden_when_spoilage_outruns_the_gain(self, bundle):
+        bundle.facts["forecast.h5.decision"] = "HOLD"
+        bundle.facts["forecast.h5.net_change_after_spoilage_pct"] = -28.5
+        brief = DecisionIntelligenceService(
+            provider=DeterministicProvider()
+        ).build_brief("tomato", "hoskote_apmc", evidence=bundle)
+
+        assert brief.action == "SELL"
+        assert brief.grounded is True, brief.grounding_issues
+
+    def test_hold_stands_for_a_storable_crop(self, bundle):
+        bundle.facts["forecast.h5.decision"] = "HOLD"
+        bundle.facts["forecast.h5.net_change_after_spoilage_pct"] = 4.1
+        brief = DecisionIntelligenceService(
+            provider=DeterministicProvider()
+        ).build_brief("onion", "lasalgaon_apmc", evidence=bundle)
+
+        assert brief.action == "HOLD"
+
+    def test_spoilage_adjustment_matches_the_farmer_tool_rule(self):
+        from mandisense_ai.intelligence.evidence import spoilage_adjusted_change_pct
+
+        # tomato: 8%/day for 5 days keeps 65.9% of the crop
+        assert spoilage_adjusted_change_pct("tomato", 5, 10.0) == round((1.10 * 0.92 ** 5 - 1) * 100, 2)
+        assert spoilage_adjusted_change_pct("tomato", 7, 10.0) == -100.0  # beyond its 5-day shelf life
+        assert spoilage_adjusted_change_pct("onion", 7, 3.0) > 0
+        assert spoilage_adjusted_change_pct("onion", 7, None) is None
+
+    def test_without_policy_the_fallback_rule_still_applies(self, bundle):
+        assert "forecast.h5.decision" not in bundle.facts
+        brief = DecisionIntelligenceService(
+            provider=DeterministicProvider()
+        ).build_brief("tomato", "hoskote_apmc", evidence=bundle)
+
+        assert brief.action == "BUY"  # +7.33% change, fallback rule
+
     def test_figures_copied_from_evidence_pass(self, bundle):
         brief = brief_from_dict(
             {
@@ -189,6 +239,28 @@ class TestGrounding:
             brief, bundle.numeric_values(), list(bundle.facts)
         )
         assert grounded is True, issues
+
+    def test_percentages_ending_in_a_band_label_are_still_checked(self, bundle):
+        # "51.95%" must not be split into the band label "95%" and a stray "51."
+        bundle.facts["market.month_change_pct"] = 51.95
+        ok = brief_from_dict(
+            {
+                "commodity": "tomato", "mandi_id": "hoskote_apmc", "action": "WAIT", "confidence": "LOW",
+                "headline": "Price moved 51.95% over the month.", "rationale": "The 90% interval is wide.",
+                "factors": [], "risks": [], "watch_next": [],
+            }
+        )
+        grounded, issues = verify_grounding(ok, bundle.numeric_values(), list(bundle.facts))
+        assert grounded, issues
+
+        wrong = brief_from_dict(
+            {
+                "commodity": "tomato", "mandi_id": "hoskote_apmc", "action": "WAIT", "confidence": "LOW",
+                "headline": "Price moved 61.95% over the month.", "rationale": "", "factors": [], "risks": [], "watch_next": [],
+            }
+        )
+        grounded, issues = verify_grounding(wrong, bundle.numeric_values(), list(bundle.facts))
+        assert not grounded and any("61.95" in i for i in issues)
 
     def test_dates_are_not_treated_as_claims(self, bundle):
         brief = brief_from_dict(

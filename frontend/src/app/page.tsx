@@ -14,9 +14,10 @@
  */
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { Clock, MapPin, X, type LucideIcon } from 'lucide-react';
+import { Clock, MapPin, Wallet, X, type LucideIcon } from 'lucide-react';
 
 import FarmScene from '@/components/farm/FarmScene';
 import CallCard, { resolveCall } from '@/components/farm/CallCard';
@@ -25,6 +26,7 @@ import AskBar from '@/components/farm/AskBar';
 import NearbyMandis from '@/components/farm/NearbyMandis';
 import { mandiApi } from '@/services/api';
 import { QueryResponse } from '@/types/mandi';
+import { useLanguage } from '@/context/LanguageContext';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -32,6 +34,7 @@ export default function FarmerHome() {
   const [isAsking, setIsAsking] = useState(false);
   const [answer, setAnswer] = useState<QueryResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { lang, t } = useLanguage();
 
   // The headline call is whatever the market is shouting loudest about
   // today. It fills the hero before the farmer has typed anything, so the
@@ -72,13 +75,15 @@ export default function FarmerHome() {
           >
             <p
               className="farm-display text-[2rem] leading-tight text-[var(--farm-ink)] sm:text-4xl"
-              lang="hi"
+              lang={lang}
             >
-              आज बेचें या रुकें?
+              {t('home.headline')}
             </p>
-            <p className="mt-1 text-lg font-semibold text-[var(--farm-ink-soft)] sm:text-xl">
-              Sell today, or wait?
-            </p>
+            {lang !== 'en' && (
+              <p className="mt-1 text-lg font-semibold text-[var(--farm-ink-soft)] sm:text-xl">
+                Sell today, or wait?
+              </p>
+            )}
           </motion.div>
 
           {/* On a phone this is one column: answer, then ask, stacked —
@@ -136,7 +141,7 @@ export default function FarmerHome() {
             {/* ── Ask ─────────────────────────────────────────────── */}
             <div className="farm-ask-panel mt-6 lg:mt-0">
               <p className="farm-display mb-4 hidden text-sm text-[var(--farm-ink-faint)] lg:block">
-                Ask about another crop
+                {t('home.ask_another')}
               </p>
               <AskBar onAsk={handleAsk} isLoading={isAsking} />
               <AnimatePresence>
@@ -154,6 +159,28 @@ export default function FarmerHome() {
               </AnimatePresence>
             </div>
           </div>
+
+          {/* ── Sell Plan CTA ───────────────────────────────────────
+              The single most valuable answer this app can give -- where,
+              when, and for how much -- lives one tap away from the hero
+              rather than buried in the tools grid, because it is the
+              feature the rest of the plan is built around. */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: EASE }}
+            className="mt-6"
+          >
+            <Link
+              href="/sell-plan"
+              className="farm-focus flex items-center justify-center gap-3 rounded-2xl bg-[var(--leaf)] px-6 py-4 text-center shadow-[0_16px_36px_-18px_rgba(42,33,25,0.45)] transition-transform active:scale-[0.99]"
+            >
+              <Wallet className="h-5 w-5 shrink-0 text-white" />
+              <span className="farm-display text-lg text-white sm:text-xl">
+                {t('home.sell_plan_cta')}
+              </span>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -164,31 +191,18 @@ export default function FarmerHome() {
           applies, so this is still a plain vertical stack. */}
       <section className="mx-auto mt-6 grid w-full max-w-3xl gap-6 px-4 lg:max-w-5xl lg:grid-cols-2 lg:items-start">
         <div className="farm-section farm-section-warm">
-          <SectionHeading
-            icon={Clock}
-            tint="turmeric"
-            english="Today's calls"
-            hindi="आज की सलाह"
-          />
+          <SectionHeading icon={Clock} tint="turmeric" title={t('home.todays_calls')} lang={lang} />
           <TodaysCalls />
         </div>
 
         <div className="farm-section">
-          <SectionHeading
-            icon={MapPin}
-            tint="leaf"
-            english="Mandis near you"
-            hindi="आस-पास की मंडियाँ"
-          />
+          <SectionHeading icon={MapPin} tint="leaf" title={t('home.mandis_near_you')} lang={lang} />
           <NearbyMandis />
         </div>
       </section>
 
       <footer className="mx-auto mt-14 max-w-3xl px-4 pb-4 text-center">
-        <p className="text-sm text-[var(--farm-ink-faint)]">
-          Prices come from government mandi records. Advice is guidance, not a
-          guarantee.
-        </p>
+        <p className="text-sm text-[var(--farm-ink-faint)]">{t('home.footer_disclaimer')}</p>
       </footer>
     </div>
   );
@@ -204,13 +218,13 @@ export default function FarmerHome() {
 function SectionHeading({
   icon: Icon,
   tint,
-  english,
-  hindi,
+  title,
+  lang,
 }: {
   icon: LucideIcon;
   tint: 'leaf' | 'turmeric';
-  english: string;
-  hindi: string;
+  title: string;
+  lang: string;
 }) {
   const wash = tint === 'leaf' ? 'var(--leaf-wash)' : 'var(--turmeric-wash)';
   const fg = tint === 'leaf' ? 'var(--leaf)' : 'var(--call-wait)';
@@ -220,15 +234,12 @@ function SectionHeading({
         <Icon className="h-5 w-5" style={{ color: fg }} />
       </span>
       <div className="min-w-0">
-        <h2 className="farm-display text-xl leading-tight text-[var(--farm-ink)] sm:text-2xl">
-          {english}
-        </h2>
-        <span
-          className="farm-display block text-sm text-[var(--farm-ink-faint)] sm:text-base"
-          lang="hi"
+        <h2
+          className="farm-display text-xl leading-tight text-[var(--farm-ink)] sm:text-2xl"
+          lang={lang}
         >
-          {hindi}
-        </span>
+          {title}
+        </h2>
       </div>
     </div>
   );

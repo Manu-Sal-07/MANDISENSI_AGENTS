@@ -112,6 +112,85 @@ export const TRANSLATIONS: Record<string, Entry> = {
     kn: 'ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಸೌಲಭ್ಯ ಲಭ್ಯವಿಲ್ಲ',
   },
   'voice.read_aloud': { en: 'Read aloud', hi: 'ज़ोर से पढ़ें', kn: 'ಗಟ್ಟಿಯಾಗಿ ಓದಿ' },
+
+  // ── home hero ────────────────────────────────────────────────────────────
+  'home.headline': { en: 'Sell today, or wait?', hi: 'आज बेचें या रुकें?', kn: 'ಇಂದು ಮಾರಬೇಕೆ, ಕಾಯಬೇಕೆ?' },
+  'home.sell_plan_cta': { en: 'Plan my harvest sale', hi: 'मेरी फसल की बिक्री की योजना', kn: 'ನನ್ನ ಬೆಳೆ ಮಾರಾಟದ ಯೋಜನೆ' },
+  'home.footer_disclaimer': {
+    en: 'Prices come from government mandi records. Advice is guidance, not a guarantee.',
+    hi: 'कीमतें सरकारी मंडी रिकॉर्ड से ली गई हैं। सलाह मार्गदर्शन है, गारंटी नहीं।',
+    kn: 'ಬೆಲೆಗಳು ಸರ್ಕಾರಿ ಮಂಡಿ ದಾಖಲೆಗಳಿಂದ ಬಂದಿವೆ. ಸಲಹೆ ಮಾರ್ಗದರ್ಶನ, ಖಾತರಿಯಲ್ಲ.',
+  },
+  'home.todays_calls': { en: "Today's calls", hi: 'आज की सलाह', kn: 'ಇಂದಿನ ಸಲಹೆ' },
+  'home.mandis_near_you': { en: 'Mandis near you', hi: 'आस-पास की मंडियाँ', kn: 'ಹತ್ತಿರದ ಮಂಡಿಗಳು' },
+  'home.ask_another': { en: 'Ask about another crop', hi: 'दूसरी फसल के बारे में पूछें', kn: 'ಇನ್ನೊಂದು ಬೆಳೆಯ ಬಗ್ಗೆ ಕೇಳಿ' },
+
+  // ── bottom nav ───────────────────────────────────────────────────────────
+  'nav.home': { en: 'Home', hi: 'होम', kn: 'ಮುಖಪುಟ' },
+  'nav.sell_plan': { en: 'Sell', hi: 'बिक्री', kn: 'ಮಾರಾಟ' },
+  'nav.my_money': { en: 'My Money', hi: 'मेरा पैसा', kn: 'ನನ್ನ ಹಣ' },
+  'nav.tools': { en: 'Tools', hi: 'उपकरण', kn: 'ಸಾಧನಗಳು' },
+  'nav.markets': { en: 'Markets', hi: 'बाज़ार', kn: 'ಮಾರುಕಟ್ಟೆ' },
+
+  // ── sell plan ────────────────────────────────────────────────────────────
+  'sellplan.title': { en: 'Plan My Harvest Sale', hi: 'मेरी फसल की बिक्री की योजना', kn: 'ನನ್ನ ಬೆಳೆ ಮಾರಾಟದ ಯೋಜನೆ' },
+  'sellplan.subtitle': {
+    en: 'One answer: where, when, and how much',
+    hi: 'एक जवाब: कहाँ, कब, और कितना',
+    kn: 'ಒಂದು ಉತ್ತರ: ಎಲ್ಲಿ, ಯಾವಾಗ, ಮತ್ತು ಎಷ್ಟು',
+  },
+  'sellplan.best_plan': { en: 'Your best plan', hi: 'आपकी सबसे अच्छी योजना', kn: 'ನಿಮ್ಮ ಅತ್ಯುತ್ತಮ ಯೋಜನೆ' },
+  'sellplan.sell_today_at': { en: 'Sell today at', hi: 'आज यहाँ बेचें', kn: 'ಇಂದು ಇಲ್ಲಿ ಮಾರಿ' },
+  'sellplan.sell_on': { en: 'Sell on', hi: 'इस दिन बेचें', kn: 'ಈ ದಿನ ಮಾರಿ' },
+  'sellplan.hold_until': { en: 'Hold until', hi: 'इस दिन तक रोकें', kn: 'ಈ ದಿನದವರೆಗೆ ಇಡಿ' },
+  'sellplan.at_mandi': { en: 'at', hi: 'यहाँ', kn: 'ಇಲ್ಲಿ' },
+  'sellplan.vs_selling_today': {
+    en: 'more than selling today, right here',
+    hi: 'आज यहीं बेचने से ज़्यादा',
+    kn: 'ಇಂದು ಇಲ್ಲೇ ಮಾರುವುದಕ್ಕಿಂತ ಹೆಚ್ಚು',
+  },
+  'sellplan.option_sell_today': { en: 'Sell today, here', hi: 'आज, यहीं बेचें', kn: 'ಇಂದು, ಇಲ್ಲೇ ಮಾರಿ' },
+  'sellplan.option_wait': { en: 'Wait for a better day', hi: 'बेहतर दिन का इंतज़ार करें', kn: 'ಉತ್ತಮ ದಿನಕ್ಕಾಗಿ ಕಾಯಿರಿ' },
+  'sellplan.option_travel': { en: 'Take it to another mandi', hi: 'दूसरी मंडी ले जाएँ', kn: 'ಬೇರೆ ಮಂಡಿಗೆ ಕೊಂಡೊಯ್ಯಿರಿ' },
+  'sellplan.follow_this': { en: "I'll follow this plan", hi: 'मैं यह योजना अपनाऊँगा', kn: 'ನಾನು ಈ ಯೋಜನೆ ಅನುಸರಿಸುತ್ತೇನೆ' },
+  'sellplan.saved_to_my_money': {
+    en: 'Saved. Check My Money later to see how it went.',
+    hi: 'सहेजा गया। बाद में "मेरा पैसा" में देखें कि क्या हुआ।',
+    kn: 'ಉಳಿಸಲಾಗಿದೆ. ಇದು ಹೇಗಾಯಿತು ಎಂದು ನೋಡಲು ನಂತರ "ನನ್ನ ಹಣ" ನೋಡಿ.',
+  },
+  'sellplan.spoilage_note': {
+    en: 'This crop spoils, so waiting has a cost too — already subtracted above.',
+    hi: 'यह फसल खराब होती है, इसलिए रुकने की भी कीमत है — ऊपर पहले ही घटाई गई है।',
+    kn: 'ಈ ಬೆಳೆ ಕೆಡುತ್ತದೆ, ಆದ್ದರಿಂದ ಕಾಯುವುದಕ್ಕೂ ಬೆಲೆ ಇದೆ — ಮೇಲೆ ಈಗಾಗಲೇ ಕಳೆಯಲಾಗಿದೆ.',
+  },
+
+  // ── my money ─────────────────────────────────────────────────────────────
+  'mymoney.title': { en: 'My Money', hi: 'मेरा पैसा', kn: 'ನನ್ನ ಹಣ' },
+  'mymoney.subtitle': {
+    en: 'What following MandiSense earned you',
+    hi: 'मंडीसेंस अपनाने से आपको क्या मिला',
+    kn: 'ಮಂಡಿಸೆನ್ಸ್ ಅನುಸರಿಸಿದ್ದರಿಂದ ನಿಮಗೆ ಏನು ಸಿಕ್ಕಿತು',
+  },
+  'mymoney.total_saved': { en: 'Total earned by following advice', hi: 'सलाह मानकर कुल कमाई', kn: 'ಸಲಹೆ ಅನುಸರಿಸಿ ಗಳಿಸಿದ ಒಟ್ಟು ಮೊತ್ತ' },
+  'mymoney.empty_title': { en: 'No plans saved yet', hi: 'अभी कोई योजना सहेजी नहीं गई', kn: 'ಇನ್ನೂ ಯಾವುದೇ ಯೋಜನೆ ಉಳಿಸಿಲ್ಲ' },
+  'mymoney.empty_body': {
+    en: 'Open "Plan my harvest sale" and tap "I\'ll follow this plan" to start tracking.',
+    hi: '"मेरी फसल की बिक्री की योजना" खोलें और "मैं यह योजना अपनाऊँगा" दबाएँ।',
+    kn: '"ನನ್ನ ಬೆಳೆ ಮಾರಾಟದ ಯೋಜನೆ" ತೆರೆದು "ನಾನು ಈ ಯೋಜನೆ ಅನುಸರಿಸುತ್ತೇನೆ" ಒತ್ತಿ.',
+  },
+  'mymoney.pending': { en: 'Waiting for the target date', hi: 'तय तारीख़ का इंतज़ार', kn: 'ಗುರಿ ದಿನಾಂಕದ ನಿರೀಕ್ಷೆ' },
+  'mymoney.checking': { en: 'Checking actual mandi prices…', hi: 'असली मंडी भाव जाँचे जा रहे हैं…', kn: 'ನಿಜವಾದ ಮಂಡಿ ಬೆಲೆ ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…' },
+  'mymoney.not_verifiable': {
+    en: 'No mandi record near that date to check against',
+    hi: 'उस तारीख़ के आस-पास जाँचने के लिए कोई मंडी रिकॉर्ड नहीं',
+    kn: 'ಆ ದಿನಾಂಕದ ಬಳಿ ಪರಿಶೀಲಿಸಲು ಯಾವುದೇ ಮಂಡಿ ದಾಖಲೆ ಇಲ್ಲ',
+  },
+  'mymoney.clear_all': { en: 'Clear history', hi: 'इतिहास साफ़ करें', kn: 'ಇತಿಹಾಸ ಅಳಿಸಿ' },
+  'mymoney.disclaimer': {
+    en: 'On-device only. Compares the plan against MandiSense’s own recorded mandi prices, not a promise of profit.',
+    hi: 'केवल इस डिवाइस पर। योजना की तुलना मंडीसेंस के दर्ज मंडी भाव से होती है, यह मुनाफ़े की गारंटी नहीं।',
+    kn: 'ಈ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ. ಯೋಜನೆಯನ್ನು ಮಂಡಿಸೆನ್ಸ್‌ನ ದಾಖಲಿತ ಮಂಡಿ ಬೆಲೆಗಳೊಂದಿಗೆ ಹೋಲಿಸಲಾಗುತ್ತದೆ, ಇದು ಲಾಭದ ಖಾತರಿ ಅಲ್ಲ.',
+  },
 };
 
 export function translate(key: string, lang: Lang): string {

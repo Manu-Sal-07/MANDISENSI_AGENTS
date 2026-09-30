@@ -207,6 +207,16 @@ async def join_trip(trip_id: str, payload: JoinTripRequest):
     return result
 
 
+# ── Price on a Date (verification for the client-side "My Money" ledger) ─────
+
+
+@router.get("/price-on-date/{commodity}/{mandi_id}")
+async def price_on_date(commodity: str, mandi_id: str, date: str = Query(..., min_length=8)):
+    from mandisense_ai.farmer.price_lookup import price_on_date as _price_on_date
+
+    return _price_on_date(commodity, mandi_id, date)
+
+
 # ── Reference data (mandi list for map pickers, etc.) ────────────────────────
 
 

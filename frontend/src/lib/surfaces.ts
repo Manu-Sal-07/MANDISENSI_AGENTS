@@ -9,5 +9,11 @@
  */
 export function isFarmRoute(pathname: string | null | undefined): boolean {
   if (!pathname) return false;
-  return pathname === '/' || pathname.startsWith('/mandi') || pathname.startsWith('/tools');
+  return (
+    pathname === '/' ||
+    pathname.startsWith('/mandi') ||
+    pathname.startsWith('/tools') ||
+    pathname.startsWith('/sell-plan') ||
+    pathname.startsWith('/my-money')
+  );
 }

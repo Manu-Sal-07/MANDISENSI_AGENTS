@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-29T10:17:22.173062+00:00",
+  "generated_at": "2026-09-30T07:16:59.847797+00:00",
   "as_of_date": "2026-09-16",
   "model_version": "1.1.0",
   "config": {
@@ -27,7 +27,7 @@
     ],
     "use_arrivals": true,
     "use_segment_aware_features": true,
-    "min_segment_observations": 10,
+    "min_segment_observations": 11,
     "use_absence_features": true,
     "use_seasonal_climatology": true,
     "seasonal_bucket_days": 15,
@@ -82,7 +82,7 @@
         "days_since_previous": 586.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "onion",
@@ -110,7 +110,7 @@
         "days_since_previous": 588.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "dry_chillies",
@@ -208,7 +208,7 @@
         "days_since_previous": 138.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "potato",
@@ -306,7 +306,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "garlic",
@@ -362,7 +362,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "potato",
@@ -474,7 +474,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "ginger",
@@ -502,7 +502,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "garlic",
@@ -572,7 +572,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "potato",
@@ -656,7 +656,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "tomato",
@@ -670,7 +670,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "potato",
@@ -726,7 +726,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "ginger",
@@ -866,7 +866,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "potato",
@@ -936,7 +936,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "ginger",
@@ -1006,7 +1006,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "onion",
@@ -1034,7 +1034,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "tomato",
@@ -1048,7 +1048,7 @@
         "days_since_previous": 137.0,
         "segment_observations": 1,
         "state": "REBUILDING_HISTORY",
-        "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market"
+        "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market"
       },
       {
         "commodity": "onion",
@@ -7990,7 +7990,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8003,7 +8003,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8016,7 +8016,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8029,7 +8029,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8042,7 +8042,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8055,7 +8055,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8068,7 +8068,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8081,7 +8081,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8094,7 +8094,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8107,7 +8107,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8120,7 +8120,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8133,7 +8133,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8146,7 +8146,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8159,7 +8159,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8172,7 +8172,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     },
     {
@@ -8185,7 +8185,7 @@
       "segment_observations": 1,
       "horizon_days": null,
       "status": "REBUILDING_HISTORY",
-      "reason": "only 1 observation(s) since trading resumed; 9 more needed before recent-history features describe the current market",
+      "reason": "only 1 observation(s) since trading resumed; 10 more needed before recent-history features describe the current market",
       "forecast_price": null
     }
   ]

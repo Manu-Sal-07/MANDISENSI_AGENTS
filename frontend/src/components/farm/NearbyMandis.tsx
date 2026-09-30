@@ -7,7 +7,7 @@ import { ChevronRight, WifiOff } from 'lucide-react';
 
 import { mandiApi } from '@/services/api';
 import ProduceIcon, { resolveProduce } from './ProduceIcon';
-import { CALL_VISUAL, normaliseCall } from './CallCard';
+import { CALL_VISUAL, resolveCall } from './CallCard';
 
 /**
  * Mandis within reach, and what each is calling today.
@@ -23,6 +23,10 @@ interface Opportunity {
   mandi_name: string;
   hot_commodity: string;
   decision: string;
+  /** Which of the three outcomes produced `decision`. See CallCard —
+      resolveCall must be used, not normaliseCall, or an UNAVAILABLE
+      result's placeholder "WAIT" renders as a real call. */
+  call_type?: string | null;
   reasoning?: string;
   price_change_pct: number;
   confidence: number;
@@ -80,10 +84,15 @@ export default function NearbyMandis() {
   return (
     <ul className="space-y-3">
       {feed.map((item) => {
-        const call = normaliseCall(item.decision);
+        const call = resolveCall(item);
         const visual = CALL_VISUAL[call];
         const produce = resolveProduce(item.hot_commodity);
         const rising = item.price_change_pct > 0;
+        // Same reasoning as TodaysCalls: an UNKNOWN call has no measured
+        // move, and the backend's refusal shape sends 0.0 as a placeholder
+        // rather than omitting the field. Printing "down 0.0%" beside "No
+        // reading yet" claimed a flat market we never measured.
+        const unknown = call === 'UNKNOWN';
 
         return (
           <li key={item.id}>
@@ -105,8 +114,13 @@ export default function NearbyMandis() {
                   {item.mandi_name}
                 </p>
                 <p className="mt-0.5 text-sm text-[var(--farm-ink-soft)]">
-                  {produce.label} · {rising ? 'up' : 'down'}{' '}
-                  {Math.abs(item.price_change_pct).toFixed(1)}%
+                  {produce.label}
+                  {!unknown && (
+                    <>
+                      {' · '}
+                      {rising ? 'up' : 'down'} {Math.abs(item.price_change_pct).toFixed(1)}%
+                    </>
+                  )}
                 </p>
               </div>
 

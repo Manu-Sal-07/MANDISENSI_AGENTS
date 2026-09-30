@@ -253,10 +253,48 @@ class DeterministicProvider(BriefProvider):
             risks.append(f"{source} unavailable ({reason}) — treated as unknown.")
 
         # --- action ---------------------------------------------------
+        # The calibrated policy (forecasting/decision.py) is the only decision
+        # rule whose precision has been measured out of sample, so when the
+        # forecast carries one it decides the action; the +-2% rule below is
+        # only the fallback for series that publish a forecast without it.
+        policy = facts.get(f"{horizon_key}.decision") if horizon_key else None
+        net = facts.get(f"{horizon_key}.net_change_after_spoilage_pct") if horizon_key else None
+
+        if net is not None:
+            factors.append(
+                {
+                    "label": "Spoilage-adjusted outlook",
+                    "detail": (
+                        f"After shelf-life loss the expected change is {net}%, "
+                        "so a rise in price only pays if it outruns spoilage."
+                    ),
+                    "direction": "supports" if net > 0 else "opposes",
+                    "evidence_ref": f"{horizon_key}.net_change_after_spoilage_pct",
+                }
+            )
+
         if change is None and not cognition_decision:
             action, confidence = "WAIT", "INSUFFICIENT_EVIDENCE"
             headline = (
                 f"Insufficient evidence to advise on {commodity} at {mandi}."
+            )
+        elif policy == "HOLD" and net is not None and net <= 0:
+            # Direction alone is not enough: the shipped hold-or-sell tool would
+            # sell here, and the economic backtest shows ungated HOLD calls lose
+            # money on fast-spoiling crops.
+            action, confidence = "SELL", "MEDIUM"
+            headline = (
+                f"Holding {commodity} at {mandi} does not pay after spoilage; sell now."
+            )
+        elif policy in ("SELL", "HOLD"):
+            action, confidence = policy, "MEDIUM"
+            headline = (
+                f"Validated policy reads {policy} for {commodity} at {mandi}."
+            )
+        elif policy == "WAIT":
+            action, confidence = "WAIT", "LOW"
+            headline = (
+                f"Policy abstains for {commodity} at {mandi}; the band straddles zero."
             )
         elif change is not None and change <= -2:
             action, confidence = "WAIT", "MEDIUM"

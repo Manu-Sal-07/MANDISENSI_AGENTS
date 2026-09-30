@@ -99,6 +99,29 @@ class EvidenceBundle:
         }
 
 
+def spoilage_adjusted_change_pct(commodity: str, horizon: Any, change_pct: Any) -> Optional[float]:
+    """Expected change after shelf-life loss, from the farmer tools' own profiles.
+
+    A direction call is not an economic instruction: holding a crop that loses
+    8% a day for five days needs a price rise of ~50% just to break even. The
+    same compounding rule `farmer/storage.py` applies is used here so the two
+    surfaces cannot disagree. Past the shelf life the crop is unsellable, so
+    the outlook is reported as a total loss.
+    """
+    if change_pct is None or not horizon:
+        return None
+    try:
+        from mandisense_ai.farmer.reference import shelf_profile
+
+        profile = shelf_profile(commodity)
+    except Exception:  # pragma: no cover - reference module is always importable
+        return None
+    if int(horizon) > profile.shelf_life_days:
+        return -100.0
+    surviving = (1 - profile.daily_loss_pct / 100.0) ** int(horizon)
+    return round(((1 + float(change_pct) / 100.0) * surviving - 1) * 100.0, 2)
+
+
 def _add_forecast(bundle: EvidenceBundle) -> None:
     """Phase 2 scheduled forecast: horizons, intervals, measured skill."""
     try:
@@ -129,6 +152,9 @@ def _add_forecast(bundle: EvidenceBundle) -> None:
             key = f"forecast.h{horizon}"
             bundle.facts[f"{key}.point"] = row.get("forecast_price")
             bundle.facts[f"{key}.change_pct"] = row.get("expected_change_pct")
+            bundle.facts[f"{key}.net_change_after_spoilage_pct"] = spoilage_adjusted_change_pct(
+                bundle.commodity, horizon, row.get("expected_change_pct")
+            )
             bundle.facts[f"{key}.direction"] = row.get("direction")
             interval = row.get("interval") or {}
             bundle.facts[f"{key}.p05"] = interval.get("p05")

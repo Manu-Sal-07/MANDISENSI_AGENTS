@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Home, LineChart, FlaskConical, Terminal as TerminalIcon, Wrench } from 'lucide-react';
+import { Home, LineChart, FlaskConical, PiggyBank, Terminal as TerminalIcon, Wallet, Wrench } from 'lucide-react';
 import { isFarmRoute } from '@/lib/surfaces';
+import { useLanguage } from '@/context/LanguageContext';
 
 const ANALYST_ITEMS = [
   { href: '/', label: 'Home', icon: Home },
@@ -13,16 +14,18 @@ const ANALYST_ITEMS = [
   { href: '/terminal', label: 'Terminal', icon: TerminalIcon },
 ];
 
-// The farm surface has no use for Lab/Terminal (those are analyst-only
-// diagnostic views) and gains a destination the analyst nav has no
-// equivalent of: the farmer tools hub. Reusing ANALYST_ITEMS here would
-// have sent a farmer tapping "Lab" into a page built for a different
-// audience entirely.
+// The farm surface has no use for Lab/Terminal/Markets (those are
+// analyst-only, trader-facing views) and gains two destinations the
+// analyst nav has no equivalent of: the one-answer sell plan and the
+// personal savings ledger it feeds. These are the app's primary users, so
+// their two headline features sit in the bar itself rather than one tap
+// deeper inside "Tools".
 const FARM_ITEMS = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/tools', label: 'Tools', icon: Wrench },
-  { href: '/market-explorer', label: 'Markets', icon: LineChart },
-];
+  { href: '/', labelKey: 'nav.home', icon: Home },
+  { href: '/sell-plan', labelKey: 'nav.sell_plan', icon: Wallet },
+  { href: '/my-money', labelKey: 'nav.my_money', icon: PiggyBank },
+  { href: '/tools', labelKey: 'nav.tools', icon: Wrench },
+] as const;
 
 /**
  * Mobile-first bottom navigation. Replaces the old placeholder that
@@ -32,6 +35,7 @@ const FARM_ITEMS = [
  */
 export default function BottomNav() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   if (pathname === '/terminal') return null;
 
@@ -85,7 +89,7 @@ export default function BottomNav() {
                 }
                 style={{ color: active ? activeColour : idleColour }}
               >
-                {item.label}
+                {'labelKey' in item ? t(item.labelKey) : item.label}
               </span>
             </Link>
           );
