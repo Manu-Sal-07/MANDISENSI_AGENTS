@@ -83,3 +83,44 @@ def test_ask_reads_the_crop_and_place_in_three_languages():
 
 def test_ask_uses_the_default_place_when_none_is_named():
     assert dashboard.ask("ginger", "bengaluru")["district"] == "bengaluru"
+
+
+# ── the significance rule behind the earned call ────────────────────────────
+
+
+def test_holm_adjustment_is_monotone_and_capped():
+    from mandisense_ai.farmer.significance import holm
+
+    adjusted = holm([0.001, 0.04, 0.5, 0.9])
+    assert list(adjusted) == pytest.approx([0.004, 0.12, 1.0, 1.0])
+    assert all(0 <= a <= 1 for a in adjusted)
+
+
+def test_dm_test_calls_a_clearly_better_model_better_and_a_tie_a_tie():
+    import numpy as np
+
+    from mandisense_ai.farmer.significance import dm_test
+
+    rng = np.random.default_rng(0)
+    dates = np.repeat(np.arange(300), 2)
+    baseline = rng.uniform(0.04, 0.06, 600)
+    stat, p, n = dm_test(baseline, baseline - 0.01, dates, 5)
+    assert stat > 0 and p < 0.001 and n == 300
+    stat, p, _ = dm_test(baseline, baseline + rng.normal(0, 1e-4, 600), dates, 5)
+    assert p > 0.05
+
+
+def test_several_series_on_one_date_count_once_not_several_times():
+    """Averaging over dates first: duplicating every series must not make the
+    evidence look stronger."""
+    import numpy as np
+
+    from mandisense_ai.farmer.significance import dm_test
+
+    rng = np.random.default_rng(1)
+    dates = np.arange(200)
+    base = rng.uniform(0.03, 0.07, 200)
+    gain = rng.normal(0.002, 0.02, 200)
+    _, p_once, _ = dm_test(base, base - gain, dates, 3)
+    _, p_twice, _ = dm_test(np.tile(base, 5), np.tile(base - gain, 5), np.tile(dates, 5), 3)
+    assert p_once == pytest.approx(p_twice, rel=1e-6)

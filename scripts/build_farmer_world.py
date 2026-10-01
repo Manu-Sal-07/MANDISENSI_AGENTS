@@ -42,6 +42,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from mandisense_ai.farmer import registry, world  # noqa: E402
+from mandisense_ai.farmer.significance import dm_test, holm  # noqa: E402
 from mandisense_ai.forecasting.config import DEFAULT_CONFIG  # noqa: E402
 from mandisense_ai.forecasting.store import ObservationStore  # noqa: E402
 from mandisense_ai.forecasting.validation import validate_observations  # noqa: E402
@@ -53,7 +54,6 @@ MANDI_FILE_GLOB = "Daily Price Arrival Report*Karnataka*.csv"
 # still printing. The forecaster's own gates (60 days of history, 21-day
 # freshness, 10 contiguous prints) then decide what is actually published.
 MIN_SERIES_SKILL = 0.01
-MIN_SERIES_DIRECTION = 0.56
 MIN_TRAIN_DAYS = 500
 MAX_STALE_DAYS = 14
 
@@ -188,7 +188,10 @@ def build_model_report(obs: pd.DataFrame, bundle, prepared, config) -> dict:
     rows = []
     for horizon in bundle.promoted_horizons:
         target = f"y_h{horizon}"
-        usable = frame[frame[target].notna()].sort_values("date").reset_index(drop=True)
+        # The tie order matters: it fixes which rows the arrival dropout masks, so
+        # it must match the paper's evaluation (run_experiments.full_run) for the
+        # deployed per-series rule and the published per-series test to agree.
+        usable = frame[frame[target].notna()].sort_values(["date", "mandi_id", "commodity"], kind="mergesort").reset_index(drop=True)
         cuts = [usable["date"].quantile(q) for q in np.linspace(0.5, 1.0, config.walk_forward_folds + 1)]
         for i in range(config.walk_forward_folds):
             train = usable[usable["date"] <= cuts[i]]
@@ -240,22 +243,30 @@ def build_model_report(obs: pd.DataFrame, bundle, prepared, config) -> dict:
     recent = {c: summarise(g) for c, g in last_fold.groupby("commodity")}
 
     # A call (sell / hold) is only offered for a crop and district whose
-    # out-of-sample record earns it: it beat "no change" by the same margin the
-    # model itself had to clear, and read the direction right clearly more
-    # often than a coin. Everywhere else the app shows the price and range and
-    # says plainly that it has no dependable call.
+    # out-of-sample improvement over "no change" is statistically solid: a
+    # Diebold-Mariano test (date-averaged, HLN-corrected) at the middle horizon,
+    # Holm-adjusted across every series tested, so that testing eighteen series
+    # does not hand out calls by luck. The same rule the research paper reports.
     series_quality = {}
+    keys = []
     for (crop, place), g in served.groupby(["commodity", "place"]):
         stats = summarise(g)
         recent_g = last_fold[(last_fold["commodity"] == crop) & (last_fold["place"] == place)]
         stats["skill_latest_fold"] = summarise(recent_g)["skill_vs_no_change"] if len(recent_g) >= 30 else None
-        stats["serves_call"] = bool(
-            stats["forecasts"] >= 300
-            and stats["skill_vs_no_change"] >= MIN_SERIES_SKILL
-            and (stats["direction_right"] or 0) >= MIN_SERIES_DIRECTION
-            and (stats["skill_latest_fold"] is None or stats["skill_latest_fold"] > 0)
-        )
+        # Pooled over every served horizon, date-averaged, with the lag of the
+        # middle horizon: exactly the per-series test the paper reports.
+        _, p_raw, _ = dm_test(g["abs_naive"], g["abs_model"], g["date"], 5)
+        stats["dm_p"] = round(float(p_raw), 6)
         series_quality[f"{crop}/{place}"] = stats
+        keys.append(f"{crop}/{place}")
+    for key, adj in zip(keys, holm([series_quality[k]["dm_p"] for k in keys])):
+        q = series_quality[key]
+        q["dm_p_holm"] = round(float(adj), 6)
+        q["serves_call"] = bool(
+            q["forecasts"] >= 300
+            and q["skill_vs_no_change"] >= MIN_SERIES_SKILL
+            and q["dm_p_holm"] < 0.05
+        )
 
     return {
         "generated_at": _now(),
@@ -275,8 +286,8 @@ def build_model_report(obs: pd.DataFrame, bundle, prepared, config) -> dict:
         "by_crop_latest_fold": recent,
         "by_district": by_place,
         "series_quality": series_quality,
-        "call_rule": {"min_skill": MIN_SERIES_SKILL, "min_direction_right": MIN_SERIES_DIRECTION,
-                      "also_required": "not worse than no-change in the most recent test window"},
+        "call_rule": {"min_skill": MIN_SERIES_SKILL, "test": "Diebold-Mariano vs no change, Holm-adjusted over all series",
+                      "alpha": 0.05, "note": "Series were selected on the same test windows they are reported on; per-series figures are therefore optimistic."},
     }
 
 

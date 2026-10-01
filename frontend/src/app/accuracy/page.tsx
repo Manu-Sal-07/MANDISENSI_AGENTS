@@ -77,7 +77,12 @@ export default function AccuracyPage() {
         <section className="farm-section mt-8">
           <h2 className="farm-display text-xl text-[var(--farm-ink)]">{tri(lang, 'Which crops can you trust?', 'ಯಾವ ಬೆಳೆಗಳನ್ನು ನಂಬಬಹುದು?', 'किन फसलों पर भरोसा करें?')}</h2>
           <p className="mb-4 mt-1 text-sm text-[var(--farm-ink-faint)]">
-            {tri(lang, 'We give a sell-or-hold call only where we beat “no change” by a clear margin and read the direction right well above half the time.', 'ನಾವು “ಬದಲಾವಣೆ ಇಲ್ಲ” ಎಂಬುದನ್ನು ಸ್ಪಷ್ಟವಾಗಿ ಮೀರಿ, ದಿಕ್ಕನ್ನು ಅರ್ಧಕ್ಕಿಂತ ಹೆಚ್ಚು ಬಾರಿ ಸರಿಯಾಗಿ ಹೇಳಿದಲ್ಲಿ ಮಾತ್ರ ಮಾರುವ/ಇಡುವ ಸಲಹೆ ನೀಡುತ್ತೇವೆ.', 'हम बेचें/रोकें सलाह तभी देते हैं जब हम “कोई बदलाव नहीं” को साफ़ अंतर से हराएँ और दिशा आधे से कहीं ज़्यादा बार सही बताएँ।')}
+            {tri(
+              lang,
+              'We give a sell-or-hold call only where our gain over “no change” passes a statistical test that allows for having checked every crop and district.',
+              'ಎಲ್ಲಾ ಬೆಳೆ-ಜಿಲ್ಲೆಗಳನ್ನು ಪರೀಕ್ಷಿಸಿದ್ದನ್ನು ಪರಿಗಣಿಸಿಯೂ, “ಬದಲಾವಣೆ ಇಲ್ಲ” ಎಂಬುದಕ್ಕಿಂತ ನಮ್ಮ ಲಾಭ ಸಾಂಖ್ಯಿಕ ಪರೀಕ್ಷೆಯಲ್ಲಿ ಗಟ್ಟಿಯಾಗಿ ನಿಂತಲ್ಲಿ ಮಾತ್ರ ಮಾರುವ/ಇಡುವ ಸಲಹೆ ನೀಡುತ್ತೇವೆ.',
+              'हम बेचें/रोकें सलाह तभी देते हैं जब “कोई बदलाव नहीं” पर हमारा लाभ उस सांख्यिकीय परीक्षण में टिके जो सभी फसल-ज़िलों की जाँच को ध्यान में रखता है।'
+            )}
           </p>
           <ul className="divide-y divide-[var(--farm-line)]">
             {series.map(([key, q], i) => {
