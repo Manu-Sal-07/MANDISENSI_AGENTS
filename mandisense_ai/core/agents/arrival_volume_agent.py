@@ -522,7 +522,11 @@ def run_arrival_volume_agent(
             "supply_shock_flag": bool(shock_flag),
             "arrival_vs_expected_pct": float(arrival_vs_expected_festival_pct),
             "ensemble_log": ensemble_log,
+            # These are mean absolute errors, not MAPE (see agent_ensemble.py) —
+            # "ensemble_model_mapes" kept for any existing consumer of that
+            # exact key; new code should read "ensemble_model_maes".
             "ensemble_model_mapes": errors,
+            "ensemble_model_maes": errors,
             "n_models_used": len(prediction_result["model_predictions"]),
             "prediction_std": round(prediction_result["prediction_std"], 4),
             "n_models_in_ensemble": bundle["metadata"].get("n_active_models", 0),

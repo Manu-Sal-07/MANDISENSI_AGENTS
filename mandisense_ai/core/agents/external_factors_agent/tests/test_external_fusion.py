@@ -16,7 +16,12 @@ def test_compute_external_impact_all_agree():
     assert result["components"]["weather"] == 0.5 * 0.9
     assert result["components"]["news"] == 0.2 * 0.8
     assert result["components"]["policy"] == 0.3 * 0.7
-    assert result["impact_score"] <= 0.02
+    # Normalised to [-1, 1] -- not pre-shrunk to a percentage-point bias. The
+    # consuming layer (meta_ensemble.py's `_EXTERNAL_BIAS_MAX_MAGNITUDE`) is
+    # the one place that converts this into an actual forecast adjustment;
+    # asserting a tiny bound here would re-encode the double-scaling bug this
+    # test used to pass under.
+    assert result["impact_score"] <= 1.0
     assert result["confidence"] <= 1.0
 
 
@@ -57,7 +62,7 @@ def test_compute_external_impact_zero_signals():
     assert result["components"] == {"weather": 0.0, "policy": 0.0, "news": 0.0}
 
 
-def test_compute_external_impact_clamps_to_max_bias():
+def test_compute_external_impact_clamps_to_normalised_range():
     result = compute_external_impact(
         weather_signal=1.0,
         news_signal=1.0,
@@ -67,8 +72,11 @@ def test_compute_external_impact_clamps_to_max_bias():
         policy_conf=1.0,
     )
 
-    assert result["impact_score"] <= 0.02
-    assert result["impact_score"] >= -0.02
+    # Fully unanimous, fully confident across all three sources: this is the
+    # strongest signal the function can produce, and it should land at the
+    # top of the normalised range, not a small fraction of it.
+    assert result["impact_score"] <= 1.0
+    assert result["impact_score"] >= 0.99
     assert result["confidence"] == 1.0
 
 

@@ -38,6 +38,23 @@ class InstitutionalAuditEntry(BaseModel):
     outcome_status: str = "PENDING"
 
 class RealitySynchronizer:
+    """
+    Freshness of the data the system is reasoning over.
+
+    This used to measure the wrong clock entirely. Each source was stamped
+    with `datetime.now()` at construction and never re-stamped, so `last_sync`
+    tracked *how long this process had been running*, not when any data last
+    arrived. A server up for a day reported every source STALE and dragged
+    `avg_trust` below the 0.4 floor that `CognitionEngine.validate_integrity`
+    uses to declare DEGRADED_COGNITION — while a freshly restarted process
+    sitting on a four-month-old archive reported perfect 1.0 trust. The
+    signal was not merely noisy, it was inverted: restarting the server was
+    the fastest way to make the health numbers look good.
+
+    Freshness is now read from the age of the actual artifacts — the newest
+    observation in the store, and the published forecast's `as_of_date`.
+    """
+
     def __init__(self):
         self.sources: Dict[str, TelemetrySource] = {
             "weather_hub_v1": TelemetrySource(id="weather_hub_v1", type="WEATHER", last_sync=datetime.now()),
@@ -45,24 +62,85 @@ class RealitySynchronizer:
             "mandi_direct_feed": TelemetrySource(id="mandi_direct_feed", type="MANDI_FEED", last_sync=datetime.now())
         }
 
+    def _observation_age_days(self) -> Optional[float]:
+        """Age of the newest row in the observation store, in days."""
+        try:
+            import pandas as pd
+
+            from mandisense_ai.forecasting.store import ObservationStore
+
+            frame = ObservationStore().read()
+            if frame.empty:
+                return None
+            newest = pd.to_datetime(frame["date"]).max()
+            return float((pd.Timestamp.now().normalize() - newest.normalize()).days)
+        except Exception as exc:
+            logger.warning(f"Could not determine observation age: {exc}")
+            return None
+
+    def _forecast_age_days(self) -> Optional[float]:
+        """Age of the published forecast's `as_of_date`, in days."""
+        try:
+            import pandas as pd
+
+            from mandisense_ai.forecasting.service import get_forecast_service
+
+            status = get_forecast_service().status()
+            as_of = status.get("as_of_date")
+            if not as_of:
+                return None
+            return float((pd.Timestamp.now().normalize() - pd.Timestamp(as_of).normalize()).days)
+        except Exception as exc:
+            logger.warning(f"Could not determine forecast age: {exc}")
+            return None
+
+    @staticmethod
+    def _freshness_from_age(age_days: Optional[float]) -> float:
+        """
+        Data age in days -> freshness in [0, 1].
+
+        Graded against how this feed actually behaves: the government feed
+        publishes daily with a routine 1-3 day lag, so a couple of days old
+        is healthy, a week is degraded, and a month means nothing has been
+        ingested in a very long time.
+        """
+        if age_days is None:
+            return 0.0
+        if age_days <= 3:
+            return 1.0
+        if age_days <= 7:
+            return 0.8
+        if age_days <= 21:
+            return 0.4
+        return 0.1
+
     def get_source_status(self) -> List[TelemetrySource]:
-        for src in self.sources.values():
-            delta = (datetime.now() - src.last_sync).total_seconds()
-            
-            # Freshness Calculation
-            if delta < 300: # 5 mins
-                src.freshness_score = 1.0
-            elif delta < 3600: # 1 hour
-                src.freshness_score = 0.8
-            elif delta < 86400: # 1 day
-                src.freshness_score = 0.4
-            else:
-                src.freshness_score = 0.1
+        observation_age = self._observation_age_days()
+        forecast_age = self._forecast_age_days()
+
+        # The mandi feed is the only source with a real artifact to measure;
+        # weather and logistics have no ingested store behind them yet, so
+        # they inherit the observation age rather than claim an independent
+        # freshness nobody measures.
+        age_by_source = {
+            "mandi_direct_feed": observation_age,
+            "weather_hub_v1": observation_age,
+            "logistics_stream_in": forecast_age if forecast_age is not None else observation_age,
+        }
+
+        for source_id, src in self.sources.items():
+            age_days = age_by_source.get(source_id)
+            src.freshness_score = self._freshness_from_age(age_days)
+
+            if age_days is not None:
+                src.last_sync = datetime.now() - timedelta(days=age_days)
+
+            src.status = "ONLINE"
+            if src.freshness_score <= 0.1:
                 src.status = "STALE"
 
-            # Aggregate Trust Score
             src.trust_score = (src.freshness_score * 0.6) + (src.reliability_score * 0.4)
-            
+
             if src.trust_score < 0.3:
                 src.status = "DEGRADED"
 

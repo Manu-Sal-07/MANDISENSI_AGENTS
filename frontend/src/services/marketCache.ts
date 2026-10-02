@@ -77,10 +77,19 @@ type MarketAnalysis = {
   computedAt: string;
 };
 
+// Real historical data only changes once a day (the live sync job), so a
+// short TTL keeps the page reasonably fresh without hammering the backend
+// on every re-render — previously these caches never expired for the tab's
+// entire life, so a market opened at 9am would still show 9am's data at 5pm.
+const HISTORY_TTL_MS = 10 * 60 * 1000;
+const ANALYSIS_TTL_MS = 5 * 60 * 1000;
+
+type Cached<T> = { data: T; expiresAt: number };
+
 class MarketCache {
   private states = new Map<Key, MarketState>();
-  private histories = new Map<Key, MarketHistoryEntry[]>();
-  private analyses = new Map<Key, MarketAnalysis>();
+  private histories = new Map<Key, Cached<MarketHistoryEntry[]>>();
+  private analyses = new Map<Key, Cached<MarketAnalysis>>();
   private allStates: MarketState[] = [];
   private processedMarketOptions: MarketOption[] = [];
   private initialized = false;
@@ -93,16 +102,30 @@ class MarketCache {
     return `${commodity}|${mandiId}`;
   }
 
+  private readCached<T>(map: Map<Key, Cached<T>>, k: Key): T | undefined {
+    const entry = map.get(k);
+    if (!entry) return undefined;
+    if (entry.expiresAt < Date.now()) {
+      map.delete(k);
+      return undefined;
+    }
+    return entry.data;
+  }
+
+  private writeCached<T>(map: Map<Key, Cached<T>>, k: Key, data: T, ttlMs: number) {
+    map.set(k, { data, expiresAt: Date.now() + ttlMs });
+  }
+
   getState(commodity: string, mandiId: string) {
     return this.states.get(this.key(commodity, mandiId)) ?? null;
   }
 
   getHistory(commodity: string, mandiId: string) {
-    return this.histories.get(this.key(commodity, mandiId)) ?? [];
+    return this.readCached(this.histories, this.key(commodity, mandiId)) ?? [];
   }
 
   getAnalysis(commodity: string, mandiId: string) {
-    return this.analyses.get(this.key(commodity, mandiId)) ?? null;
+    return this.readCached(this.analyses, this.key(commodity, mandiId)) ?? null;
   }
 
   getAllStates() {
@@ -110,18 +133,18 @@ class MarketCache {
   }
 
   getAvailableOptions() {
-    const stateOptions = this.allStates.map((s: any) => ({ commodity: s.commodity, mandi_id: s.mandi_id }));
-    if (!this.processedMarketOptions.length) {
-      return stateOptions;
+    // processedMarketOptions (from /v1/market-data/markets) is now a
+    // complete, correctly-spelled superset of every real commodity/mandi
+    // pair — including Bangalore, which the cognition engine's own state
+    // list spells "bangalore_apmc" while the actual dataset calls it
+    // "bangalore_yeshwanthpur". Merging the two used to add a
+    // same-commodity duplicate under the wrong mandi_id that always 404'd
+    // when selected. allStates is only consulted as a fallback now, for
+    // the (unlikely) case the market-data endpoint returns nothing.
+    if (this.processedMarketOptions.length) {
+      return this.processedMarketOptions;
     }
-
-    const mergedOptions = [...this.processedMarketOptions];
-    stateOptions.forEach((option) => {
-      if (!mergedOptions.some((existing) => existing.commodity === option.commodity && existing.mandi_id === option.mandi_id)) {
-        mergedOptions.push(option);
-      }
-    });
-    return mergedOptions;
+    return this.allStates.map((s: any) => ({ commodity: s.commodity, mandi_id: s.mandi_id }));
   }
 
   getProcessedMarketOptions() {
@@ -130,8 +153,19 @@ class MarketCache {
 
   async loadProcessedMarketOptions() {
     try {
-      const res = await mandiApi.getProcessedMarketDataOptions();
-      this.processedMarketOptions = Array.isArray(res?.markets) ? res.markets : [];
+      // The real, complete set: 5 commodities x 15 Karnataka APMC mandis,
+      // every one of them backed by actual daily history (see
+      // api/market_data_router.py). Previously this came from
+      // /v1/cognition/market-data/processed, which only ever covered 5
+      // single hand-picked mandi pairs — every other market a user could
+      // pick from ALL_MARKETS either 404'd or, worse, silently served a
+      // different mandi's numbers via a same-commodity filename fallback.
+      const res = await mandiApi.getTraderMarkets();
+      const options: MarketOption[] = [];
+      Object.entries(res?.markets ?? {}).forEach(([commodity, mandiIds]) => {
+        (mandiIds ?? []).forEach((mandi_id) => options.push({ commodity, mandi_id }));
+      });
+      this.processedMarketOptions = options;
     } catch (e) {
       console.warn('MarketCache.loadProcessedMarketOptions failed', e);
       this.processedMarketOptions = [];
@@ -160,12 +194,16 @@ class MarketCache {
         await this.loadMarketAnalysis(commodity, mandi_id);
       }
 
-      const uniqueCommodities = Array.from(new Set(this.allStates.map((s: any) => s.commodity)));
+      // Sample from processedMarketOptions (the real v4-backed list), not
+      // allStates — the cognition engine spells Bangalore "bangalore_apmc"
+      // while the actual dataset calls it "bangalore_yeshwanthpur", so
+      // sampling from allStates would prefetch a mandi_id that 404s.
+      const uniqueCommodities = Array.from(new Set(this.processedMarketOptions.map((m) => m.commodity)));
       const sample = uniqueCommodities.slice(0, 4);
       const marketsToPrefetch: Array<{ commodity: string; mandi: string }> = [];
       sample.forEach((commodity) => {
-        const sampleState = this.allStates.find((st: any) => st.commodity === commodity);
-        if (sampleState) marketsToPrefetch.push({ commodity, mandi: sampleState.mandi_id });
+        const sampleOption = this.processedMarketOptions.find((m) => m.commodity === commodity);
+        if (sampleOption) marketsToPrefetch.push({ commodity, mandi: sampleOption.mandi_id });
       });
 
       marketsToPrefetch.forEach((market) => {
@@ -180,52 +218,43 @@ class MarketCache {
     }
   }
 
-  async loadMarketHistory(commodity: string, mandiId: string, limit: number = 9999) {
+  async loadMarketHistory(commodity: string, mandiId: string) {
     const k = this.key(commodity, mandiId);
-    if (this.histories.has(k)) return this.histories.get(k);
+    const cached = this.readCached(this.histories, k);
+    if (cached) return cached;
 
-    const normalizeEntry = (entry: any): MarketHistoryEntry => {
-      const timestamp = entry.timestamp || entry.date || entry.datetime || new Date().toISOString();
-      const price = Number(entry.price_prediction ?? entry.modal_price ?? entry.modal_price_original ?? entry.price ?? 0);
-      return {
-        timestamp: new Date(timestamp).toISOString(),
-        price_prediction: Number.isFinite(price) ? price : 0,
-        forecast_arrivals: Number(entry.forecast_arrivals ?? entry.arrivals_tonnes ?? entry.arrivals_tonnes_original ?? entry.arrivals ?? 0),
-        regime: entry.regime || entry.trend || entry.supply_regime,
-        trend: entry.trend,
-        confidence: entry.confidence,
-        volatility: entry.volatility,
-      };
-    };
+    const normalizeEntry = (entry: { timestamp: string; price: number; arrivals: number }): MarketHistoryEntry => ({
+      timestamp: new Date(entry.timestamp).toISOString(),
+      price_prediction: Number.isFinite(entry.price) ? entry.price : 0,
+      forecast_arrivals: Number.isFinite(entry.arrivals) ? entry.arrivals : 0,
+      // Raw price history carries no regime classification of its own —
+      // that only exists on cognition-engine states, computed separately.
+      regime: undefined,
+      trend: undefined,
+    });
 
     try {
-      const res = await mandiApi.getMarketTimeSeries(commodity, mandiId, limit);
+      // Real, row-matched daily history for any of the 5 commodities x 15
+      // Karnataka mandis (api/market_data_router.py) — unlike the old
+      // /v1/cognition/market-data + /v1/cognition/history pair this
+      // replaced, it never silently substitutes a different mandi's data
+      // when the exact pair isn't found, and it 404s honestly instead.
+      const res = await mandiApi.getTraderMarketHistory(commodity, mandiId);
       const historyRaw = Array.isArray(res?.history) ? res.history : [];
-      if (historyRaw.length) {
-        const history = historyRaw.map(normalizeEntry);
-        this.histories.set(k, history);
-        return history;
-      }
-      throw new Error('Processed market dataset returned no history entries.');
-    } catch (primaryError) {
-      console.debug('loadMarketHistory using market-data failed:', primaryError);
-      try {
-        const res = await mandiApi.getMarketHistory(commodity, mandiId, limit);
-        const historyRaw = Array.isArray(res?.history) ? res.history : [];
-        const history = historyRaw.map(normalizeEntry);
-        this.histories.set(k, history);
-        return history;
-      } catch (fallbackError) {
-        console.warn('loadMarketHistory fallback to cognition history failed', commodity, mandiId, fallbackError);
-        this.histories.set(k, []);
-        return [];
-      }
+      const history = historyRaw.map(normalizeEntry);
+      this.writeCached(this.histories, k, history, HISTORY_TTL_MS);
+      return history;
+    } catch (error) {
+      console.warn('loadMarketHistory failed', commodity, mandiId, error);
+      this.writeCached(this.histories, k, [], HISTORY_TTL_MS);
+      return [];
     }
   }
 
-  async loadMarketAnalysis(commodity: string, mandiId: string, limit: number = 120) {
+  async loadMarketAnalysis(commodity: string, mandiId: string) {
     const k = this.key(commodity, mandiId);
-    if (this.analyses.has(k)) return this.analyses.get(k);
+    const cached = this.readCached(this.analyses, k);
+    if (cached) return cached;
     try {
       await this.ensureMarketLoaded(commodity, mandiId);
       const history = this.getHistory(commodity, mandiId) ?? [];
@@ -267,22 +296,26 @@ class MarketCache {
         priceMemory: this.computePriceMemory(safeHistory, state),
         computedAt: new Date().toISOString(),
       };
-      this.analyses.set(k, analysis);
+      this.writeCached(this.analyses, k, analysis, ANALYSIS_TTL_MS);
       return analysis;
     } catch (e) {
       console.error('MarketCache.loadMarketAnalysis failed', commodity, mandiId, e);
       const fallback = this.buildFallbackAnalysis(this.getState(commodity, mandiId), this.getHistory(commodity, mandiId) ?? []);
-      this.analyses.set(k, fallback);
+      this.writeCached(this.analyses, k, fallback, ANALYSIS_TTL_MS);
       return fallback;
     }
   }
 
   async prefetchAdjacent(selected: { commodity: string; mandi_id: string }) {
-    const others = this.allStates.filter((s: any) => !(s.commodity === selected.commodity && s.mandi_id === selected.mandi_id));
+    // Sampled from processedMarketOptions, not allStates — see the note in
+    // init() above about the Bangalore spelling mismatch.
+    const others = this.processedMarketOptions.filter(
+      (m) => !(m.commodity === selected.commodity && m.mandi_id === selected.mandi_id)
+    );
     const pick = others.slice(0, 4);
-    pick.forEach((s: any) => {
-      this.loadMarketAnalysis(s.commodity, s.mandi_id).catch((e) => {
-        console.warn('MarketCache.prefetchAdjacent failed', s.commodity, s.mandi_id, e);
+    pick.forEach((m) => {
+      this.loadMarketAnalysis(m.commodity, m.mandi_id).catch((e) => {
+        console.warn('MarketCache.prefetchAdjacent failed', m.commodity, m.mandi_id, e);
       });
     });
   }
@@ -310,8 +343,8 @@ class MarketCache {
       console.debug('ensureMarketLoaded: skipping state fetch for processed-only market', commodity, mandiId);
     }
 
-    if (!this.histories.has(k)) {
-      await this.loadMarketHistory(commodity, mandiId, 9999);
+    if (this.readCached(this.histories, k) === undefined) {
+      await this.loadMarketHistory(commodity, mandiId);
     }
   }
 

@@ -3,11 +3,29 @@ External signal fusion engine for the External Factors Agent.
 
 Combines weather, news, and policy signals into a bounded external impact score
 and confidence score for downstream price adjustment.
+
+`impact_score` is normalised to [-1, 1] — a direction and strength, not yet a
+price move. Converting it into an actual percentage-point bias is the
+consuming layer's job: `meta_ensemble.py` takes this score, applies its own
+`_EXTERNAL_BIAS_MAX_MAGNITUDE` (documented there as "max +/-2 percentage
+points"), and attenuates by how much the internal (seasonality/arrival)
+signal already explains. `ExternalInput.__post_init__` clamps its incoming
+`impact_score` to exactly [-1, 1] for the same reason — both callers assume a
+normalised score arrives here, not an already-shrunk one.
+
+This function used to *also* scale its own output down to [-0.02, 0.02]
+before returning it (`impact_score * MAX_BIAS`), which meant the two
+percentage-point caps compounded: 0.02 (here) x 2.0 (there) bounded the
+external signal's total possible effect on a forecast to +/-0.04 percentage
+points — on predictions typically measured in whole percent. A maximally
+confident, maximally unanimous weather/news/policy signal could not move the
+final forecast by a visible amount, no matter how strong the evidence. That
+scaling is removed here; the meta-ensemble's own documented +/-2pp cap is now
+the only place a percentage-point bound is actually applied.
 """
 
 from __future__ import annotations
 
-import math
 from typing import Dict, Tuple
 
 from mandisense_ai.utils.logger import get_logger
@@ -19,7 +37,6 @@ WEIGHTS = {
     "policy": 0.35,
     "news": 0.25,
 }
-MAX_BIAS = 0.02
 
 
 def _safe_float(value, default: float = 0.0) -> float:
@@ -85,7 +102,6 @@ def compute_external_impact(
         impact_score_raw *= 0.7
 
     impact_score = _clamp(impact_score_raw, -1.0, 1.0)
-    impact_score = impact_score * MAX_BIAS
 
     total_weight = (
         WEIGHTS["weather"] * weather_conf

@@ -25,8 +25,19 @@ dist/
 # Logs and local artifacts
 *.log
 logs/
+mandisense_ai/logs/
 mandisense_ai/scratch/
 mandisense_ai/tests/__pycache__/
+.coverage
+dist_test/
+error.log
+test_payload.json
+startup_*.txt
+frontend_*_out.txt
+frontend_*_err.txt
+
+# Runtime state the app rewrites on every run — not source, don't track it.
+mandisense_ai/cognition/storage/
 
 # Backups and temporary large files
 models_backup*/

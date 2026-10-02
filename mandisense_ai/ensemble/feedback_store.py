@@ -24,19 +24,34 @@ except ImportError:
 logger = get_logger(__name__)
 
 
+def default_ensemble_dir() -> Path:
+    """Canonical directory for ensemble feedback artifacts.
+
+    Resolved from the configured data directory, which `PathsConfig.resolve()`
+    already anchors on the package, so it is absolute and identical no matter
+    what the process working directory is. This previously read
+    `settings.paths.data` — a field that does not exist — and fell through a
+    bare except to the relative literal `Path("data")`, which is how the
+    history ended up split across two directories.
+    """
+    try:
+        base = Path(settings.paths.data_dir)
+    except Exception:  # pragma: no cover - settings is always importable here
+        base = Path(__file__).resolve().parents[1] / "data"
+    if not base.is_absolute():
+        base = Path(__file__).resolve().parents[1] / base
+    return base / "ensemble"
+
+
+
 class FeedbackStore:
     """Stores and retrieves historical model performance for dynamic weighting."""
 
     def __init__(self, storage_dir: Optional[Path] = None):
         if storage_dir is None:
-            # Fallback to data/ensemble if settings doesn't have it
-            try:
-                base = Path(settings.paths.data)
-            except Exception:
-                base = Path("data")
-            self.storage_dir = base / "ensemble"
+            self.storage_dir = default_ensemble_dir()
         else:
-            self.storage_dir = storage_dir
+            self.storage_dir = Path(storage_dir)
 
         self.storage_dir.mkdir(parents=True, exist_ok=True)
         self.file_path = self.storage_dir / "prediction_history.jsonl"

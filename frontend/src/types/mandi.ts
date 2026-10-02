@@ -21,6 +21,12 @@ export interface MandiOpportunity {
 
 export interface QueryResponse {
   decision: Decision;
+  /** Which of ADVISED / ABSTAINED / UNAVAILABLE produced `decision` — see
+   * `CallCard.resolveCall`. Without this, "the policy declined to call it"
+   * and "there is no forecast at all" both arrive as the same string
+   * "WAIT" and render as the same confident tile. */
+  call_type?: 'ADVISED' | 'ABSTAINED' | 'UNAVAILABLE' | null;
+  abstention_reason?: string | null;
   summary: string;
   reasoning: string;
   market_insight: string;

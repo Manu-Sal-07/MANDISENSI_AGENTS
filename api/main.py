@@ -41,7 +41,7 @@ from mandisense_ai.services.prediction_cache import (
 # Discovery/Legacy Imports
 from backend.app.routes import discovery, query, decision, predict as legacy_predict
 from backend.app.services.model_loader import init_engines
-from api import visualizer, cognition_router, cognition_streaming, cognition_seed
+from api import visualizer, cognition_router, cognition_streaming, cognition_seed, market_data_router, spillover_router, forecast_router, intelligence_router, farmer_router, trader_router, chat_router
 from mandisense_ai.utils.event_bus import event_bus
 from mandisense_ai.cognition.state_store import MarketMemoryStore
 from fastapi.responses import FileResponse
@@ -162,6 +162,8 @@ async def root_redirect():
         "endpoints": {
             "inference": "/v1/predict",
             "discovery_feed": "/discovery/feed",
+            "spillover": "/v1/spillover/impacts/{commodity}",
+            "forecast": "/v1/forecast/{commodity}/{mandi_id}?horizon=5",
             "health": "/v1/health"
         }
     }
@@ -176,6 +178,13 @@ app.include_router(legacy_predict.router, prefix="/api/predict", tags=["Legacy C
 app.include_router(visualizer.router, tags=["Visualization"])
 app.include_router(cognition_streaming.router, prefix="/v1", tags=["Cognition Streaming"])
 app.include_router(cognition_seed.router, tags=["Cognition Seeding"])
+app.include_router(spillover_router.router, prefix="/v1/spillover", tags=["Cross-Commodity Spillover"])
+app.include_router(market_data_router.router, prefix="/v1/market-data", tags=["Market Data"])
+app.include_router(forecast_router.router, prefix="/v1/forecast", tags=["Scheduled Forecasting"])
+app.include_router(intelligence_router.router, prefix="/v1/intelligence", tags=["LLM Decision Intelligence"])
+app.include_router(farmer_router.router, tags=["Farmer Features"])  # prefix is already /v1/farmer on the router
+app.include_router(trader_router.router, tags=["Trader Features"])  # prefix is already /v1/trader on the router
+app.include_router(chat_router.router)  # /v1/chat: farmer and trader chatbots
 
 @app.get("/visualizer")
 async def get_visualizer():
@@ -259,6 +268,26 @@ class PredictResponse(BaseModel):
 
 
     model_breakdown: Dict[str, Any] = Field(default_factory=dict)
+
+
+VALID_ACTION_CODES = ("SELL", "HOLD", "WAIT")
+
+
+def action_code_from_state(state) -> str:
+    """
+    The action code a client can switch on, from a cognition snapshot.
+
+    Extracted from the `/v1/predict` handler so the rule is testable without
+    standing up the whole app. `decision` used to be filled with
+    `primary_directive`, which holds a narrative sentence rather than a code
+    — the farmer UI matches the three known codes and silently renders
+    anything else as WAIT, so the endpoint appeared to counsel waiting
+    regardless of the market. The real action is on `metadata.decision`;
+    `action_code` is deliberately not consulted because every snapshot
+    hardcodes it to "EXECUTE".
+    """
+    action = (getattr(state, "metadata", None) or {}).get("decision")
+    return action if action in VALID_ACTION_CODES else "WAIT"
 
 
 def get_canonical_mandi(mandi: str) -> str:
@@ -366,6 +395,7 @@ async def startup_event():
 async def background_activation():
     """Heavy institutional lifting performed outside the main request loop."""
     app.state.status = "BOOTING"
+    app.state.activation_complete = False
     
     # --- 1. Infrastructure (DB/Redis) ---
     logger.info("[ACTIVATE] Validating Infrastructure Connection...")
@@ -421,7 +451,30 @@ async def background_activation():
             asyncio.create_task(app.state.cognition_engine.run_full_refresh() if app.state.cognition_engine else asyncio.sleep(0))
     except Exception as e:
         logger.error(f"[ACTIVATE] Auto-seed failed: {e}", exc_info=True)
-    
+
+    # --- 5. Forecast Scheduler (Phase 2 nightly cadence) ---
+    # `run_nightly` previously had no caller at all outside a manual CLI
+    # invocation — measured against its own run log, the published forecast
+    # store sat months stale. Starting the loop here means the same process
+    # already serving this API is what keeps it current, rather than that
+    # depending on separate cron/Task Scheduler infrastructure being set up.
+    # Fire-and-forget: a scheduler that fails to start must not block the API
+    # from becoming READY, and a failure inside one cycle must not stop the
+    # next one (see `forecast_scheduler_loop`'s own exception handling).
+    try:
+        from mandisense_ai.forecasting.scheduler import forecast_scheduler_loop
+        app.state.forecast_scheduler_task = asyncio.create_task(forecast_scheduler_loop())
+        logger.info("[ACTIVATE] Forecast Scheduler: STARTED")
+    except Exception as e:
+        logger.error(f"[ACTIVATE] Forecast Scheduler failed to start: {e}", exc_info=True)
+
+    # Health reads this to distinguish a subsystem that is still loading from
+    # one that tried and failed. The cognition engine takes ~30s to load its
+    # models; without this flag every probe in that window reports a hard
+    # outage, which is indistinguishable from a real crash.
+    app.state.status = "READY"
+    app.state.activation_complete = True
+
     print("Database Connected", flush=True)
     print("Redis Connected", flush=True)
     print("Agents Loaded", flush=True)
@@ -429,63 +482,207 @@ async def background_activation():
     print("Startup Complete", flush=True)
 
 
+
+# -- Health probe helpers ----------------------------------------------
+
+_HEALTH_PROBE_TIMEOUT = 1.5
+"""Per-dependency probe budget, in seconds. A health endpoint that can block
+is worse than no health endpoint: the thing polling it treats a hang as a
+hard outage."""
+
+
+def _probe_forecasting() -> Dict[str, Any]:
+    """Phase 2 forecasting: is a published store loaded, and how fresh is it."""
+    try:
+        from mandisense_ai.forecasting.service import ForecastService
+
+        status = ForecastService().status()
+        return {
+            "phase": 2,
+            "required": False,
+            "status": "up" if status.get("available") else "down",
+            "as_of_date": status.get("as_of_date"),
+            "generated_at": status.get("generated_at"),
+            "model_version": status.get("model_version"),
+            "series_published": status.get("series_count"),
+            "forecast_rows": status.get("forecast_rows"),
+            "freshness": status.get("freshness"),
+            "age_hours": status.get("age_hours"),
+        }
+    except Exception as exc:
+        return {"phase": 2, "required": False, "status": "down", "error": str(exc)[:200]}
+
+
+def _probe_spillover() -> Dict[str, Any]:
+    """Phase 2 spillover: is a validated matrix artifact loaded."""
+    try:
+        from mandisense_ai.spillover.service import SpilloverService
+
+        status = SpilloverService().status()
+        return {
+            "phase": 2,
+            "required": False,
+            "status": "up" if status.get("available") else "down",
+            "placebo_verdict": status.get("placebo_verdict"),
+            "is_validated": status.get("is_validated"),
+            "total_edges": status.get("total_edges"),
+            "actionable_edges": status.get("actionable_edges"),
+        }
+    except Exception as exc:
+        return {"phase": 2, "required": False, "status": "down", "error": str(exc)[:200]}
+
+
 # ── Endpoints ─────────────────────────────────────────────────────────
 
 @app.get("/v1/health")
 async def health_check(response: Response):
-    """Detailed health check for all subsystems with Circuit Breakers."""
+    """Whole-system health: the Phase 1 cognition baseline, the Phase 2
+    forecasting and spillover engines, and the optional infrastructure
+    dependencies, in one call.
+
+    Two distinctions matter here and are made explicitly:
+
+    * **Optional vs required.** Postgres and Redis are accelerators - the
+      cognition engine, the forecast store and the spillover matrix all read
+      from local artifacts and serve correctly without them. Their absence is
+      reported as `not_configured`, not as a fault, so a deployment that never
+      provisioned them does not permanently report itself degraded.
+    * **Reachability vs breaker state.** These were previously conflated, and
+      the payload read `"db": "CLOSED"` for an unreachable database - the
+      exact inverse of what CLOSED means for a circuit breaker. Reachability
+      is now `up`/`down`/`not_configured` and the breaker reports its own
+      state under its own key.
+
+    The probe budget is bounded: every dependency check is wrapped in its own
+    timeout, so this endpoint cannot hang behind a dead host.
+    """
+    probe_started = time.time()
     try:
-        # 1. DB Check with Circuit Breaker
+        components: Dict[str, Any] = {}
+
+        # -- Optional infrastructure --------------------------------------
+        db_configured = bool(os.getenv("DATABASE_URL") or os.getenv("POSTGRES_HOST"))
+        redis_configured = bool(os.getenv("REDIS_URL") or os.getenv("REDIS_HOST"))
+
         db_ok = False
-        if not db_breaker.is_open():
+        if not db_configured:
+            db_reach = "not_configured"
+        elif db_breaker.is_open():
+            db_reach = "circuit_open"
+        else:
             try:
-                db_ok = await asyncio.wait_for(ping_db_async(), timeout=2.0)
-                if db_ok: db_breaker.record_success()
-                else: db_breaker.record_failure()
+                db_ok = await asyncio.wait_for(ping_db_async(), timeout=_HEALTH_PROBE_TIMEOUT)
+                db_breaker.record_success() if db_ok else db_breaker.record_failure()
             except Exception:
                 db_breaker.record_failure()
-        
-        # 2. Redis Check with Circuit Breaker
+            db_reach = "up" if db_ok else "down"
+
         redis_ok = False
-        if not redis_breaker.is_open():
+        if not redis_configured:
+            redis_reach = "not_configured"
+        elif redis_breaker.is_open():
+            redis_reach = "circuit_open"
+        else:
             try:
-                redis_ok = await asyncio.to_thread(ping_redis) # This is typically sync/fast, but we can still be safe
-                if redis_ok: redis_breaker.record_success()
-                else: redis_breaker.record_failure()
+                # to_thread alone cannot be cancelled, so the wait_for is what
+                # actually bounds this call; without it a dead Redis host held
+                # the endpoint open for the full socket timeout on every probe.
+                redis_ok = await asyncio.wait_for(
+                    asyncio.to_thread(ping_redis), timeout=_HEALTH_PROBE_TIMEOUT
+                )
+                redis_breaker.record_success() if redis_ok else redis_breaker.record_failure()
             except Exception:
                 redis_breaker.record_failure()
-        
-        # 3. Cognition Engine Reliability
+            redis_reach = "up" if redis_ok else "down"
+
+        components["postgres"] = {
+            "required": False,
+            "reachability": db_reach,
+            "breaker": db_breaker.state,
+        }
+        components["redis"] = {
+            "required": False,
+            "reachability": redis_reach,
+            "breaker": redis_breaker.state,
+        }
+
+        # -- Phase 1: cognition baseline ----------------------------------
         engine = getattr(app.state, "cognition_engine", None)
-        
-        status = "healthy"
-        if not db_ok or not redis_ok:
-            status = "degraded"
-        if db_breaker.state == "OPEN" or redis_breaker.state == "OPEN":
+        activation_done = getattr(app.state, "activation_complete", False)
+        cycles = getattr(engine, "cycle_count", 0) if engine else 0
+        if engine is not None:
+            cognition_status = "up"
+        elif activation_done:
+            cognition_status = "down"
+        else:
+            cognition_status = "warming_up"
+        components["cognition"] = {
+            "phase": 1,
+            "required": True,
+            "status": cognition_status,
+            "cycle_count": cycles,
+            "avg_cycle_duration_sec": round(
+                getattr(engine, "total_cycle_time", 0) / cycles, 4
+            ) if cycles else 0,
+            "uptime_sec": round(time.time() - getattr(engine, "_start_time", time.time()), 1) if engine else 0,
+        }
+
+        # -- Phase 2: forecasting + spillover ------------------------------
+        # Both services are contractually non-raising, but health must not be
+        # the one place that assumes so.
+        components["forecasting"] = _probe_forecasting()
+        components["spillover"] = _probe_spillover()
+
+        # Only components marked required can make the system unhealthy.
+        required_down = [
+            name for name, c in components.items()
+            if c.get("required") and c.get("status") == "down"
+        ]
+        warming = [
+            name for name, c in components.items()
+            if c.get("status") == "warming_up"
+        ]
+        if required_down:
             status = "unhealthy"
             response.status_code = 503
-            
+        elif warming:
+            # 503 is still correct for a load balancer - the instance cannot
+            # serve its full contract yet - but the body says why.
+            status = "starting"
+            response.status_code = 503
+        elif db_breaker.state == "OPEN" or redis_breaker.state == "OPEN":
+            status = "degraded"
+        else:
+            status = "healthy"
+
         return {
             "status": status,
             "timestamp": datetime.now().isoformat(),
+            "probe_duration_ms": round((time.time() - probe_started) * 1000, 1),
+            "degraded_components": required_down,
+            "warming_components": warming,
+            "components": components,
+            # Retained so existing dashboards and the frontend status widget
+            # keep working against the flat shape they were written for.
             "services": {
                 "api": "alive",
-                "db": "OPEN" if db_ok else "CLOSED",
-                "redis": "OPEN" if redis_ok else "CLOSED"
+                "db": db_reach,
+                "redis": redis_reach,
             },
             "cognition_reliability": {
-                "cycle_count": getattr(engine, "cycle_count", 0),
-                "avg_cycle_duration_sec": (getattr(engine, "total_cycle_time", 0) / getattr(engine, "cycle_count", 1)) if getattr(engine, "cycle_count", 0) > 0 else 0,
-                "uptime_sec": time.time() - getattr(engine, "_start_time", time.time()) if engine else 0
-            }
+                "cycle_count": cycles,
+                "avg_cycle_duration_sec": components["cognition"]["avg_cycle_duration_sec"],
+                "uptime_sec": components["cognition"]["uptime_sec"],
+            },
         }
     except Exception as e:
         logger.error(f"HEALTH_CHECK_CRASH: {e}", exc_info=True)
         return {
             "status": "INTERNAL_DIAGNOSTIC_ERROR",
             "error": str(e),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
+
 
 @app.post("/v1/predict", response_model=PredictResponse)
 async def predict(request: PredictRequest):
@@ -513,19 +710,22 @@ async def predict(request: PredictRequest):
 
         directive = state.directives[0] if state.directives else None
 
+        action = action_code_from_state(state)
+        narrative = directive.reasoning if directive else "Market intelligence is available."
+
         # Map the institutional state to the legacy response format for TraderOS compatibility
         return PredictResponse(
             request_id=req_id,
             prediction=state.price_prediction,
             confidence=state.confidence.score,
             status="success",
-            decision=directive.primary_directive if directive else "HOLD",
+            decision=action,
             risk_level=str(state.risk_level),
             action_strength=directive.urgency if directive else "NORMAL",
             direction=state.trend,
             confidence_label="Calibrated" if state.confidence.score > 0.8 else "Nominal",
-            summary=directive.reasoning if directive else "Market intelligence is available.",
-            reasoning=directive.reasoning if directive else "Market intelligence is available.",
+            summary=narrative,
+            reasoning=narrative,
             signals={
                 "volatility": state.volatility.regime,
                 "arrival_trend": state.forecast_arrivals
@@ -697,9 +897,9 @@ async def get_orchestration_plans(commodity: Optional[str] = None):
     Retrieves active operational execution plans.
     "Monitoring the command center."
     """
-    from mandisense_ai.cognition.orchestration import OrchestrationEngine
-    engine = OrchestrationEngine() # In a real app, this would be a singleton
-    return engine.get_active_plans(commodity)
+    from mandisense_ai.cognition.engine import CognitionEngine
+    engine = CognitionEngine()
+    return engine.orchestration_engine.get_active_plans(commodity)
 
 class ApprovalRequest(BaseModel):
     plan_id: str
@@ -743,11 +943,53 @@ async def get_enterprise_posture():
 @app.get("/v1/institutional/metrics")
 async def get_institutional_metrics():
     """
-    Retrieves metrics on the effectiveness and truth of institutional cognition.
+    What this system's published forecasts actually turned out to be worth.
+
+    `realised` is the authoritative section: every published forecast row is
+    appended to the forecast ledger as a dated claim, and scored against the
+    observed price once that date arrives. Rates are withheld below a sample
+    size that could support them, so an early deployment reports
+    INSUFFICIENT_EVIDENCE rather than a hit rate computed from a handful of
+    outcomes.
+
+    `drift` compares those realised rates against the spread the model's own
+    walk-forward folds produced at training time. Every promotion gate in this
+    system was earned on historical folds; this is the check that asks whether
+    the conditions those gates were granted under still hold.
+
+    `deliberation` is the in-process plan bookkeeping, kept for continuity and
+    explicitly not a measure of forecast accuracy — it differences the model's
+    predictions against each other, never against an observed price.
     """
-    from mandisense_ai.cognition.engine import CognitionEngine
-    engine = CognitionEngine()
-    return engine.verification_engine.get_institutional_effectiveness()
+    payload: Dict[str, Any] = {}
+
+    try:
+        from mandisense_ai.forecasting.config import FORECAST_HORIZONS
+        from mandisense_ai.forecasting.ledger import ForecastLedger, detect_drift
+
+        ledger = ForecastLedger()
+        payload["realised"] = ledger.live_performance()
+        payload["per_horizon"] = {
+            str(h): ledger.live_performance(h) for h in FORECAST_HORIZONS
+        }
+        try:
+            from mandisense_ai.forecasting.train import ForecastBundle
+
+            payload["drift"] = detect_drift(ForecastBundle.load(), ledger)
+        except Exception as exc:
+            payload["drift"] = {"status": "UNAVAILABLE", "reason": str(exc)}
+    except Exception as exc:
+        logger.warning("Institutional metrics: ledger unavailable: %s", exc)
+        payload["realised"] = {"status": "UNAVAILABLE", "reason": str(exc)}
+
+    try:
+        from mandisense_ai.cognition.engine import CognitionEngine
+
+        payload["deliberation"] = CognitionEngine().verification_engine.get_institutional_effectiveness()
+    except Exception as exc:
+        payload["deliberation"] = {"status": "UNAVAILABLE", "reason": str(exc)}
+
+    return payload
 
 @app.post("/v1/trace-run")
 async def trace_run(request: PredictRequest):

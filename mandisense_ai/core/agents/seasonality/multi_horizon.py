@@ -12,7 +12,6 @@ from __future__ import annotations
 import json
 import math
 import pickle
-from copy import deepcopy
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -273,7 +272,15 @@ class SeasonalityMultiHorizonPipeline:
 
     def _model_registry(self) -> Dict[str, Any]:
         registry: Dict[str, Any] = {
-            "sarima": SARIMAMultiHorizonRegressor(),
+            # Not SARIMA. `SARIMAMultiHorizonRegressor`'s own docstring already
+            # says so: no autoregression, no seasonal differencing, no
+            # statsmodels call — a blend of the training-window, recent and
+            # seasonal target means. The class name is kept (renaming it would
+            # break `joblib.load()` on every already-persisted bundle that
+            # references it by class path), but the *registry key* is what
+            # actually reaches every downstream weight, log line and audit
+            # trail, and that had no such excuse to keep misrepresenting it.
+            "seasonal_persistence_baseline": SARIMAMultiHorizonRegressor(),
             "linear_regression": Pipeline([
                 ("scaler", StandardScaler()),
                 ("model", LinearRegression()),
@@ -320,8 +327,12 @@ class SeasonalityMultiHorizonPipeline:
                 )
             )
         except Exception as exc:
-            logger.warning(f"XGBoost unavailable for seasonality training: {exc}")
-            registry["xgboost"] = deepcopy(registry["ridge"])
+            # Not registering a Ridge model under the "xgboost" key: every
+            # downstream weight, feature-importance log and audit trail reads
+            # that key as-is, and would have reported a linear model's
+            # performance as XGBoost's without any way to tell the two apart.
+            # A model that could not be built is absent, not disguised.
+            logger.warning(f"XGBoost unavailable for seasonality training, omitting: {exc}")
 
         try:
             from lightgbm import LGBMRegressor
@@ -338,8 +349,7 @@ class SeasonalityMultiHorizonPipeline:
                 )
             )
         except Exception as exc:
-            logger.warning(f"LightGBM unavailable for seasonality training: {exc}")
-            registry["lightgbm"] = deepcopy(registry["ridge"])
+            logger.warning(f"LightGBM unavailable for seasonality training, omitting: {exc}")
 
         return registry
 

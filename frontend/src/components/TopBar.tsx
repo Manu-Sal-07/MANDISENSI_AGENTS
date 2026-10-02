@@ -1,81 +1,157 @@
 'use client';
 
-import { Activity, Bell, Search, User, Sun, Moon } from 'lucide-react';
+import { useState } from 'react';
+import { Activity, Bell, Search, Sun, Moon, Menu, X, Sparkles } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
+import FarmHeader from '@/components/farm/FarmHeader';
+import { isFarmRoute } from '@/lib/surfaces';
+import TraderHeader from '@/components/trader/TraderHeader';
+
+const NAV_LINKS = [
+  { href: '/market-explorer', label: 'Market Explorer' },
+  { href: '/intelligence-lab', label: 'Intelligence Lab' },
+  { href: '/terminal', label: 'Command Center' },
+  { href: '/trader-tools', label: 'Trader Tools' },
+  { href: '/ai-brief', label: 'AI Brief' },
+];
 
 export default function TopBar() {
   const { theme, toggleTheme, mounted } = useTheme();
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  if (pathname === '/terminal') {
-    return null;
-  }
+  // /terminal is a self-contained, full-bleed command surface with its own
+  // header — this bar would fight for vertical space there.
+  if (pathname === '/terminal') return null;
+
+  // The farmer surface has its own header: no product nav, no theme
+  // switch, and the mandi location promoted to the one thing at the top.
+  if (isFarmRoute(pathname)) return <FarmHeader />;
+
+  // Every other analyst page shares the trading-desk header.
+  return <TraderHeader />;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-black/80 backdrop-blur-xl">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="hidden md:flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Activity className="text-white w-5 h-5" />
-            </div>
-            <span className="font-bold text-xl tracking-tight text-zinc-900 dark:text-zinc-100">
-              MandiSense <span className="text-emerald-600">AI</span>
-            </span>
-          </Link>
-          <div className="hidden lg:flex items-center gap-3">
-            <Link href="/market-explorer" className="text-sm font-semibold text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-300">
-              Market Explorer
-            </Link>
-            <Link href="/intelligence-lab" className="text-sm font-semibold text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-300">
-              Intelligence Lab
-            </Link>
-            <Link href="/terminal" className="text-sm font-semibold text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-300">
-              Command Center
-            </Link>
+    <header className="glass-panel sticky top-0 z-50 w-full">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        {/* Brand */}
+        <Link href="/" className="group flex shrink-0 items-center gap-2.5">
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--intelligence)] shadow-[0_6px_18px_-6px_var(--accent-glow)] transition-transform group-hover:scale-105">
+            <Activity className="h-4.5 w-4.5 text-white" strokeWidth={2.4} />
+            <span className="live-dot absolute -right-0.5 -top-0.5" />
           </div>
-        </div>
-        
-        <div className="hidden md:flex flex-1 max-w-md mx-8">
+          <div className="flex flex-col leading-none">
+            <span className="font-display text-base font-bold tracking-tight text-foreground">
+              MandiSense <span className="gradient-text-brand">AI</span>
+            </span>
+            <span className="label-caps mt-0.5 text-[8.5px]">Market Intelligence</span>
+          </div>
+        </Link>
+
+        {/* Primary nav */}
+        <nav className="hidden lg:flex items-center gap-1">
+          {NAV_LINKS.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="relative rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors"
+                style={{ color: active ? 'var(--foreground)' : 'var(--neutral-signal)' }}
+              >
+                {active && (
+                  <motion.span
+                    layoutId="topbar-active-pill"
+                    className="absolute inset-0 rounded-lg bg-surface-3"
+                    transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+                  />
+                )}
+                <span className="relative z-10">{link.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Search */}
+        <div className="hidden md:flex flex-1 max-w-sm">
           <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
-            <input 
-              type="text" 
-              placeholder="Search mandi or commodity..." 
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-signal" />
+            <input
+              type="text"
+              placeholder="Search mandi or commodity…"
               disabled
-              className="w-full bg-zinc-100 dark:bg-zinc-900 border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50 cursor-not-allowed"
+              className="w-full cursor-not-allowed rounded-full border border-border bg-surface-2 py-2 pl-9 pr-4 text-sm text-foreground placeholder:text-neutral-signal focus:outline-none focus:ring-2 focus:ring-accent/30 disabled:opacity-60"
             />
           </div>
         </div>
-        
-        <div className="flex items-center gap-2 md:gap-4">
-          {/* Theme Toggle - Hydration Safe */}
-          <button 
+
+        {/* Actions */}
+        <div className="flex items-center gap-1.5">
+          <button
             onClick={toggleTheme}
-            className="p-2 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-900 rounded-xl transition-all active:scale-95 min-w-[40px] flex items-center justify-center"
-            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-neutral-signal transition-colors hover:bg-surface-2 hover:text-foreground active:scale-95"
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {!mounted ? (
-               <div className="w-5 h-5" /> // Empty space during hydration
+              <div className="h-4.5 w-4.5" />
             ) : theme === 'dark' ? (
-               <Sun className="w-5 h-5" />
+              <Sun className="h-4.5 w-4.5" />
             ) : (
-               <Moon className="w-5 h-5" />
+              <Moon className="h-4.5 w-4.5" />
             )}
           </button>
 
-          <button className="p-2 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-900 rounded-xl transition-colors relative">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-black"></span>
+          <button className="relative hidden h-9 w-9 items-center justify-center rounded-xl text-neutral-signal transition-colors hover:bg-surface-2 hover:text-foreground sm:flex">
+            <Bell className="h-4.5 w-4.5" />
+            <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-bearish ring-2 ring-[var(--surface-0)]" />
           </button>
-          
-          <div className="w-9 h-9 rounded-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center overflow-hidden border border-zinc-200 dark:border-zinc-700">
-            <User className="w-5 h-5 text-zinc-400" />
-          </div>
+
+          <Link
+            href="/for-evaluators"
+            className="btn-primary hidden text-xs !px-3 !py-1.5 sm:inline-flex"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            For Evaluators
+          </Link>
+
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-neutral-signal transition-colors hover:bg-surface-2 hover:text-foreground lg:hidden"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile nav drawer */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden border-t border-border lg:hidden"
+          >
+            <div className="flex flex-col gap-1 px-4 py-3">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-semibold text-foreground hover:bg-surface-2"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

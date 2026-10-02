@@ -2,10 +2,15 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+
 # --- CONFIGURATION ---
-V3_DIR = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/data/raw/v3")
-V4_DIR = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/data/processed/v4")
-LOG_DIR = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/logs")
+V3_DIR = Path(_PACKAGE_ROOT / "data" / "raw" / "v3")
+V4_DIR = Path(_PACKAGE_ROOT / "data" / "processed" / "v4")
+LOG_DIR = Path(_PACKAGE_ROOT / "logs")
 
 V4_DIR.mkdir(parents=True, exist_ok=True)
 

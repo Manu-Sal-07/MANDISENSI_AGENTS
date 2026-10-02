@@ -26,6 +26,13 @@ class DecisionResponse(BaseModel):
 
 class QueryResponse(BaseModel):
     decision: str
+    # Which of ADVISED / ABSTAINED / UNAVAILABLE produced `decision` (see
+    # `decision_orchestrator.py`). Without this field FastAPI's
+    # `response_model` silently stripped it from the orchestrator's answer,
+    # so the one piece of data that lets a caller tell a validated call
+    # apart from "no forecast exists" never left the response body.
+    call_type: Optional[str] = None
+    abstention_reason: Optional[str] = None
     summary: str
     reasoning: str
     market_insight: str

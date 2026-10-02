@@ -191,8 +191,8 @@ async def get_all_directives():
                     "commodity": commodity,
                     "mandi_id": mandi,
                     "regime": state.regime,
-                    "directive": state.directives.primary_directive,
-                    "urgency": state.directives.urgency,
+                    "directive": state.directives[0].primary_directive if state.directives else "HOLD",
+                    "urgency": state.directives[0].urgency if state.directives else "NORMAL",
                     "confidence": round(state.confidence.score, 3),
                     "integrity": state.freshness.integrity_score,
                     "last_updated": state.freshness.last_computed

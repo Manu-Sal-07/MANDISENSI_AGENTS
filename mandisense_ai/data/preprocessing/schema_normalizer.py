@@ -17,6 +17,7 @@ import numpy as np
 
 from mandisense_ai.utils.logger import get_logger
 from .config import config
+from mandisense_ai.utils.dates import parse_market_dates
 
 logger = get_logger(__name__)
 
@@ -124,7 +125,7 @@ class SchemaNormalizer:
 
         # Date column - must be datetime64[ns]
         if not pd.api.types.is_datetime64_any_dtype(df['date']):
-            df['date'] = pd.to_datetime(df['date'], errors='coerce', dayfirst=True)
+            df['date'] = parse_market_dates(df['date'])
             logger.debug("Converted 'date' to datetime64[ns]")
 
         # Numeric columns - cast to float32 for memory efficiency. Keep missing

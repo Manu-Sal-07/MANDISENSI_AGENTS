@@ -88,8 +88,12 @@ class MandiDecisionEngine:
         trend = inf['trend']
         arr_sig = inf['arrival_signal']
         risk = inf['risk_level']
-        
-        text = f"In {mandi_id}, {commodity} prices are expected to {trend} by approximately {abs(pct_change)*100:.1f}%. "
+
+        # `trend` is an adjective ("upward"/"downward"), so interpolating it
+        # after "expected to" produced "expected to upward" in every snapshot
+        # this engine has ever written.
+        movement = {"upward": "rise", "downward": "fall"}.get(trend, "stay flat")
+        text = f"In {mandi_id}, {commodity} prices are expected to {movement} by approximately {abs(pct_change)*100:.1f}%. "
         
         if arr_sig == "increasing":
             text += "Arrivals are increasing, which typically puts downward pressure on prices. "

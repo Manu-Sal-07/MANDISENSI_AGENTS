@@ -1,112 +1,430 @@
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════════
-   TRADEROS INTELLIGENCE TERMINAL — DESIGN SYSTEM
-   Premium Command-Center Visual Language
-   ═══════════════════════════════════════════════════ */
+/* Tailwind v4 defaults `dark:` to the OS `prefers-color-scheme` media query.
+   This app toggles a `.dark` class on <html> (ThemeContext + the no-flash
+   script in layout.tsx), and with no tailwind.config.js in this project that
+   class-based toggle was never wired up — every `dark:` utility across the
+   codebase (evaluator views, intelligence-lab, etc.) was silently reacting
+   to the OS theme instead of the in-app switch. This line is what makes
+   `dark:` respect `.dark` on an ancestor, matching the toggle everywhere. */
+@custom-variant dark (&:where(.dark, .dark *));
 
+/* ═══════════════════════════════════════════════════════════════════════
+   MANDISENSE AI — UNIFIED DESIGN SYSTEM
+   One visual language across every surface: a premium, data-dense trading
+   terminal aesthetic — dark-native, glass-layered, calm but alive.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Raw theme tokens — the only place light/dark values are decided ── */
 :root {
-  /* ── Core Surfaces ── */
-  --background: #06090f;
-  --foreground: #e2e8f0;
-  --surface-0: #05080e;
-  --surface-1: #0b1420;
-  --surface-2: #101b28;
-  --surface-3: #142130;
-  --surface-4: #182a38;
-  --surface-border: rgba(148, 163, 184, 0.14);
-  --surface-strong: rgba(15, 23, 42, 0.9);
+  color-scheme: light;
 
-  /* ── Primary Accent ── */
-  --accent: #48d0ff;
-  --accent-soft: rgba(72, 208, 255, 0.14);
+  --background: #f5f6fa;
+  --foreground: #10131c;
 
-  /* ── Semantic Status Colors ── */
-  --bullish: #34d399;
-  --bullish-glow: rgba(52, 211, 153, 0.25);
-  --bearish: #fb7185;
-  --bearish-glow: rgba(251, 113, 133, 0.25);
-  --neutral: #94a3b8;
-  --intelligence: #38bdf8;
+  --surface-0: #ffffff;
+  --surface-1: #f8f9fc;
+  --surface-2: #f0f2f7;
+  --surface-3: #e7eaf2;
+  --surface-4: #dadfec;
+  --surface-border: rgba(16, 19, 28, 0.09);
+  --surface-border-strong: rgba(16, 19, 28, 0.16);
+  --surface-glass: rgba(255, 255, 255, 0.72);
 
-  /* ── Panel Region Accents ── */
-  --archive-accent: #34d399;
-  --archive-accent-soft: rgba(52, 211, 153, 0.12);
-  --archive-border: rgba(52, 211, 153, 0.18);
-  --archive-surface: rgba(6, 22, 18, 0.55);
+  --accent: #4f46e5;
+  --accent-strong: #4338ca;
+  --accent-soft: rgba(79, 70, 229, 0.1);
+  --accent-glow: rgba(79, 70, 229, 0.22);
 
-  --viewport-accent: #22d3ee;
-  --viewport-accent-soft: rgba(34, 211, 238, 0.14);
-  --viewport-border: rgba(34, 211, 238, 0.22);
-  --viewport-surface: rgba(8, 47, 73, 0.25);
+  --intelligence: #0891b2;
+  --intelligence-soft: rgba(8, 145, 178, 0.1);
 
-  --recovery-accent: #a78bfa;
-  --recovery-accent-soft: rgba(167, 139, 250, 0.12);
-  --recovery-border: rgba(167, 139, 250, 0.18);
-  --recovery-surface: rgba(30, 15, 60, 0.35);
+  --bullish: #059669;
+  --bullish-glow: rgba(5, 150, 105, 0.18);
+  --bearish: #e11d48;
+  --bearish-glow: rgba(225, 29, 72, 0.18);
+  --warning: #d97706;
+  --warning-glow: rgba(217, 119, 6, 0.18);
+  --analytical: #7c3aed;
+  --analytical-glow: rgba(124, 58, 237, 0.16);
+  --neutral-signal: #64748b;
 
-  /* ── Status Spectrum ── */
-  --status-bullish: #34d399;
-  --status-bearish: #fb7185;
-  --status-stable: #38bdf8;
-  --status-warning: #fbbf24;
-  --status-confidence: #2dd4bf;
-  --status-risk: #f97316;
+  --shadow-color: 220 40% 30%;
 }
 
-.dark {
-  --background: #04060b;
-  --foreground: #eef2ff;
-  --surface-0: #04070c;
-  --surface-1: #09131e;
-  --surface-2: #0e1725;
-  --surface-3: #131e2c;
-  --surface-4: #16263a;
+:root.dark {
+  color-scheme: dark;
+
+  --background: #05070c;
+  --foreground: #e7ecf5;
+
+  --surface-0: #05070c;
+  --surface-1: #0a0e17;
+  --surface-2: #0e1420;
+  --surface-3: #131a2a;
+  --surface-4: #182036;
   --surface-border: rgba(148, 163, 184, 0.12);
-  --surface-strong: rgba(11, 16, 25, 0.92);
-  --accent: #5ee7ff;
-  --accent-soft: rgba(94, 231, 255, 0.16);
+  --surface-border-strong: rgba(148, 163, 184, 0.22);
+  --surface-glass: rgba(10, 14, 23, 0.7);
+
+  --accent: #6366f1;
+  --accent-strong: #818cf8;
+  --accent-soft: rgba(99, 102, 241, 0.14);
+  --accent-glow: rgba(99, 102, 241, 0.35);
+
+  --intelligence: #22d3ee;
+  --intelligence-soft: rgba(34, 211, 238, 0.12);
+
   --bullish: #34d399;
+  --bullish-glow: rgba(52, 211, 153, 0.28);
   --bearish: #fb7185;
-  --neutral: #a5b4fc;
-  --intelligence: #6ee7ff;
+  --bearish-glow: rgba(251, 113, 133, 0.28);
+  --warning: #fbbf24;
+  --warning-glow: rgba(251, 191, 36, 0.24);
+  --analytical: #a78bfa;
+  --analytical-glow: rgba(167, 139, 250, 0.22);
+  --neutral-signal: #94a3b8;
+
+  --shadow-color: 220 90% 3%;
 }
 
-/* ═══════════════════════════════════════════════════
-   BODY & ATMOSPHERIC BACKGROUND
-   ═══════════════════════════════════════════════════ */
+/* Legacy alias kept for existing markup that still targets .dark directly
+   (some components toggle a bare `.dark` class rather than `:root.dark`). */
+.dark {
+  color-scheme: dark;
+}
+
+/* ── Motion & easing tokens ── */
+:root {
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --duration-slow: 420ms;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TAILWIND THEME BINDINGS
+   Semantic tokens become first-class utilities: bg-background, text-accent,
+   border-border, bg-surface-2, etc. Values resolve at runtime via var(),
+   so a single class works correctly in both themes.
+   ═══════════════════════════════════════════════════════════════════════ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-4: var(--surface-4);
+  --color-border: var(--surface-border);
+  --color-border-strong: var(--surface-border-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-intelligence: var(--intelligence);
+
+  --color-bullish: var(--bullish);
+  --color-bearish: var(--bearish);
+  --color-warning: var(--warning);
+  --color-analytical: var(--analytical);
+  --color-neutral-signal: var(--neutral-signal);
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-display), var(--font-sans), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   EXTENDED COLOR RAMP
+   Tailwind ships 100-unit steps. A handful of legacy components in this
+   codebase were authored against a finer 50-unit ramp that never existed
+   (e.g. text-slate-450, text-emerald-450), which Tailwind silently drops —
+   the classes render as nothing. Rather than hunt every call site, the
+   gaps are filled here via perceptual (OKLCH) interpolation of Tailwind's
+   own adjacent shades, so every one of those classes now resolves exactly
+   as originally intended, and any future half-step usage just works too.
+   ═══════════════════════════════════════════════════════════════════════ */
+@theme {
+  /* slate half-steps */
+  --color-slate-150: color-mix(in oklch, var(--color-slate-100) 50%, var(--color-slate-200) 50%);
+  --color-slate-250: color-mix(in oklch, var(--color-slate-200) 50%, var(--color-slate-300) 50%);
+  --color-slate-350: color-mix(in oklch, var(--color-slate-300) 50%, var(--color-slate-400) 50%);
+  --color-slate-450: color-mix(in oklch, var(--color-slate-400) 50%, var(--color-slate-500) 50%);
+  --color-slate-550: color-mix(in oklch, var(--color-slate-500) 50%, var(--color-slate-600) 50%);
+  --color-slate-650: color-mix(in oklch, var(--color-slate-600) 50%, var(--color-slate-700) 50%);
+  --color-slate-750: color-mix(in oklch, var(--color-slate-700) 50%, var(--color-slate-800) 50%);
+  --color-slate-850: color-mix(in oklch, var(--color-slate-800) 50%, var(--color-slate-900) 50%);
+  /* gray half-steps */
+  --color-gray-150: color-mix(in oklch, var(--color-gray-100) 50%, var(--color-gray-200) 50%);
+  --color-gray-250: color-mix(in oklch, var(--color-gray-200) 50%, var(--color-gray-300) 50%);
+  --color-gray-350: color-mix(in oklch, var(--color-gray-300) 50%, var(--color-gray-400) 50%);
+  --color-gray-450: color-mix(in oklch, var(--color-gray-400) 50%, var(--color-gray-500) 50%);
+  --color-gray-550: color-mix(in oklch, var(--color-gray-500) 50%, var(--color-gray-600) 50%);
+  --color-gray-650: color-mix(in oklch, var(--color-gray-600) 50%, var(--color-gray-700) 50%);
+  --color-gray-750: color-mix(in oklch, var(--color-gray-700) 50%, var(--color-gray-800) 50%);
+  --color-gray-850: color-mix(in oklch, var(--color-gray-800) 50%, var(--color-gray-900) 50%);
+  /* zinc half-steps */
+  --color-zinc-150: color-mix(in oklch, var(--color-zinc-100) 50%, var(--color-zinc-200) 50%);
+  --color-zinc-250: color-mix(in oklch, var(--color-zinc-200) 50%, var(--color-zinc-300) 50%);
+  --color-zinc-350: color-mix(in oklch, var(--color-zinc-300) 50%, var(--color-zinc-400) 50%);
+  --color-zinc-450: color-mix(in oklch, var(--color-zinc-400) 50%, var(--color-zinc-500) 50%);
+  --color-zinc-550: color-mix(in oklch, var(--color-zinc-500) 50%, var(--color-zinc-600) 50%);
+  --color-zinc-650: color-mix(in oklch, var(--color-zinc-600) 50%, var(--color-zinc-700) 50%);
+  --color-zinc-750: color-mix(in oklch, var(--color-zinc-700) 50%, var(--color-zinc-800) 50%);
+  --color-zinc-850: color-mix(in oklch, var(--color-zinc-800) 50%, var(--color-zinc-900) 50%);
+  /* neutral half-steps */
+  --color-neutral-150: color-mix(in oklch, var(--color-neutral-100) 50%, var(--color-neutral-200) 50%);
+  --color-neutral-250: color-mix(in oklch, var(--color-neutral-200) 50%, var(--color-neutral-300) 50%);
+  --color-neutral-350: color-mix(in oklch, var(--color-neutral-300) 50%, var(--color-neutral-400) 50%);
+  --color-neutral-450: color-mix(in oklch, var(--color-neutral-400) 50%, var(--color-neutral-500) 50%);
+  --color-neutral-550: color-mix(in oklch, var(--color-neutral-500) 50%, var(--color-neutral-600) 50%);
+  --color-neutral-650: color-mix(in oklch, var(--color-neutral-600) 50%, var(--color-neutral-700) 50%);
+  --color-neutral-750: color-mix(in oklch, var(--color-neutral-700) 50%, var(--color-neutral-800) 50%);
+  --color-neutral-850: color-mix(in oklch, var(--color-neutral-800) 50%, var(--color-neutral-900) 50%);
+  /* stone half-steps */
+  --color-stone-150: color-mix(in oklch, var(--color-stone-100) 50%, var(--color-stone-200) 50%);
+  --color-stone-250: color-mix(in oklch, var(--color-stone-200) 50%, var(--color-stone-300) 50%);
+  --color-stone-350: color-mix(in oklch, var(--color-stone-300) 50%, var(--color-stone-400) 50%);
+  --color-stone-450: color-mix(in oklch, var(--color-stone-400) 50%, var(--color-stone-500) 50%);
+  --color-stone-550: color-mix(in oklch, var(--color-stone-500) 50%, var(--color-stone-600) 50%);
+  --color-stone-650: color-mix(in oklch, var(--color-stone-600) 50%, var(--color-stone-700) 50%);
+  --color-stone-750: color-mix(in oklch, var(--color-stone-700) 50%, var(--color-stone-800) 50%);
+  --color-stone-850: color-mix(in oklch, var(--color-stone-800) 50%, var(--color-stone-900) 50%);
+  /* red half-steps */
+  --color-red-150: color-mix(in oklch, var(--color-red-100) 50%, var(--color-red-200) 50%);
+  --color-red-250: color-mix(in oklch, var(--color-red-200) 50%, var(--color-red-300) 50%);
+  --color-red-350: color-mix(in oklch, var(--color-red-300) 50%, var(--color-red-400) 50%);
+  --color-red-450: color-mix(in oklch, var(--color-red-400) 50%, var(--color-red-500) 50%);
+  --color-red-550: color-mix(in oklch, var(--color-red-500) 50%, var(--color-red-600) 50%);
+  --color-red-650: color-mix(in oklch, var(--color-red-600) 50%, var(--color-red-700) 50%);
+  --color-red-750: color-mix(in oklch, var(--color-red-700) 50%, var(--color-red-800) 50%);
+  --color-red-850: color-mix(in oklch, var(--color-red-800) 50%, var(--color-red-900) 50%);
+  /* orange half-steps */
+  --color-orange-150: color-mix(in oklch, var(--color-orange-100) 50%, var(--color-orange-200) 50%);
+  --color-orange-250: color-mix(in oklch, var(--color-orange-200) 50%, var(--color-orange-300) 50%);
+  --color-orange-350: color-mix(in oklch, var(--color-orange-300) 50%, var(--color-orange-400) 50%);
+  --color-orange-450: color-mix(in oklch, var(--color-orange-400) 50%, var(--color-orange-500) 50%);
+  --color-orange-550: color-mix(in oklch, var(--color-orange-500) 50%, var(--color-orange-600) 50%);
+  --color-orange-650: color-mix(in oklch, var(--color-orange-600) 50%, var(--color-orange-700) 50%);
+  --color-orange-750: color-mix(in oklch, var(--color-orange-700) 50%, var(--color-orange-800) 50%);
+  --color-orange-850: color-mix(in oklch, var(--color-orange-800) 50%, var(--color-orange-900) 50%);
+  /* amber half-steps */
+  --color-amber-150: color-mix(in oklch, var(--color-amber-100) 50%, var(--color-amber-200) 50%);
+  --color-amber-250: color-mix(in oklch, var(--color-amber-200) 50%, var(--color-amber-300) 50%);
+  --color-amber-350: color-mix(in oklch, var(--color-amber-300) 50%, var(--color-amber-400) 50%);
+  --color-amber-450: color-mix(in oklch, var(--color-amber-400) 50%, var(--color-amber-500) 50%);
+  --color-amber-550: color-mix(in oklch, var(--color-amber-500) 50%, var(--color-amber-600) 50%);
+  --color-amber-650: color-mix(in oklch, var(--color-amber-600) 50%, var(--color-amber-700) 50%);
+  --color-amber-750: color-mix(in oklch, var(--color-amber-700) 50%, var(--color-amber-800) 50%);
+  --color-amber-850: color-mix(in oklch, var(--color-amber-800) 50%, var(--color-amber-900) 50%);
+  /* yellow half-steps */
+  --color-yellow-150: color-mix(in oklch, var(--color-yellow-100) 50%, var(--color-yellow-200) 50%);
+  --color-yellow-250: color-mix(in oklch, var(--color-yellow-200) 50%, var(--color-yellow-300) 50%);
+  --color-yellow-350: color-mix(in oklch, var(--color-yellow-300) 50%, var(--color-yellow-400) 50%);
+  --color-yellow-450: color-mix(in oklch, var(--color-yellow-400) 50%, var(--color-yellow-500) 50%);
+  --color-yellow-550: color-mix(in oklch, var(--color-yellow-500) 50%, var(--color-yellow-600) 50%);
+  --color-yellow-650: color-mix(in oklch, var(--color-yellow-600) 50%, var(--color-yellow-700) 50%);
+  --color-yellow-750: color-mix(in oklch, var(--color-yellow-700) 50%, var(--color-yellow-800) 50%);
+  --color-yellow-850: color-mix(in oklch, var(--color-yellow-800) 50%, var(--color-yellow-900) 50%);
+  /* lime half-steps */
+  --color-lime-150: color-mix(in oklch, var(--color-lime-100) 50%, var(--color-lime-200) 50%);
+  --color-lime-250: color-mix(in oklch, var(--color-lime-200) 50%, var(--color-lime-300) 50%);
+  --color-lime-350: color-mix(in oklch, var(--color-lime-300) 50%, var(--color-lime-400) 50%);
+  --color-lime-450: color-mix(in oklch, var(--color-lime-400) 50%, var(--color-lime-500) 50%);
+  --color-lime-550: color-mix(in oklch, var(--color-lime-500) 50%, var(--color-lime-600) 50%);
+  --color-lime-650: color-mix(in oklch, var(--color-lime-600) 50%, var(--color-lime-700) 50%);
+  --color-lime-750: color-mix(in oklch, var(--color-lime-700) 50%, var(--color-lime-800) 50%);
+  --color-lime-850: color-mix(in oklch, var(--color-lime-800) 50%, var(--color-lime-900) 50%);
+  /* green half-steps */
+  --color-green-150: color-mix(in oklch, var(--color-green-100) 50%, var(--color-green-200) 50%);
+  --color-green-250: color-mix(in oklch, var(--color-green-200) 50%, var(--color-green-300) 50%);
+  --color-green-350: color-mix(in oklch, var(--color-green-300) 50%, var(--color-green-400) 50%);
+  --color-green-450: color-mix(in oklch, var(--color-green-400) 50%, var(--color-green-500) 50%);
+  --color-green-550: color-mix(in oklch, var(--color-green-500) 50%, var(--color-green-600) 50%);
+  --color-green-650: color-mix(in oklch, var(--color-green-600) 50%, var(--color-green-700) 50%);
+  --color-green-750: color-mix(in oklch, var(--color-green-700) 50%, var(--color-green-800) 50%);
+  --color-green-850: color-mix(in oklch, var(--color-green-800) 50%, var(--color-green-900) 50%);
+  /* emerald half-steps */
+  --color-emerald-150: color-mix(in oklch, var(--color-emerald-100) 50%, var(--color-emerald-200) 50%);
+  --color-emerald-250: color-mix(in oklch, var(--color-emerald-200) 50%, var(--color-emerald-300) 50%);
+  --color-emerald-350: color-mix(in oklch, var(--color-emerald-300) 50%, var(--color-emerald-400) 50%);
+  --color-emerald-450: color-mix(in oklch, var(--color-emerald-400) 50%, var(--color-emerald-500) 50%);
+  --color-emerald-550: color-mix(in oklch, var(--color-emerald-500) 50%, var(--color-emerald-600) 50%);
+  --color-emerald-650: color-mix(in oklch, var(--color-emerald-600) 50%, var(--color-emerald-700) 50%);
+  --color-emerald-750: color-mix(in oklch, var(--color-emerald-700) 50%, var(--color-emerald-800) 50%);
+  --color-emerald-850: color-mix(in oklch, var(--color-emerald-800) 50%, var(--color-emerald-900) 50%);
+  /* teal half-steps */
+  --color-teal-150: color-mix(in oklch, var(--color-teal-100) 50%, var(--color-teal-200) 50%);
+  --color-teal-250: color-mix(in oklch, var(--color-teal-200) 50%, var(--color-teal-300) 50%);
+  --color-teal-350: color-mix(in oklch, var(--color-teal-300) 50%, var(--color-teal-400) 50%);
+  --color-teal-450: color-mix(in oklch, var(--color-teal-400) 50%, var(--color-teal-500) 50%);
+  --color-teal-550: color-mix(in oklch, var(--color-teal-500) 50%, var(--color-teal-600) 50%);
+  --color-teal-650: color-mix(in oklch, var(--color-teal-600) 50%, var(--color-teal-700) 50%);
+  --color-teal-750: color-mix(in oklch, var(--color-teal-700) 50%, var(--color-teal-800) 50%);
+  --color-teal-850: color-mix(in oklch, var(--color-teal-800) 50%, var(--color-teal-900) 50%);
+  /* cyan half-steps */
+  --color-cyan-150: color-mix(in oklch, var(--color-cyan-100) 50%, var(--color-cyan-200) 50%);
+  --color-cyan-250: color-mix(in oklch, var(--color-cyan-200) 50%, var(--color-cyan-300) 50%);
+  --color-cyan-350: color-mix(in oklch, var(--color-cyan-300) 50%, var(--color-cyan-400) 50%);
+  --color-cyan-450: color-mix(in oklch, var(--color-cyan-400) 50%, var(--color-cyan-500) 50%);
+  --color-cyan-550: color-mix(in oklch, var(--color-cyan-500) 50%, var(--color-cyan-600) 50%);
+  --color-cyan-650: color-mix(in oklch, var(--color-cyan-600) 50%, var(--color-cyan-700) 50%);
+  --color-cyan-750: color-mix(in oklch, var(--color-cyan-700) 50%, var(--color-cyan-800) 50%);
+  --color-cyan-850: color-mix(in oklch, var(--color-cyan-800) 50%, var(--color-cyan-900) 50%);
+  /* sky half-steps */
+  --color-sky-150: color-mix(in oklch, var(--color-sky-100) 50%, var(--color-sky-200) 50%);
+  --color-sky-250: color-mix(in oklch, var(--color-sky-200) 50%, var(--color-sky-300) 50%);
+  --color-sky-350: color-mix(in oklch, var(--color-sky-300) 50%, var(--color-sky-400) 50%);
+  --color-sky-450: color-mix(in oklch, var(--color-sky-400) 50%, var(--color-sky-500) 50%);
+  --color-sky-550: color-mix(in oklch, var(--color-sky-500) 50%, var(--color-sky-600) 50%);
+  --color-sky-650: color-mix(in oklch, var(--color-sky-600) 50%, var(--color-sky-700) 50%);
+  --color-sky-750: color-mix(in oklch, var(--color-sky-700) 50%, var(--color-sky-800) 50%);
+  --color-sky-850: color-mix(in oklch, var(--color-sky-800) 50%, var(--color-sky-900) 50%);
+  /* blue half-steps */
+  --color-blue-150: color-mix(in oklch, var(--color-blue-100) 50%, var(--color-blue-200) 50%);
+  --color-blue-250: color-mix(in oklch, var(--color-blue-200) 50%, var(--color-blue-300) 50%);
+  --color-blue-350: color-mix(in oklch, var(--color-blue-300) 50%, var(--color-blue-400) 50%);
+  --color-blue-450: color-mix(in oklch, var(--color-blue-400) 50%, var(--color-blue-500) 50%);
+  --color-blue-550: color-mix(in oklch, var(--color-blue-500) 50%, var(--color-blue-600) 50%);
+  --color-blue-650: color-mix(in oklch, var(--color-blue-600) 50%, var(--color-blue-700) 50%);
+  --color-blue-750: color-mix(in oklch, var(--color-blue-700) 50%, var(--color-blue-800) 50%);
+  --color-blue-850: color-mix(in oklch, var(--color-blue-800) 50%, var(--color-blue-900) 50%);
+  /* indigo half-steps */
+  --color-indigo-150: color-mix(in oklch, var(--color-indigo-100) 50%, var(--color-indigo-200) 50%);
+  --color-indigo-250: color-mix(in oklch, var(--color-indigo-200) 50%, var(--color-indigo-300) 50%);
+  --color-indigo-350: color-mix(in oklch, var(--color-indigo-300) 50%, var(--color-indigo-400) 50%);
+  --color-indigo-450: color-mix(in oklch, var(--color-indigo-400) 50%, var(--color-indigo-500) 50%);
+  --color-indigo-550: color-mix(in oklch, var(--color-indigo-500) 50%, var(--color-indigo-600) 50%);
+  --color-indigo-650: color-mix(in oklch, var(--color-indigo-600) 50%, var(--color-indigo-700) 50%);
+  --color-indigo-750: color-mix(in oklch, var(--color-indigo-700) 50%, var(--color-indigo-800) 50%);
+  --color-indigo-850: color-mix(in oklch, var(--color-indigo-800) 50%, var(--color-indigo-900) 50%);
+  /* violet half-steps */
+  --color-violet-150: color-mix(in oklch, var(--color-violet-100) 50%, var(--color-violet-200) 50%);
+  --color-violet-250: color-mix(in oklch, var(--color-violet-200) 50%, var(--color-violet-300) 50%);
+  --color-violet-350: color-mix(in oklch, var(--color-violet-300) 50%, var(--color-violet-400) 50%);
+  --color-violet-450: color-mix(in oklch, var(--color-violet-400) 50%, var(--color-violet-500) 50%);
+  --color-violet-550: color-mix(in oklch, var(--color-violet-500) 50%, var(--color-violet-600) 50%);
+  --color-violet-650: color-mix(in oklch, var(--color-violet-600) 50%, var(--color-violet-700) 50%);
+  --color-violet-750: color-mix(in oklch, var(--color-violet-700) 50%, var(--color-violet-800) 50%);
+  --color-violet-850: color-mix(in oklch, var(--color-violet-800) 50%, var(--color-violet-900) 50%);
+  /* purple half-steps */
+  --color-purple-150: color-mix(in oklch, var(--color-purple-100) 50%, var(--color-purple-200) 50%);
+  --color-purple-250: color-mix(in oklch, var(--color-purple-200) 50%, var(--color-purple-300) 50%);
+  --color-purple-350: color-mix(in oklch, var(--color-purple-300) 50%, var(--color-purple-400) 50%);
+  --color-purple-450: color-mix(in oklch, var(--color-purple-400) 50%, var(--color-purple-500) 50%);
+  --color-purple-550: color-mix(in oklch, var(--color-purple-500) 50%, var(--color-purple-600) 50%);
+  --color-purple-650: color-mix(in oklch, var(--color-purple-600) 50%, var(--color-purple-700) 50%);
+  --color-purple-750: color-mix(in oklch, var(--color-purple-700) 50%, var(--color-purple-800) 50%);
+  --color-purple-850: color-mix(in oklch, var(--color-purple-800) 50%, var(--color-purple-900) 50%);
+  /* fuchsia half-steps */
+  --color-fuchsia-150: color-mix(in oklch, var(--color-fuchsia-100) 50%, var(--color-fuchsia-200) 50%);
+  --color-fuchsia-250: color-mix(in oklch, var(--color-fuchsia-200) 50%, var(--color-fuchsia-300) 50%);
+  --color-fuchsia-350: color-mix(in oklch, var(--color-fuchsia-300) 50%, var(--color-fuchsia-400) 50%);
+  --color-fuchsia-450: color-mix(in oklch, var(--color-fuchsia-400) 50%, var(--color-fuchsia-500) 50%);
+  --color-fuchsia-550: color-mix(in oklch, var(--color-fuchsia-500) 50%, var(--color-fuchsia-600) 50%);
+  --color-fuchsia-650: color-mix(in oklch, var(--color-fuchsia-600) 50%, var(--color-fuchsia-700) 50%);
+  --color-fuchsia-750: color-mix(in oklch, var(--color-fuchsia-700) 50%, var(--color-fuchsia-800) 50%);
+  --color-fuchsia-850: color-mix(in oklch, var(--color-fuchsia-800) 50%, var(--color-fuchsia-900) 50%);
+  /* pink half-steps */
+  --color-pink-150: color-mix(in oklch, var(--color-pink-100) 50%, var(--color-pink-200) 50%);
+  --color-pink-250: color-mix(in oklch, var(--color-pink-200) 50%, var(--color-pink-300) 50%);
+  --color-pink-350: color-mix(in oklch, var(--color-pink-300) 50%, var(--color-pink-400) 50%);
+  --color-pink-450: color-mix(in oklch, var(--color-pink-400) 50%, var(--color-pink-500) 50%);
+  --color-pink-550: color-mix(in oklch, var(--color-pink-500) 50%, var(--color-pink-600) 50%);
+  --color-pink-650: color-mix(in oklch, var(--color-pink-600) 50%, var(--color-pink-700) 50%);
+  --color-pink-750: color-mix(in oklch, var(--color-pink-700) 50%, var(--color-pink-800) 50%);
+  --color-pink-850: color-mix(in oklch, var(--color-pink-800) 50%, var(--color-pink-900) 50%);
+  /* rose half-steps */
+  --color-rose-150: color-mix(in oklch, var(--color-rose-100) 50%, var(--color-rose-200) 50%);
+  --color-rose-250: color-mix(in oklch, var(--color-rose-200) 50%, var(--color-rose-300) 50%);
+  --color-rose-350: color-mix(in oklch, var(--color-rose-300) 50%, var(--color-rose-400) 50%);
+  --color-rose-450: color-mix(in oklch, var(--color-rose-400) 50%, var(--color-rose-500) 50%);
+  --color-rose-550: color-mix(in oklch, var(--color-rose-500) 50%, var(--color-rose-600) 50%);
+  --color-rose-650: color-mix(in oklch, var(--color-rose-600) 50%, var(--color-rose-700) 50%);
+  --color-rose-750: color-mix(in oklch, var(--color-rose-700) 50%, var(--color-rose-800) 50%);
+  --color-rose-850: color-mix(in oklch, var(--color-rose-800) 50%, var(--color-rose-900) 50%);
+  /* one-off aliases for stray shade values found in legacy components */
+  --color-slate-305: var(--color-slate-300);
+  --color-slate-455: var(--color-slate-450);
+  --color-slate-505: var(--color-slate-500);
+  --color-slate-905: var(--color-slate-900);
+  --color-sky-455: var(--color-sky-450);
+  --color-rose-455: var(--color-rose-450);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BASE ELEMENTS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+* {
+  border-color: var(--surface-border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   color: var(--foreground);
   background: var(--background);
   background-image:
-    radial-gradient(circle at 10% 10%, rgba(72, 208, 255, 0.08), transparent 16%),
-    radial-gradient(circle at 85% 20%, rgba(72, 208, 255, 0.05), transparent 12%),
-    linear-gradient(180deg, rgba(5, 10, 18, 1) 0%, rgba(7, 13, 24, 1) 38%, rgba(4, 6, 11, 1) 100%);
+    radial-gradient(circle at 12% 8%, color-mix(in oklch, var(--accent) 10%, transparent), transparent 22%),
+    radial-gradient(circle at 88% 18%, color-mix(in oklch, var(--intelligence) 8%, transparent), transparent 20%),
+    radial-gradient(circle at 50% 100%, color-mix(in oklch, var(--analytical) 6%, transparent), transparent 30%);
   background-attachment: fixed;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  transition: background-color 0.45s ease, color 0.45s ease, background-image 0.45s ease;
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+  transition: background-color var(--duration-slow) var(--ease-premium), color var(--duration-slow) var(--ease-premium);
 }
 
-/* Atmospheric intelligence background layer */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    radial-gradient(circle at 40% 10%, rgba(56, 189, 248, 0.06), transparent 24%),
-    radial-gradient(circle at 18% 72%, rgba(94, 231, 255, 0.04), transparent 14%),
-    linear-gradient(170deg, rgba(56, 189, 248, 0.03), transparent 44%),
-    linear-gradient(90deg, rgba(208, 232, 255, 0.02), transparent 65%);
-  opacity: 0.9;
-  animation: drift 28s linear infinite;
-  pointer-events: none;
+::selection {
+  background: var(--accent-glow);
 }
 
-/* ═══════════════════════════════════════════════════
+/* Tabular figures for anything numeric — the single detail that separates
+   a real trading terminal from a marketing page. Apply to prices, deltas,
+   timers, IDs. */
+.font-tabular,
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv02" 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SCROLLBARS — applied globally, not just inside legacy .traderos scope
+   ═══════════════════════════════════════════════════════════════════════ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-border-strong) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-border-strong);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklch, var(--surface-border-strong) 60%, var(--foreground) 40%);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    KEYFRAME ANIMATIONS
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 @keyframes drift {
   0% { transform: translate(0, 0) scale(1); }
@@ -119,19 +437,21 @@ body::before {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Breathing glow for status indicators */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 @keyframes breathe {
   0%, 100% { opacity: 0.6; box-shadow: 0 0 8px currentColor; }
   50% { opacity: 1; box-shadow: 0 0 18px currentColor; }
 }
 
-/* Gentle telemetry pulse */
 @keyframes telemetryPulse {
   0%, 100% { opacity: 0.4; transform: scale(1); }
   50% { opacity: 0.8; transform: scale(1.08); }
 }
 
-/* Agricultural mesh background drift */
 @keyframes meshDrift {
   0% { transform: translate(0, 0) rotate(0deg); }
   33% { transform: translate(8px, -4px) rotate(0.3deg); }
@@ -139,176 +459,220 @@ body::before {
   100% { transform: translate(0, 0) rotate(0deg); }
 }
 
-/* Subtle data flow shimmer */
 @keyframes dataFlowShimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
 
-/* Panel edge glow breathing */
 @keyframes edgeGlow {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 1; }
 }
 
-/* Live indicator breathing */
 @keyframes livePulse {
   0%, 100% { box-shadow: 0 0 4px rgba(52, 211, 153, 0.3); }
   50% { box-shadow: 0 0 12px rgba(52, 211, 153, 0.6); }
 }
 
-/* Smooth entry for events */
 @keyframes eventIn {
   from { opacity: 0; transform: translateX(-8px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* Badge pulse */
 @keyframes badgePulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4); }
   50% { box-shadow: 0 0 0 6px rgba(34, 211, 238, 0); }
 }
 
-/* ═══════════════════════════════════════════════════
-   SURFACE SYSTEM — Layered Depth
-   ═══════════════════════════════════════════════════ */
-
-.surface-root {
-  background: var(--surface-0);
+@keyframes floatSlow {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0, -14px); }
 }
 
+@keyframes shimmerSweep {
+  0% { background-position: -150% 0; }
+  100% { background-position: 150% 0; }
+}
+
+@keyframes flashUp {
+  0% { background-color: transparent; }
+  25% { background-color: var(--bullish-glow); }
+  100% { background-color: transparent; }
+}
+
+@keyframes flashDown {
+  0% { background-color: transparent; }
+  25% { background-color: var(--bearish-glow); }
+  100% { background-color: transparent; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SURFACE SYSTEM — Layered Depth (theme-aware)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.surface-root { background: var(--surface-0); }
+
 .surface-panel {
-  background: rgba(8, 15, 27, 0.88);
+  background: color-mix(in oklch, var(--surface-1) 88%, transparent);
   border: 1px solid var(--surface-border);
 }
 
 .surface-card {
-  background: rgba(12, 20, 33, 0.92);
-  border: 1px solid rgba(148, 163, 184, 0.08);
+  background: color-mix(in oklch, var(--surface-2) 92%, transparent);
+  border: 1px solid var(--surface-border);
 }
 
 .surface-card-strong {
-  background: rgba(15, 23, 38, 0.95);
-  border: 1px solid rgba(72, 208, 255, 0.14);
+  background: color-mix(in oklch, var(--surface-2) 95%, transparent);
+  border: 1px solid color-mix(in oklch, var(--accent) 20%, var(--surface-border));
 }
 
 .surface-interactive {
-  background: rgba(17, 26, 42, 0.96);
-  border: 1px solid rgba(94, 231, 255, 0.14);
+  background: color-mix(in oklch, var(--surface-3) 96%, transparent);
+  border: 1px solid color-mix(in oklch, var(--intelligence) 18%, var(--surface-border));
 }
 
-/* ═══════════════════════════════════════════════════
-   PANEL REGION SURFACES — Distinct Visual Identity
-   ═══════════════════════════════════════════════════ */
+/* Elite card — the single canonical card treatment used across the app.
+   Border/bg/radius/motion in one place instead of re-declared per file. */
+.elite-card {
+  position: relative;
+  background: color-mix(in oklch, var(--surface-1) 90%, transparent);
+  border: 1px solid var(--surface-border);
+  border-radius: 1.25rem;
+  transition: transform var(--duration-base) var(--ease-premium),
+              border-color var(--duration-base) var(--ease-premium),
+              box-shadow var(--duration-base) var(--ease-premium),
+              background-color var(--duration-base) var(--ease-premium);
+}
 
-/* Institutional Archive — Emerald/Teal Intelligence */
+.elite-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in oklch, var(--accent) 30%, var(--surface-border));
+  box-shadow: 0 18px 40px -20px color-mix(in oklch, hsl(var(--shadow-color)) 45%, transparent);
+}
+
+/* Frosted glass — for floating chrome (nav bars, command bars, sheets) */
+.glass-panel {
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--surface-border);
+}
+
+/* Subtle noise grain for premium depth on large flat surfaces */
+.noise-overlay {
+  position: relative;
+  isolation: isolate;
+}
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/* Legacy alias — some components already reference `.floating-card`. */
+.floating-card {
+  background: color-mix(in oklch, var(--surface-1) 92%, transparent);
+  border: 1px solid var(--surface-border);
+  box-shadow: 0 1px 2px color-mix(in oklch, hsl(var(--shadow-color)) 8%, transparent),
+              0 12px 32px -16px color-mix(in oklch, hsl(var(--shadow-color)) 30%, transparent);
+}
+.floating-card-hover {
+  transition: transform var(--duration-base) var(--ease-premium),
+              box-shadow var(--duration-base) var(--ease-premium),
+              border-color var(--duration-base) var(--ease-premium);
+}
+.floating-card-hover:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in oklch, var(--accent) 26%, var(--surface-border));
+  box-shadow: 0 24px 48px -20px color-mix(in oklch, hsl(var(--shadow-color)) 45%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PANEL REGION SURFACES — Distinct Visual Identity
+   ═══════════════════════════════════════════════════════════════════════ */
+
 .panel-archive {
   background:
-    linear-gradient(180deg,
-      rgba(6, 35, 28, 0.28) 0%,
-      rgba(4, 18, 14, 0.18) 30%,
-      rgba(2, 8, 6, 0.12) 100%
-    ),
-    rgba(4, 7, 12, 0.96);
-  border-right: 1px solid rgba(52, 211, 153, 0.1);
+    linear-gradient(180deg, color-mix(in oklch, var(--bullish) 8%, transparent) 0%, transparent 55%),
+    color-mix(in oklch, var(--surface-0) 96%, transparent);
+  border-right: 1px solid color-mix(in oklch, var(--bullish) 16%, transparent);
   position: relative;
 }
-
 .panel-archive::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(52, 211, 153, 0.06), transparent 60%),
-    radial-gradient(ellipse at 20% 80%, rgba(45, 212, 191, 0.04), transparent 50%);
+    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--bullish) 8%, transparent), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
+.panel-archive > * { position: relative; z-index: 1; }
 
-.panel-archive > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Operational Viewport — Highest Contrast, Command Center */
 .panel-viewport {
   background:
-    linear-gradient(180deg,
-      rgba(8, 47, 73, 0.2) 0%,
-      rgba(4, 20, 35, 0.12) 25%,
-      rgba(0, 0, 0, 0.85) 100%
-    ),
-    rgba(2, 4, 8, 0.98);
+    linear-gradient(180deg, color-mix(in oklch, var(--intelligence) 8%, transparent) 0%, transparent 40%),
+    color-mix(in oklch, var(--surface-0) 98%, transparent);
   position: relative;
 }
-
 .panel-viewport::before {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 20%, rgba(34, 211, 238, 0.07), transparent 50%),
-    radial-gradient(ellipse at 80% 70%, rgba(56, 189, 248, 0.04), transparent 45%);
+  background: radial-gradient(ellipse at 50% 20%, color-mix(in oklch, var(--intelligence) 9%, transparent), transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
+.panel-viewport > * { position: relative; z-index: 1; }
 
-.panel-viewport > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Recovery Intelligence — Analytical Blue-Violet */
 .panel-recovery {
   background:
-    linear-gradient(180deg,
-      rgba(30, 15, 60, 0.25) 0%,
-      rgba(15, 10, 40, 0.15) 30%,
-      rgba(6, 4, 18, 0.12) 100%
-    ),
-    rgba(4, 7, 12, 0.96);
-  border-left: 1px solid rgba(167, 139, 250, 0.1);
+    linear-gradient(180deg, color-mix(in oklch, var(--analytical) 8%, transparent) 0%, transparent 55%),
+    color-mix(in oklch, var(--surface-0) 96%, transparent);
+  border-left: 1px solid color-mix(in oklch, var(--analytical) 16%, transparent);
   position: relative;
 }
-
 .panel-recovery::before {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(167, 139, 250, 0.06), transparent 60%),
-    radial-gradient(ellipse at 80% 60%, rgba(139, 92, 246, 0.04), transparent 50%);
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--analytical) 8%, transparent), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
-
-.panel-recovery > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* ═══════════════════════════════════════════════════
-   SECTION HEADERS — Panel-Aware
-   ═══════════════════════════════════════════════════ */
+.panel-recovery > * { position: relative; z-index: 1; }
 
 .section-header-archive {
-  background: linear-gradient(90deg, rgba(6, 35, 28, 0.5), rgba(8, 15, 27, 0.88));
-  border-bottom: 1px solid rgba(52, 211, 153, 0.15) !important;
+  background: linear-gradient(90deg, color-mix(in oklch, var(--bullish) 10%, transparent), transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--bullish) 18%, transparent) !important;
 }
-
 .section-header-viewport {
-  background: linear-gradient(90deg, rgba(8, 47, 73, 0.4), rgba(8, 15, 27, 0.88));
-  border-bottom: 1px solid rgba(34, 211, 238, 0.15) !important;
+  background: linear-gradient(90deg, color-mix(in oklch, var(--intelligence) 10%, transparent), transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--intelligence) 18%, transparent) !important;
 }
-
 .section-header-recovery {
-  background: linear-gradient(90deg, rgba(30, 15, 60, 0.4), rgba(8, 15, 27, 0.88));
-  border-bottom: 1px solid rgba(167, 139, 250, 0.15) !important;
+  background: linear-gradient(90deg, color-mix(in oklch, var(--analytical) 10%, transparent), transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--analytical) 18%, transparent) !important;
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════
    STATUS PILL SYSTEM
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 .status-pill {
   display: inline-flex;
@@ -316,242 +680,263 @@ body::before {
   gap: 0.4rem;
   padding: 0.2rem 0.65rem;
   border-radius: 9999px;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1;
   border: 1px solid transparent;
+  white-space: nowrap;
 }
 
-.status-open {
-  color: var(--intelligence);
-  background: rgba(56, 189, 248, 0.12);
-  border-color: rgba(56, 189, 248, 0.22);
+.status-open { color: var(--intelligence); background: var(--intelligence-soft); border-color: color-mix(in oklch, var(--intelligence) 30%, transparent); }
+.status-active { color: var(--accent-strong); background: var(--accent-soft); border-color: color-mix(in oklch, var(--accent) 30%, transparent); }
+.status-stable { color: var(--neutral-signal); background: color-mix(in oklch, var(--neutral-signal) 14%, transparent); border-color: color-mix(in oklch, var(--neutral-signal) 22%, transparent); }
+.status-warning { color: var(--warning); background: var(--warning-glow); border-color: color-mix(in oklch, var(--warning) 32%, transparent); }
+.status-critical { color: var(--bearish); background: var(--bearish-glow); border-color: color-mix(in oklch, var(--bearish) 32%, transparent); }
+
+/* Semantic chips reused by decision/tone labels app-wide */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--surface-border);
+  background: var(--surface-2);
+  color: var(--foreground);
+  transition: all var(--duration-fast) var(--ease-premium);
+}
+.chip-active {
+  border-color: color-mix(in oklch, var(--accent) 45%, transparent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
 }
 
-.status-active {
-  color: var(--accent);
-  background: rgba(72, 208, 255, 0.14);
-  border-color: rgba(72, 208, 255, 0.22);
+/* ═══════════════════════════════════════════════════════════════════════
+   TYPOGRAPHY HELPERS — unify the dozens of repeated micro-label patterns
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.label-caps {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--neutral-signal);
 }
 
-.status-stable {
-  color: var(--neutral);
-  background: rgba(148, 163, 184, 0.12);
-  border-color: rgba(148, 163, 184, 0.14);
+.gradient-text {
+  background: linear-gradient(120deg, var(--foreground), color-mix(in oklch, var(--accent-strong) 70%, var(--foreground)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.status-warning {
-  color: #fbbf24;
-  background: rgba(251, 191, 36, 0.12);
-  border-color: rgba(251, 191, 36, 0.2);
+.gradient-text-brand {
+  background: linear-gradient(120deg, var(--accent-strong), var(--intelligence));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.status-critical {
-  color: var(--bearish);
-  background: rgba(253, 170, 160, 0.16);
-  border-color: rgba(253, 170, 160, 0.22);
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════════════════════════════════ */
 
-/* ═══════════════════════════════════════════════════
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 0.85rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: white;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 8px 24px -10px var(--accent-glow);
+  transition: transform var(--duration-fast) var(--ease-premium), box-shadow var(--duration-fast) var(--ease-premium), filter var(--duration-fast);
+}
+.btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+.btn-primary:disabled { opacity: 0.5; pointer-events: none; }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 0.85rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--foreground);
+  background: var(--surface-2);
+  border: 1px solid var(--surface-border);
+  transition: all var(--duration-fast) var(--ease-premium);
+}
+.btn-ghost:hover { background: var(--surface-3); border-color: var(--surface-border-strong); }
+.btn-ghost:active { transform: scale(0.98); }
+
+/* ═══════════════════════════════════════════════════════════════════════
    PREMIUM GLOW & DEPTH
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
 .premium-glow {
-  box-shadow:
-    0 0 0 1px rgba(94, 231, 255, 0.08),
-    0 16px 44px -24px rgba(72, 208, 255, 0.26);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--intelligence) 10%, transparent),
+              0 16px 44px -24px color-mix(in oklch, var(--accent) 30%, transparent);
 }
-
 .premium-glow-archive {
-  box-shadow:
-    0 0 0 1px rgba(52, 211, 153, 0.08),
-    0 16px 44px -24px rgba(52, 211, 153, 0.2);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--bullish) 10%, transparent),
+              0 16px 44px -24px color-mix(in oklch, var(--bullish) 24%, transparent);
 }
-
 .premium-glow-recovery {
-  box-shadow:
-    0 0 0 1px rgba(167, 139, 250, 0.08),
-    0 16px 44px -24px rgba(167, 139, 250, 0.2);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--analytical) 10%, transparent),
+              0 16px 44px -24px color-mix(in oklch, var(--analytical) 24%, transparent);
 }
 
-/* ═══════════════════════════════════════════════════
-   COMMODITY TICKER — Status-Based Coloring
-   ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   COMMODITY TICKER
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.ticker-bullish {
-  border-bottom: 2px solid rgba(52, 211, 153, 0.5);
-  background: linear-gradient(180deg, rgba(52, 211, 153, 0.06), transparent);
-}
-.ticker-bullish:hover {
-  background: linear-gradient(180deg, rgba(52, 211, 153, 0.1), transparent);
-}
-
-.ticker-bearish {
-  border-bottom: 2px solid rgba(251, 113, 133, 0.5);
-  background: linear-gradient(180deg, rgba(251, 113, 133, 0.06), transparent);
-}
-.ticker-bearish:hover {
-  background: linear-gradient(180deg, rgba(251, 113, 133, 0.1), transparent);
-}
-
-.ticker-stable {
-  border-bottom: 2px solid rgba(56, 189, 248, 0.4);
-  background: linear-gradient(180deg, rgba(56, 189, 248, 0.04), transparent);
-}
-.ticker-stable:hover {
-  background: linear-gradient(180deg, rgba(56, 189, 248, 0.08), transparent);
-}
-
+.ticker-bullish { border-bottom: 2px solid color-mix(in oklch, var(--bullish) 55%, transparent); background: linear-gradient(180deg, color-mix(in oklch, var(--bullish) 7%, transparent), transparent); }
+.ticker-bullish:hover { background: linear-gradient(180deg, color-mix(in oklch, var(--bullish) 11%, transparent), transparent); }
+.ticker-bearish { border-bottom: 2px solid color-mix(in oklch, var(--bearish) 55%, transparent); background: linear-gradient(180deg, color-mix(in oklch, var(--bearish) 7%, transparent), transparent); }
+.ticker-bearish:hover { background: linear-gradient(180deg, color-mix(in oklch, var(--bearish) 11%, transparent), transparent); }
+.ticker-stable { border-bottom: 2px solid color-mix(in oklch, var(--intelligence) 42%, transparent); background: linear-gradient(180deg, color-mix(in oklch, var(--intelligence) 5%, transparent), transparent); }
+.ticker-stable:hover { background: linear-gradient(180deg, color-mix(in oklch, var(--intelligence) 9%, transparent), transparent); }
 .ticker-active {
-  border-bottom: 2px solid rgba(34, 211, 238, 0.7) !important;
-  background: linear-gradient(180deg, rgba(34, 211, 238, 0.12), transparent) !important;
-  box-shadow: inset 0 -1px 12px -6px rgba(34, 211, 238, 0.25);
+  border-bottom: 2px solid color-mix(in oklch, var(--intelligence) 75%, transparent) !important;
+  background: linear-gradient(180deg, color-mix(in oklch, var(--intelligence) 13%, transparent), transparent) !important;
+  box-shadow: inset 0 -1px 12px -6px color-mix(in oklch, var(--intelligence) 30%, transparent);
 }
 
-/* ═══════════════════════════════════════════════════
+.price-flash-up { animation: flashUp 900ms var(--ease-premium); }
+.price-flash-down { animation: flashDown 900ms var(--ease-premium); }
+
+/* Continuous ticker tape (marquee) */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.ticker-track:hover { animation-play-state: paused; }
+
+/* ═══════════════════════════════════════════════════════════════════════
    AGRICULTURAL BACKGROUND MESH
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.agri-mesh-bg {
-  position: relative;
-}
-
+.agri-mesh-bg { position: relative; }
 .agri-mesh-bg::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
-  opacity: 0.035;
+  opacity: 0.05;
   pointer-events: none;
   background-image:
-    /* Hexagonal agricultural grid pattern */
-    linear-gradient(30deg, rgba(52, 211, 153, 0.15) 1px, transparent 1px),
-    linear-gradient(150deg, rgba(52, 211, 153, 0.15) 1px, transparent 1px),
-    linear-gradient(270deg, rgba(52, 211, 153, 0.08) 1px, transparent 1px),
-    /* Network mesh nodes */
-    radial-gradient(circle 2px, rgba(34, 211, 238, 0.3) 1px, transparent 1px),
-    /* Telemetry contours */
-    linear-gradient(45deg, rgba(167, 139, 250, 0.06) 1px, transparent 1px);
-  background-size:
-    60px 104px,
-    60px 104px,
-    60px 104px,
-    80px 80px,
-    40px 40px;
+    linear-gradient(30deg, color-mix(in oklch, var(--bullish) 25%, transparent) 1px, transparent 1px),
+    linear-gradient(150deg, color-mix(in oklch, var(--bullish) 25%, transparent) 1px, transparent 1px),
+    linear-gradient(270deg, color-mix(in oklch, var(--bullish) 14%, transparent) 1px, transparent 1px),
+    radial-gradient(circle 2px, color-mix(in oklch, var(--intelligence) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(45deg, color-mix(in oklch, var(--analytical) 10%, transparent) 1px, transparent 1px);
+  background-size: 60px 104px, 60px 104px, 60px 104px, 80px 80px, 40px 40px;
   animation: meshDrift 45s linear infinite;
 }
 
-/* ═══════════════════════════════════════════════════
-   CONFIDENCE BAR SYSTEM
-   ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   CONFIDENCE / PROGRESS BARS
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.confidence-bar-fill {
-  position: relative;
-  overflow: hidden;
-}
-
+.confidence-bar-fill { position: relative; overflow: hidden; }
 .confidence-bar-fill::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,255,255,0.12) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.14) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: dataFlowShimmer 3s ease-in-out infinite;
 }
 
-/* ═══════════════════════════════════════════════════
-   METRIC TILES — Enhanced
-   ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   SKELETON LOADING
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.metric-tile-premium {
+.skeleton {
   position: relative;
   overflow: hidden;
+  background: var(--surface-3);
+  border-radius: 0.6rem;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--foreground) 8%, transparent), transparent);
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.6s ease-in-out infinite;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   METRIC TILES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.metric-tile-premium { position: relative; overflow: hidden; }
 .metric-tile-premium::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg, transparent, currentColor, transparent);
   opacity: 0.3;
 }
 
-/* ═══════════════════════════════════════════════════
-   LIVE ANALYSIS BADGE
-   ═══════════════════════════════════════════════════ */
-
-.live-badge {
-  animation: badgePulse 2s ease-in-out infinite;
+.kpi-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════
+   LIVE / STATUS INDICATORS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.live-badge { animation: badgePulse 2s ease-in-out infinite; }
+
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bullish);
+}
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  background: var(--bullish);
+  opacity: 0.5;
+  animation: telemetryPulse 1.8s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
    AGENT BAR GRADIENTS
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.agent-bar-forecast {
-  background: linear-gradient(90deg, rgba(52, 211, 153, 0.6), rgba(34, 211, 238, 0.8)) !important;
-}
+.agent-bar-forecast { background: linear-gradient(90deg, color-mix(in oklch, var(--bullish) 65%, transparent), color-mix(in oklch, var(--intelligence) 85%, transparent)) !important; }
+.agent-bar-arrival { background: linear-gradient(90deg, color-mix(in oklch, var(--warning) 65%, transparent), color-mix(in oklch, var(--warning) 90%, black)) !important; }
+.agent-bar-volatility { background: linear-gradient(90deg, color-mix(in oklch, var(--analytical) 65%, transparent), color-mix(in oklch, var(--analytical) 90%, black)) !important; }
+.agent-bar-default { background: linear-gradient(90deg, color-mix(in oklch, var(--intelligence) 55%, transparent), color-mix(in oklch, var(--intelligence) 75%, transparent)) !important; }
 
-.agent-bar-arrival {
-  background: linear-gradient(90deg, rgba(251, 191, 36, 0.6), rgba(245, 158, 11, 0.8)) !important;
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   DECORATIVE / ILLUSTRATION LAYERS
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.agent-bar-volatility {
-  background: linear-gradient(90deg, rgba(167, 139, 250, 0.6), rgba(139, 92, 246, 0.8)) !important;
-}
-
-.agent-bar-default {
-  background: linear-gradient(90deg, rgba(56, 189, 248, 0.5), rgba(34, 211, 238, 0.7)) !important;
-}
-
-/* ═══════════════════════════════════════════════════
-   SCROLLBAR
-   ═══════════════════════════════════════════════════ */
-
-.traderos ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-.traderos ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.traderos ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.18);
-  border-radius: 4px;
-}
-
-.traderos ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.3);
-}
-
-/* ═══════════════════════════════════════════════════
-   UTILITY CLASSES
-   ═══════════════════════════════════════════════════ */
-
-.traderos .section-title {
-  letter-spacing: 0.18em;
-}
-
-.traderos .emphasis-accent {
-  color: var(--accent);
-}
-
-.traderos .fade-in-up {
-  animation: fadeInUp 220ms ease-out both;
-}
-
-/* World Map SVG Container */
 .world-map-container {
   position: absolute;
   inset: 0;
@@ -560,14 +945,8 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
+.world-map-container svg { width: 100%; height: 100%; object-fit: cover; }
 
-.world-map-container svg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Plant illustration container */
 .plant-illustration {
   position: absolute;
   right: 5%;
@@ -576,17 +955,23 @@ body::before {
   opacity: 0.12;
   pointer-events: none;
   z-index: 0;
-  filter: drop-shadow(0 0 20px rgba(52, 211, 153, 0.3));
+  filter: drop-shadow(0 0 20px var(--bullish-glow));
 }
 
-/* Confidence drivers section */
+.aurora-blob {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(90px);
+  pointer-events: none;
+  animation: floatSlow 12s ease-in-out infinite;
+}
+
 .confidence-driver-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.35rem 0;
 }
-
 .confidence-driver-row .driver-dot {
   width: 6px;
   height: 6px;
@@ -594,15 +979,1035 @@ body::before {
   flex-shrink: 0;
 }
 
-/* ═══════════════════════════════════════════════════
-   TRANSITION CLASSES
-   ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════
+   TRANSITIONS & UTILITIES
+   ═══════════════════════════════════════════════════════════════════════ */
 
-.hover-lift {
-  transition: all 200ms ease;
+.hover-lift { transition: transform var(--duration-base) var(--ease-premium), box-shadow var(--duration-base) var(--ease-premium); }
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px -14px color-mix(in oklch, hsl(var(--shadow-color)) 40%, transparent);
 }
 
-.hover-lift:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+.section-title { letter-spacing: 0.18em; }
+.emphasis-accent { color: var(--accent-strong); }
+
+.fade-in-up { animation: fadeInUp 320ms var(--ease-premium) both; }
+.scale-in { animation: scaleIn 220ms var(--ease-premium) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Retained for legacy scoped scrollbar selector used inside .traderos trees;
+   the global rule above already covers it, this keeps specificity parity. */
+.traderos ::-webkit-scrollbar { width: 6px; height: 6px; }
+.traderos ::-webkit-scrollbar-track { background: transparent; }
+.traderos ::-webkit-scrollbar-thumb { background: var(--surface-border-strong); border-radius: 4px; }
+.traderos ::-webkit-scrollbar-thumb:hover { background: color-mix(in oklch, var(--surface-border-strong) 60%, var(--foreground) 40%); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FARMER SURFACE
+   ───────────────────────────────────────────────────────────────────────
+   A separate visual language for the farmer-facing pages (home, mandi
+   detail). The trader surfaces stay on the dark terminal system above;
+   nothing here leaks out of `.farm-surface`.
+
+   Why it diverges rather than reusing the terminal tokens:
+
+   * It is read outdoors. A farmer checks this at a mandi gate in direct
+     sun on a cheap phone, where a dark theme is genuinely unreadable. The
+     background is the brightest surface in the whole product, and the
+     contrast floor is higher than the rest of the app's.
+   * The decision has to land before the words do. Colour and shape carry
+     it — green hold, amber wait, red sell — so a user who reads slowly, or
+     reads Devanagari rather than Latin, still gets the answer.
+   * Palette is taken from the actual place: sun through a tarpaulin,
+     banana leaf, turmeric, tomato, and the brown of worked soil instead of
+     black, which is softer under glare.
+
+   The surface stays light even when the app is in dark mode. That is
+   deliberate: the theme toggle is for the analyst views, and inverting the
+   farmer surface would defeat the reason it exists.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* The palette lives on :root, not on .farm-surface, because the shared
+   chrome (header, bottom nav) renders outside the page wrapper and still
+   has to reach these values. Every name is prefixed or specific enough
+   that nothing collides with the terminal tokens above. */
+:root,
+:root.dark {
+  --farm-sky: #fbfdf6;
+  --farm-paper: #ffffff;
+  --farm-paper-warm: #fdf8ec;
+  --farm-ink: #2a2119;
+  --farm-ink-soft: #6b5f52;
+  --farm-ink-faint: #9c9084;
+  --farm-line: rgba(42, 33, 25, 0.1);
+  --farm-line-strong: rgba(42, 33, 25, 0.18);
+
+  --leaf: #1b7a3e;
+  --leaf-deep: #135c2e;
+  --leaf-wash: #e8f4ec;
+
+  --turmeric: #e8a020;
+  --turmeric-wash: #fdf1dc;
+
+  --tomato: #d93a2b;
+  --tomato-wash: #fdeae8;
+
+  --soil: #8a6240;
+
+  /* One decision vocabulary, used identically on every farmer surface. */
+  --call-sell: var(--tomato);
+  --call-sell-wash: var(--tomato-wash);
+  --call-hold: var(--leaf);
+  --call-hold-wash: var(--leaf-wash);
+  --call-wait: #b8801a;
+  --call-wait-wash: var(--turmeric-wash);
+  /* No reading yet. Deliberately the only call colour that is not a colour:
+     an absent forecast must not compete for attention with a real one, and
+     dressing it in amber made "we have no data" look like a cautious
+     recommendation. */
+  --call-unknown: var(--farm-ink-faint);
+  --call-unknown-wash: rgba(42, 33, 25, 0.04);
+}
+
+/* Applying the surface is separate from defining it: only a farmer page
+   paints itself with these, so the analyst views are untouched even
+   though they can see the tokens. */
+.farm-surface,
+:root.dark .farm-surface {
+  color-scheme: light;
+  background: var(--farm-sky);
+  color: var(--farm-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.farm-display {
+  font-family: var(--font-farm), var(--font-sans), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+/* Baloo 2 carries no Kannada glyphs -- every tracked mandi is in
+   Karnataka, so any text marked `lang="kn"` (CallCard's verb, ProduceIcon's
+   crop names, the Tools Hub) switches to Baloo Tamma 2, the same type
+   family's Kannada-script sibling, rather than silently falling through to
+   whatever the browser's default Kannada font happens to be. `:lang()`
+   matches the element the attribute is set on and any descendant that does
+   not set its own, so this reaches farm-display headings and plain body
+   text alike with one rule. */
+:lang(kn) {
+  font-family: var(--font-farm-kn), var(--font-farm), var(--font-sans), system-ui, sans-serif;
+}
+
+/* ── The ambient field ─────────────────────────────────────────────────
+   A hand-built scene rather than photography: a few KB against several
+   megabytes, which is the difference between loading and not loading on a
+   rural connection. It sits behind content and never competes with it. */
+
+.farm-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(115% 75% at 50% -8%, #fff6d9 0%, #fdf3e0 28%, #f2f8e4 58%, #e4f0d2 100%);
+}
+
+.farm-sun {
+  position: absolute;
+  top: -3.5rem;
+  left: 50%;
+  width: 20rem;
+  height: 20rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 198, 77, 0.92) 0%,
+    rgba(255, 210, 110, 0.5) 34%,
+    rgba(255, 224, 150, 0.22) 58%,
+    transparent 74%
+  );
+  animation: farm-sun-breathe 14s ease-in-out infinite;
+}
+
+@keyframes farm-sun-breathe {
+  0%, 100% { opacity: 0.85; transform: translateX(-50%) scale(1); }
+  50%      { opacity: 1;    transform: translateX(-50%) scale(1.07); }
+}
+
+/* Produce drifts slowly across the field, like crates going past on a
+   cart. Slow enough to register as atmosphere rather than as animation
+   demanding attention. */
+.farm-drift {
+  position: absolute;
+  animation: farm-drift-across linear infinite;
+  will-change: transform;
+}
+
+@keyframes farm-drift-across {
+  from { transform: translateX(-14vw) translateY(0) rotate(-6deg); }
+  50%  { transform: translateX(45vw) translateY(-14px) rotate(4deg); }
+  to   { transform: translateX(114vw) translateY(0) rotate(-3deg); }
+}
+
+.farm-sway {
+  transform-origin: 50% 100%;
+  animation: farm-sway-gentle 7s ease-in-out infinite;
+}
+
+@keyframes farm-sway-gentle {
+  0%, 100% { transform: rotate(-1.6deg); }
+  50%      { transform: rotate(1.6deg); }
+}
+
+/* ── Surfaces ──────────────────────────────────────────────────────────
+   Radius and elevation encode hierarchy rather than being applied
+   uniformly: the decision card is the largest and most lifted thing on
+   the page, list rows are quieter, and chips are flat. */
+
+.farm-card {
+  background: var(--farm-paper);
+  border: 1px solid var(--farm-line);
+  border-radius: 1.5rem;
+  box-shadow: 0 1px 2px rgba(42, 33, 25, 0.04), 0 8px 24px -14px rgba(42, 33, 25, 0.18);
+}
+
+.farm-card-lift {
+  border-radius: 2rem;
+  box-shadow: 0 2px 4px rgba(42, 33, 25, 0.05), 0 22px 48px -22px rgba(42, 33, 25, 0.3);
+}
+
+.farm-row {
+  background: var(--farm-paper);
+  border: 1px solid var(--farm-line);
+  border-radius: 1.125rem;
+  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+@media (hover: hover) {
+  .farm-row:hover {
+    border-color: var(--farm-line-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -18px rgba(42, 33, 25, 0.34);
+  }
+}
+
+/* ── Section framing ──────────────────────────────────────────────────
+   Below the hero, the page used to be a bare stack of headings with raw
+   content under each — nothing tied "Today's calls" and "Mandis near
+   you" to the same visual system, so the page read as loose, unrelated
+   pieces rather than one surface. Each section now sits in its own
+   paper panel with an icon-badge header, the same elevation language as
+   `.farm-card`, so the page reads as one connected sheet. */
+.farm-section {
+  background: var(--farm-paper);
+  border: 1px solid var(--farm-line);
+  border-radius: 1.75rem;
+  padding: 1.15rem;
+  box-shadow: 0 1px 2px rgba(42, 33, 25, 0.03), 0 16px 40px -28px rgba(42, 33, 25, 0.22);
+}
+@media (min-width: 640px) {
+  .farm-section { padding: 1.75rem; }
+}
+
+/* A warm variant for the section that carries today's most time-critical
+   information — the same warm paper already used for the transport
+   callout on the mandi detail page, reused here so "urgent, today" has a
+   consistent temperature across the app rather than one-off colour. */
+.farm-section-warm {
+  background: var(--farm-paper-warm);
+}
+
+.farm-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.farm-section-icon {
+  display: flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+}
+
+/* On a phone the hero is necessarily one column: question, decision,
+   then ask, stacked, because there is no width to spare. On a desktop
+   window that same stack leaves the whole right two-thirds of the
+   screen empty. Past `lg` the ask bar becomes a companion panel beside
+   the decision instead of a full-width block underneath it — framed
+   like `.farm-section` so it reads as a deliberate second panel rather
+   than the same content just narrower. Below `lg` this class does
+   nothing, so the phone layout is byte-for-byte unchanged. */
+@media (min-width: 1024px) {
+  .farm-ask-panel {
+    background: var(--farm-paper);
+    border: 1px solid var(--farm-line);
+    border-radius: 1.75rem;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 1px 2px rgba(42, 33, 25, 0.03), 0 16px 40px -28px rgba(42, 33, 25, 0.22);
+  }
+}
+
+/* Horizontal, snap-scrolling strip — used where a grid would leave an
+   orphaned trailing tile (five items against fixed columns always does).
+   This reads as a native "swipe for more" pattern instead of a layout
+   compromise, and it is how a farmer would flick through a ticker anyway. */
+.farm-scroll-x {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  margin: 0 -0.1rem;
+  padding: 0.1rem;
+}
+.farm-scroll-x > * {
+  scroll-snap-align: start;
+}
+
+/* Touch targets are sized for a thumb, outdoors, possibly with dusty
+   hands — comfortably above the 44px minimum. */
+.farm-tap {
+  min-height: 3.25rem;
+}
+
+.farm-focus:focus-visible {
+  outline: 3px solid var(--leaf);
+  outline-offset: 2px;
+}
+
+/* ── Motion ────────────────────────────────────────────────────────────
+   One orchestrated arrival on the decision, and the ambient field. A user
+   who has asked for less motion gets a still scene, not a broken one. */
+
+@media (prefers-reduced-motion: reduce) {
+  .farm-sun,
+  .farm-drift,
+  .farm-sway {
+    animation: none !important;
+  }
+  .farm-drift {
+    /* Hold the drifting produce at a readable resting position instead of
+       leaving it stacked off-screen at its start offset. */
+    transform: translateX(38vw);
+  }
+}
+
+/* ── Farmer home hero ──────────────────────────────────────────────────
+   Sunrise sky behind the headline, a layered field along the bottom and a
+   handful of leaves drifting down very slowly. Pure CSS/SVG: no images. */
+.farm-hero {
+  background: linear-gradient(180deg, #fff3cf 0%, #fdf6dd 38%, #eef6d9 100%);
+  box-shadow: 0 2px 4px rgba(42, 33, 25, 0.05), 0 26px 50px -30px rgba(42, 33, 25, 0.35);
+}
+.farm-hero .farm-sun {
+  top: -7rem;
+  left: 78%;
+  width: 17rem;
+  height: 17rem;
+}
+.farm-leaf {
+  position: absolute;
+  top: -24px;
+  opacity: 0;
+  animation: farm-leaf-fall linear infinite;
+  will-change: transform, opacity;
+}
+@keyframes farm-leaf-fall {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.8; }
+  50%  { transform: translate3d(26px, 120px, 0) rotate(140deg); }
+  90%  { opacity: 0.6; }
+  100% { transform: translate3d(-14px, 250px, 0) rotate(300deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .farm-leaf { animation: none !important; display: none; }
+}
+
+/* Small-screen polish: the sun sits off the headline, softer press feedback. */
+@media (max-width: 480px) {
+  .farm-hero .farm-sun { left: 90%; }
+}
+.farm-surface a, .farm-surface button { -webkit-tap-highlight-color: transparent; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FARMER ATMOSPHERE — fixed landscape behind every farmer page
+   ═══════════════════════════════════════════════════════════════════════ */
+.farm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.farm-backdrop-sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 45% at 82% 6%, rgba(255, 214, 110, 0.55) 0%, rgba(255, 224, 150, 0) 70%),
+    linear-gradient(180deg, #ffefc4 0%, #fdf6dd 26%, #eef6d9 58%, #d9ecc0 100%);
+}
+.farm-backdrop-sun {
+  position: absolute;
+  top: -5rem;
+  right: 6%;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd25e 0%, rgba(255, 205, 90, 0.7) 35%, rgba(255, 224, 150, 0) 70%);
+  animation: farm-sun-pulse 16s ease-in-out infinite;
+}
+.farm-backdrop-rays {
+  position: absolute;
+  inset: -45%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 220, 120, 0.16) 0deg 6deg, transparent 6deg 22deg);
+  -webkit-mask-image: radial-gradient(circle, #000 18%, transparent 62%);
+  mask-image: radial-gradient(circle, #000 18%, transparent 62%);
+  animation: farm-rays-turn 240s linear infinite;
+}
+@keyframes farm-sun-pulse { 0%,100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.06); opacity: 1; } }
+@keyframes farm-rays-turn { to { transform: rotate(360deg); } }
+
+.farm-cloud {
+  position: absolute;
+  left: 0;
+  animation: farm-cloud-pass linear infinite;
+  will-change: transform;
+}
+@keyframes farm-cloud-pass { from { transform: translateX(-30vw); } to { transform: translateX(115vw); } }
+
+.farm-mote {
+  position: absolute;
+  bottom: 22vh;
+  border-radius: 50%;
+  background: rgba(255, 236, 160, 0.9);
+  box-shadow: 0 0 8px rgba(255, 220, 120, 0.9);
+  opacity: 0;
+  animation: farm-mote-rise linear infinite;
+}
+@keyframes farm-mote-rise {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  15% { opacity: .85; }
+  100% { transform: translate3d(30px, -55vh, 0); opacity: 0; }
+}
+.farm-bleaf {
+  position: absolute;
+  top: -30px;
+  opacity: 0;
+  animation: farm-bleaf-fall linear infinite;
+}
+@keyframes farm-bleaf-fall {
+  0% { transform: translate3d(0, -20px, 0) rotate(0); opacity: 0; }
+  8% { opacity: .85; }
+  50% { transform: translate3d(40px, 55vh, 0) rotate(200deg); }
+  92% { opacity: .6; }
+  100% { transform: translate3d(-20px, 112vh, 0) rotate(380deg); opacity: 0; }
+}
+.farm-backdrop-land {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  width: 100%;
+  height: min(42vh, 380px);
+}
+.farm-sway-slow { transform-origin: 50% 100%; animation: farm-sway-gentle 9s ease-in-out infinite; }
+
+/* Content floats above the landscape; paper surfaces turn lightly glassy. */
+.farm-surface,
+:root.dark .farm-surface { background: transparent; position: relative; z-index: 1; }
+.farm-card, .farm-section, .farm-row {
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.farm-section-warm { background: rgba(253, 248, 236, 0.94); }
+
+.farm-float { animation: farm-float-bob 6s ease-in-out infinite; }
+@keyframes farm-float-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* Inner-page banner */
+.farm-pagehero {
+  background: linear-gradient(120deg, rgba(255,243,207,.96) 0%, rgba(240,248,222,.96) 100%);
+  box-shadow: 0 2px 4px rgba(42,33,25,.05), 0 24px 48px -28px rgba(42,33,25,.35);
+}
+.farm-pagehero-turmeric { background: linear-gradient(120deg, rgba(255,236,184,.97), rgba(253,246,221,.97)); }
+.farm-pagehero-soil { background: linear-gradient(120deg, rgba(246,236,222,.97), rgba(240,246,224,.97)); }
+.farm-pagehero-glow {
+  position: absolute; right: -3rem; top: -4rem; width: 14rem; height: 14rem; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,205,90,.55), transparent 70%);
+}
+
+/* Section headings with an icon badge */
+.farm-h2 { display: flex; align-items: center; gap: .65rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .farm-backdrop-sun, .farm-backdrop-rays, .farm-cloud, .farm-mote, .farm-bleaf, .farm-sway-slow, .farm-float { animation: none !important; }
+  .farm-mote, .farm-bleaf { display: none; }
+  .farm-cloud { transform: translateX(30vw); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   POSTER SYSTEM — deep forest, one lime signature, big type, dawn light
+   ═══════════════════════════════════════════════════════════════════════ */
+:root, :root.dark {
+  --forest: #0b3321;
+  --forest-2: #114a2e;
+  --lime: #c8f04c;
+}
+
+.farm-poster {
+  min-height: min(92svh, 860px);
+  color: #fff;
+}
+.farm-poster-sky {
+  background:
+    radial-gradient(70% 55% at 22% 78%, rgba(255, 196, 92, 0.55) 0%, transparent 70%),
+    linear-gradient(180deg, #072a1a 0%, #0f4a2e 34%, #2f7d48 58%, #e9b24d 86%, #ffd98a 100%);
+}
+.farm-poster-stars {
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 28% 48%, rgba(255,255,255,.7), transparent),
+    radial-gradient(1.5px 1.5px at 46% 14%, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 63% 36%, rgba(255,255,255,.6), transparent),
+    radial-gradient(1.5px 1.5px at 81% 18%, rgba(255,255,255,.8), transparent),
+    radial-gradient(1px 1px at 92% 52%, rgba(255,255,255,.6), transparent);
+  animation: farm-twinkle 6s ease-in-out infinite;
+}
+@keyframes farm-twinkle { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+.farm-poster-sun {
+  position: absolute;
+  left: 50%;
+  margin-left: calc(min(36rem, 90vw) / -2);
+  bottom: -9rem;
+  width: min(36rem, 90vw);
+  aspect-ratio: 1;
+  transform-origin: center;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff1b8 0%, #ffd25e 22%, rgba(255, 190, 80, 0.55) 46%, rgba(255, 190, 80, 0) 70%);
+  animation: farm-sun-pulse 12s ease-in-out infinite;
+}
+.farm-poster-mist {
+  background: linear-gradient(180deg, transparent, rgba(255, 246, 214, 0.28), transparent);
+  filter: blur(8px);
+  animation: farm-mist 18s ease-in-out infinite;
+}
+@keyframes farm-mist { 0%,100% { transform: translateX(-2%); opacity: .7; } 50% { transform: translateX(2%); opacity: 1; } }
+.farm-bob { animation: farm-float-bob 2.4s ease-in-out infinite; }
+
+/* Price ticker */
+.farm-ticker-track { animation: farm-ticker 46s linear infinite; }
+.farm-ticker:hover .farm-ticker-track { animation-play-state: paused; }
+@keyframes farm-ticker { from { transform: translateX(0); } to { transform: translateX(-25%); } }
+
+/* Bands */
+.farm-band-dark {
+  position: relative;
+  background:
+    radial-gradient(60% 40% at 85% 0%, rgba(200, 240, 76, 0.14), transparent 70%),
+    radial-gradient(50% 40% at 0% 100%, rgba(255, 196, 92, 0.10), transparent 70%),
+    linear-gradient(180deg, var(--forest) 0%, #0d3d27 100%);
+  color: #fff;
+}
+.farm-band-dark::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M20 100C20 60 44 38 80 34c0 38-20 62-54 62-2 0-4 0-6 4z' fill='none' stroke='%23c8f04c' stroke-opacity='.07' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+.farm-band-dark > * { position: relative; }
+.farm-band-light {
+  background: linear-gradient(180deg, #f5f8e6 0%, #eef6d9 100%);
+}
+/* paper cards read crisply on the dark band */
+.farm-band-dark .farm-card, .farm-band-dark .farm-section, .farm-band-dark .farm-row {
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.55);
+}
+.farm-band-dark .farm-section-warm { background: #fdf8ec; }
+
+/* Inner-page banner, now in the poster language */
+.farm-pagehero,
+.farm-pagehero-turmeric,
+.farm-pagehero-soil {
+  background:
+    radial-gradient(60% 90% at 90% 0%, rgba(200, 240, 76, 0.22), transparent 70%),
+    linear-gradient(120deg, #072a1a 0%, #0f4a2e 60%, #1c6a40 100%);
+  border-color: rgba(200, 240, 76, 0.25);
+  color: #fff;
+}
+.farm-pagehero-turmeric { background: radial-gradient(60% 90% at 90% 0%, rgba(255, 196, 92, 0.35), transparent 70%), linear-gradient(120deg, #072a1a 0%, #124a2e 55%, #6b5a1c 100%); }
+.farm-pagehero-soil { background: radial-gradient(60% 90% at 90% 0%, rgba(255, 196, 92, 0.25), transparent 70%), linear-gradient(120deg, #1d1a10 0%, #123d27 60%, #1c6a40 100%); }
+.farm-pagehero-glow { background: radial-gradient(circle, rgba(200, 240, 76, 0.35), transparent 70%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .farm-poster-stars, .farm-poster-sun, .farm-poster-mist, .farm-bob, .farm-ticker-track { animation: none !important; }
+}
+
+/* Photography: slow crossfading mandi and farmer photos behind the hero */
+.farm-poster-photo {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: 70% 30%;
+  opacity: 0;
+  animation: farm-photo 32s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+.farm-poster-photo:first-child { opacity: 1; }
+@keyframes farm-photo {
+  0%   { opacity: 0; transform: scale(1); }
+  6%   { opacity: 1; }
+  25%  { opacity: 1; }
+  31%  { opacity: 0; transform: scale(1.09); }
+  100% { opacity: 0; transform: scale(1.09); }
+}
+/* Forest scrim keeps the headline readable and lets the photo show on the right. */
+.farm-poster-scrim {
+  background:
+    linear-gradient(90deg, rgba(7, 42, 26, 0.94) 0%, rgba(7, 42, 26, 0.78) 42%, rgba(7, 42, 26, 0.34) 100%),
+    linear-gradient(180deg, rgba(7, 42, 26, 0.3) 0%, transparent 40%);
+}
+.farm-poster-sky { opacity: 0.5; mix-blend-mode: multiply; }
+
+.farm-pagehero-photo {
+  position: absolute; inset: 0; background-size: cover; background-position: center 35%;
+  opacity: 0.4;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 60%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 60%);
+}
+
+/* Sticky mandi navigation */
+.farm-mandinav {
+  background: rgba(7, 42, 26, 0.9);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  border-bottom: 1px solid rgba(200, 240, 76, 0.28);
+}
+.farm-mandinav-scroll {
+  -webkit-mask-image: linear-gradient(90deg, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, #000 94%, transparent);
+}
+.farm-mandichip { transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease; }
+.farm-mandichip:hover { transform: translateY(-2px); background-color: rgba(200, 240, 76, 0.22); border-color: var(--lime); }
+
+@media (prefers-reduced-motion: reduce) {
+  .farm-poster-photo { animation: none !important; }
+  .farm-poster-photo:not(:first-child) { display: none; }
+}
+/* Launchpad photo cards on the home page */
+.farm-dest { box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); border: 1px solid rgba(200, 240, 76, .18); transition: transform 240ms ease, border-color 240ms ease; }
+.farm-dest:hover { transform: translateY(-4px); border-color: var(--lime); }
+.farm-dest-img { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 900ms cubic-bezier(.16, 1, .3, 1); }
+.farm-dest:hover .farm-dest-img { transform: scale(1.07); }
+.farm-dest-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 42, 26, .35) 0%, rgba(7, 42, 26, .88) 100%); }
+
+/* Inner-page scene: birds, market stalls, truck, framed photos */
+.farm-birds { position: absolute; top: 13%; left: 0; opacity: .75; animation: farm-bird-pass 70s linear infinite; will-change: transform; }
+@keyframes farm-bird-pass { from { transform: translate(-20vw, 6px); } 50% { transform: translate(55vw, -18px); } to { transform: translate(115vw, 10px); } }
+.farm-wing { animation: farm-flap .7s ease-in-out infinite; }
+@keyframes farm-flap { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(-.55); } }
+
+.farm-truck { position: absolute; left: 0; bottom: 1.2vh; animation: farm-truck-drive 48s linear infinite; will-change: transform; filter: drop-shadow(0 8px 6px rgba(0,0,0,.25)); }
+.farm-truck svg { animation: farm-truck-bump .5s ease-in-out infinite; }
+@keyframes farm-truck-drive { from { transform: translateX(-22vw); } to { transform: translateX(112vw); } }
+@keyframes farm-truck-bump { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1.6px); } }
+.farm-wheel { animation: farm-wheel-spin .9s linear infinite; }
+@keyframes farm-wheel-spin { to { transform: rotate(360deg); } }
+
+/* Framed photos flank the content column on wide screens only */
+.farm-sideframe {
+  display: none; position: absolute; z-index: 2; margin: 0; width: 15rem; aspect-ratio: 4 / 5;
+  padding: .5rem .5rem 1.6rem; background: #fff; border-radius: .9rem;
+  box-shadow: 0 30px 50px -24px rgba(11, 51, 33, .55), 0 2px 6px rgba(0,0,0,.08);
+  transform: rotate(var(--rot)); animation: farm-frame-sway 9s ease-in-out infinite;
+}
+.farm-sideframe-img { display: block; width: 100%; height: 100%; border-radius: .55rem; background-size: cover; background-position: center; }
+.farm-sidesticker { position: absolute; right: -1.1rem; bottom: -.9rem; filter: drop-shadow(0 8px 10px rgba(0,0,0,.25)); }
+@keyframes farm-frame-sway { 0%,100% { transform: rotate(var(--rot)) translateY(0); } 50% { transform: rotate(calc(var(--rot) + 1.2deg)) translateY(-8px); } }
+@media (min-width: 1400px) {
+  .farm-sideframe { display: block; }
+  .farm-sideframe-l { right: calc(50% + 384px + 3rem); }
+  .farm-sideframe-r { left: calc(50% + 384px + 3rem); }
+}
+@media (min-width: 1400px) and (max-width: 1799px) { .farm-sideframe-wide { display: none; } }
+@media (min-width: 1800px) {
+  .farm-sideframe-wide.farm-sideframe-l { right: calc(50% + 512px + 3rem); }
+  .farm-sideframe-wide.farm-sideframe-r { left: calc(50% + 512px + 3rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .farm-birds, .farm-wing, .farm-truck, .farm-truck svg, .farm-wheel, .farm-sideframe { animation: none !important; }
+  .farm-truck { transform: translateX(60vw); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TRADING DESK — night-market scene, glass panels, cyan/violet/amber accents
+   ═══════════════════════════════════════════════════════════════════════ */
+:root {
+  --tb-cyan: #0891b2;
+  --tb-violet: #7c3aed;
+  --tb-amber: #d97706;
+  --tb-green: #059669;
+  --tb-grid: rgba(8, 145, 178, 0.18);
+  --tb-orb-a: rgba(8, 145, 178, 0.22);
+  --tb-orb-b: rgba(124, 58, 237, 0.16);
+  --tb-orb-c: rgba(217, 119, 6, 0.12);
+  --tb-panel: rgba(255, 255, 255, 0.78);
+  --tb-up: #059669;
+  --tb-down: #e11d48;
+}
+:root.dark {
+  --tb-cyan: #22d3ee;
+  --tb-violet: #a78bfa;
+  --tb-amber: #fbbf24;
+  --tb-green: #34d399;
+  --tb-grid: rgba(34, 211, 238, 0.22);
+  --tb-orb-a: rgba(34, 211, 238, 0.2);
+  --tb-orb-b: rgba(167, 139, 250, 0.18);
+  --tb-orb-c: rgba(251, 191, 36, 0.1);
+  --tb-panel: rgba(10, 16, 30, 0.72);
+  --tb-up: #34d399;
+  --tb-down: #fb7185;
+}
+
+/* backdrop */
+.tb { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.tb-base { position: absolute; inset: 0; background: linear-gradient(180deg, #eef3fb 0%, #e6edf8 100%); }
+:root.dark .tb-base { background: radial-gradient(80% 60% at 50% 0%, #0b1730 0%, #060b18 60%, #04070f 100%); }
+.tb-orb { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
+.tb-orb-a { width: 38rem; height: 38rem; left: -10rem; top: -8rem; background: var(--tb-orb-a); animation: tb-float 26s ease-in-out infinite; }
+.tb-orb-b { width: 34rem; height: 34rem; right: -8rem; top: 6rem; background: var(--tb-orb-b); animation: tb-float 32s ease-in-out infinite reverse; }
+.tb-orb-c { width: 30rem; height: 30rem; left: 38%; bottom: -12rem; background: var(--tb-orb-c); animation: tb-float 38s ease-in-out infinite; }
+@keyframes tb-float { 0%,100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(60px, 40px, 0); } }
+
+.tb-bandwrap { position: absolute; left: 0; width: 100%; overflow: hidden; opacity: 0.13; }
+.tb-bandwrap-a { bottom: 22vh; height: 200px; }
+.tb-bandwrap-b { bottom: 4vh; height: 200px; opacity: 0.08; }
+.tb-band { display: block; animation: tb-band-scroll 90s linear infinite; will-change: transform; }
+.tb-bandwrap-b .tb-band { animation-duration: 140s; animation-direction: reverse; }
+@keyframes tb-band-scroll { to { transform: translateX(-50%); } }
+.tb-up line { stroke: var(--tb-up); } .tb-up rect { fill: var(--tb-up); }
+.tb-down line { stroke: var(--tb-down); } .tb-down rect { fill: var(--tb-down); }
+
+.tb-line { position: absolute; left: 0; top: 14vh; width: 100%; height: 30vh; opacity: 0.5; filter: drop-shadow(0 0 8px var(--tb-cyan)); }
+.tb-line-path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tb-line-draw 14s ease-in-out infinite; }
+@keyframes tb-line-draw { 0% { stroke-dashoffset: 1; } 55%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -1; } }
+
+.tb-grid {
+  position: absolute; left: -25%; right: -25%; bottom: -8vh; height: 55vh;
+  background-image: linear-gradient(var(--tb-grid) 1px, transparent 1px), linear-gradient(90deg, var(--tb-grid) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(520px) rotateX(64deg); transform-origin: 50% 100%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 70%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 70%);
+  animation: tb-grid-move 4s linear infinite; opacity: 0.55;
+}
+@keyframes tb-grid-move { to { background-position: 0 64px, 0 0; } }
+.tb-scan { position: absolute; left: 0; right: 0; height: 22vh; background: linear-gradient(180deg, transparent, var(--tb-grid), transparent); opacity: 0.35; animation: tb-scan 11s linear infinite; }
+@keyframes tb-scan { from { transform: translateY(-30vh); } to { transform: translateY(110vh); } }
+.tb-vignette { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.3) 100%); }
+:root:not(.dark) .tb-vignette { background: none; }
+
+/* pages float above; solid page backgrounds are lifted so the scene shows */
+.tb-clear { background: transparent !important; }
+
+/* header */
+.tb-header {
+  background: color-mix(in oklch, var(--surface-0) 72%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid var(--surface-border);
+  box-shadow: 0 1px 0 color-mix(in oklch, var(--tb-cyan) 25%, transparent);
+}
+.tb-logo { background: linear-gradient(135deg, var(--tb-cyan), var(--tb-violet)); box-shadow: 0 8px 22px -8px var(--tb-cyan); }
+.tb-gradient-text { background: linear-gradient(90deg, var(--tb-cyan), var(--tb-violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tb-navpill { background: color-mix(in oklch, var(--tb-cyan) 14%, transparent); border: 1px solid color-mix(in oklch, var(--tb-cyan) 35%, transparent); }
+.tb-live { color: var(--tb-green); background: color-mix(in oklch, var(--tb-green) 12%, transparent); border: 1px solid color-mix(in oklch, var(--tb-green) 30%, transparent); }
+.tb-farmer { color: #0b3321; background: #c8f04c; transition: transform .18s ease, box-shadow .18s ease; }
+.tb-farmer:hover { transform: translateY(-1px); box-shadow: 0 10px 24px -10px rgba(200, 240, 76, .8); }
+
+/* panels, hero, module cards */
+.tb-panel {
+  background: var(--tb-panel);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border: 1px solid var(--surface-border);
+  box-shadow: 0 20px 50px -30px rgba(0, 0, 0, .55);
+}
+.tb-hero {
+  background: color-mix(in oklch, var(--surface-0) 70%, transparent);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in oklch, var(--tb-ac, var(--tb-cyan)) 30%, var(--surface-border));
+  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, .7);
+}
+.tb-hero-glow { position: absolute; right: -6rem; top: -8rem; width: 26rem; height: 26rem; border-radius: 50%; background: radial-gradient(circle, color-mix(in oklch, var(--tb-ac, var(--tb-cyan)) 28%, transparent), transparent 70%); pointer-events: none; }
+.tb-accent-cyan { --tb-ac: var(--tb-cyan); } .tb-accent-violet { --tb-ac: var(--tb-violet); }
+.tb-accent-amber { --tb-ac: var(--tb-amber); } .tb-accent-green { --tb-ac: var(--tb-green); }
+.tb-accent-text { color: var(--tb-ac, var(--tb-cyan)); }
+.tb-hero-icon { color: var(--tb-ac, var(--tb-cyan)); background: color-mix(in oklch, var(--tb-ac, var(--tb-cyan)) 14%, transparent); border: 1px solid color-mix(in oklch, var(--tb-ac, var(--tb-cyan)) 35%, transparent); }
+
+.tb-module {
+  background: var(--tb-panel);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border: 1px solid var(--surface-border);
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.tb-module:hover { transform: translateY(-4px); border-color: var(--tb-ac); box-shadow: 0 28px 60px -30px color-mix(in oklch, var(--tb-ac) 60%, transparent); }
+.tb-module-glow { position: absolute; right: -4rem; top: -5rem; width: 14rem; height: 14rem; border-radius: 50%; background: radial-gradient(circle, color-mix(in oklch, var(--tb-ac) 25%, transparent), transparent 70%); opacity: .7; transition: opacity .3s; }
+.tb-module:hover .tb-module-glow { opacity: 1; }
+.tb-arrow { color: var(--neutral-signal); border: 1px solid var(--surface-border-strong); transition: all .25s ease; }
+.tb-module:hover .tb-arrow { color: #04121a; background: var(--tb-ac); border-color: var(--tb-ac); transform: rotate(8deg); }
+
+.tb-cta { color: #04121a; background: linear-gradient(135deg, var(--tb-cyan), color-mix(in oklch, var(--tb-cyan) 60%, var(--tb-violet))); box-shadow: 0 14px 30px -14px var(--tb-cyan); transition: transform .18s ease; }
+.tb-cta:hover { transform: translateY(-2px); }
+.tb-ghost { color: var(--foreground); border: 1px solid var(--surface-border-strong); background: color-mix(in oklch, var(--surface-0) 50%, transparent); transition: border-color .18s ease, transform .18s ease; }
+.tb-ghost:hover { border-color: var(--tb-cyan); transform: translateY(-2px); }
+
+.tb-chip { color: var(--neutral-signal); border: 1px solid var(--surface-border); background: color-mix(in oklch, var(--surface-1) 60%, transparent); transition: all .18s ease; }
+.tb-chip:hover { color: var(--foreground); border-color: var(--tb-cyan); }
+.tb-chip-on { color: var(--foreground); background: color-mix(in oklch, var(--tb-cyan) 18%, transparent); border-color: var(--tb-cyan); }
+.tb-skel { background: linear-gradient(100deg, transparent 20%, color-mix(in oklch, var(--tb-cyan) 14%, transparent) 50%, transparent 80%), var(--surface-2); background-size: 200% 100%; animation: tb-skel 1.4s linear infinite; }
+@keyframes tb-skel { to { background-position: -200% 0; } }
+.tb-chart-label { font: 600 10px var(--font-mono), monospace; fill: var(--neutral-signal); }
+.tb-ping { transform-origin: center; transform-box: fill-box; animation: tb-ping 2s ease-out infinite; }
+@keyframes tb-ping { 0% { transform: scale(.6); opacity: .6; } 100% { transform: scale(2.2); opacity: 0; } }
+
+/* tape */
+.tb-tape-track { animation: tb-tape 50s linear infinite; }
+.tb-tape:hover .tb-tape-track { animation-play-state: paused; }
+@keyframes tb-tape { to { transform: translateX(-25%); } }
+
+/* module illustrations */
+.tb-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tb-line-draw 6s ease-in-out infinite; }
+.tb-spin { animation: tb-rot 14s linear infinite; }
+@keyframes tb-rot { to { transform: rotate(360deg); } }
+.tb-type { transform-origin: left; animation: tb-typing 3.2s ease-in-out infinite; opacity: .85; }
+@keyframes tb-typing { 0% { transform: scaleX(0); } 55%, 90% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+.tb-bar { transform-origin: bottom; animation: tb-eq 2.2s ease-in-out infinite; opacity: .85; }
+@keyframes tb-eq { 0%,100% { transform: scaleY(.45); } 50% { transform: scaleY(1); } }
+.tb-shimmer { background: linear-gradient(90deg, color-mix(in oklch, currentColor 20%, transparent), currentColor, color-mix(in oklch, currentColor 20%, transparent)); background-size: 200% 100%; animation: tb-skel 2.4s linear infinite; opacity: .8; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tb-orb, .tb-band, .tb-line-path, .tb-grid, .tb-scan, .tb-tape-track, .tb-draw, .tb-spin, .tb-type, .tb-bar, .tb-shimmer, .tb-ping, .tb-skel { animation: none !important; }
+  .tb-line-path, .tb-draw { stroke-dashoffset: 0; }
+  .tb-scan { display: none; }
+}
+
+/* ── Desk photography ───────────────────────────────────────────────── */
+.tb-hero-photo {
+  position: absolute; inset: 0; background-size: cover; background-position: center 40%;
+  opacity: .42; mix-blend-mode: luminosity;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 62%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 62%);
+}
+:root:not(.dark) .tb-hero-photo { opacity: .5; mix-blend-mode: normal; }
+
+/* hero slideshow on the desk home */
+.tb-slides { position: absolute; inset: 0; }
+.tb-slide { position: absolute; inset: 0; background-size: cover; background-position: center 45%; opacity: 0; animation: tb-slide 32s ease-in-out infinite; will-change: opacity, transform; }
+.tb-slide:first-child { opacity: 1; }
+@keyframes tb-slide {
+  0% { opacity: 0; transform: scale(1); } 6% { opacity: 1; } 25% { opacity: 1; }
+  31% { opacity: 0; transform: scale(1.08); } 100% { opacity: 0; transform: scale(1.08); }
+}
+.tb-hero-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(4, 9, 20, .95) 0%, rgba(4, 9, 20, .84) 46%, rgba(4, 9, 20, .55) 100%); }
+:root:not(.dark) .tb-hero-scrim { background: linear-gradient(90deg, rgba(238, 243, 251, .96) 0%, rgba(238, 243, 251, .86) 46%, rgba(238, 243, 251, .6) 100%); }
+
+/* photo module cards */
+.tb-module { padding: 0; }
+.tb-module-img { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 900ms cubic-bezier(.16, 1, .3, 1); filter: saturate(.85) contrast(1.05); }
+.tb-module:hover .tb-module-img { transform: scale(1.07); }
+.tb-module-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4, 9, 20, .5) 0%, rgba(4, 9, 20, .9) 100%), linear-gradient(135deg, color-mix(in oklch, var(--tb-ac) 22%, transparent), transparent 55%); }
+.tb-icon-solid { background: var(--tb-ac); color: #04121a; border-color: var(--tb-ac); }
+.tb-module .tb-arrow { color: #fff; border-color: rgba(255, 255, 255, .4); }
+
+/* glass for the existing page panels so the scene reads through them */
+.tb-clear .glass-panel,
+.tb-clear [class*="bg-surface-1"],
+.tb-clear [class*="bg-zinc-950"],
+.tb-clear [class*="bg-white/9"],
+.tb-clear [class*="bg-white/8"] {
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+}
+.tb-clear [class*="bg-surface-1"] { background-color: color-mix(in oklch, var(--surface-1) 78%, transparent); }
+
+/* calmer scene line so it never fights the content */
+.tb-line { opacity: .26; top: 8vh; height: 24vh; filter: drop-shadow(0 0 6px var(--tb-cyan)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tb-slide { animation: none !important; }
+  .tb-slide:not(:first-child) { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   COMMAND CENTER — readable type scale + desk glass, scoped to .traderos
+   The page was authored in 8–9px monospace; these rules lift every size and
+   restyle panels without changing any markup behaviour.
+   ═══════════════════════════════════════════════════════════════════════ */
+.traderos { font-feature-settings: "tnum"; }
+.traderos [class*="text-[7px]"], .traderos [class*="text-[8px]"], .traderos [class*="text-[8.5px]"] { font-size: 11px !important; line-height: 1.45 !important; }
+.traderos [class*="text-[9px]"], .traderos [class*="text-[9.5px]"] { font-size: 12px !important; line-height: 1.5 !important; }
+.traderos [class*="text-[10px]"] { font-size: 13px !important; line-height: 1.5 !important; }
+.traderos [class*="text-[10.5px]"], .traderos [class*="text-[11px]"] { font-size: 13.5px !important; line-height: 1.5 !important; }
+.traderos [class*="text-[12px]"] { font-size: 14px !important; }
+.traderos .text-xs { font-size: 13px; }
+
+/* labels were monospace; use the product sans, keep mono for live logs and clocks */
+.traderos .font-mono:not(.tb-keepmono) { font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif !important; font-variant-numeric: tabular-nums; }
+.traderos .tracking-widest, .traderos .tracking-wider,
+.traderos [class*="tracking-[0.1"], .traderos [class*="tracking-[0.2"], .traderos [class*="tracking-[0.3"] { letter-spacing: .09em !important; }
+
+/* panels: desk glass */
+.traderos [class*="bg-[#131622]"], .traderos [class*="bg-[#11131c]"], .traderos [class*="bg-indigo-950/10"] {
+  background: var(--tb-panel) !important;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-color: var(--surface-border-strong) !important;
+  box-shadow: 0 24px 50px -34px rgba(0, 0, 0, .7);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.traderos [class*="bg-[#131622]"]:hover { border-color: color-mix(in oklch, var(--tb-cyan) 45%, transparent) !important; }
+.traderos [class*="bg-[#181c2c]"], .traderos [class*="bg-[#161a29]"], .traderos [class*="bg-[#141620]"], .traderos [class*="bg-[#1b2035]"] { background: color-mix(in oklch, #fff 5%, transparent) !important; }
+.traderos .tb-aside { background: color-mix(in oklch, var(--surface-0) 74%, transparent); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+.traderos .tb-footer { background: color-mix(in oklch, var(--surface-0) 78%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.traderos .rounded-xl { border-radius: 1.1rem; }
+.traderos .rounded-lg { border-radius: .85rem; }
+
+/* scope selectors */
+.traderos nav select, .traderos select { font-size: 13.5px !important; font-weight: 600; }
+.traderos nav [class*="bg-[#171b2c]"] { background: color-mix(in oklch, #fff 6%, transparent) !important; padding: .35rem .7rem !important; border-radius: .8rem; }
+
+/* KPI cards */
+.traderos .tb-kpi-label { display: flex; align-items: center; gap: .55rem; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--neutral-signal); }
+.traderos .tb-kpi-icon { display: inline-flex; height: 1.9rem; width: 1.9rem; align-items: center; justify-content: center; border-radius: .6rem; background: color-mix(in oklch, currentColor 14%, transparent); border: 1px solid color-mix(in oklch, currentColor 30%, transparent); flex-shrink: 0; }
+.traderos .tb-memo { border-left: 3px solid var(--tb-violet); padding-left: 1rem; }
+
+/* buttons in the command panels */
+.traderos button:not(.tb-cta) { transition: transform .15s ease, border-color .15s ease, background-color .15s ease; }
+.traderos button:not(.tb-cta):not(:disabled):hover { transform: translateY(-1px); }
+
+/* custom scrollbars */
+.traderos ::-webkit-scrollbar { width: 8px; height: 8px; }
+.traderos ::-webkit-scrollbar-thumb { background: color-mix(in oklch, var(--tb-cyan) 25%, transparent); border-radius: 8px; }
+
+/* the cockpit column scrolls; its blocks must keep their natural height */
+.traderos section.overflow-y-auto > * { flex-shrink: 0; }
+
+/* pills sitting on a hero photo need a solid backing to stay readable */
+.tb-hero .tb-live { background: rgba(4, 18, 14, .82); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TRADER TOOL PAGES — each tool alone on a page, so its type can breathe
+   ═══════════════════════════════════════════════════════════════════════ */
+.tb-tool .glass-panel, .tb-tool [class*="bg-surface-1"] {
+  background: var(--tb-panel) !important;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border: 1px solid var(--surface-border-strong);
+  border-radius: 1.5rem;
+  padding: 1.6rem;
+  box-shadow: 0 26px 60px -38px rgba(0, 0, 0, .7);
+}
+@media (min-width: 640px) { .tb-tool .glass-panel { padding: 2rem; } }
+
+/* tool title and subtitle */
+.tb-tool h3 { font-size: 1.15rem; line-height: 1.3; }
+.tb-tool h3 + p { font-size: 14px; }
+
+/* the panels were authored for half-width cards at 9-11px; lift the scale */
+.tb-tool [class*="text-[9px]"] { font-size: 12px !important; line-height: 1.5 !important; }
+.tb-tool [class*="text-[10px]"] { font-size: 13px !important; line-height: 1.5 !important; }
+.tb-tool [class*="text-[11px]"] { font-size: 14px !important; line-height: 1.55 !important; }
+.tb-tool .text-xs { font-size: 14px; line-height: 1.55; }
+.tb-tool .text-sm { font-size: 15px; }
+.tb-tool .font-mono { font-variant-numeric: tabular-nums; }
+
+/* inputs and pickers */
+.tb-tool select, .tb-tool input[type="number"], .tb-tool input[type="text"] {
+  font-size: 14px !important; min-height: 2.6rem; border-radius: .8rem; padding-inline: .8rem;
+}
+.tb-tool button { min-height: 2.4rem; }
+
+/* result rows: more air, and a hover so each row reads as its own item */
+.tb-tool [class*="rounded-xl"][class*="border"] { border-radius: 1rem; transition: border-color .18s ease, transform .18s ease; }
+.tb-tool [class*="rounded-xl"][class*="border"]:hover { border-color: color-mix(in oklch, var(--tb-cyan) 45%, transparent); }
+.tb-tool .space-y-2 > * + * { margin-top: .7rem; }
+
+.tb-navcard { transition: transform .2s ease, border-color .2s ease; }
+.tb-navcard:hover { transform: translateY(-2px); border-color: var(--tb-cyan); }
+
+/* the page banner already names the tool, so drop the panel's own title row */
+.tb-tool .glass-panel > div:first-child:has(> span + div > h3) { display: none; }
+.tb-tool .glass-panel > div:first-child:has(> span + div > h3) + div { margin-top: 0; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CHATBOTS — farm (warm paper, lime) and desk (glass, cyan)
+   ═══════════════════════════════════════════════════════════════════════ */
+.chat-panel { box-shadow: 0 40px 90px -30px rgba(0, 0, 0, .55), 0 2px 8px rgba(0, 0, 0, .1); }
+.chat-dot { background: currentColor; opacity: .55; animation: chat-dot 1s ease-in-out infinite; }
+@keyframes chat-dot { 0%, 80%, 100% { transform: translateY(0); opacity: .35; } 40% { transform: translateY(-4px); opacity: 1; } }
+.chat-scroll { scroll-behavior: smooth; overscroll-behavior: contain; }
+.chat-icon-btn, .chat-lang, .chat-chip, .chat-mic, .chat-send, .chat-fab { transition: transform .15s ease, background-color .15s ease, border-color .15s ease, opacity .15s ease; }
+.chat-icon-btn:hover, .chat-chip:hover { transform: translateY(-1px); }
+.chat-send:not(:disabled):hover { transform: scale(1.06); }
+.chat-fab { box-shadow: 0 18px 40px -14px rgba(0, 0, 0, .55); }
+.chat-fab:hover { transform: translateY(-2px); }
+
+/* farm */
+.chat-farm { background: var(--farm-paper); color: var(--farm-ink); border: 1px solid var(--farm-line-strong); font-family: var(--font-sans), system-ui, sans-serif; }
+.chat-farm .chat-head { background: linear-gradient(120deg, #072a1a 0%, #0f4a2e 60%, #1c6a40 100%); color: #fff; }
+.chat-farm .chat-avatar { background: var(--lime); color: var(--forest); }
+.chat-farm .chat-icon-btn { color: #fff; }
+.chat-farm .chat-icon-btn:hover { background: rgba(255, 255, 255, .16); }
+.chat-farm .chat-lang { color: #fff; } .chat-farm .chat-lang-on { background: var(--lime); color: var(--forest); }
+.chat-farm .chat-scroll { background: linear-gradient(180deg, #fbfdf6 0%, #f4f9e8 100%); }
+.chat-farm .chat-bot { background: #fff; border: 1px solid var(--farm-line); color: var(--farm-ink); box-shadow: 0 6px 16px -12px rgba(42, 33, 25, .4); }
+.chat-farm .chat-user { background: var(--leaf); color: #fff; }
+.chat-farm .chat-error { background: var(--tomato-wash); color: var(--tomato); border: 1px solid rgba(217, 58, 43, .25); }
+.chat-farm .chat-chip { background: #fff; border: 1.5px solid var(--leaf); color: var(--leaf-deep); }
+.chat-farm .chat-chip:hover { background: var(--leaf-wash); }
+.chat-farm .chat-source { background: var(--leaf-wash); color: var(--leaf-deep); }
+.chat-farm .chat-meta { color: var(--farm-ink-soft); }
+.chat-farm .chat-composer { background: #fff; border-top: 1px solid var(--farm-line); }
+.chat-farm .chat-input { background: var(--farm-paper-warm); border: 1.5px solid var(--farm-line-strong); color: var(--farm-ink); }
+.chat-farm .chat-input:focus { border-color: var(--leaf); }
+.chat-farm .chat-send { background: var(--leaf); color: #fff; }
+.chat-farm .chat-mic { background: var(--farm-paper-warm); color: var(--farm-ink-soft); }
+.chat-farm .chat-mic-on { background: var(--call-sell-wash); color: var(--call-sell); }
+.chat-farm > p.chat-meta { background: #fff; }
+.chat-fab-farm { background: var(--lime); color: var(--forest); box-shadow: 0 18px 40px -14px rgba(11, 51, 33, .7); }
+
+/* desk */
+.chat-desk { background: color-mix(in oklch, var(--surface-0) 88%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); color: var(--foreground); border: 1px solid color-mix(in oklch, var(--tb-cyan) 35%, var(--surface-border-strong)); }
+.chat-desk .chat-head { background: linear-gradient(120deg, color-mix(in oklch, var(--tb-cyan) 24%, transparent), color-mix(in oklch, var(--tb-violet) 22%, transparent)); border-bottom: 1px solid var(--surface-border); color: var(--foreground); }
+.chat-desk .chat-avatar { background: linear-gradient(135deg, var(--tb-cyan), var(--tb-violet)); color: #04121a; }
+.chat-desk .chat-icon-btn { color: var(--neutral-signal); }
+.chat-desk .chat-icon-btn:hover { background: var(--surface-2); color: var(--foreground); }
+.chat-desk .chat-lang { color: var(--neutral-signal); } .chat-desk .chat-lang-on { background: color-mix(in oklch, var(--tb-cyan) 25%, transparent); color: var(--foreground); }
+.chat-desk .chat-head > div[role="group"] { border-color: var(--surface-border-strong); }
+.chat-desk .chat-bot { background: var(--surface-2); border: 1px solid var(--surface-border); color: var(--foreground); }
+.chat-desk .chat-user { background: linear-gradient(135deg, var(--tb-cyan), color-mix(in oklch, var(--tb-cyan) 55%, var(--tb-violet))); color: #04121a; font-weight: 600; }
+.chat-desk .chat-error { background: color-mix(in oklch, var(--bearish) 14%, transparent); color: var(--bearish); border: 1px solid color-mix(in oklch, var(--bearish) 35%, transparent); }
+.chat-desk .chat-chip { background: color-mix(in oklch, var(--tb-cyan) 8%, transparent); border: 1px solid color-mix(in oklch, var(--tb-cyan) 45%, transparent); color: var(--foreground); }
+.chat-desk .chat-chip:hover { background: color-mix(in oklch, var(--tb-cyan) 18%, transparent); }
+.chat-desk .chat-source { background: color-mix(in oklch, var(--tb-violet) 16%, transparent); color: var(--foreground); }
+.chat-desk .chat-meta { color: var(--neutral-signal); }
+.chat-desk .chat-composer { border-top: 1px solid var(--surface-border); }
+.chat-desk .chat-input { background: var(--surface-2); border: 1px solid var(--surface-border-strong); color: var(--foreground); }
+.chat-desk .chat-input:focus { border-color: var(--tb-cyan); }
+.chat-desk .chat-send { background: linear-gradient(135deg, var(--tb-cyan), var(--tb-violet)); color: #04121a; }
+.chat-desk .chat-mic { background: var(--surface-2); color: var(--neutral-signal); }
+.chat-desk .chat-mic-on { background: color-mix(in oklch, var(--bearish) 18%, transparent); color: var(--bearish); }
+.chat-fab-desk { background: linear-gradient(135deg, var(--tb-cyan), var(--tb-violet)); color: #04121a; box-shadow: 0 18px 40px -14px var(--tb-cyan); }
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-dot { animation: none; opacity: .7; }
+  .chat-scroll { scroll-behavior: auto; }
 }

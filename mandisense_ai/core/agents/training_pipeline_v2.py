@@ -7,10 +7,15 @@ import joblib
 import json
 from pathlib import Path
 
+# Anchored on the installed package rather than a developer machine, so
+# these paths resolve identically in a checkout, in the Docker image and
+# on Render. Previously these were absolute `d:/BMS COLL/...` literals.
+_PACKAGE_ROOT = Path(__file__).resolve().parents[2]
+
 # --- CONFIGURATION ---
-DATA_DIR = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/data/processed/v4")
-MODELS_ROOT = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/models")
-LOG_DIR = Path("d:/BMS COLL/PROJECT/MS-AI/MS-AI/mandisense_ai/logs")
+DATA_DIR = _PACKAGE_ROOT / "data" / "processed" / "v4"
+MODELS_ROOT = _PACKAGE_ROOT / "models"
+LOG_DIR = _PACKAGE_ROOT / "logs"
 VERSION = "v2"
 
 MODELS_ROOT.mkdir(parents=True, exist_ok=True)
