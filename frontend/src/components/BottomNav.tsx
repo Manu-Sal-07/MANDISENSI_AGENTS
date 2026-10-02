@@ -3,14 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Home, LineChart, FlaskConical, PiggyBank, Terminal as TerminalIcon, Wallet, Wrench } from 'lucide-react';
+import { Home, LayoutDashboard, LineChart, FlaskConical, PiggyBank, Terminal as TerminalIcon, Wallet, Wrench } from 'lucide-react';
 import { isFarmRoute } from '@/lib/surfaces';
 import { useLanguage } from '@/context/LanguageContext';
 
 const ANALYST_ITEMS = [
-  { href: '/', label: 'Home', icon: Home },
+  { href: '/trader', label: 'Desk', icon: LayoutDashboard },
   { href: '/market-explorer', label: 'Markets', icon: LineChart },
   { href: '/intelligence-lab', label: 'Lab', icon: FlaskConical },
+  { href: '/trader-tools', label: 'Tools', icon: Wrench },
   { href: '/terminal', label: 'Terminal', icon: TerminalIcon },
 ];
 
@@ -22,6 +23,7 @@ const ANALYST_ITEMS = [
 // deeper inside "Tools".
 const FARM_ITEMS = [
   { href: '/', labelKey: 'nav.home', icon: Home },
+  { href: '/prices', labelKey: 'nav.prices', icon: LineChart },
   { href: '/sell-plan', labelKey: 'nav.sell_plan', icon: Wallet },
   { href: '/my-money', labelKey: 'nav.my_money', icon: PiggyBank },
   { href: '/tools', labelKey: 'nav.tools', icon: Wrench },

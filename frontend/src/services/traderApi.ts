@@ -281,4 +281,68 @@ export const traderApi = {
     apiClient<BookRiskResult>('/v1/trader/positions/risk', {
       params: { book_id: bookId, horizon_days: String(horizonDays) },
     }),
+
+  transmissionMatrix: () => apiClient<TransmissionMatrixResult>('/v1/trader/transmission/matrix'),
+
+  transmissionGaps: (commodity: string, quantityQuintals = 20, tripDays = 3) =>
+    apiClient<GapArbitrageResult>(`/v1/trader/transmission/gaps/${commodity}`, {
+      params: { quantity_quintals: String(quantityQuintals), trip_days: String(tripDays) },
+    }),
 };
+
+// ── Cross-commodity / cross-district transmission ───────────────────────────
+// Built on the farmer data world's real district series
+// (mandisense_ai/farmer/transmission.py) — a separate, additional analysis
+// from the existing spread scanner above and from mandisense_ai/spillover/,
+// neither of which this reads or changes.
+
+export interface TransmissionEdge {
+  source: string;
+  target: string;
+  shock: 'glut' | 'squeeze';
+  status: 'OK' | 'INSUFFICIENT_EVIDENCE';
+  tier: 'ROBUST' | 'SUGGESTIVE' | 'NOT_SIGNIFICANT' | 'INSUFFICIENT_EVIDENCE';
+  n_episodes?: number;
+  effect?: number;
+  ci?: [number, number];
+  placebo_p?: number;
+  pre_trend_t?: number;
+  stability?: { stable: boolean; districts: number; agree: number };
+  min_detectable_effect?: number | null;
+}
+
+export interface TransmissionMatrixResult {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  generated_at?: string;
+  data_from?: string;
+  data_to?: string;
+  n_tested?: number;
+  n_robust?: number;
+  edges?: TransmissionEdge[];
+}
+
+export interface GapArbitrageRow {
+  cheaper_district: string;
+  dearer_district: string;
+  current_gap_pct: number;
+  projected_gap_pct_on_arrival: number;
+  structural_mean_gap_pct: number;
+  half_life_weeks: number;
+  kappa: number;
+  distance_km: number | null;
+  transport_pct: number | null;
+  net_gross_margin_pct: number;
+  worth_hauling: boolean;
+  trip_days: number;
+  quantity_quintals: number;
+}
+
+export interface GapArbitrageResult {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  crop?: string;
+  trip_days?: number;
+  pairs?: GapArbitrageRow[];
+  assumption?: string;
+}

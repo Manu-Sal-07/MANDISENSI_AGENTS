@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Loader2, Mic, Search } from 'lucide-react';
 
 import { useFarm } from '@/context/FarmContext';
@@ -16,6 +17,7 @@ import { farmerApi } from '@/services/farmerApi';
  * to avoid typing should not have to press anything afterwards.
  */
 export default function AskBar() {
+  const router = useRouter();
   const { district, setDistrict, setCrop, catalog } = useFarm();
   const { lang, speechLocale } = useLanguage();
   const [text, setText] = useState('');
@@ -41,7 +43,9 @@ export default function AskBar() {
         setDistrict(r.district);
       }
       setCrop(r.crop);
-      document.getElementById('field-board')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const board = document.getElementById('field-board');
+      if (board) board.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else router.push('/prices');
     } catch {
       setNote(say('ask.notfound', lang));
     } finally {

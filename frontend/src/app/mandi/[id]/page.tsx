@@ -8,12 +8,13 @@
  * lowest and highest paid that day, how much arrived, and the week's change.
  */
 
+import PageHero from '@/components/farm/PageHero';
 import React from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ChevronLeft, Truck } from 'lucide-react';
+import { ChevronLeft, Store, Truck } from 'lucide-react';
 
 import ProduceIcon, { produceScript, resolveProduce } from '@/components/farm/ProduceIcon';
 import UnavailableNotice from '@/components/farm/tools/UnavailableNotice';
@@ -51,8 +52,13 @@ export default function MandiPageRoute() {
 
         {data?.status === 'OK' && data.mandi && (
           <>
-            <h1 className="farm-display text-3xl text-[var(--farm-ink)]">{placeName(data.mandi, lang)}</h1>
-            <p className="mt-1 text-sm text-[var(--farm-ink-faint)]">{tri(lang, 'What each crop fetched at the latest sale', 'ಇತ್ತೀಚಿನ ವ್ಯಾಪಾರದಲ್ಲಿ ಪ್ರತಿ ಬೆಳೆಗೆ ಸಿಕ್ಕಿದ್ದು', 'ताज़ा बिक्री में हर फसल का भाव')}</p>
+            <PageHero photo="mandi-yard"
+              title={placeName(data.mandi, lang)}
+              subtitle={tri(lang, 'What each crop fetched at the latest sale', 'ಇತ್ತೀಚಿನ ವ್ಯಾಪಾರದಲ್ಲಿ ಪ್ರತಿ ಬೆಳೆಗೆ ಸಿಕ್ಕಿದ್ದು', 'ताज़ा बिक्री में हर फसल का भाव')}
+              icon={<Store className="h-7 w-7" />}
+              tone="soil"
+              produce={['tomato', 'onion', 'potato']}
+            />
 
             <ul className="mt-5 space-y-3">
               {all.map((c, i) => {

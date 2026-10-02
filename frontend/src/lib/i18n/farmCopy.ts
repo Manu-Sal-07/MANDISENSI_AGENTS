@@ -55,6 +55,16 @@ const COPY: Record<string, Entry> = {
   'reason.model_expects_up': { en: 'We expect about {n}% more in {d} days', kn: '{d} ದಿನಗಳಲ್ಲಿ ಸುಮಾರು {n}% ಹೆಚ್ಚು ನಿರೀಕ್ಷೆ', hi: '{d} दिनों में लगभग {n}% ज़्यादा की उम्मीद' },
   'reason.model_expects_down': { en: 'We expect about {n}% less in {d} days', kn: '{d} ದಿನಗಳಲ್ಲಿ ಸುಮಾರು {n}% ಕಡಿಮೆ ನಿರೀಕ್ಷೆ', hi: '{d} दिनों में लगभग {n}% कम की उम्मीद' },
   'reason.spoils_fast': { en: 'This crop loses about {n}% of its value for every day it waits', kn: 'ಈ ಬೆಳೆ ಕಾಯುವ ಪ್ರತಿ ದಿನ ಸುಮಾರು {n}% ಮೌಲ್ಯ ಕಳೆದುಕೊಳ್ಳುತ್ತದೆ', hi: 'यह फसल रुकने के हर दिन लगभग {n}% मूल्य खो देती है' },
+  'reason.neighbours_dearer': {
+    en: 'Nearby districts are paying {n}% more — such gaps have usually closed within about {w} weeks',
+    kn: 'ಹತ್ತಿರದ ಜಿಲ್ಲೆಗಳಲ್ಲಿ {n}% ಹೆಚ್ಚು ಬೆಲೆ ಇದೆ — ಇಂತಹ ವ್ಯತ್ಯಾಸ ಸಾಮಾನ್ಯವಾಗಿ ಸುಮಾರು {w} ವಾರಗಳಲ್ಲಿ ಕಡಿಮೆಯಾಗಿದೆ',
+    hi: 'आस-पास के ज़िलों में {n}% ज़्यादा भाव मिल रहा है — ऐसा अंतर आमतौर पर लगभग {w} हफ़्तों में कम हो गया है',
+  },
+  'reason.neighbours_cheaper': {
+    en: 'Nearby districts are paying {n}% less — such gaps have usually closed within about {w} weeks',
+    kn: 'ಹತ್ತಿರದ ಜಿಲ್ಲೆಗಳಲ್ಲಿ {n}% ಕಡಿಮೆ ಬೆಲೆ ಇದೆ — ಇಂತಹ ವ್ಯತ್ಯಾಸ ಸಾಮಾನ್ಯವಾಗಿ ಸುಮಾರು {w} ವಾರಗಳಲ್ಲಿ ಕಡಿಮೆಯಾಗಿದೆ',
+    hi: 'आस-पास के ज़िलों में {n}% कम भाव मिल रहा है — ऐसा अंतर आमतौर पर लगभग {w} हफ़्तों में कम हो गया है',
+  },
 
   'chart.thisYear': { en: 'This year', kn: 'ಈ ವರ್ಷ', hi: 'इस साल' },
   'chart.lastYear': { en: 'Same time last year', kn: 'ಕಳೆದ ವರ್ಷ ಇದೇ ಸಮಯ', hi: 'पिछले साल इसी समय' },
@@ -105,7 +115,7 @@ export function say(key: string, lang: Lang, vars: Record<string, string | numbe
 
 export function reasonText(reason: FarmReason, lang: Lang): string {
   const n = reason.value == null ? '' : Math.abs(reason.value).toFixed(reason.code === 'spoils_fast' ? 0 : 0);
-  return say(`reason.${reason.code}`, lang, { n, d: reason.days ?? '' });
+  return say(`reason.${reason.code}`, lang, { n, d: reason.days ?? '', w: reason.weeks ?? '' });
 }
 
 export function placeName(entry: PlaceNames | { name: string; name_kn: string; name_hi: string } | null | undefined, lang: Lang): string {

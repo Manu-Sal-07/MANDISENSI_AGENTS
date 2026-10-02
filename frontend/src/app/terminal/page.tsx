@@ -27,9 +27,15 @@ import {
   Clock,
   Terminal,
   ArrowRight,
+  ShieldCheck,
+  Wallet,
+  Target,
+  Siren,
 } from 'lucide-react';
 import { useCognitionStream } from '@/hooks/useCognitionStream';
 import TradingSection from '@/components/trading/TradingSection';
+import TraderHeader from '@/components/trader/TraderHeader';
+import DeskHero from '@/components/trader/DeskHero';
 
 type Directive = {
   primary_directive?: string;
@@ -604,58 +610,10 @@ export default function TraderOS() {
   }, [plans, activeState]);
 
   return (
-    <div className="traderos h-screen w-full overflow-hidden bg-[#0c0d12] text-slate-100 font-sans antialiased selection:bg-indigo-500/30">
-      <div className="flex h-full flex-col bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.04),transparent_50%),linear-gradient(180deg,#0a0b10_0%,#0c0d12_100%)]">
+    <div className="traderos tb-clear h-screen w-full overflow-hidden text-slate-100 font-sans antialiased selection:bg-indigo-500/30">
+      <div className="flex h-full flex-col">
 
-        {/* EXECUTIVE HEADER */}
-        <header className="shrink-0 border-b border-[#1e2335] bg-[#0c0d12]/75 backdrop-blur-xl px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="h-9 w-9 flex items-center justify-center rounded-lg border border-[#252c42] bg-[#141724] transition-colors hover:border-indigo-500/40" title="Back to MandiSense AI">
-              <Layers3 className="h-4.5 w-4.5 text-indigo-400" />
-            </Link>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-display text-base font-black tracking-tight text-white">TraderOS</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
-              </div>
-              <span className="font-mono text-[8px] uppercase tracking-[0.24em] text-slate-500 block -mt-0.5 font-semibold">Enterprise Sourcing Command</span>
-            </div>
-
-            <nav className="hidden xl:flex items-center gap-1 pl-4 ml-1 border-l border-[#1e2335]">
-              {[
-                { href: '/market-explorer', label: 'Explorer' },
-                { href: '/intelligence-lab', label: 'Lab' },
-                { href: '/ai-brief', label: 'AI Brief' },
-              ].map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="px-2.5 py-1 rounded-md font-mono text-[9px] font-bold uppercase tracking-widest text-slate-500 hover:text-white hover:bg-[#171b2c] transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-4 border-r border-[#1e2335] pr-6">
-              <div className="flex items-center gap-2 text-slate-400 font-mono text-[9px] uppercase tracking-wider font-semibold">
-                <Activity className="h-3.5 w-3.5 text-emerald-500" />
-                <span>Live Intel Sync</span>
-              </div>
-              <div className="font-mono text-[10px] text-slate-500 uppercase tracking-widest">{clock}</div>
-            </div>
-
-            <button
-              onClick={triggerRefresh}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#1e2335] bg-[#141724] hover:bg-[#191e2f] hover:border-indigo-500/30 font-mono text-[9px] font-bold uppercase tracking-widest text-slate-300 hover:text-white rounded-lg transition-all duration-200"
-            >
-              <RefreshCw className="h-3 w-3" />
-              Sync Intel
-            </button>
-          </div>
-        </header>
+        <TraderHeader />
 
         {/* EXECUTIVE CONTEXT BAR */}
         {allStates.length > 0 && (
@@ -752,19 +710,38 @@ export default function TraderOS() {
 
         {/* MAIN INTEGRATED COMMAND PANEL */}
         {allStates.length > 0 ? (
-          <main className="min-h-0 flex-1 grid grid-cols-12 bg-[#0c0d12]">
+          <main className="min-h-0 flex-1 grid grid-cols-12">
             
             {/* LEFT COCKPIT VIEW (Col Span 9) */}
             <section className="col-span-9 min-h-0 flex flex-col overflow-y-auto p-6 space-y-6">
               
-              {/* 1. CEO MORNING BRIEFING MEMO */}
+              <DeskHero
+                kicker="Command Center"
+                title="Command Center"
+                subtitle="Multi-agent market states, procurement decisions and scenario simulation across every tracked mandi corridor."
+                icon={<Terminal className="h-7 w-7" />}
+                accent="green"
+                photo="desk-yard"
+              >
+                <div className="flex flex-wrap items-center gap-3 lg:justify-end">
+                  <div className="tb-live inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-bold uppercase tracking-widest">
+                    <Activity className="h-4 w-4" /> Live intel sync
+                    <span className="tb-keepmono font-mono tabular-nums opacity-80">{clock}</span>
+                  </div>
+                  <button onClick={triggerRefresh} className="tb-cta farm-focus inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold">
+                    <RefreshCw className="h-4 w-4" /> Sync intel
+                  </button>
+                </div>
+              </DeskHero>
+
+              {/* CEO MORNING BRIEFING MEMO */}
               <div className="border border-indigo-500/25 bg-indigo-950/10 rounded-xl p-5 relative overflow-hidden backdrop-blur-md">
                 <div className="absolute top-0 right-0 h-16 w-16 bg-gradient-to-br from-indigo-500/10 to-transparent rounded-bl-full pointer-events-none" />
                 <div className="flex items-center gap-2 border-b border-[#1e2335] pb-2 mb-3">
                   <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-                  <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-indigo-400 font-bold block">1. CEO Morning Briefing Memo</span>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-indigo-400 font-bold block">Morning briefing</span>
                 </div>
-                <p className="text-[12px] text-slate-300 font-medium leading-relaxed">
+                <p className="tb-memo text-[15px] text-slate-200 font-medium leading-[1.75]">
                   {morningMemo}
                 </p>
                 <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-[#1e2335]/40 text-[8px] font-mono text-slate-500">
@@ -779,13 +756,13 @@ export default function TraderOS() {
               {/* 3. ENTERPRISE STATE (PORTFOLIO STATUS BAR) */}
               <div className="space-y-3">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-slate-400 font-bold block">4. Enterprise Posture & State</span>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-slate-400 font-bold block">Enterprise posture</span>
                 </div>
                 <div className="grid grid-cols-4 gap-4">
                   <div className="border border-[#1e2335] bg-[#131622]/60 p-4 rounded-xl relative overflow-hidden backdrop-blur-md">
-                    <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Consensus Resilience Index</span>
+                    <span className="tb-kpi-label"><span className="tb-kpi-icon" style={{ color: '#34d399' }}><ShieldCheck className="h-4 w-4" /></span>Consensus Resilience Index</span>
                     <div className="flex items-baseline gap-1.5 mt-2">
-                      <span className="font-display text-2xl font-extrabold text-emerald-400">{(activeResilience?.overall_score * 100).toFixed(0)}%</span>
+                      <span className="font-display text-4xl font-black tabular-nums text-emerald-400">{(activeResilience?.overall_score * 100).toFixed(0)}%</span>
                       <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest font-semibold">Stable</span>
                     </div>
                     <div className="h-1 w-full bg-[#1b1f30] rounded-full mt-3 overflow-hidden">
@@ -794,9 +771,9 @@ export default function TraderOS() {
                   </div>
 
                   <div className="border border-[#1e2335] bg-[#131622]/60 p-4 rounded-xl relative overflow-hidden backdrop-blur-md">
-                    <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Sourcing Exposure (illustrative)</span>
+                    <span className="tb-kpi-label"><span className="tb-kpi-icon" style={{ color: '#a78bfa' }}><Wallet className="h-4 w-4" /></span>Sourcing Exposure (illustrative)</span>
                     <div className="flex items-baseline gap-1.5 mt-2">
-                      <span className="font-display text-2xl font-extrabold text-white">₹{(portfolioMetrics.totalExposure / 100000).toFixed(1)}L</span>
+                      <span className="font-display text-4xl font-black tabular-nums text-white">₹{(portfolioMetrics.totalExposure / 100000).toFixed(1)}L</span>
                       <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest font-semibold">Unhedged</span>
                     </div>
                     {/* Assumed trade volume per commodity, not a real position -- see
@@ -806,18 +783,18 @@ export default function TraderOS() {
                   </div>
 
                   <div className="border border-[#1e2335] bg-[#131622]/60 p-4 rounded-xl relative overflow-hidden backdrop-blur-md">
-                    <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Contract Variance Opportunity (illustrative)</span>
+                    <span className="tb-kpi-label"><span className="tb-kpi-icon" style={{ color: '#22d3ee' }}><Target className="h-4 w-4" /></span>Contract Variance Opportunity (illustrative)</span>
                     <div className="flex items-baseline gap-1.5 mt-2">
-                      <span className="font-display text-2xl font-extrabold text-emerald-400">₹{(portfolioMetrics.totalOpportunity / 100000).toFixed(1)}L</span>
+                      <span className="font-display text-4xl font-black tabular-nums text-emerald-400">₹{(portfolioMetrics.totalOpportunity / 100000).toFixed(1)}L</span>
                       <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest font-semibold">Hedge ROI</span>
                     </div>
                     <p className="text-[9px] text-slate-400 font-mono mt-3">Projected cost avoidance margin</p>
                   </div>
 
                   <div className="border border-[#1e2335] bg-[#131622]/60 p-4 rounded-xl relative overflow-hidden backdrop-blur-md">
-                    <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Active Sourcing Mandates</span>
+                    <span className="tb-kpi-label"><span className="tb-kpi-icon" style={{ color: '#fb7185' }}><Siren className="h-4 w-4" /></span>Active Sourcing Mandates</span>
                     <div className="flex items-baseline gap-1.5 mt-2">
-                      <span className={cx("font-display text-2xl font-extrabold", portfolioMetrics.criticalCount > 0 ? "text-rose-400" : "text-slate-200")}>
+                      <span className={cx("font-display text-4xl font-black tabular-nums", portfolioMetrics.criticalCount > 0 ? "text-rose-400" : "text-slate-200")}>
                         {portfolioMetrics.criticalCount} Alerts
                       </span>
                       <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest font-semibold">High Risk</span>
@@ -838,7 +815,7 @@ export default function TraderOS() {
                     <div className="px-5 py-4 border-b border-[#1e2335] flex items-center justify-between">
                       <div>
                         <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-rose-400 font-bold block">Action Required</span>
-                        <h3 className="font-display text-xs font-black text-white uppercase tracking-wider mt-0.5">2. Critical Decisions</h3>
+                        <h3 className="font-display text-lg font-extrabold text-white tracking-tight mt-1">Critical decisions</h3>
                       </div>
                       <span className={cx(
                         "font-mono text-[8px] px-2 py-0.5 border rounded font-bold uppercase tracking-wider",
@@ -915,7 +892,7 @@ export default function TraderOS() {
                     <div className="border-b border-[#1e2335] pb-2.5 flex justify-between items-center">
                       <div>
                         <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-indigo-400 font-bold block">Consensus Deliberation</span>
-                        <h4 className="font-display text-xs font-black text-white uppercase tracking-wider mt-0.5">3. Decision War Room</h4>
+                        <h4 className="font-display text-lg font-extrabold text-white tracking-tight mt-1">Decision war room</h4>
                       </div>
                       <div className="text-[9px] font-mono text-slate-400 bg-slate-800/40 px-2 py-0.5 rounded border border-slate-700/50">
                         {activeState?.commodity?.toUpperCase() || 'TOMATO'} @ {activeState?.mandi_id?.replace('_apmc','').toUpperCase()}
@@ -998,7 +975,7 @@ export default function TraderOS() {
                   <div className="border border-[#1e2335] bg-[#131622]/60 rounded-xl overflow-hidden backdrop-blur-md p-5 space-y-4">
                     <div className="border-b border-[#1e2335] pb-2.5">
                       <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-indigo-400 font-bold block">Environmental Risks</span>
-                      <h4 className="font-display text-xs font-black text-white uppercase tracking-wider mt-0.5">5. Threat Intelligence</h4>
+                      <h4 className="font-display text-lg font-extrabold text-white tracking-tight mt-1">Threat intelligence</h4>
                     </div>
 
                     {activeState ? (
@@ -1035,7 +1012,7 @@ export default function TraderOS() {
                     <div className="border-b border-[#1e2335] pb-2.5 flex justify-between items-center">
                       <div>
                         <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-indigo-400 font-bold block">Inject Scenario Shock</span>
-                        <h4 className="font-display text-xs font-black text-white uppercase tracking-wider mt-0.5">7. Counterfactual Engine</h4>
+                        <h4 className="font-display text-lg font-extrabold text-white tracking-tight mt-1">Counterfactual engine</h4>
                       </div>
                       {isSimulating && (
                         <span className="text-[8px] font-mono bg-indigo-500/10 px-2 py-0.5 rounded text-indigo-300 font-bold animate-pulse">
@@ -1079,7 +1056,7 @@ export default function TraderOS() {
                   <div className="border border-[#1e2335] bg-[#131622]/60 rounded-xl overflow-hidden backdrop-blur-md p-5 space-y-4">
                     <div className="border-b border-[#1e2335] pb-2.5">
                       <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-indigo-400 font-bold block">Hedge Optimization Simulator</span>
-                      <h4 className="font-display text-xs font-black text-white uppercase tracking-wider mt-0.5">8. Enterprise Impact Simulator</h4>
+                      <h4 className="font-display text-lg font-extrabold text-white tracking-tight mt-1">Enterprise impact simulator</h4>
                     </div>
 
                     <div className="space-y-4 mt-2">
@@ -1122,13 +1099,13 @@ export default function TraderOS() {
             </section>
 
             {/* RIGHT INTEGRATED COPILOT SIDEBAR (Col Span 3) */}
-            <aside className="col-span-3 min-h-0 flex flex-col bg-[#10121a] border-l border-[#1e2335] overflow-y-auto">
+            <aside className="tb-aside col-span-3 min-h-0 flex flex-col border-l border-[#1e2335] overflow-y-auto">
               
               {/* 9. TRADEROS COPILOT */}
               <div className="p-5 border-b border-[#1e2335] flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Cpu className="h-4 w-4 text-indigo-400" />
-                  <span className="font-display text-xs font-bold uppercase tracking-wider text-white">9. TraderOS Copilot</span>
+                  <span className="font-display text-base font-extrabold tracking-tight text-white">TraderOS Copilot</span>
                 </div>
                 <span className="font-mono text-[8px] text-slate-500 uppercase tracking-widest font-semibold">T2 ASSISTANT</span>
               </div>
@@ -1238,7 +1215,7 @@ export default function TraderOS() {
 
                 {/* 6. FUTURE MEMORY */}
                 <div className="pt-4 border-t border-[#1e2335]/40 space-y-2.5">
-                  <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">6. Future Memory (Replay Logs)</span>
+                  <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Future memory</span>
                   <div className="bg-[#141620]/30 border border-[#1e2335]/50 rounded-lg p-3 max-h-[140px] overflow-y-auto space-y-2 font-mono text-[9px]">
                     {memories && memories.length > 0 ? (
                       memories.slice(0, 10).map((mem: any) => (
@@ -1262,8 +1239,8 @@ export default function TraderOS() {
 
                 {/* 10. EXECUTIVE INTELLIGENCE FEED */}
                 <div className="pt-4 border-t border-[#1e2335]/40 space-y-2.5">
-                  <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">10. Executive Intelligence Feed</span>
-                  <div className="bg-[#0b0c10] border border-[#1e2335]/50 p-3 rounded-lg font-mono text-[9px] h-[130px] overflow-y-auto space-y-1.5 scrollbar-thin">
+                  <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-slate-500 block font-bold">Intelligence feed</span>
+                  <div className="bg-[#0b0c10] border border-[#1e2335]/50 p-3 rounded-lg tb-keepmono font-mono text-[11px] h-[170px] overflow-y-auto space-y-1.5 scrollbar-thin">
                     {cognitionEvents && cognitionEvents.length > 0 ? (
                       cognitionEvents.map((evt: any) => (
                         <div key={evt.id} className="flex gap-1.5 leading-normal">
@@ -1290,7 +1267,7 @@ export default function TraderOS() {
 
           </main>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center gap-6 text-center bg-[#0c0d12]">
+          <div className="flex-1 flex flex-col items-center justify-center gap-6 text-center">
             <div className="relative h-16 w-16 border border-indigo-500/20 bg-indigo-500/5 rounded-xl">
               <span className="absolute inset-4 animate-ping bg-indigo-500/20 rounded-full" />
               <BrainCircuit className="absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 text-indigo-400" />
@@ -1303,7 +1280,7 @@ export default function TraderOS() {
         )}
 
         {/* BOTTOM STATUS FOOTER */}
-        <footer className="flex min-h-10 shrink-0 items-center justify-between border-t border-[#1e2335] bg-[#0c0d12] px-8 py-3">
+        <footer className="tb-footer flex min-h-12 shrink-0 items-center justify-between border-t border-[#1e2335] px-8 py-3">
           <div className="flex items-center gap-6 font-mono text-[9px] uppercase tracking-[0.2em] text-slate-500 font-semibold">
             <span className="flex items-center gap-2 text-slate-400">
               <Gauge className="h-4 w-4 text-indigo-400" /> TRADEROS SYSTEM v1.0

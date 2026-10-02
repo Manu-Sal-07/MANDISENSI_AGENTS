@@ -127,6 +127,7 @@ export const TRANSLATIONS: Record<string, Entry> = {
 
   // ── bottom nav ───────────────────────────────────────────────────────────
   'nav.home': { en: 'Home', hi: 'होम', kn: 'ಮುಖಪುಟ' },
+  'nav.prices': { en: 'Prices', hi: 'भाव', kn: 'ಬೆಲೆ' },
   'nav.sell_plan': { en: 'Sell', hi: 'बिक्री', kn: 'ಮಾರಾಟ' },
   'nav.my_money': { en: 'My Money', hi: 'मेरा पैसा', kn: 'ನನ್ನ ಹಣ' },
   'nav.tools': { en: 'Tools', hi: 'उपकरण', kn: 'ಸಾಧನಗಳು' },

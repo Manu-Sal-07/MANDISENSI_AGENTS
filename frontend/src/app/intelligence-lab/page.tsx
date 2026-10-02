@@ -1,5 +1,7 @@
 'use client';
 
+import DeskHero from '@/components/trader/DeskHero';
+import { FlaskConical as DeskFlaskIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { mandiApi } from '@/services/api';
@@ -496,22 +498,18 @@ const IntelligenceLabPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="tb-clear min-h-screen text-foreground">
       <div className="mx-auto max-w-[1480px] px-4 py-8">
+        <DeskHero
+          kicker="Intelligence Lab"
+          title="Market Discovery Engine"
+          subtitle="Uncover hidden structural intelligence, simulate mission-critical stress scenarios, and compare the selected mandi against history and the collective market brain."
+          icon={<DeskFlaskIcon className="h-7 w-7" />}
+          accent="violet"
+          photo="desk-night"
+          className="mb-6"
+        />
         <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.32em] text-emerald-700 dark:text-emerald-200">
-              <Sparkles className="h-4 w-4" />
-              Intelligence Lab
-            </div>
-            <div className="space-y-3 max-w-3xl">
-              <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Market Discovery Engine</h1>
-              <p className="max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-                Uncover hidden structural intelligence, simulate mission-critical stress scenarios, and compare the selected mandi against history and the collective market brain.
-              </p>
-            </div>
-          </div>
-
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <div className="rounded-3xl border border-zinc-200 bg-white/85 p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950/80">
               <p className="text-[11px] uppercase tracking-[0.4em] text-zinc-500">Markets tracked</p>
@@ -526,7 +524,7 @@ const IntelligenceLabPage = () => {
               <p className="mt-3 text-2xl font-black">{memories.length}</p>
             </div>
           </div>
-          <div className="mt-6 rounded-[2rem] border border-zinc-200 bg-white/90 p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950/80">
+          <div className="mt-6 min-w-[17rem] rounded-[2rem] border border-zinc-200 bg-white/90 p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950/80 lg:mt-0">
             <p className="text-[10px] uppercase tracking-[0.36em] text-zinc-500">Market selector</p>
             <select
               value={selectedState ? `${selectedState.commodity}|${selectedState.mandi_id}` : ''}

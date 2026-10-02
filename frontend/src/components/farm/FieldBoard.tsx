@@ -3,7 +3,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { CalendarClock, PackageOpen, Sparkles, Timer, TrendingDown, TrendingUp, Volume2, type LucideIcon } from 'lucide-react';
+import { Store, Wheat, History, ArrowLeftRight, CalendarClock, PackageOpen, Sparkles, Timer, TrendingDown, TrendingUp, Volume2, type LucideIcon } from 'lucide-react';
 
 import { useFarm } from '@/context/FarmContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -27,6 +27,8 @@ const REASON_ICON: Record<FarmReason['code'], LucideIcon> = {
   model_expects_up: Sparkles,
   model_expects_down: Sparkles,
   spoils_fast: Timer,
+  neighbours_dearer: ArrowLeftRight,
+  neighbours_cheaper: ArrowLeftRight,
 };
 
 function callSentence(board: FarmBoard, cropLabel: string, lang: 'en' | 'hi' | 'kn'): string {
@@ -72,9 +74,10 @@ export default function FieldBoard() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-      className="farm-card overflow-hidden"
+      className="farm-card relative overflow-hidden"
     >
       <div className="h-2" style={{ background: tone.colour }} />
+      <div className="pointer-events-none absolute inset-x-0 top-2 h-44" style={{ background: `linear-gradient(180deg, ${tone.wash} 0%, transparent 100%)`, opacity: 0.9 }} aria-hidden="true" />
 
       <div className="p-5 sm:p-7">
         <div className="flex items-start gap-4">
@@ -153,21 +156,33 @@ export function BoardSide() {
   return (
     <div className="space-y-6">
       <section className="farm-section">
-        <h2 className="farm-display text-xl text-[var(--farm-ink)]">{say('mandis.title', lang)}</h2>
-        <p className="mb-4 text-sm text-[var(--farm-ink-faint)]">{say('mandis.sub', lang)}</p>
+        <div className="farm-h2">
+          <span className="farm-section-icon bg-[var(--leaf-wash)] text-[var(--leaf-deep)]"><Store className="h-5 w-5" /></span>
+          <div>
+            <h2 className="farm-display text-xl leading-tight text-[var(--farm-ink)]">{say('mandis.title', lang)}</h2>
+            <p className="text-sm text-[var(--farm-ink-faint)]">{say('mandis.sub', lang)}</p>
+          </div>
+        </div>
+        <div className="mb-3" />
         <MandiBoard mandis={board.mandis} />
       </section>
 
       {board.supply && (
         <section className="farm-section">
-          <h2 className="farm-display text-xl text-[var(--farm-ink)]">{say('supply.title', lang)}</h2>
+          <div className="farm-h2 mb-1">
+            <span className="farm-section-icon bg-[var(--turmeric-wash)] text-[#b8801a]"><Wheat className="h-5 w-5" /></span>
+            <h2 className="farm-display text-xl text-[var(--farm-ink)]">{say('supply.title', lang)}</h2>
+          </div>
           <SupplyMeter supply={board.supply} />
         </section>
       )}
 
       {last && (
         <section className="farm-section farm-section-warm">
-          <h2 className="farm-display text-xl text-[var(--farm-ink)]">{say('year.title', lang)}</h2>
+          <div className="farm-h2">
+            <span className="farm-section-icon bg-white/80 text-[var(--soil)]"><History className="h-5 w-5" /></span>
+            <h2 className="farm-display text-xl text-[var(--farm-ink)]">{say('year.title', lang)}</h2>
+          </div>
           <p className="mt-2 text-[15px] text-[var(--farm-ink)]">{say('year.body', lang, { p: new Intl.NumberFormat('en-IN').format(Math.round(last.price)) })}</p>
           {last.change_pct != null && (
             <p className="farm-display mt-1 text-2xl tabular-nums" style={{ color: last.change_pct >= 0 ? 'var(--leaf-deep)' : 'var(--call-sell)' }}>

@@ -4,6 +4,9 @@ import "./globals.css";
 import Providers from "./providers";
 import TopBar from "@/components/TopBar";
 import BottomNav from "@/components/BottomNav";
+import FarmBackdrop from "@/components/farm/FarmBackdrop";
+import TraderBackdrop from "@/components/trader/TraderBackdrop";
+import ChatDock from "@/components/chat/ChatDock";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -93,10 +96,13 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased min-h-screen bg-background text-foreground selection:bg-accent/25 selection:text-foreground">
         <Providers>
-          <div className="relative flex min-h-screen flex-col">
+          <FarmBackdrop />
+          <TraderBackdrop />
+          <div className="relative z-10 flex min-h-screen flex-col">
             <TopBar />
             <main className="flex-1">{children}</main>
             <BottomNav />
+            <ChatDock />
           </div>
         </Providers>
       </body>

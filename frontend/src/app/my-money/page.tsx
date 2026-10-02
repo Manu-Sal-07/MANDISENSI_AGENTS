@@ -15,6 +15,7 @@
  * foot of the page says so rather than implying otherwise.
  */
 
+import PageHero from '@/components/farm/PageHero';
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
@@ -116,13 +117,7 @@ export default function MyMoneyPage() {
   return (
     <div className="farm-surface min-h-screen pb-28">
       <main className="mx-auto max-w-2xl px-4 pb-10 pt-6 lg:max-w-3xl">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-          <h1 className="farm-display flex items-center gap-2 text-2xl text-[var(--farm-ink)] sm:text-3xl">
-            <PiggyBank className="h-6 w-6 shrink-0" style={{ color: 'var(--leaf)' }} />
-            {t('mymoney.title')}
-          </h1>
-          <p className="mt-1 text-sm text-[var(--farm-ink-faint)]">{t('mymoney.subtitle')}</p>
-        </motion.div>
+        <PageHero photo="seller-turban" title={t('mymoney.title')} subtitle={t('mymoney.subtitle')} icon={<PiggyBank className="h-7 w-7" />} tone="turmeric" produce={['garlic', 'ginger', 'onion']} />
 
         {plans.length === 0 ? (
           <div className="farm-card mt-6 p-6 text-center">

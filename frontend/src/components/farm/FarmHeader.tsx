@@ -24,10 +24,18 @@ export default function FarmHeader() {
   return (
     <header
       className="sticky top-0 z-50 border-b border-[var(--farm-line)]"
-      style={{ background: 'rgba(251, 253, 246, 0.92)', backdropFilter: 'blur(12px)' }}
+      style={{ background: 'rgba(255, 249, 226, 0.78)', backdropFilter: 'blur(14px) saturate(1.3)', WebkitBackdropFilter: 'blur(14px) saturate(1.3)' }}
     >
       <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3 lg:max-w-5xl">
-        <PlacePicker />
+        <div className="flex min-w-0 items-center gap-2.5">
+          <span aria-hidden="true" className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--leaf)] shadow-[0_8px_18px_-8px_rgba(19,92,46,0.8)] min-[400px]:flex">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+              <path d="M5 19C5 9 11 4 20 4c0 9-5 15-13 15-.7 0-1.4 0-2 0z" fill="#fff" fillOpacity="0.95" />
+              <path d="M6 18C9 14 12 11 16 8" stroke="#1b7a3e" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          </span>
+          <PlacePicker />
+        </div>
         <button
           onClick={cycleLanguage}
           aria-label="Change language"

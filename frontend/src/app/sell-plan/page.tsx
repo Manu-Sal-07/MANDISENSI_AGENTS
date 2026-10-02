@@ -11,10 +11,11 @@
  * spoilage already taken off.
  */
 
+import PageHero from '@/components/farm/PageHero';
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { Check, Loader2, Minus, PiggyBank, Plus, Truck, Hourglass, Store } from 'lucide-react';
+import { ArrowLeftRight, Check, Loader2, Minus, PiggyBank, Plus, Truck, Hourglass, Store, Wallet } from 'lucide-react';
 
 import ProduceIcon, { produceScript, resolveProduce } from '@/components/farm/ProduceIcon';
 import UnavailableNotice from '@/components/farm/tools/UnavailableNotice';
@@ -72,8 +73,7 @@ export default function SellPlanPage() {
   return (
     <div className="farm-surface min-h-screen pb-28">
       <main className="mx-auto max-w-2xl px-4 pb-10 pt-7 lg:max-w-3xl">
-        <h1 className="farm-display text-3xl text-[var(--farm-ink)]">{t('sellplan.title')}</h1>
-        <p className="mt-1 text-sm text-[var(--farm-ink-faint)]">{t('sellplan.subtitle')}</p>
+        <PageHero photo="vendor-stall" title={t('sellplan.title')} subtitle={t('sellplan.subtitle')} icon={<Wallet className="h-7 w-7" />} produce={['tomato', 'onion', 'potato']} />
 
         {/* What are you selling, where, how much */}
         <div className="farm-card mt-5 space-y-4 p-4">
@@ -161,6 +161,17 @@ export default function SellPlanPage() {
                 {best.choice === 'travel' && best.distance_km != null && (
                   <p className="mt-2 text-sm text-[var(--farm-ink-soft)]">
                     {best.distance_km} km · {tri(lang, 'transport', 'ಸಾಗಣೆ', 'ढुलाई')} {rupees(best.transport_cost_per_quintal * quantity)} {tri(lang, 'already taken off', 'ಈಗಾಗಲೇ ಕಳೆಯಲಾಗಿದೆ', 'पहले ही घटाया गया')}
+                  </p>
+                )}
+                {best.choice === 'travel' && best.gap_half_life_weeks != null && (
+                  <p className="mt-2 flex items-start gap-1.5 rounded-lg bg-[var(--turmeric-wash)] px-3 py-2 text-xs leading-relaxed text-[var(--farm-ink)]">
+                    <ArrowLeftRight className="mt-0.5 h-3.5 w-3.5 shrink-0" style={{ color: 'var(--call-wait)' }} />
+                    {tri(
+                      lang,
+                      `This price gap has historically narrowed within about ${best.gap_half_life_weeks} weeks — it may not last, so don't delay.`,
+                      `ಈ ಬೆಲೆ ವ್ಯತ್ಯಾಸ ಸಾಮಾನ್ಯವಾಗಿ ಸುಮಾರು ${best.gap_half_life_weeks} ವಾರಗಳಲ್ಲಿ ಕಡಿಮೆಯಾಗಿದೆ — ಇದು ಹೆಚ್ಚು ಕಾಲ ಉಳಿಯದಿರಬಹುದು, ತಡ ಮಾಡಬೇಡಿ.`,
+                      `यह भाव-अंतर आमतौर पर लगभग ${best.gap_half_life_weeks} हफ़्तों में कम हो गया है — यह ज़्यादा दिन नहीं टिक सकता, देर न करें।`
+                    )}
                   </p>
                 )}
                 {best.choice === 'wait' && <p className="mt-2 text-xs leading-relaxed text-[var(--farm-ink-faint)]">{t('sellplan.spoilage_note')}</p>}

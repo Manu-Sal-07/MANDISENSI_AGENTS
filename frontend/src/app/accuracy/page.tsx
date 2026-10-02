@@ -9,10 +9,11 @@
  * on data the model trained on.
  */
 
+import PageHero from '@/components/farm/PageHero';
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Check, Minus } from 'lucide-react';
+import { Check, Minus, Target } from 'lucide-react';
 
 import ProduceIcon, { produceScript, resolveProduce } from '@/components/farm/ProduceIcon';
 import { useFarm } from '@/context/FarmContext';
@@ -55,7 +56,7 @@ export default function AccuracyPage() {
   return (
     <div className="farm-surface min-h-screen pb-28">
       <main className="mx-auto max-w-2xl px-4 pb-10 pt-7 lg:max-w-3xl">
-        <h1 className="farm-display text-3xl text-[var(--farm-ink)]">{tri(lang, 'How accurate are we?', 'ನಾವು ಎಷ್ಟು ನಿಖರ?', 'हम कितने सटीक हैं?')}</h1>
+        <PageHero photo="vendor-stall" title={tri(lang, 'How accurate are we?', 'ನಾವು ಎಷ್ಟು ನಿಖರ?', 'हम कितने सटीक हैं?')} icon={<Target className="h-7 w-7" />} produce={['tomato', 'onion', 'potato']} />
         <p className="mt-2 max-w-[60ch] text-[15px] leading-relaxed text-[var(--farm-ink-soft)]">
           {tri(
             lang,

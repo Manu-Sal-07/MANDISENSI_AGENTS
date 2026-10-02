@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import FarmHeader from '@/components/farm/FarmHeader';
 import { isFarmRoute } from '@/lib/surfaces';
+import TraderHeader from '@/components/trader/TraderHeader';
 
 const NAV_LINKS = [
   { href: '/market-explorer', label: 'Market Explorer' },
@@ -29,6 +30,9 @@ export default function TopBar() {
   // The farmer surface has its own header: no product nav, no theme
   // switch, and the mandi location promoted to the one thing at the top.
   if (isFarmRoute(pathname)) return <FarmHeader />;
+
+  // Every other analyst page shares the trading-desk header.
+  return <TraderHeader />;
 
   return (
     <header className="glass-panel sticky top-0 z-50 w-full">

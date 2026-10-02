@@ -52,7 +52,7 @@ export default function SpreadScanner() {
         <div className="space-y-2">
           <p className="text-[11px] text-neutral-signal">
             {data.mandis_compared} mandis compared as of {data.as_of} · {data.survivors} survive the trip,{' '}
-            {data.vanishing} don&rsquo;t
+            {data.vanishing}{' '}don&rsquo;t
           </p>
           {(data.opportunities ?? []).map((op, i) => (
             <motion.div

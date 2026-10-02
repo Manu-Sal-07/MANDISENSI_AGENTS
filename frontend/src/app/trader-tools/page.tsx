@@ -1,89 +1,78 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
-import { Sparkles } from 'lucide-react';
-import { farmerApi } from '@/services/farmerApi';
-import { CommodityPicker, MandiPicker } from '@/components/trader/shared';
-import SpreadScanner from '@/components/trader/SpreadScanner';
-import VolatilityPanel from '@/components/trader/VolatilityPanel';
-import AnalogsPanel from '@/components/trader/AnalogsPanel';
-import ScenariosPanel from '@/components/trader/ScenariosPanel';
-import ForwardPriceCalculator from '@/components/trader/ForwardPriceCalculator';
-import PositionBook from '@/components/trader/PositionBook';
-
 /**
- * Trader Tools.
- *
- * The frontend surface for `mandisense_ai/trader/` — six analytics built to
- * replace fabricated panels found across Market Explorer, the Intelligence
- * Lab and the Command Center (hardcoded exposure volumes, hand-written
- * counterfactual formulas, permanently-empty analog and regime panels; see
- * the trader-side audit). Every number on this page is computed from the
- * real observation archive or a real recorded position — nothing here is
- * a placeholder waiting on a data source that hasn't arrived yet.
- *
- * A shared commodity + mandi selector drives every panel below it except
- * the spread scanner (which compares *across* mandis for one commodity, so
- * a single mandi selection would not apply) and the position book (which
- * has its own selector, since a book holds many positions across many
- * series at once).
+ * Trader Tools hub: the eight tools as photo cards in three groups. Each tool
+ * lives on its own page; the commodity / mandi focus is shared between them.
  */
-export default function TraderToolsPage() {
-  const [commodity, setCommodity] = useState('tomato');
-  const [mandiId, setMandiId] = useState('kolar_apmc');
 
-  const { data: mandiData } = useQuery({
-    queryKey: ['trader-mandis'],
-    queryFn: () => farmerApi.listMandis(),
-    staleTime: Infinity,
-  });
-  const mandis = mandiData?.mandis ?? [{ mandi_id: 'kolar_apmc', mandi_name: 'Kolar' }];
+import React from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { ArrowUpRight, Wrench } from 'lucide-react';
 
+import DeskHero from '@/components/trader/DeskHero';
+import { TOOL_GROUPS, TRADER_TOOLS } from '@/lib/traderTools';
+
+const GROUP_NOTE: Record<(typeof TOOL_GROUPS)[number], string> = {
+  'Market scan': 'Where the money is moving between mandis, districts and crops.',
+  'Risk and regime': 'How turbulent the market is, and what that has meant before.',
+  Forecasting: 'Precedent and a calibrated forward range for your horizon.',
+};
+
+export default function TraderToolsHub() {
   return (
-    <div className="surface-root min-h-screen pb-16">
-      <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
-        <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--intelligence)]">
-              <Sparkles className="h-4.5 w-4.5 text-white" />
-            </span>
-            <div>
-              <h1 className="font-display text-xl font-black tracking-tight text-foreground">Trader Tools</h1>
-              <p className="text-xs text-neutral-signal">
-                Spreads, volatility, precedent, scenarios, forward pricing and real position risk
-              </p>
+    <div className="tb-clear min-h-screen pb-28 md:pb-20">
+      <div className="mx-auto max-w-[1280px] px-4 pt-8 sm:px-6">
+        <DeskHero
+          kicker="Trader Tools"
+          title="Trader Tools"
+          subtitle="Eight focused tools for spreads, volatility, precedent, scenarios, forward pricing, position risk and cross-commodity transmission. Pick one."
+          icon={<Wrench className="h-7 w-7" />}
+          accent="amber"
+          photo="desk-scale"
+        />
+
+        {TOOL_GROUPS.map((group) => (
+          <section key={group} className="mt-10">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="font-display text-xl font-black tracking-tight text-foreground">{group}</h2>
+              <p className="text-sm text-neutral-signal">{GROUP_NOTE[group]}</p>
             </div>
-          </div>
-
-          <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl border border-border bg-surface-1 px-3 py-2.5">
-            <span className="text-xs font-semibold text-neutral-signal">Focus:</span>
-            <CommodityPicker value={commodity} onChange={setCommodity} />
-            <MandiPicker value={mandiId} onChange={setMandiId} mandis={mandis} />
-          </div>
-        </motion.div>
-
-        <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
-            <SpreadScanner />
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-            <VolatilityPanel commodity={commodity} mandiId={mandiId} />
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-            <AnalogsPanel commodity={commodity} mandiId={mandiId} />
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <ScenariosPanel commodity={commodity} mandiId={mandiId} />
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
-            <ForwardPriceCalculator commodity={commodity} mandiId={mandiId} />
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <PositionBook mandis={mandis} />
-          </motion.div>
-        </div>
+            <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {TRADER_TOOLS.filter((t) => t.group === group).map((t, i) => {
+                const Icon = t.icon;
+                return (
+                  <motion.li
+                    key={t.slug}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-40px' }}
+                    transition={{ duration: 0.5, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <Link href={t.href} className={`tb-module tb-accent-${t.accent} farm-focus group relative block h-full overflow-hidden rounded-3xl`}>
+                      <span className="tb-module-img" style={{ backgroundImage: `url(/photos/${t.photo}.jpg)` }} aria-hidden="true" />
+                      <span className="tb-module-scrim" aria-hidden="true" />
+                      <span className="relative z-10 flex min-h-[14rem] flex-col justify-between p-5 sm:p-6">
+                        <span className="flex items-start justify-between">
+                          <span className="tb-hero-icon tb-icon-solid flex h-12 w-12 items-center justify-center rounded-2xl">
+                            <Icon className="h-6 w-6" />
+                          </span>
+                          <span className="tb-arrow flex h-10 w-10 items-center justify-center rounded-full">
+                            <ArrowUpRight className="h-5 w-5" />
+                          </span>
+                        </span>
+                        <span>
+                          <span className="font-display block text-xl font-black leading-tight tracking-tight text-white sm:text-2xl">{t.title}</span>
+                          <span className="mt-1.5 block text-sm leading-relaxed text-white/80">{t.blurb}</span>
+                        </span>
+                      </span>
+                    </Link>
+                  </motion.li>
+                );
+              })}
+            </ul>
+          </section>
+        ))}
       </div>
     </div>
   );

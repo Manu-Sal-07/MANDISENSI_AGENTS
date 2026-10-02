@@ -1,5 +1,7 @@
 'use client';
 
+import DeskHero from '@/components/trader/DeskHero';
+import { LineChart as DeskLineIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import ForecastPanel from '@/components/ForecastPanel';
@@ -486,10 +488,21 @@ export default function MarketExplorerPage() {
   }, [activePoint, recentSeries]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-200">
+    <div className="tb-clear min-h-screen text-foreground font-sans transition-colors duration-200">
 
-      {/* Page context bar — global TopBar already carries brand identity */}
-      <div className="border-b border-border bg-surface-1/60 backdrop-blur-sm px-6 py-4">
+      <div className="mx-auto max-w-7xl px-6 pt-8">
+        <DeskHero
+          kicker="Market Explorer"
+          title="Market Explorer"
+          subtitle="Price history, seasonality, commodity DNA and forecasts for any mandi, on recorded Agmarknet prices."
+          icon={<DeskLineIcon className="h-7 w-7" />}
+          accent="cyan"
+          photo="desk-hall"
+        />
+      </div>
+
+      {/* Controls bar: stays pinned under the header while the workstation scrolls */}
+      <div className="sticky top-16 z-40 mt-6 border-y border-border bg-surface-1/80 backdrop-blur-md px-6 py-3">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-bullish/10 text-bullish rounded-lg border border-bullish/25">

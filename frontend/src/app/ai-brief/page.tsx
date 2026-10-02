@@ -12,6 +12,7 @@
  * whole point of this endpoint is that the provenance is inspectable.
  */
 
+import DeskHero from '@/components/trader/DeskHero';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
@@ -78,23 +79,22 @@ export default function AiBriefPage() {
   const isLiveLlm = status?.provider === 'claude';
 
   return (
-    <div className="min-h-screen bg-[#0c0d12] text-slate-100 font-sans antialiased">
+    <div className="tb-clear min-h-screen text-slate-100 font-sans antialiased">
       <div className="mx-auto max-w-4xl px-5 py-8">
-        {/* Header */}
-        <div className="flex items-center justify-between gap-4 mb-6">
-          <Link
-            href="/terminal"
-            className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-widest text-slate-500 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Back to TraderOS
-          </Link>
-
+        <DeskHero
+          kicker="AI Brief"
+          title="AI Decision Brief"
+          subtitle="Reasons over the cognition, forecast and spillover evidence for one commodity at one mandi, then verifies its own output. Every number it states is checked against the evidence bundle before this page shows it to you. Nothing here is scripted."
+          icon={<BrainCircuit className="h-7 w-7" />}
+          accent="cyan"
+          photo="desk-tomatoes"
+          className="mb-7"
+        >
           <div
-            className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest ${
+            className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest ${
               isLiveLlm
                 ? 'border-indigo-500/40 bg-indigo-500/10 text-indigo-300'
-                : 'border-slate-700 bg-slate-800/40 text-slate-400'
+                : 'border-slate-600 bg-slate-800/50 text-slate-300'
             }`}
             title="Which provider actually produced the last brief"
           >
@@ -102,18 +102,7 @@ export default function AiBriefPage() {
             Provider: {providerLabel}
             {status?.model_id ? ` (${status.model_id})` : ''}
           </div>
-        </div>
-
-        <header className="mb-7">
-          <h1 className="font-display text-2xl font-black tracking-tight text-white">
-            AI Decision Brief
-          </h1>
-          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-slate-400">
-            Reasons over the cognition, forecast and spillover evidence for one commodity at one
-            mandi, then verifies its own output — every number it states is checked against the
-            evidence bundle before this page shows it to you. Nothing here is scripted.
-          </p>
-        </header>
+        </DeskHero>
 
         {/* Selectors */}
         <div className="mb-6 flex flex-wrap items-center gap-4">

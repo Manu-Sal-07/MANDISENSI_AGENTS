@@ -318,9 +318,19 @@ export interface FarmReason {
     | 'below_last_year'
     | 'model_expects_up'
     | 'model_expects_down'
-    | 'spoils_fast';
+    | 'spoils_fast'
+    | 'neighbours_dearer'
+    | 'neighbours_cheaper';
   value: number | null;
   days?: number;
+  weeks?: number;
+}
+
+export interface GapNote {
+  gap_pct: number;
+  direction: 'neighbours_dearer' | 'neighbours_cheaper';
+  half_life_weeks: number;
+  pairs: number;
 }
 
 export interface FarmBoard {
@@ -341,6 +351,7 @@ export interface FarmBoard {
   mandis: MandiToday[];
   shelf: { days: number; daily_loss_pct: number; category: string };
   accuracy: { forecasts?: number; skill_vs_no_change?: number; direction_right?: number; serves_call?: boolean };
+  gap: GapNote | null;
 }
 
 export interface MandiPage {
@@ -374,6 +385,7 @@ export interface SellPlanOption {
   spoilage_pct?: number;
   range_low?: number | null;
   range_high?: number | null;
+  gap_half_life_weeks?: number | null;
   typical_arrivals_tonnes?: number;
   thin_for_load?: boolean;
 }
