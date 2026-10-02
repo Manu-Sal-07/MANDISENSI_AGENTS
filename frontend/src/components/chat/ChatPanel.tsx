@@ -103,6 +103,7 @@ export default function ChatPanel({ persona, variant, lang, onLangChange, contex
   const [loading, setLoading] = useState(false);
   const [lastEntities, setLastEntities] = useState<Record<string, unknown>>({});
   const [failed, setFailed] = useState<string | null>(null);
+  const [slow, setSlow] = useState(false);
   const [mounted, setMounted] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
@@ -145,6 +146,9 @@ export default function ChatPanel({ persona, variant, lang, onLangChange, contex
       setInput('');
       setFailed(null);
       setLoading(true);
+      setSlow(false);
+      const slowTimer = setTimeout(() => setSlow(true), 8000);
+      const hardTimer = setTimeout(() => ctrl.abort(), 120000);
       try {
         const r = await chatApi.send({ persona, message: q, lang, history, context: { ...context, last_entities: lastEntities } }, ctrl.signal);
         setLastEntities(r.context ?? {});
@@ -153,10 +157,13 @@ export default function ChatPanel({ persona, variant, lang, onLangChange, contex
           { id: uid(), role: 'assistant', text: r.reply, meta: { sources: r.sources ?? [], tools: r.tools_used ?? [], grounded: r.grounded, mode: r.mode } },
         ]);
       } catch (err) {
-        if ((err as Error)?.name === 'AbortError') return;
+        if ((err as Error)?.name === 'AbortError' && abortRef.current !== ctrl) return; // superseded or closed
         setFailed(q);
         setMessages((prev) => [...prev, { id: uid(), role: 'assistant', text: CHAT_UI.error[lang], isError: true }]);
       } finally {
+        clearTimeout(slowTimer);
+        clearTimeout(hardTimer);
+        setSlow(false);
         setLoading(false);
       }
     },
@@ -318,7 +325,7 @@ export default function ChatPanel({ persona, variant, lang, onLangChange, contex
                 <span key={i} className="chat-dot h-2 w-2 rounded-full" style={{ animationDelay: `${i * 0.16}s` }} />
               ))}
             </span>
-            {CHAT_UI.thinking[lang]}
+            {slow ? CHAT_UI.waking[lang] : CHAT_UI.thinking[lang]}
           </div>
         )}
         <div ref={endRef} />

@@ -13,6 +13,7 @@ re-checks every redirect hop.
 from __future__ import annotations
 
 import ipaddress
+import re
 import socket
 import time
 from typing import Any, Dict, List, Optional
@@ -60,6 +61,27 @@ def is_public_url(url: str) -> bool:
         return False
 
 
+_BACKENDS = ("bing", "yahoo", "duckduckgo", "yandex", "auto")
+_STOP = {"what", "which", "when", "where", "who", "whom", "whose", "how", "the", "for", "and", "are", "was", "were", "with", "from",
+         "that", "this", "these", "those", "about", "tell", "give", "please", "details", "does", "have", "has", "can", "will", "india",
+         "indian", "today", "latest", "current", "price", "prices"}
+
+
+def _tokens(text: str) -> set:
+    return {t for t in re.findall(r"[a-z0-9]{3,}", text.lower()) if t not in _STOP}
+
+
+def is_relevant(query: str, text: str) -> bool:
+    """True if a result's text shares the question's key words (so 'MSP onion' does not
+    accept a page about photographs). Non-Latin queries cannot be checked this way and pass."""
+    q = _tokens(query)
+    if not q:
+        return True
+    have = _tokens(text)
+    need = 1 if len(q) <= 2 else (len(q) + 1) // 2
+    return len(q & have) >= need
+
+
 def _wikipedia(query: str, n: int) -> List[Dict[str, str]]:
     r = requests.get(
         "https://en.wikipedia.org/w/api.php",
@@ -90,11 +112,21 @@ def search(query: str, max_results: int = 5) -> Dict[str, Any]:
     try:
         from ddgs import DDGS
 
-        for r in DDGS(timeout=8).text(query, region="in-en", max_results=max_results):
-            results.append({"title": r.get("title", ""), "url": r.get("href", ""), "snippet": r.get("body", "")})
-        engine = "duckduckgo"
-    except Exception as exc:  # network, rate limit, package missing
-        logger.warning("ddgs search failed (%s); trying Wikipedia", exc)
+        # Datacenter addresses (like a Render instance) are often served junk or nothing by one
+        # engine, so try several in turn and keep the first that returns results on topic.
+        for backend in _BACKENDS:
+            try:
+                raw = DDGS(timeout=8).text(query, region="in-en", max_results=max_results + 4, backend=backend)
+            except Exception as exc:
+                logger.info("search backend %s: %s", backend, str(exc)[:60])
+                continue
+            hits = [{"title": r.get("title", ""), "url": r.get("href", ""), "snippet": r.get("body", "")} for r in raw]
+            relevant = [h for h in hits if is_relevant(query, h["title"] + " " + h["snippet"])]
+            if relevant:
+                results, engine = relevant, backend
+                break
+    except Exception as exc:  # package missing
+        logger.warning("ddgs unavailable (%s); trying Wikipedia", exc)
     if not results:
         try:
             results = _wikipedia(query, max_results)

@@ -18,6 +18,7 @@ export const CHAT_UI = {
   listening: row('Listening…', 'ಕೇಳುತ್ತಿದೆ…', 'सुन रहा है…'),
   readAloud: row('Read aloud', 'ಗಟ್ಟಿಯಾಗಿ ಓದಿ', 'ज़ोर से पढ़ें'),
   thinking: row('Checking the records…', 'ದಾಖಲೆಗಳನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದೆ…', 'रिकॉर्ड देख रहा है…'),
+  waking: row('The server was asleep and is waking up. The first reply can take up to a minute…', 'ಸರ್ವರ್ ನಿದ್ರೆಯಲ್ಲಿತ್ತು, ಈಗ ಎಚ್ಚರಗೊಳ್ಳುತ್ತಿದೆ. ಮೊದಲ ಉತ್ತರಕ್ಕೆ ಒಂದು ನಿಮಿಷದವರೆಗೆ ಸಮಯ ಬೇಕಾಗಬಹುದು…', 'सर्वर सो रहा था और अब जाग रहा है। पहले जवाब में एक मिनट तक लग सकता है…'),
   error: row('I could not reach the server. Please try again.', 'ಸರ್ವರ್ ತಲುಪಲು ಆಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.', 'सर्वर तक नहीं पहुँच सका। कृपया फिर कोशिश करें।'),
   retry: row('Try again', 'ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ', 'फिर कोशिश करें'),
   sources: row('Sources', 'ಮೂಲಗಳು', 'स्रोत'),

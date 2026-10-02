@@ -121,6 +121,30 @@ def test_search_reports_unavailable_when_everything_fails(monkeypatch):
     assert r["results"] == [] and "error" in r
 
 
+def test_off_topic_search_results_are_rejected():
+    assert not web.is_relevant("What is the MSP for onion?", "Can an employer force you to have a photograph taken")
+    assert web.is_relevant("What is the MSP for onion?", "Onion MSP hiked 13% for buffer stock")
+    assert web.is_relevant("ಈರುಳ್ಳಿ ಬೆಂಬಲ ಬೆಲೆ", "anything")  # non-Latin queries cannot be word-matched
+
+
+def test_search_skips_a_backend_that_returns_junk(monkeypatch):
+    web._CACHE.clear()
+    import ddgs
+
+    class Fake:
+        def __init__(self, *a, **k): pass
+        def text(self, q, region=None, max_results=5, backend="auto"):
+            if backend == "bing":
+                return [{"title": "Photograph policy", "href": "https://junk.example", "body": "employer photograph"}]
+            if backend == "yahoo":
+                return [{"title": "Onion MSP 2026", "href": "https://good.example", "body": "minimum support price onion"}]
+            raise RuntimeError("no results")
+
+    monkeypatch.setattr(ddgs, "DDGS", Fake)
+    r = web.search("What is the MSP for onion zz")
+    assert r["engine"] == "yahoo" and r["results"][0]["url"] == "https://good.example"
+
+
 def test_html_is_reduced_to_readable_text():
     text = web._html_to_text("<html><head><style>x{}</style></head><body><nav>menu</nav><article><h1>Title</h1><p>Body text here.</p></article><script>evil()</script></body></html>")
     assert "Title" in text and "Body text here." in text and "evil" not in text and "menu" not in text
