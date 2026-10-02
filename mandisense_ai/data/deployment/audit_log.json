@@ -10398,5 +10398,805 @@
     "plan_id": "plan_ginger_1790775186.572203",
     "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
     "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_a7d1ae62",
+    "timestamp": "2026-09-30 22:56:03.669540",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790789163.66954",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_6d14b686",
+    "timestamp": "2026-09-30 22:56:03.779050",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790789163.77905",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_63b97742",
+    "timestamp": "2026-09-30 22:56:03.888319",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790789163.888319",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_62f979fc",
+    "timestamp": "2026-09-30 22:56:03.991070",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790789163.99107",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_7bf5039a",
+    "timestamp": "2026-09-30 22:56:04.108585",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790789164.108585",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_116b1652",
+    "timestamp": "2026-09-30 22:56:04.211334",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790789164.211334",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_8b7ebc25",
+    "timestamp": "2026-09-30 22:56:04.319806",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790789164.319806",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_d49fd87a",
+    "timestamp": "2026-09-30 22:56:04.426897",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790789164.426897",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_a8a2b52c",
+    "timestamp": "2026-09-30 22:56:04.535601",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790789164.535601",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_f981c146",
+    "timestamp": "2026-09-30 22:56:04.642928",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790789164.642928",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_1e893337",
+    "timestamp": "2026-09-30 23:11:12.351476",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790790072.351476",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_73d513e1",
+    "timestamp": "2026-09-30 23:11:12.456177",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790790072.456177",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_f1c2ed71",
+    "timestamp": "2026-09-30 23:11:12.572623",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790790072.572623",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_c7b98571",
+    "timestamp": "2026-09-30 23:11:12.675466",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790790072.675466",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_b9f98e6b",
+    "timestamp": "2026-09-30 23:11:12.787880",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790790072.78788",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_b6c2bb04",
+    "timestamp": "2026-09-30 23:11:12.892396",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790790072.892396",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_eee6a007",
+    "timestamp": "2026-09-30 23:11:13.002791",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790790073.002791",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_c5b5da25",
+    "timestamp": "2026-09-30 23:11:13.107986",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790790073.107986",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_da7a9b81",
+    "timestamp": "2026-09-30 23:11:13.217208",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790790073.217208",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_bc477d8b",
+    "timestamp": "2026-09-30 23:11:13.322207",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790790073.322207",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_5b5c5792",
+    "timestamp": "2026-09-30 23:19:31.216660",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790790571.21666",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_488f9427",
+    "timestamp": "2026-09-30 23:19:31.325845",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790790571.325845",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_89fca4c9",
+    "timestamp": "2026-09-30 23:19:31.437513",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790790571.437513",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_3f03b48d",
+    "timestamp": "2026-09-30 23:19:31.551002",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790790571.551002",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_2f2a8196",
+    "timestamp": "2026-09-30 23:19:31.665607",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790790571.665607",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_c9cc184d",
+    "timestamp": "2026-09-30 23:19:31.805232",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790790571.805232",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_b4f938e0",
+    "timestamp": "2026-09-30 23:19:31.933745",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790790571.933745",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_63e1fc5a",
+    "timestamp": "2026-09-30 23:19:32.049909",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790790572.049909",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_b4ff42da",
+    "timestamp": "2026-09-30 23:19:32.170549",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790790572.169549",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_0e03e6e3",
+    "timestamp": "2026-09-30 23:19:32.278603",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790790572.278603",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_d8fef548",
+    "timestamp": "2026-09-30 23:24:08.344833",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790790848.344833",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_b61b5237",
+    "timestamp": "2026-09-30 23:24:08.455214",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790790848.455214",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_3f30ac71",
+    "timestamp": "2026-09-30 23:24:08.568286",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790790848.568286",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_e93898ae",
+    "timestamp": "2026-09-30 23:24:08.678644",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790790848.678644",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_0f93ac8b",
+    "timestamp": "2026-09-30 23:24:08.793268",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790790848.793268",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_817f53cf",
+    "timestamp": "2026-09-30 23:24:08.900069",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790790848.900069",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_cadb5141",
+    "timestamp": "2026-09-30 23:24:09.015096",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790790849.015096",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_dc2f43f9",
+    "timestamp": "2026-09-30 23:24:09.124696",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790790849.124696",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_ea95d9d6",
+    "timestamp": "2026-09-30 23:24:09.236419",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790790849.236419",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_7db9235a",
+    "timestamp": "2026-09-30 23:24:09.343363",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790790849.343363",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_3fd55e55",
+    "timestamp": "2026-10-01 09:42:12.234085",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790827932.234085",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_19e8a6b2",
+    "timestamp": "2026-10-01 09:42:12.348319",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790827932.348319",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_7fffacac",
+    "timestamp": "2026-10-01 09:42:12.466847",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790827932.466847",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_20d70749",
+    "timestamp": "2026-10-01 09:42:12.575666",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790827932.575666",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_74e01034",
+    "timestamp": "2026-10-01 09:42:12.691343",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790827932.691343",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_3bf479a2",
+    "timestamp": "2026-10-01 09:42:12.808530",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790827932.80853",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_465c3eda",
+    "timestamp": "2026-10-01 09:42:12.930883",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790827932.930883",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_6ccfb7e4",
+    "timestamp": "2026-10-01 09:42:13.045407",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790827933.045407",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_bcd32b98",
+    "timestamp": "2026-10-01 09:42:13.165031",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790827933.165031",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_53b248ea",
+    "timestamp": "2026-10-01 09:42:13.290774",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790827933.290774",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_d3f9fad4",
+    "timestamp": "2026-10-02 20:03:44.147659",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790951624.147659",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_df5d479a",
+    "timestamp": "2026-10-02 20:03:44.264374",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790951624.264374",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_295483a5",
+    "timestamp": "2026-10-02 20:03:44.423085",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790951624.423085",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_f93f9367",
+    "timestamp": "2026-10-02 20:03:44.532428",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790951624.532428",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_4bd3f91b",
+    "timestamp": "2026-10-02 20:03:44.658803",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790951624.658803",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_c7070b06",
+    "timestamp": "2026-10-02 20:03:44.817707",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790951624.817707",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_edb02d97",
+    "timestamp": "2026-10-02 20:03:44.960960",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790951624.96096",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_3e67f501",
+    "timestamp": "2026-10-02 20:03:45.085239",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790951625.085239",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_f6b245c2",
+    "timestamp": "2026-10-02 20:03:45.219192",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790951625.219192",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_707da5da",
+    "timestamp": "2026-10-02 20:03:45.377022",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790951625.376023",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_b9076774",
+    "timestamp": "2026-10-02 21:43:52.080156",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790957632.080156",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_1352fba2",
+    "timestamp": "2026-10-02 21:43:52.267589",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790957632.266593",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_afc07227",
+    "timestamp": "2026-10-02 21:43:52.449580",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790957632.44958",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_c85090ab",
+    "timestamp": "2026-10-02 21:43:52.620400",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790957632.6204",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_9b895734",
+    "timestamp": "2026-10-02 21:43:52.807754",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790957632.807754",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_d848bb4f",
+    "timestamp": "2026-10-02 21:43:52.985554",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790957632.985554",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_51c8298d",
+    "timestamp": "2026-10-02 21:43:53.170800",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790957633.1708",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_1737f945",
+    "timestamp": "2026-10-02 21:43:53.341994",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790957633.341994",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_fff48e74",
+    "timestamp": "2026-10-02 21:43:53.529452",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790957633.529452",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_88e90134",
+    "timestamp": "2026-10-02 21:43:53.702053",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790957633.702053",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_5b3505fc",
+    "timestamp": "2026-10-02 21:48:25.773760",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790957905.77376",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_df2e42dc",
+    "timestamp": "2026-10-02 21:48:25.945723",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_tomato_1790957905.944721",
+    "details": "Synthesized response sequence for tomato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_250549ca",
+    "timestamp": "2026-10-02 21:48:26.126800",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790957906.1268",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_0eab59ba",
+    "timestamp": "2026-10-02 21:48:26.300875",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_onion_1790957906.299875",
+    "details": "Synthesized response sequence for onion with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_50b3b048",
+    "timestamp": "2026-10-02 21:48:26.482149",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790957906.481135",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_34791995",
+    "timestamp": "2026-10-02 21:48:26.659503",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_potato_1790957906.659503",
+    "details": "Synthesized response sequence for potato with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_c2d2bfb4",
+    "timestamp": "2026-10-02 21:48:26.851023",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790957906.851023",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_fa52c989",
+    "timestamp": "2026-10-02 21:48:27.021795",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_garlic_1790957907.021795",
+    "details": "Synthesized response sequence for garlic with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_b75d2a42",
+    "timestamp": "2026-10-02 21:48:27.196871",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790957907.196871",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
+  },
+  {
+    "id": "audit_8308eaaa",
+    "timestamp": "2026-10-02 21:48:27.361917",
+    "org_id": "org_default",
+    "actor": "SYSTEM",
+    "action": "SYNTHESIZE_PLAN",
+    "plan_id": "plan_ginger_1790957907.361917",
+    "details": "Synthesized response sequence for ginger with 64% telemetry trust.",
+    "outcome_status": "PENDING"
   }
 ]

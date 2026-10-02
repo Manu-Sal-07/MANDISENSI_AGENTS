@@ -26,6 +26,7 @@ from mandisense_ai.farmer import registry, world
 from mandisense_ai.farmer.reference import CROP_NAMES_KANNADA, shelf_profile
 from mandisense_ai.farmer.seasonal_memory import seasonal_reading
 from mandisense_ai.farmer.supply_signal import supply_reading
+from mandisense_ai.farmer.transmission import neighbour_signal_series
 from mandisense_ai.farmer.transport import RUPEES_PER_QUINTAL_PER_KM, compare_mandis
 
 CROP_ORDER = ["tomato", "onion", "potato", "ginger", "garlic"]
@@ -182,6 +183,46 @@ def _mandis_today(crop: str, district: str) -> List[Dict[str, Any]]:
     return out
 
 
+def _closing_pairs(crop: str, district: str) -> List[Dict[str, Any]]:
+    """Test B results (mandisense_ai/farmer/transmission.py) involving this
+    district, where the gap is statistically shown to close and not just
+    assumed to. Nothing here is a forecast of direction -- only of how fast a
+    gap of either sign tends to narrow."""
+    matrix = world.transmission_matrix()
+    if not matrix.get("available"):
+        return []
+    pairs = matrix.get("test_b_spatial_gaps", {}).get("pairs", [])
+    return [p for p in pairs if p["crop"] == crop and p["closes"] and district in (p["from"], p["to"])]
+
+
+def gap_note(crop: str, district: str) -> Optional[Dict[str, Any]]:
+    """Today's price gap to the nearest closing-pair neighbour district, with
+    the measured half-life of that gap. Farmer-facing: one neighbour, one
+    number, no model of which way the price will move -- only of how long a
+    gap this size has tended to last."""
+    closing = _closing_pairs(crop, district)
+    if not closing:
+        return None
+    series = neighbour_signal_series(world.district_observations(), crop, district)
+    if series is None or series.empty:
+        return None
+    current = float(series.iloc[-1])
+    if abs(current) < 0.03:  # under 3%: not worth a farmer's attention
+        return None
+    # The neighbour-pair whose measured half-life applies to this district,
+    # regardless of which side of the pair it was estimated from.
+    half_lives = [p["half_life_weeks"] for p in closing if p["half_life_weeks"]]
+    if not half_lives:
+        return None
+    half_life = float(np.median(half_lives))
+    return {
+        "gap_pct": round((np.exp(current) - 1) * 100, 1),
+        "direction": "neighbours_dearer" if current > 0 else "neighbours_cheaper",
+        "half_life_weeks": round(half_life, 1),
+        "pairs": len(closing),
+    }
+
+
 def board(district: str, crop: str) -> Dict[str, Any]:
     district, crop = registry.resolve_place(district), str(crop).strip().lower()
     series = _series(crop, district)
@@ -225,6 +266,10 @@ def board(district: str, crop: str) -> Dict[str, Any]:
                         "value": call["expected_change_pct"], "days": call["horizon"]})
     if profile.category == "highly_perishable":
         reasons.append({"code": "spoils_fast", "value": profile.daily_loss_pct})
+    gap = gap_note(crop, district)
+    if gap:
+        reasons.append({"code": "neighbours_dearer" if gap["direction"] == "neighbours_dearer" else "neighbours_cheaper",
+                        "value": gap["gap_pct"], "weeks": gap["half_life_weeks"]})
 
     d = registry.DISTRICTS.get(district)
     return {
@@ -246,6 +291,7 @@ def board(district: str, crop: str) -> Dict[str, Any]:
         "mandis": _mandis_today(crop, district),
         "shelf": {"days": profile.shelf_life_days, "daily_loss_pct": profile.daily_loss_pct, "category": profile.category},
         "accuracy": {k: quality.get(k) for k in ("forecasts", "skill_vs_no_change", "direction_right", "serves_call")},
+        "gap": gap,
     }
 
 
@@ -301,12 +347,21 @@ def sell_plan(crop: str, mandi_id: str, quantity_quintals: float) -> Dict[str, A
               and r["net_total"] > options[0]["total"]]
     if better:
         b = better[0]
+        # Where the district pair this trip exploits is one of the pairs
+        # Test B (mandisense_ai/farmer/transmission.py) measured to close
+        # within weeks, the gap is flagged as temporary, not a standing
+        # reason to travel: the number is real today but has a measured
+        # shelf life of its own.
+        b_district = registry.district_of(b["mandi_id"])
+        closing = [p for p in _closing_pairs(crop, district) if b_district in (p["from"], p["to"])]
+        half_life = round(float(np.median([p["half_life_weeks"] for p in closing])), 1) if closing else None
         options.append({"choice": "travel", "mandi_id": b["mandi_id"], "mandi_name": b["mandi_name"],
                         "mandi_name_kn": b["mandi_name_kn"], "mandi_name_hi": b["mandi_name_hi"],
                         "target_date": b["as_of_date"], "price_per_quintal": b["gross_price_per_quintal"],
                         "transport_cost_per_quintal": b["transport_cost_per_quintal"],
                         "distance_km": b["distance_km"], "total": b["net_total"],
-                        "typical_arrivals_tonnes": b["typical_arrivals_tonnes"]})
+                        "typical_arrivals_tonnes": b["typical_arrivals_tonnes"],
+                        "gap_half_life_weeks": half_life})
 
     # Waiting: only where the record earned a call, using the district's
     # expected move applied to this mandi's own price, less what the crop

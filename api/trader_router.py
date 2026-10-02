@@ -142,6 +142,20 @@ async def delete_position(position_id: str, book_id: str = Query(..., min_length
     return result
 
 
+@router.get("/transmission/matrix")
+async def transmission_matrix():
+    from mandisense_ai.trader.transmission import cross_commodity_matrix
+
+    return cross_commodity_matrix()
+
+
+@router.get("/transmission/gaps/{commodity}")
+async def transmission_gaps(commodity: str, quantity_quintals: float = Query(20.0, gt=0), trip_days: int = Query(3, ge=1, le=14)):
+    from mandisense_ai.trader.transmission import gap_arbitrage
+
+    return gap_arbitrage(commodity, quantity_quintals, trip_days)
+
+
 @router.get("/positions/risk")
 async def assess_risk(book_id: str = Query(..., min_length=1), horizon_days: int = Query(5, ge=1, le=30)):
     from mandisense_ai.trader.positions import assess_book

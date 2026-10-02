@@ -39,6 +39,7 @@ BUNDLE_DIR = MODEL_DIR / "forecast_models"
 FORECAST_STORE = MODEL_DIR / "forecast_store.json"
 MODEL_REPORT = MODEL_DIR / "model_report.json"
 LEDGER = MODEL_DIR / "forecast_ledger.parquet"
+TRANSMISSION_MATRIX = MODEL_DIR / "transmission_matrix.json"
 
 _SERVICE: Optional[ForecastService] = None
 _SERVICE_LOCK = threading.Lock()
@@ -96,6 +97,25 @@ def district_series(commodity: str, district_id: str) -> pd.DataFrame:
         return frame
     sub = frame[(frame["commodity"] == commodity) & (frame["mandi_id"] == district_id)]
     return sub.sort_values("date")
+
+
+def transmission_matrix() -> Dict[str, Any]:
+    """Cross-commodity and cross-district transmission results (see
+    scripts/build_transmission.py and mandisense_ai/farmer/transmission.py).
+    Read-only, cached on file modification time like the other artifacts."""
+    key = "transmission"
+    if not TRANSMISSION_MATRIX.exists():
+        return {"available": False}
+    stamp = TRANSMISSION_MATRIX.stat().st_mtime
+    hit = _CACHE.get(key)
+    if hit and hit[0] == stamp:
+        return hit[1]
+    try:
+        data = {"available": True, **json.loads(TRANSMISSION_MATRIX.read_text(encoding="utf-8"))}
+    except Exception:
+        return {"available": False}
+    _CACHE[key] = (stamp, data)
+    return data
 
 
 def model_report() -> Dict[str, Any]:

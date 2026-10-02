@@ -83,3 +83,27 @@ production (a shared rate-limited sample key is used otherwise — see
 `mandisense_ai/forecasting/config.py`). The bundled `mandisense_ai/data/processed/v4/`
 Karnataka dataset that some trader-side views still use does **not** match the real Agmarknet
 archive and should not be treated as real market history; see the papers' audit of this.
+
+## Chatbots (farmer and trader)
+
+Two assistants share one engine (`mandisense_ai/chat/`), exposed at `POST /v1/chat` (and `GET /v1/chat/status`).
+The farmer assistant is on every farmer page; the desk assistant is on the trading desk pages.
+
+- **Language-specific.** Every reply is written in the language the user chose: English, Kannada or Hindi
+  (Kannada/Hindi digits are understood too). A reply in the wrong script is rewritten once, then replaced by the
+  natively written tool answer.
+- **Records first, web second.** Each feature of the app is a tool (price board, sell plan, hold-or-sell, where to
+  sell, seasonal memory, supply signal, spreads, gap arbitrage, volatility, analogs, scenarios, forward price,
+  decision brief, ...). Anything the records cannot answer (schemes, MSP, fertiliser, pests, news, policy, weather)
+  goes to live web search, page fetch and Open-Meteo, with the sources shown under the answer.
+- **Grounded.** Numbers in a reply are checked against what the tools returned; untraceable figures are flagged.
+  A calculator tool does the arithmetic. Web-page text is treated as data, never as instructions, and page fetches
+  refuse private and local addresses.
+- **Works without a key, better with one.** With no LLM key the engine routes the question to the tools and writes
+  the answer itself (web snippets are machine-translated into Kannada/Hindi). Set `ANTHROPIC_API_KEY`,
+  `GROQ_API_KEY` or `OPENAI_API_KEY` (see `.env.example`) and a hosted model with tool calling takes over; if it
+  ever errors the engine falls back automatically.
+- **Memory.** The conversation, the crop and place from earlier turns, and the page the user is on are used as
+  defaults ("and onion?", "what about Mulbagal?"). History is kept on the device.
+
+Tests: `pytest mandisense_ai/tests/test_chat.py`.

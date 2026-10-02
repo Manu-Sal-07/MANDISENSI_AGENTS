@@ -2,3 +2,8 @@ fastapi
 uvicorn[standard]
 redis
 pydantic
+ddgs
+beautifulsoup4
+deep-translator
+httpx
+requests
