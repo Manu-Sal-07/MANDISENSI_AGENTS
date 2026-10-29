@@ -130,7 +130,7 @@ class TestPanel:
         from mandisense_ai.spillover.panel import build_panel
 
         with pytest.raises((FileNotFoundError, ValueError)):
-            build_panel(Path("does_not_exist_anywhere"), DEFAULT_CONFIG)
+            build_panel(Path("does_not_exist_anywhere"), DEFAULT_CONFIG, market_panel_fallback=False)
 
     def test_real_panel_is_weekly_and_aligned(self):
         """The shipped panel must be what the estimator assumes it is."""

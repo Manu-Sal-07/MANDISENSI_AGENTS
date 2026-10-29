@@ -119,9 +119,34 @@ def _load_one(path: Path) -> Optional[pd.DataFrame]:
     return df.sort_values("date").set_index("date")
 
 
+def _frames_from_market_panel() -> Dict[str, "tuple[pd.DataFrame, str]"]:
+    """
+    commodity -> (price frame, source mandi) from the Agmarknet market panel the farmer world is built from.
+
+    Each commodity is represented by the mandi that reported it most often, so a series is a price someone actually
+    quoted on that day (no filled days). Used when no per-commodity processed datasets exist.
+    """
+    from mandisense_ai.farmer import world
+
+    if not world.MARKET_PANEL.exists():
+        return {}
+    raw = pd.read_parquet(world.MARKET_PANEL)
+    out: Dict[str, "tuple[pd.DataFrame, str]"] = {}
+    for crop, g in raw.groupby("crop"):
+        counts = g.groupby("mandi_id")["price"].count()
+        mandi = str(counts.idxmax())
+        df = g[g["mandi_id"] == mandi][["date", "price"]].rename(columns={"price": "modal_price"})
+        df["date"] = pd.to_datetime(df["date"])
+        df = df[df["modal_price"] > 0].sort_values("date").set_index("date")
+        if not df.empty:
+            out[str(crop)] = (df, mandi)
+    return out
+
+
 def build_panel(
     processed_dir: Path,
     config: SpilloverConfig = DEFAULT_CONFIG,
+    market_panel_fallback: bool = True,
 ) -> CommodityPanel:
     """
     Construct an aligned panel from the processed datasets.
@@ -133,10 +158,17 @@ def build_panel(
             preferable to emitting an empty artifact.
     """
     processed_dir = Path(processed_dir)
-    datasets = _discover_datasets(processed_dir)
-    if len(datasets) < 2:
+    datasets = _discover_datasets(processed_dir) if processed_dir.exists() else {}
+    frames: Dict[str, "tuple[pd.DataFrame, str]"] = {}
+    for commodity, path in datasets.items():
+        df = _load_one(path)
+        if df is not None and not df.empty:
+            frames[commodity] = (df, path.stem.split("_")[-1])
+    if len(frames) < 2 and market_panel_fallback:
+        frames = _frames_from_market_panel()
+    if len(frames) < 2:
         raise ValueError(
-            f"Spillover needs at least 2 commodities; found {len(datasets)} in {processed_dir}"
+            f"Spillover needs at least 2 commodities; found {len(frames)} in {processed_dir} or the market panel"
         )
 
     price_cols: Dict[str, pd.Series] = {}
@@ -144,14 +176,10 @@ def build_panel(
     stress_cols: Dict[str, pd.Series] = {}
     markets: Dict[str, str] = {}
 
-    for commodity, path in datasets.items():
-        df = _load_one(path)
-        if df is None or df.empty:
-            continue
-
+    for commodity, (df, market) in frames.items():
         freq = config.frequency
         price_cols[commodity] = df["modal_price"].resample(freq).last()
-        markets[commodity] = path.stem.split("_")[-1]
+        markets[commodity] = market
 
         if "supply_regime" in df.columns:
             regime_cols[commodity] = df["supply_regime"].resample(freq).last()
@@ -170,15 +198,17 @@ def build_panel(
 
     returns = np.log(prices).diff()
 
+    # The market panel carries no supply-regime label; the frames keep the panel's index and columns (all missing) so every
+    # consumer sees one consistent shape, and regime-dependent steps simply find no labelled episodes.
     regimes = (
         pd.DataFrame(regime_cols).reindex(prices.index)
         if regime_cols
-        else pd.DataFrame(index=prices.index)
+        else pd.DataFrame(index=prices.index, columns=prices.columns, dtype=object)
     )
     stress = (
         pd.DataFrame(stress_cols).reindex(prices.index)
         if stress_cols
-        else pd.DataFrame(index=prices.index)
+        else pd.DataFrame(index=prices.index, columns=prices.columns, dtype=float)
     )
 
     data_hash = hashlib.sha256(

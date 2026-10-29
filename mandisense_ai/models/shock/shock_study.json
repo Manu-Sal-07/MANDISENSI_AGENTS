@@ -1,0 +1,3008 @@
+{
+ "generated_at": "2026-10-29T10:17:58.314441+00:00",
+ "data": {
+  "from": "2021-01-01",
+  "to": "2026-10-26",
+  "crops": [
+   "garlic",
+   "ginger",
+   "onion",
+   "potato",
+   "tomato"
+  ],
+  "districts": [
+   "bengaluru",
+   "bengaluru_rural",
+   "bengaluru_south",
+   "chikkaballapur",
+   "kolar"
+  ]
+ },
+ "own_crop": {
+  "results": [
+   {
+    "crop": "garlic",
+    "direction": "glut",
+    "horizon": 3,
+    "status": "OK",
+    "n": 118,
+    "effect": 0.015437011287642846,
+    "ci": [
+     -0.03436601760097498,
+     0.08504066930964296
+    ],
+    "raw_mean": 0.041523045961523224,
+    "raw_median": 0.0,
+    "p10": -0.16705408466316563,
+    "p90": 0.19842505214924147,
+    "share_down": 0.2966101694915254,
+    "mde": 0.09649300230125876,
+    "raw_p": 0.6550206875606612,
+    "placebo_p": 0.770573566084788,
+    "districts": {
+     "n": 2,
+     "effects": {
+      "bengaluru": -0.02598404474704292,
+      "chikkaballapur": 0.06288294820010108
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "garlic",
+    "direction": "glut",
+    "horizon": 7,
+    "status": "OK",
+    "n": 113,
+    "effect": 0.00999473431984681,
+    "ci": [
+     -0.04875645429166125,
+     0.06866961528165229
+    ],
+    "raw_mean": 0.023990158033699634,
+    "raw_median": 0.0,
+    "p10": -0.22314355131420882,
+    "p90": 0.24928395398810285,
+    "share_down": 0.336283185840708,
+    "mde": 0.11481413454459384,
+    "raw_p": 0.8078750063235538,
+    "placebo_p": 0.8329177057356608,
+    "districts": {
+     "n": 2,
+     "effects": {
+      "bengaluru": -0.04881907365136841,
+      "chikkaballapur": 0.08410013236357797
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "garlic",
+    "direction": "glut",
+    "horizon": 14,
+    "status": "OK",
+    "n": 111,
+    "effect": 0.007368996784951439,
+    "ci": [
+     -0.10901694876886085,
+     0.10880554905739424
+    ],
+    "raw_mean": 0.0463593767130241,
+    "raw_median": 0.0,
+    "p10": -0.17589066646366547,
+    "p90": 0.2876820724517799,
+    "share_down": 0.40540540540540543,
+    "mde": 0.13325741884260403,
+    "raw_p": 0.8772335012808115,
+    "placebo_p": 0.9027431421446384,
+    "districts": {
+     "n": 2,
+     "effects": {
+      "bengaluru": 0.018204641394735648,
+      "chikkaballapur": -0.0049252922915345035
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "garlic",
+    "direction": "squeeze",
+    "horizon": 3,
+    "status": "OK",
+    "n": 75,
+    "effect": 0.06054253048844488,
+    "ci": [
+     -0.001685194328025915,
+     0.2108736750429615
+    ],
+    "raw_mean": 0.048951091961816726,
+    "raw_median": 0.0,
+    "p10": -0.12221110003495746,
+    "p90": 0.2339546546158173,
+    "share_down": 0.2,
+    "mde": 0.1735364085536149,
+    "raw_p": 0.3318259769295939,
+    "placebo_p": 0.2593516209476309,
+    "districts": {
+     "n": 2,
+     "effects": {
+      "bengaluru": 0.013838700731629803,
+      "chikkaballapur": 0.13893824472309885
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "garlic",
+    "direction": "squeeze",
+    "horizon": 7,
+    "status": "OK",
+    "n": 72,
+    "effect": 0.04285916235138028,
+    "ci": [
+     -0.009401099037762243,
+     0.2131389820782697
+    ],
+    "raw_mean": 0.04932940670233364,
+    "raw_median": 0.0,
+    "p10": -0.21686346119030744,
+    "p90": 0.24982186325923902,
+    "share_down": 0.3055555555555556,
+    "mde": 0.2271539017690755,
+    "raw_p": 0.5989378488549231,
+    "placebo_p": 0.5336658354114713,
+    "districts": {
+     "n": 2,
+     "effects": {
+      "bengaluru": -0.0001092916977999329,
+      "chikkaballapur": 0.1144732524333473
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "garlic",
+    "direction": "squeeze",
+    "horizon": 14,
+    "status": "OK",
+    "n": 71,
+    "effect": 0.08678474092136182,
+    "ci": [
+     0.015727600575530555,
+     0.25187954790446687
+    ],
+    "raw_mean": 0.09826137657072793,
+    "raw_median": 0.0,
+    "p10": -0.25131442828090655,
+    "p90": 0.35667494393873334,
+    "share_down": 0.39436619718309857,
+    "mde": 0.2117563745778609,
+    "raw_p": 0.2550685828216577,
+    "placebo_p": 0.20448877805486285,
+    "districts": {
+     "n": 2,
+     "effects": {
+      "bengaluru": 0.004650637700753898,
+      "chikkaballapur": 0.22063290913272285
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "SUGGESTIVE"
+   },
+   {
+    "crop": "ginger",
+    "direction": "glut",
+    "horizon": 3,
+    "status": "OK",
+    "n": 210,
+    "effect": 0.028646573384347555,
+    "ci": [
+     -0.01912596255740963,
+     0.08614974902458787
+    ],
+    "raw_mean": 0.048168426610745205,
+    "raw_median": 0.005830230824236615,
+    "p10": -0.1823215567939541,
+    "p90": 0.29215052816682546,
+    "share_down": 0.2523809523809524,
+    "mde": 0.0610022270689081,
+    "raw_p": 0.18999226783458734,
+    "placebo_p": 0.17206982543640897,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": 0.04264365437345404,
+      "bengaluru_south": -0.011488198629992057,
+      "chikkaballapur": 0.05705957998382276,
+      "kolar": 0.04815578460971138
+     },
+     "stable": true
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "ginger",
+    "direction": "glut",
+    "horizon": 7,
+    "status": "OK",
+    "n": 203,
+    "effect": 0.022620742309365068,
+    "ci": [
+     -0.014553090863381178,
+     0.07425619572008368
+    ],
+    "raw_mean": 0.03053399440772652,
+    "raw_median": 0.0,
+    "p10": -0.22004271400701608,
+    "p90": 0.26358876808392395,
+    "share_down": 0.3448275862068966,
+    "mde": 0.07027172906044371,
+    "raw_p": 0.3684858172131724,
+    "placebo_p": 0.38902743142144636,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": 0.03518819748837886,
+      "bengaluru_south": -0.00534162908063954,
+      "chikkaballapur": 0.03862674575215655,
+      "kolar": 0.0354457739761476
+     },
+     "stable": true
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "ginger",
+    "direction": "glut",
+    "horizon": 14,
+    "status": "OK",
+    "n": 203,
+    "effect": 0.04621819169502898,
+    "ci": [
+     -0.010629239252739588,
+     0.11489333756168511
+    ],
+    "raw_mean": 0.04993202092101537,
+    "raw_median": 0.0021030501967782556,
+    "p10": -0.2277019682059208,
+    "p90": 0.3602802046454225,
+    "share_down": 0.3448275862068966,
+    "mde": 0.08557184273080015,
+    "raw_p": 0.13201856175269655,
+    "placebo_p": 0.18204488778054864,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": 0.05486329750770019,
+      "bengaluru_south": -0.037311246655948246,
+      "chikkaballapur": 0.07763720133889783,
+      "kolar": 0.14491142083437983
+     },
+     "stable": true
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "ginger",
+    "direction": "squeeze",
+    "horizon": 3,
+    "status": "OK",
+    "n": 136,
+    "effect": -0.08296353668653639,
+    "ci": [
+     -0.16138199917992369,
+     -0.006983138648278253
+    ],
+    "raw_mean": -0.08851438036459616,
+    "raw_median": 0.0,
+    "p10": -0.4772903307048604,
+    "p90": 0.2210136687517803,
+    "share_down": 0.4632352941176471,
+    "mde": 0.09442812005448373,
+    "raw_p": 0.015155371836470755,
+    "placebo_p": 0.0024937655860349127,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": -0.1261381481494892,
+      "bengaluru_south": 0.06437819635257133,
+      "chikkaballapur": 0.04401716906555121,
+      "kolar": -0.17325517746579566
+     },
+     "stable": false
+    },
+    "holm_p": 0.45466115509412264,
+    "tier": "SUGGESTIVE"
+   },
+   {
+    "crop": "ginger",
+    "direction": "squeeze",
+    "horizon": 7,
+    "status": "OK",
+    "n": 130,
+    "effect": -0.07058009092784298,
+    "ci": [
+     -0.14786698725352804,
+     -0.0033830122383273664
+    ],
+    "raw_mean": -0.05381667058341649,
+    "raw_median": -0.003354844174420002,
+    "p10": -0.4627674262765848,
+    "p90": 0.2526937604941402,
+    "share_down": 0.5,
+    "mde": 0.08359884457621207,
+    "raw_p": 0.01957327963052946,
+    "placebo_p": 0.02743142144638404,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": -0.12554922812900735,
+      "bengaluru_south": 0.038548030225399196,
+      "chikkaballapur": -0.14611340144607102,
+      "kolar": 0.07192156022586808
+     },
+     "stable": false
+    },
+    "holm_p": 0.5676251092853544,
+    "tier": "SUGGESTIVE"
+   },
+   {
+    "crop": "ginger",
+    "direction": "squeeze",
+    "horizon": 14,
+    "status": "OK",
+    "n": 129,
+    "effect": -0.09325391630214905,
+    "ci": [
+     -0.16394322287978566,
+     -0.004192859827024074
+    ],
+    "raw_mean": -0.0853446112624458,
+    "raw_median": -0.01717749154880366,
+    "p10": -0.49185568219967946,
+    "p90": 0.40546510810816405,
+    "share_down": 0.5193798449612403,
+    "mde": 0.11818171102012567,
+    "raw_p": 0.02892517923550164,
+    "placebo_p": 0.014962593516209476,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": -0.11348692457100709,
+      "bengaluru_south": -0.053556848333142386,
+      "chikkaballapur": 0.05193456838591405,
+      "kolar": -0.16198375904533832
+     },
+     "stable": true
+    },
+    "holm_p": 0.809905018594046,
+    "tier": "SUGGESTIVE"
+   },
+   {
+    "crop": "onion",
+    "direction": "glut",
+    "horizon": 3,
+    "status": "OK",
+    "n": 229,
+    "effect": -0.019665013165132895,
+    "ci": [
+     -0.05759161359612408,
+     0.008970005654720656
+    ],
+    "raw_mean": 0.009697640904356687,
+    "raw_median": 0.0,
+    "p10": -0.20921754448326144,
+    "p90": 0.24133205257722903,
+    "share_down": 0.388646288209607,
+    "mde": 0.05159871003335823,
+    "raw_p": 0.28704608151834154,
+    "placebo_p": 0.34413965087281795,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": -0.04389026671594168,
+      "bengaluru_rural": -0.011613456714876402,
+      "chikkaballapur": -0.03582363566745185,
+      "kolar": 0.04281331513774486
+     },
+     "stable": true
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "onion",
+    "direction": "glut",
+    "horizon": 7,
+    "status": "OK",
+    "n": 211,
+    "effect": 0.0006831161711516575,
+    "ci": [
+     -0.040402362965743475,
+     0.037458860606597456
+    ],
+    "raw_mean": 0.01857732587614382,
+    "raw_median": 0.0,
+    "p10": -0.22594614058793372,
+    "p90": 0.30748469974796055,
+    "share_down": 0.3933649289099526,
+    "mde": 0.05779577064552478,
+    "raw_p": 0.9736306189164148,
+    "placebo_p": 0.9650872817955112,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": -0.057728002227610035,
+      "bengaluru_rural": -0.007125746910577594,
+      "chikkaballapur": 0.010694758327669916,
+      "kolar": 0.11730762782135397
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "onion",
+    "direction": "glut",
+    "horizon": 14,
+    "status": "OK",
+    "n": 214,
+    "effect": 0.012327268150693278,
+    "ci": [
+     -0.0433421047879104,
+     0.06278610108670983
+    ],
+    "raw_mean": 0.02661522804629465,
+    "raw_median": 0.0,
+    "p10": -0.23428959279284323,
+    "p90": 0.30272271280839336,
+    "share_down": 0.411214953271028,
+    "mde": 0.06294548409301086,
+    "raw_p": 0.5840237397620007,
+    "placebo_p": 0.5685785536159601,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": -0.025117923671735265,
+      "bengaluru_rural": 0.07706454671393213,
+      "chikkaballapur": 0.004496293207840323,
+      "kolar": 0.050624595007751336
+     },
+     "stable": true
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "onion",
+    "direction": "squeeze",
+    "horizon": 3,
+    "status": "OK",
+    "n": 141,
+    "effect": 0.03518587094757452,
+    "ci": [
+     -0.014639541856328552,
+     0.07923811195347065
+    ],
+    "raw_mean": 0.021803215656590207,
+    "raw_median": 0.0,
+    "p10": -0.14429416120471572,
+    "p90": 0.23638877806423064,
+    "share_down": 0.2978723404255319,
+    "mde": 0.06732414663600726,
+    "raw_p": 0.14560649513315527,
+    "placebo_p": 0.1745635910224439,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": 0.05761474014114757,
+      "bengaluru_rural": 0.051884504690115935,
+      "chikkaballapur": 0.05809847126641991,
+      "kolar": -0.09197447405536063
+     },
+     "stable": true
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "onion",
+    "direction": "squeeze",
+    "horizon": 7,
+    "status": "OK",
+    "n": 139,
+    "effect": 0.011723435294918481,
+    "ci": [
+     -0.036743409595663926,
+     0.07044474740567801
+    ],
+    "raw_mean": 0.03366534093459765,
+    "raw_median": 0.0,
+    "p10": -0.1910837874555904,
+    "p90": 0.2952048510784569,
+    "share_down": 0.3381294964028777,
+    "mde": 0.07106894573179914,
+    "raw_p": 0.6448917125317468,
+    "placebo_p": 0.683291770573566,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": 0.06264362069948172,
+      "bengaluru_rural": -0.06529617613573224,
+      "chikkaballapur": -0.02266669687603747,
+      "kolar": 0.02865175123473821
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "onion",
+    "direction": "squeeze",
+    "horizon": 14,
+    "status": "OK",
+    "n": 134,
+    "effect": -0.03735372356654735,
+    "ci": [
+     -0.0969693094468653,
+     0.016695137795043474
+    ],
+    "raw_mean": 0.016684373069200748,
+    "raw_median": 0.0,
+    "p10": -0.27345160928831325,
+    "p90": 0.29939749449990016,
+    "share_down": 0.41044776119402987,
+    "mde": 0.07882759786539692,
+    "raw_p": 0.18684010031872034,
+    "placebo_p": 0.20698254364089774,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": 0.04477384930089099,
+      "bengaluru_rural": 0.007476617167718007,
+      "chikkaballapur": -0.08695210740556043,
+      "kolar": -0.10242676006606156
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "potato",
+    "direction": "glut",
+    "horizon": 3,
+    "status": "OK",
+    "n": 211,
+    "effect": -0.007977777964224135,
+    "ci": [
+     -0.048129354557191195,
+     0.030754671165787235
+    ],
+    "raw_mean": 0.01898860615150498,
+    "raw_median": 0.0,
+    "p10": -0.2809023854664021,
+    "p90": 0.2931615382164061,
+    "share_down": 0.4028436018957346,
+    "mde": 0.054899899132342035,
+    "raw_p": 0.684509084530015,
+    "placebo_p": 0.6982543640897756,
+    "districts": {
+     "n": 3,
+     "effects": {
+      "bengaluru": -0.03941774067635679,
+      "chikkaballapur": 0.12658899443680854,
+      "kolar": -0.09917699348681658
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "potato",
+    "direction": "glut",
+    "horizon": 7,
+    "status": "OK",
+    "n": 209,
+    "effect": -0.013684158847318842,
+    "ci": [
+     -0.05879890837852401,
+     0.013324104911998345
+    ],
+    "raw_mean": 0.010441705225395058,
+    "raw_median": 0.0016680571006970624,
+    "p10": -0.3194057345317033,
+    "p90": 0.3247377489598603,
+    "share_down": 0.4019138755980861,
+    "mde": 0.06501555064982137,
+    "raw_p": 0.5562791579729907,
+    "placebo_p": 0.48129675810473815,
+    "districts": {
+     "n": 3,
+     "effects": {
+      "bengaluru": -0.021852731483364456,
+      "chikkaballapur": 0.10256212737311125,
+      "kolar": -0.11719383573999871
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "potato",
+    "direction": "glut",
+    "horizon": 14,
+    "status": "OK",
+    "n": 209,
+    "effect": -0.011694211066198943,
+    "ci": [
+     -0.05880037288811895,
+     0.02321030982218575
+    ],
+    "raw_mean": 0.006151798106488186,
+    "raw_median": 0.010152371464018373,
+    "p10": -0.3246889151116218,
+    "p90": 0.2856059921402127,
+    "share_down": 0.4354066985645933,
+    "mde": 0.060247357789210254,
+    "raw_p": 0.5873749982691427,
+    "placebo_p": 0.6384039900249376,
+    "districts": {
+     "n": 3,
+     "effects": {
+      "bengaluru": -0.028927655121515607,
+      "chikkaballapur": 0.09381552077783334,
+      "kolar": -0.09255125985482436
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "potato",
+    "direction": "squeeze",
+    "horizon": 3,
+    "status": "OK",
+    "n": 109,
+    "effect": 0.00684029790445131,
+    "ci": [
+     -0.07841154247626517,
+     0.04760218091963176
+    ],
+    "raw_mean": -0.022041622705888827,
+    "raw_median": 0.0,
+    "p10": -0.3402001688544597,
+    "p90": 0.21113226286270384,
+    "share_down": 0.29357798165137616,
+    "mde": 0.0728586129523158,
+    "raw_p": 0.7931464169913449,
+    "placebo_p": 0.8428927680798005,
+    "districts": {
+     "n": 3,
+     "effects": {
+      "bengaluru": 0.03463145808649819,
+      "chikkaballapur": -0.05064137171494723,
+      "kolar": 0.044852282307645146
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "potato",
+    "direction": "squeeze",
+    "horizon": 7,
+    "status": "OK",
+    "n": 108,
+    "effect": -0.037785981659361076,
+    "ci": [
+     -0.07867098099980183,
+     -0.019935384602432406
+    ],
+    "raw_mean": -0.003110303143321116,
+    "raw_median": 0.0,
+    "p10": -0.23159481440421872,
+    "p90": 0.19747876225409575,
+    "share_down": 0.35185185185185186,
+    "mde": 0.06669208028096103,
+    "raw_p": 0.11559806404198092,
+    "placebo_p": 0.1745635910224439,
+    "districts": {
+     "n": 3,
+     "effects": {
+      "bengaluru": 0.007881326906697397,
+      "chikkaballapur": -0.08552855523694534,
+      "kolar": -0.03815738457659718
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "SUGGESTIVE"
+   },
+   {
+    "crop": "potato",
+    "direction": "squeeze",
+    "horizon": 14,
+    "status": "OK",
+    "n": 103,
+    "effect": -0.007406594454772311,
+    "ci": [
+     -0.058369089037785184,
+     0.030715604291873474
+    ],
+    "raw_mean": 0.023927302583669128,
+    "raw_median": 0.0,
+    "p10": -0.22180112788720566,
+    "p90": 0.2778791867627366,
+    "share_down": 0.39805825242718446,
+    "mde": 0.08039119855263689,
+    "raw_p": 0.7969503400017588,
+    "placebo_p": 0.8054862842892768,
+    "districts": {
+     "n": 3,
+     "effects": {
+      "bengaluru": -0.0025263907094785266,
+      "chikkaballapur": -0.0010013236088975913,
+      "kolar": -0.02402979334358446
+     },
+     "stable": true
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "tomato",
+    "direction": "glut",
+    "horizon": 3,
+    "status": "OK",
+    "n": 163,
+    "effect": 0.0031917382715472547,
+    "ci": [
+     -0.05827671913679893,
+     0.05199586543736422
+    ],
+    "raw_mean": 0.022786123039729177,
+    "raw_median": 0.0,
+    "p10": -0.2368032958222482,
+    "p90": 0.2876820724517808,
+    "share_down": 0.4601226993865031,
+    "mde": 0.08158354909839968,
+    "raw_p": 0.9129077781551933,
+    "placebo_p": 0.912718204488778,
+    "districts": {
+     "n": 5,
+     "effects": {
+      "bengaluru": -0.021139108939258907,
+      "bengaluru_rural": -0.003841535472493588,
+      "bengaluru_south": -0.021767515401829047,
+      "chikkaballapur": 0.14775887205060853,
+      "kolar": -0.06817809488010722
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "tomato",
+    "direction": "glut",
+    "horizon": 7,
+    "status": "OK",
+    "n": 158,
+    "effect": 0.006494215778656267,
+    "ci": [
+     -0.05715069169417975,
+     0.05876550790707025
+    ],
+    "raw_mean": 0.03049144866577343,
+    "raw_median": 0.0,
+    "p10": -0.4224186668393014,
+    "p90": 0.366002120059742,
+    "share_down": 0.43670886075949367,
+    "mde": 0.10085058582504519,
+    "raw_p": 0.8571461254410644,
+    "placebo_p": 0.8179551122194514,
+    "districts": {
+     "n": 5,
+     "effects": {
+      "bengaluru": -0.06528318785151613,
+      "bengaluru_rural": -0.025640865330941898,
+      "bengaluru_south": -0.0009004503960075572,
+      "chikkaballapur": 0.12822988313046876,
+      "kolar": 0.0006358431061188806
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "tomato",
+    "direction": "glut",
+    "horizon": 14,
+    "status": "OK",
+    "n": 161,
+    "effect": -0.004235109405376775,
+    "ci": [
+     -0.1013592376398464,
+     0.08266439113017252
+    ],
+    "raw_mean": 0.03391131117811901,
+    "raw_median": -0.01566611674439944,
+    "p10": -0.5108256237659905,
+    "p90": 0.7428767529713127,
+    "share_down": 0.5031055900621118,
+    "mde": 0.1194627809417891,
+    "raw_p": 0.9210532324549772,
+    "placebo_p": 0.9102244389027432,
+    "districts": {
+     "n": 5,
+     "effects": {
+      "bengaluru": -0.11497634569565345,
+      "bengaluru_rural": 0.010656539397583834,
+      "bengaluru_south": -0.07358344869739482,
+      "chikkaballapur": 0.21378171481253144,
+      "kolar": 0.007128649837786204
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "tomato",
+    "direction": "squeeze",
+    "horizon": 3,
+    "status": "OK",
+    "n": 327,
+    "effect": -0.01199367695513598,
+    "ci": [
+     -0.062494416700976836,
+     0.0380055498606937
+    ],
+    "raw_mean": -0.02035603913030384,
+    "raw_median": 0.0,
+    "p10": -0.3857843456977134,
+    "p90": 0.3271703824177815,
+    "share_down": 0.45565749235474007,
+    "mde": 0.056588036741171625,
+    "raw_p": 0.5532900683704183,
+    "placebo_p": 0.4688279301745636,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": -0.028749543394251415,
+      "bengaluru_south": 0.026846132038736852,
+      "chikkaballapur": -0.02856562553321672,
+      "kolar": -0.01621873482417214
+     },
+     "stable": true
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "tomato",
+    "direction": "squeeze",
+    "horizon": 7,
+    "status": "OK",
+    "n": 324,
+    "effect": -0.03395529713375562,
+    "ci": [
+     -0.09991922548243175,
+     0.025306565623521092
+    ],
+    "raw_mean": -0.02166772562768473,
+    "raw_median": 0.0,
+    "p10": -0.5080896748198394,
+    "p90": 0.4310536409249138,
+    "share_down": 0.4783950617283951,
+    "mde": 0.06849063011877364,
+    "raw_p": 0.16604999346427696,
+    "placebo_p": 0.04987531172069826,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": -0.026253803699245955,
+      "bengaluru_south": 0.07510917176326454,
+      "chikkaballapur": -0.09866971637858082,
+      "kolar": -0.07505472084731316
+     },
+     "stable": true
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   },
+   {
+    "crop": "tomato",
+    "direction": "squeeze",
+    "horizon": 14,
+    "status": "OK",
+    "n": 323,
+    "effect": -0.011280199851831981,
+    "ci": [
+     -0.10169918588672383,
+     0.07018991013340903
+    ],
+    "raw_mean": -0.011737006669542688,
+    "raw_median": 0.0,
+    "p10": -0.6613756926378945,
+    "p90": 0.6007932072534367,
+    "share_down": 0.47987616099071206,
+    "mde": 0.07882953284045603,
+    "raw_p": 0.6889294634703771,
+    "placebo_p": 0.600997506234414,
+    "districts": {
+     "n": 4,
+     "effects": {
+      "bengaluru": 0.0527201000845982,
+      "bengaluru_south": 0.043693343271684296,
+      "chikkaballapur": -0.06431157595081914,
+      "kolar": -0.03685219128345395
+     },
+     "stable": false
+    },
+    "holm_p": 1.0,
+    "tier": "NONE"
+   }
+  ],
+  "n_tested": 30,
+  "n_robust": 0,
+  "n_suggestive": 5,
+  "rules": {
+   "z_onset": 1.5,
+   "min_gap_days": 7,
+   "horizons_days": [
+    3,
+    7,
+    14
+   ],
+   "min_episodes": 8,
+   "placebo_draws": 400,
+   "placebo_min_shift_days": 90,
+   "holm_over": 30
+  }
+ },
+ "cross_commodity": {
+  "edges": [
+   {
+    "source": "garlic",
+    "target": "ginger",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 100,
+    "effect": 0.0951,
+    "ci": [
+     0.0522,
+     0.1682
+    ],
+    "placebo_p": 0.0998,
+    "pre_trend_t": -1.686,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0828,
+    "districts": [
+     "bengaluru",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": true,
+    "published": false
+   },
+   {
+    "source": "garlic",
+    "target": "ginger",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 65,
+    "effect": -0.0022,
+    "ci": [
+     -0.0859,
+     0.0942
+    ],
+    "placebo_p": 0.9321,
+    "pre_trend_t": -0.188,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 0
+    },
+    "min_detectable_effect": 0.1286,
+    "districts": [
+     "bengaluru",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "garlic",
+    "target": "onion",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 114,
+    "effect": -0.0017,
+    "ci": [
+     -0.0463,
+     0.0562
+    ],
+    "placebo_p": 0.9461,
+    "pre_trend_t": -1.459,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 0
+    },
+    "min_detectable_effect": 0.0732,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "garlic",
+    "target": "onion",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 73,
+    "effect": 0.0108,
+    "ci": [
+     -0.0534,
+     0.0649
+    ],
+    "placebo_p": 0.7964,
+    "pre_trend_t": 0.333,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 0
+    },
+    "min_detectable_effect": 0.0845,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "garlic",
+    "target": "potato",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 114,
+    "effect": 0.0277,
+    "ci": [
+     -0.0181,
+     0.073
+    ],
+    "placebo_p": 0.3014,
+    "pre_trend_t": -0.401,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0651,
+    "districts": [
+     "bengaluru",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "garlic",
+    "target": "potato",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 73,
+    "effect": 0.0024,
+    "ci": [
+     -0.0309,
+     0.03
+    ],
+    "placebo_p": 0.9202,
+    "pre_trend_t": 1.689,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 0
+    },
+    "min_detectable_effect": 0.0435,
+    "districts": [
+     "bengaluru",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "garlic",
+    "target": "tomato",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 117,
+    "effect": 0.0408,
+    "ci": [
+     -0.0336,
+     0.1102
+    ],
+    "placebo_p": 0.4032,
+    "pre_trend_t": 0.241,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.1027,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "garlic",
+    "target": "tomato",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 74,
+    "effect": 0.024,
+    "ci": [
+     -0.1334,
+     0.1587
+    ],
+    "placebo_p": 0.6567,
+    "pre_trend_t": 1.292,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.2087,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "ginger",
+    "target": "garlic",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 83,
+    "effect": -0.015,
+    "ci": [
+     -0.0511,
+     0.0665
+    ],
+    "placebo_p": 0.8343,
+    "pre_trend_t": -1.1,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 0
+    },
+    "min_detectable_effect": 0.084,
+    "districts": [
+     "bengaluru",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "ginger",
+    "target": "garlic",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 73,
+    "effect": -0.053,
+    "ci": [
+     -0.0923,
+     0.0188
+    ],
+    "placebo_p": 0.3992,
+    "pre_trend_t": 0.508,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0794,
+    "districts": [
+     "bengaluru",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "ginger",
+    "target": "onion",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 121,
+    "effect": -0.0242,
+    "ci": [
+     -0.0681,
+     0.0219
+    ],
+    "placebo_p": 0.521,
+    "pre_trend_t": 0.888,
+    "stability": {
+     "stable": true,
+     "districts": 3,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.0643,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "ginger",
+    "target": "onion",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 90,
+    "effect": 0.007,
+    "ci": [
+     -0.0449,
+     0.0588
+    ],
+    "placebo_p": 0.8703,
+    "pre_trend_t": 0.055,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0741,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "ginger",
+    "target": "potato",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 138,
+    "effect": -0.0146,
+    "ci": [
+     -0.0448,
+     0.0136
+    ],
+    "placebo_p": 0.5729,
+    "pre_trend_t": -1.116,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0417,
+    "districts": [
+     "bengaluru",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "ginger",
+    "target": "potato",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 101,
+    "effect": 0.0095,
+    "ci": [
+     -0.0237,
+     0.0544
+    ],
+    "placebo_p": 0.7565,
+    "pre_trend_t": 0.252,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0558,
+    "districts": [
+     "bengaluru",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "ginger",
+    "target": "tomato",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 208,
+    "effect": 0.0263,
+    "ci": [
+     -0.0451,
+     0.1087
+    ],
+    "placebo_p": 0.4232,
+    "pre_trend_t": 0.943,
+    "stability": {
+     "stable": true,
+     "districts": 4,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.1099,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "ginger",
+    "target": "tomato",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 131,
+    "effect": 0.0314,
+    "ci": [
+     -0.0213,
+     0.0799
+    ],
+    "placebo_p": 0.5609,
+    "pre_trend_t": -1.206,
+    "stability": {
+     "stable": true,
+     "districts": 4,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.0723,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "onion",
+    "target": "garlic",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 135,
+    "effect": -0.0158,
+    "ci": [
+     -0.0539,
+     0.0529
+    ],
+    "placebo_p": 0.7405,
+    "pre_trend_t": -0.033,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0763,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "onion",
+    "target": "garlic",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 92,
+    "effect": 0.0145,
+    "ci": [
+     -0.0747,
+     0.1627
+    ],
+    "placebo_p": 0.8343,
+    "pre_trend_t": 1.367,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 0
+    },
+    "min_detectable_effect": 0.1696,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "onion",
+    "target": "ginger",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 161,
+    "effect": 0.0233,
+    "ci": [
+     -0.0153,
+     0.079
+    ],
+    "placebo_p": 0.5689,
+    "pre_trend_t": -1.54,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0674,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "onion",
+    "target": "ginger",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 109,
+    "effect": 0.1106,
+    "ci": [
+     0.0413,
+     0.1717
+    ],
+    "placebo_p": 0.0659,
+    "pre_trend_t": -0.827,
+    "stability": {
+     "stable": true,
+     "districts": 3,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.0932,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": true,
+    "published": false
+   },
+   {
+    "source": "onion",
+    "target": "potato",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 193,
+    "effect": -0.009,
+    "ci": [
+     -0.0443,
+     0.018
+    ],
+    "placebo_p": 0.7066,
+    "pre_trend_t": -0.468,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0445,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "onion",
+    "target": "potato",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 128,
+    "effect": 0.0322,
+    "ci": [
+     -0.0153,
+     0.066
+    ],
+    "placebo_p": 0.3393,
+    "pre_trend_t": 0.871,
+    "stability": {
+     "stable": true,
+     "districts": 3,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.0581,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "onion",
+    "target": "tomato",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 225,
+    "effect": 0.0298,
+    "ci": [
+     -0.0409,
+     0.1165
+    ],
+    "placebo_p": 0.4052,
+    "pre_trend_t": 2.888,
+    "stability": {
+     "stable": true,
+     "districts": 4,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.1125,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "onion",
+    "target": "tomato",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 140,
+    "effect": 0.059,
+    "ci": [
+     -0.0142,
+     0.143
+    ],
+    "placebo_p": 0.1956,
+    "pre_trend_t": 0.503,
+    "stability": {
+     "stable": false,
+     "districts": 4,
+     "agree": 0
+    },
+    "min_detectable_effect": 0.1123,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "potato",
+    "target": "garlic",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 141,
+    "effect": 0.03,
+    "ci": [
+     -0.0232,
+     0.1206
+    ],
+    "placebo_p": 0.5669,
+    "pre_trend_t": -0.416,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 0
+    },
+    "min_detectable_effect": 0.1027,
+    "districts": [
+     "bengaluru",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "potato",
+    "target": "garlic",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 67,
+    "effect": -0.0674,
+    "ci": [
+     -0.1687,
+     0.0356
+    ],
+    "placebo_p": 0.3713,
+    "pre_trend_t": 0.946,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.1459,
+    "districts": [
+     "bengaluru",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "potato",
+    "target": "ginger",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 176,
+    "effect": 0.0384,
+    "ci": [
+     0.0007,
+     0.1031
+    ],
+    "placebo_p": 0.3433,
+    "pre_trend_t": -0.518,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0731,
+    "districts": [
+     "bengaluru",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "potato",
+    "target": "ginger",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 92,
+    "effect": 0.0637,
+    "ci": [
+     -0.0668,
+     0.1423
+    ],
+    "placebo_p": 0.2555,
+    "pre_trend_t": 0.898,
+    "stability": {
+     "stable": true,
+     "districts": 3,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.1494,
+    "districts": [
+     "bengaluru",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "potato",
+    "target": "onion",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 192,
+    "effect": 0.012,
+    "ci": [
+     -0.0222,
+     0.0503
+    ],
+    "placebo_p": 0.7325,
+    "pre_trend_t": 0.157,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0518,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "potato",
+    "target": "onion",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 101,
+    "effect": 0.0334,
+    "ci": [
+     0.0098,
+     0.0861
+    ],
+    "placebo_p": 0.4491,
+    "pre_trend_t": 1.949,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0545,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "potato",
+    "target": "tomato",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 210,
+    "effect": 0.0283,
+    "ci": [
+     -0.05,
+     0.102
+    ],
+    "placebo_p": 0.4032,
+    "pre_trend_t": -0.082,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.1086,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "potato",
+    "target": "tomato",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 108,
+    "effect": 0.0498,
+    "ci": [
+     -0.0239,
+     0.1536
+    ],
+    "placebo_p": 0.3992,
+    "pre_trend_t": 0.897,
+    "stability": {
+     "stable": true,
+     "districts": 3,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.1268,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "tomato",
+    "target": "garlic",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 47,
+    "effect": 0.0295,
+    "ci": [
+     -0.0253,
+     0.0695
+    ],
+    "placebo_p": 0.7006,
+    "pre_trend_t": 0.912,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0677,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "tomato",
+    "target": "garlic",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 120,
+    "effect": 0.0128,
+    "ci": [
+     -0.0776,
+     0.1185
+    ],
+    "placebo_p": 0.8563,
+    "pre_trend_t": 0.152,
+    "stability": {
+     "stable": false,
+     "districts": 2,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.1401,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "tomato",
+    "target": "ginger",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 125,
+    "effect": 0.0603,
+    "ci": [
+     0.0135,
+     0.1328
+    ],
+    "placebo_p": 0.2216,
+    "pre_trend_t": 0.048,
+    "stability": {
+     "stable": true,
+     "districts": 4,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.0852,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "tomato",
+    "target": "ginger",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 252,
+    "effect": 0.0211,
+    "ci": [
+     -0.0043,
+     0.0645
+    ],
+    "placebo_p": 0.5269,
+    "pre_trend_t": -0.124,
+    "stability": {
+     "stable": false,
+     "districts": 4,
+     "agree": 0
+    },
+    "min_detectable_effect": 0.0491,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "tomato",
+    "target": "onion",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 92,
+    "effect": 0.0393,
+    "ci": [
+     0.0073,
+     0.0963
+    ],
+    "placebo_p": 0.3952,
+    "pre_trend_t": -0.182,
+    "stability": {
+     "stable": true,
+     "districts": 4,
+     "agree": 3
+    },
+    "min_detectable_effect": 0.0636,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "tomato",
+    "target": "onion",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 194,
+    "effect": -0.0075,
+    "ci": [
+     -0.055,
+     0.0508
+    ],
+    "placebo_p": 0.8044,
+    "pre_trend_t": -0.091,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0755,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "tomato",
+    "target": "potato",
+    "shock": "glut",
+    "status": "OK",
+    "n_episodes": 80,
+    "effect": 0.011,
+    "ci": [
+     -0.0636,
+     0.0756
+    ],
+    "placebo_p": 0.7984,
+    "pre_trend_t": -2.018,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0994,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   },
+   {
+    "source": "tomato",
+    "target": "potato",
+    "shock": "squeeze",
+    "status": "OK",
+    "n_episodes": 216,
+    "effect": 0.0001,
+    "ci": [
+     -0.0263,
+     0.0247
+    ],
+    "placebo_p": 0.996,
+    "pre_trend_t": 1.589,
+    "stability": {
+     "stable": false,
+     "districts": 3,
+     "agree": 2
+    },
+    "min_detectable_effect": 0.0365,
+    "districts": [
+     "bengaluru",
+     "bengaluru_rural",
+     "bengaluru_south",
+     "chikkaballapur",
+     "kolar"
+    ],
+    "fdr_pass": false,
+    "published": false
+   }
+  ],
+  "n_tested": 40,
+  "n_published": 0
+ },
+ "district_gaps": {
+  "pairs": [
+   {
+    "crop": "garlic",
+    "from": "bengaluru",
+    "to": "chikkaballapur",
+    "n_weeks": 208,
+    "kappa": -0.2268,
+    "p": 0.0031,
+    "adf_p": 0.0717,
+    "half_life_weeks": 2.7,
+    "mean_gap_pct": -10.2,
+    "adf_p_holm": 0.0717,
+    "p_holm": 0.0717,
+    "closes": false
+   },
+   {
+    "crop": "garlic",
+    "from": "chikkaballapur",
+    "to": "bengaluru",
+    "n_weeks": 208,
+    "kappa": -0.2268,
+    "p": 0.0031,
+    "adf_p": 0.0717,
+    "half_life_weeks": 2.7,
+    "mean_gap_pct": 11.35,
+    "adf_p_holm": 0.0717,
+    "p_holm": 0.0717,
+    "closes": false
+   },
+   {
+    "crop": "ginger",
+    "from": "bengaluru",
+    "to": "bengaluru_south",
+    "n_weeks": 302,
+    "kappa": -0.2279,
+    "p": 0.0,
+    "adf_p": 0.0004,
+    "half_life_weeks": 2.68,
+    "mean_gap_pct": 16.8,
+    "adf_p_holm": 0.004,
+    "p_holm": 0.004,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "bengaluru",
+    "to": "chikkaballapur",
+    "n_weeks": 175,
+    "kappa": -0.417,
+    "p": 0.0,
+    "adf_p": 0.0226,
+    "half_life_weeks": 1.28,
+    "mean_gap_pct": 6.34,
+    "adf_p_holm": 0.0452,
+    "p_holm": 0.0452,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "bengaluru",
+    "to": "kolar",
+    "n_weeks": 276,
+    "kappa": -0.3202,
+    "p": 0.0,
+    "adf_p": 0.0076,
+    "half_life_weeks": 1.8,
+    "mean_gap_pct": 3.31,
+    "adf_p_holm": 0.0304,
+    "p_holm": 0.0304,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "bengaluru_south",
+    "to": "bengaluru",
+    "n_weeks": 302,
+    "kappa": -0.2279,
+    "p": 0.0,
+    "adf_p": 0.0004,
+    "half_life_weeks": 2.68,
+    "mean_gap_pct": -14.38,
+    "adf_p_holm": 0.004,
+    "p_holm": 0.004,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "bengaluru_south",
+    "to": "chikkaballapur",
+    "n_weeks": 175,
+    "kappa": -0.3994,
+    "p": 0.0,
+    "adf_p": 0.0002,
+    "half_life_weeks": 1.36,
+    "mean_gap_pct": -11.29,
+    "adf_p_holm": 0.0022,
+    "p_holm": 0.0022,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "bengaluru_south",
+    "to": "kolar",
+    "n_weeks": 277,
+    "kappa": -0.2911,
+    "p": 0.0,
+    "adf_p": 0.0037,
+    "half_life_weeks": 2.02,
+    "mean_gap_pct": -12.79,
+    "adf_p_holm": 0.0192,
+    "p_holm": 0.0192,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "chikkaballapur",
+    "to": "bengaluru",
+    "n_weeks": 175,
+    "kappa": -0.417,
+    "p": 0.0,
+    "adf_p": 0.0226,
+    "half_life_weeks": 1.28,
+    "mean_gap_pct": -5.96,
+    "adf_p_holm": 0.0452,
+    "p_holm": 0.0452,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "chikkaballapur",
+    "to": "bengaluru_south",
+    "n_weeks": 175,
+    "kappa": -0.3994,
+    "p": 0.0,
+    "adf_p": 0.0002,
+    "half_life_weeks": 1.36,
+    "mean_gap_pct": 12.73,
+    "adf_p_holm": 0.0022,
+    "p_holm": 0.0022,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "chikkaballapur",
+    "to": "kolar",
+    "n_weeks": 164,
+    "kappa": -0.8007,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 0.43,
+    "mean_gap_pct": -5.0,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "kolar",
+    "to": "bengaluru",
+    "n_weeks": 276,
+    "kappa": -0.3202,
+    "p": 0.0,
+    "adf_p": 0.0076,
+    "half_life_weeks": 1.8,
+    "mean_gap_pct": -3.2,
+    "adf_p_holm": 0.0304,
+    "p_holm": 0.0304,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "kolar",
+    "to": "bengaluru_south",
+    "n_weeks": 277,
+    "kappa": -0.2911,
+    "p": 0.0,
+    "adf_p": 0.0037,
+    "half_life_weeks": 2.02,
+    "mean_gap_pct": 14.66,
+    "adf_p_holm": 0.0192,
+    "p_holm": 0.0192,
+    "closes": true
+   },
+   {
+    "crop": "ginger",
+    "from": "kolar",
+    "to": "chikkaballapur",
+    "n_weeks": 164,
+    "kappa": -0.8007,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 0.43,
+    "mean_gap_pct": 5.26,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "bengaluru",
+    "to": "bengaluru_rural",
+    "n_weeks": 232,
+    "kappa": -0.2355,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.58,
+    "mean_gap_pct": 26.0,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "bengaluru",
+    "to": "chikkaballapur",
+    "n_weeks": 259,
+    "kappa": -0.2878,
+    "p": 0.0,
+    "adf_p": 0.0006,
+    "half_life_weeks": 2.04,
+    "mean_gap_pct": 36.8,
+    "adf_p_holm": 0.0048,
+    "p_holm": 0.0048,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "bengaluru",
+    "to": "kolar",
+    "n_weeks": 211,
+    "kappa": -0.5278,
+    "p": 0.0,
+    "adf_p": 0.0001,
+    "half_life_weeks": 0.92,
+    "mean_gap_pct": 39.28,
+    "adf_p_holm": 0.0013,
+    "p_holm": 0.0013,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "bengaluru_rural",
+    "to": "bengaluru",
+    "n_weeks": 232,
+    "kappa": -0.2355,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.58,
+    "mean_gap_pct": -20.64,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "bengaluru_rural",
+    "to": "chikkaballapur",
+    "n_weeks": 235,
+    "kappa": -0.3398,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.67,
+    "mean_gap_pct": 7.78,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "bengaluru_rural",
+    "to": "kolar",
+    "n_weeks": 191,
+    "kappa": -0.4636,
+    "p": 0.0,
+    "adf_p": 0.0082,
+    "half_life_weeks": 1.11,
+    "mean_gap_pct": 10.93,
+    "adf_p_holm": 0.0304,
+    "p_holm": 0.0304,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "chikkaballapur",
+    "to": "bengaluru",
+    "n_weeks": 259,
+    "kappa": -0.2878,
+    "p": 0.0,
+    "adf_p": 0.0006,
+    "half_life_weeks": 2.04,
+    "mean_gap_pct": -26.9,
+    "adf_p_holm": 0.0048,
+    "p_holm": 0.0048,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "chikkaballapur",
+    "to": "bengaluru_rural",
+    "n_weeks": 235,
+    "kappa": -0.3398,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.67,
+    "mean_gap_pct": -7.22,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "chikkaballapur",
+    "to": "kolar",
+    "n_weeks": 234,
+    "kappa": -0.603,
+    "p": 0.0,
+    "adf_p": 0.0001,
+    "half_life_weeks": 0.75,
+    "mean_gap_pct": 1.47,
+    "adf_p_holm": 0.0013,
+    "p_holm": 0.0013,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "kolar",
+    "to": "bengaluru",
+    "n_weeks": 211,
+    "kappa": -0.5278,
+    "p": 0.0,
+    "adf_p": 0.0001,
+    "half_life_weeks": 0.92,
+    "mean_gap_pct": -28.2,
+    "adf_p_holm": 0.0013,
+    "p_holm": 0.0013,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "kolar",
+    "to": "bengaluru_rural",
+    "n_weeks": 191,
+    "kappa": -0.4636,
+    "p": 0.0,
+    "adf_p": 0.0082,
+    "half_life_weeks": 1.11,
+    "mean_gap_pct": -9.86,
+    "adf_p_holm": 0.0304,
+    "p_holm": 0.0304,
+    "closes": true
+   },
+   {
+    "crop": "onion",
+    "from": "kolar",
+    "to": "chikkaballapur",
+    "n_weeks": 234,
+    "kappa": -0.603,
+    "p": 0.0,
+    "adf_p": 0.0001,
+    "half_life_weeks": 0.75,
+    "mean_gap_pct": -1.45,
+    "adf_p_holm": 0.0013,
+    "p_holm": 0.0013,
+    "closes": true
+   },
+   {
+    "crop": "potato",
+    "from": "bengaluru",
+    "to": "chikkaballapur",
+    "n_weeks": 256,
+    "kappa": -0.3418,
+    "p": 0.0,
+    "adf_p": 0.0006,
+    "half_life_weeks": 1.66,
+    "mean_gap_pct": 1.83,
+    "adf_p_holm": 0.0048,
+    "p_holm": 0.0048,
+    "closes": true
+   },
+   {
+    "crop": "potato",
+    "from": "bengaluru",
+    "to": "kolar",
+    "n_weeks": 257,
+    "kappa": -0.3866,
+    "p": 0.0,
+    "adf_p": 0.0032,
+    "half_life_weeks": 1.42,
+    "mean_gap_pct": -0.14,
+    "adf_p_holm": 0.0192,
+    "p_holm": 0.0192,
+    "closes": true
+   },
+   {
+    "crop": "potato",
+    "from": "chikkaballapur",
+    "to": "bengaluru",
+    "n_weeks": 256,
+    "kappa": -0.3418,
+    "p": 0.0,
+    "adf_p": 0.0006,
+    "half_life_weeks": 1.66,
+    "mean_gap_pct": -1.8,
+    "adf_p_holm": 0.0048,
+    "p_holm": 0.0048,
+    "closes": true
+   },
+   {
+    "crop": "potato",
+    "from": "chikkaballapur",
+    "to": "kolar",
+    "n_weeks": 292,
+    "kappa": -0.3483,
+    "p": 0.0,
+    "adf_p": 0.0004,
+    "half_life_weeks": 1.62,
+    "mean_gap_pct": -1.21,
+    "adf_p_holm": 0.004,
+    "p_holm": 0.004,
+    "closes": true
+   },
+   {
+    "crop": "potato",
+    "from": "kolar",
+    "to": "bengaluru",
+    "n_weeks": 257,
+    "kappa": -0.3866,
+    "p": 0.0,
+    "adf_p": 0.0032,
+    "half_life_weeks": 1.42,
+    "mean_gap_pct": 0.14,
+    "adf_p_holm": 0.0192,
+    "p_holm": 0.0192,
+    "closes": true
+   },
+   {
+    "crop": "potato",
+    "from": "kolar",
+    "to": "chikkaballapur",
+    "n_weeks": 292,
+    "kappa": -0.3483,
+    "p": 0.0,
+    "adf_p": 0.0004,
+    "half_life_weeks": 1.62,
+    "mean_gap_pct": 1.22,
+    "adf_p_holm": 0.004,
+    "p_holm": 0.004,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru",
+    "to": "bengaluru_rural",
+    "n_weeks": 236,
+    "kappa": -0.4486,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.16,
+    "mean_gap_pct": -23.97,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru",
+    "to": "bengaluru_south",
+    "n_weeks": 299,
+    "kappa": -0.2833,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.08,
+    "mean_gap_pct": -17.07,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru",
+    "to": "chikkaballapur",
+    "n_weeks": 299,
+    "kappa": -0.3768,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.47,
+    "mean_gap_pct": -41.28,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru",
+    "to": "kolar",
+    "n_weeks": 299,
+    "kappa": -0.383,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.44,
+    "mean_gap_pct": -45.17,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru_rural",
+    "to": "bengaluru",
+    "n_weeks": 236,
+    "kappa": -0.4486,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.16,
+    "mean_gap_pct": 31.53,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru_rural",
+    "to": "bengaluru_south",
+    "n_weeks": 239,
+    "kappa": -0.25,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.41,
+    "mean_gap_pct": 7.86,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru_rural",
+    "to": "chikkaballapur",
+    "n_weeks": 239,
+    "kappa": -0.3225,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.78,
+    "mean_gap_pct": -23.52,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru_rural",
+    "to": "kolar",
+    "n_weeks": 239,
+    "kappa": -0.3572,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.57,
+    "mean_gap_pct": -28.83,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru_south",
+    "to": "bengaluru",
+    "n_weeks": 299,
+    "kappa": -0.2833,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.08,
+    "mean_gap_pct": 20.58,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru_south",
+    "to": "bengaluru_rural",
+    "n_weeks": 239,
+    "kappa": -0.25,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.41,
+    "mean_gap_pct": -7.29,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru_south",
+    "to": "chikkaballapur",
+    "n_weeks": 304,
+    "kappa": -0.2826,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.09,
+    "mean_gap_pct": -29.49,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "bengaluru_south",
+    "to": "kolar",
+    "n_weeks": 304,
+    "kappa": -0.2366,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.57,
+    "mean_gap_pct": -34.06,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "chikkaballapur",
+    "to": "bengaluru",
+    "n_weeks": 299,
+    "kappa": -0.3768,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.47,
+    "mean_gap_pct": 70.29,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "chikkaballapur",
+    "to": "bengaluru_rural",
+    "n_weeks": 239,
+    "kappa": -0.3225,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.78,
+    "mean_gap_pct": 30.75,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "chikkaballapur",
+    "to": "bengaluru_south",
+    "n_weeks": 304,
+    "kappa": -0.2826,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.09,
+    "mean_gap_pct": 41.82,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "chikkaballapur",
+    "to": "kolar",
+    "n_weeks": 304,
+    "kappa": -0.4241,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.26,
+    "mean_gap_pct": -6.48,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "kolar",
+    "to": "bengaluru",
+    "n_weeks": 299,
+    "kappa": -0.383,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.44,
+    "mean_gap_pct": 82.38,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "kolar",
+    "to": "bengaluru_rural",
+    "n_weeks": 239,
+    "kappa": -0.3572,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.57,
+    "mean_gap_pct": 40.52,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "kolar",
+    "to": "bengaluru_south",
+    "n_weeks": 304,
+    "kappa": -0.2366,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 2.57,
+    "mean_gap_pct": 51.65,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   },
+   {
+    "crop": "tomato",
+    "from": "kolar",
+    "to": "chikkaballapur",
+    "n_weeks": 304,
+    "kappa": -0.4241,
+    "p": 0.0,
+    "adf_p": 0.0,
+    "half_life_weeks": 1.26,
+    "mean_gap_pct": 6.93,
+    "adf_p_holm": 0.0,
+    "p_holm": 0.0,
+    "closes": true
+   }
+  ],
+  "n_tested": 26,
+  "n_closing": 25
+ },
+ "neighbour_signal": {
+  "garlic/bengaluru": {
+   "crop": "garlic",
+   "district": "bengaluru",
+   "n": 108,
+   "skill": -0.2789,
+   "dm_p": 0.0,
+   "earns_signal": false
+  },
+  "garlic/chikkaballapur": {
+   "crop": "garlic",
+   "district": "chikkaballapur",
+   "n": 108,
+   "skill": 0.0204,
+   "dm_p": 0.3239,
+   "earns_signal": false
+  },
+  "ginger/bengaluru": {
+   "crop": "ginger",
+   "district": "bengaluru",
+   "n": 202,
+   "skill": 0.0287,
+   "dm_p": 0.3843,
+   "earns_signal": false
+  },
+  "ginger/bengaluru_south": {
+   "crop": "ginger",
+   "district": "bengaluru_south",
+   "n": 203,
+   "skill": -0.0229,
+   "dm_p": 0.1215,
+   "earns_signal": false
+  },
+  "ginger/chikkaballapur": {
+   "crop": "ginger",
+   "district": "chikkaballapur",
+   "n": 75,
+   "skill": 0.0765,
+   "dm_p": 0.2162,
+   "earns_signal": false
+  },
+  "ginger/kolar": {
+   "crop": "ginger",
+   "district": "kolar",
+   "n": 177,
+   "skill": -0.1276,
+   "dm_p": 0.0679,
+   "earns_signal": false
+  },
+  "onion/bengaluru": {
+   "crop": "onion",
+   "district": "bengaluru",
+   "n": 161,
+   "skill": -0.0281,
+   "dm_p": 0.2319,
+   "earns_signal": false
+  },
+  "onion/bengaluru_rural": {
+   "crop": "onion",
+   "district": "bengaluru_rural",
+   "n": 137,
+   "skill": -0.0586,
+   "dm_p": 0.1801,
+   "earns_signal": false
+  },
+  "onion/chikkaballapur": {
+   "crop": "onion",
+   "district": "chikkaballapur",
+   "n": 186,
+   "skill": -0.0096,
+   "dm_p": 0.7386,
+   "earns_signal": false
+  },
+  "onion/kolar": {
+   "crop": "onion",
+   "district": "kolar",
+   "n": 135,
+   "skill": 0.0608,
+   "dm_p": 0.3162,
+   "earns_signal": false
+  },
+  "potato/bengaluru": {
+   "crop": "potato",
+   "district": "bengaluru",
+   "n": 161,
+   "skill": -0.0153,
+   "dm_p": 0.5472,
+   "earns_signal": false
+  },
+  "potato/chikkaballapur": {
+   "crop": "potato",
+   "district": "chikkaballapur",
+   "n": 196,
+   "skill": 0.0167,
+   "dm_p": 0.4592,
+   "earns_signal": false
+  },
+  "potato/kolar": {
+   "crop": "potato",
+   "district": "kolar",
+   "n": 197,
+   "skill": 0.0605,
+   "dm_p": 0.0329,
+   "earns_signal": true
+  },
+  "tomato/bengaluru": {
+   "crop": "tomato",
+   "district": "bengaluru",
+   "n": 199,
+   "skill": 0.1267,
+   "dm_p": 0.0018,
+   "earns_signal": true
+  },
+  "tomato/bengaluru_rural": {
+   "crop": "tomato",
+   "district": "bengaluru_rural",
+   "n": 139,
+   "skill": 0.1345,
+   "dm_p": 0.0007,
+   "earns_signal": true
+  },
+  "tomato/bengaluru_south": {
+   "crop": "tomato",
+   "district": "bengaluru_south",
+   "n": 204,
+   "skill": -0.0026,
+   "dm_p": 0.3429,
+   "earns_signal": false
+  },
+  "tomato/chikkaballapur": {
+   "crop": "tomato",
+   "district": "chikkaballapur",
+   "n": 204,
+   "skill": -0.0027,
+   "dm_p": 0.3611,
+   "earns_signal": false
+  },
+  "tomato/kolar": {
+   "crop": "tomato",
+   "district": "kolar",
+   "n": 204,
+   "skill": -0.0107,
+   "dm_p": 0.2438,
+   "earns_signal": false
+  }
+ }
+}
