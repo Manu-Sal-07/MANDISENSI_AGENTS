@@ -123,6 +123,12 @@ class TestRandomisation:
         assert randomised.n_episodes <= usable
 
 
+def _market_panel_exists() -> bool:
+    from mandisense_ai.farmer import world
+
+    return world.MARKET_PANEL.exists()
+
+
 class TestPanel:
     """Panel construction — the input every later stage depends on."""
 
@@ -137,9 +143,9 @@ class TestPanel:
         from mandisense_ai.config.settings import settings
         from mandisense_ai.spillover.panel import build_panel
 
-        processed = Path(settings.paths.processed_data)
-        if not processed.exists():
-            pytest.skip("processed datasets not present in this checkout")
+        processed = Path(settings.paths.processed_data)           # may not exist: the panel then comes from the market panel
+        if not processed.exists() and not _market_panel_exists():
+            pytest.skip("neither processed datasets nor the market panel are present in this checkout")
 
         panel = build_panel(processed, DEFAULT_CONFIG)
 
@@ -153,9 +159,9 @@ class TestPanel:
         from mandisense_ai.config.settings import settings
         from mandisense_ai.spillover.panel import build_panel
 
-        processed = Path(settings.paths.processed_data)
-        if not processed.exists():
-            pytest.skip("processed datasets not present in this checkout")
+        processed = Path(settings.paths.processed_data)           # may not exist: the panel then comes from the market panel
+        if not processed.exists() and not _market_panel_exists():
+            pytest.skip("neither processed datasets nor the market panel are present in this checkout")
 
         panel = build_panel(processed, DEFAULT_CONFIG)
         assert panel.returns.index.is_unique
@@ -170,9 +176,9 @@ class TestPlaceboEndToEnd:
         from mandisense_ai.config.settings import settings
         from mandisense_ai.spillover.validate import run_placebo
 
-        processed = Path(settings.paths.processed_data)
-        if not processed.exists():
-            pytest.skip("processed datasets not present in this checkout")
+        processed = Path(settings.paths.processed_data)           # may not exist: the panel then comes from the market panel
+        if not processed.exists() and not _market_panel_exists():
+            pytest.skip("neither processed datasets nor the market panel are present in this checkout")
 
         result = run_placebo(processed, DEFAULT_CONFIG, n_permutations=5)
 
@@ -206,9 +212,9 @@ class TestPlaceboEndToEnd:
         from mandisense_ai.config.settings import settings
         from mandisense_ai.spillover.validate import run_placebo
 
-        processed = Path(settings.paths.processed_data)
-        if not processed.exists():
-            pytest.skip("processed datasets not present in this checkout")
+        processed = Path(settings.paths.processed_data)           # may not exist: the panel then comes from the market panel
+        if not processed.exists() and not _market_panel_exists():
+            pytest.skip("neither processed datasets nor the market panel are present in this checkout")
 
         first = run_placebo(processed, DEFAULT_CONFIG, n_permutations=3)
         second = run_placebo(processed, DEFAULT_CONFIG, n_permutations=3)

@@ -52,7 +52,11 @@ Thumbs.db
 *.swo
 
 # Data - Keep structure but ignore large files
-/data/
+/data/*
+# The observation store is small and is what the API reads; the rest of /data is runtime state.
+!/data/observations/
+/data/observations/*
+!/data/observations/market_observations.parquet
 mandisense_ai/data/raw/*
 !mandisense_ai/data/raw/.gitkeep
 mandisense_ai/data/processed/*
