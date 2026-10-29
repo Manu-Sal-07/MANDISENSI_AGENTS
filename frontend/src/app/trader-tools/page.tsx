@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Trader Tools hub: the eight tools as photo cards in three groups. Each tool
+ * Trader Tools hub: the thirteen tools as photo cards in three groups. Each tool
  * lives on its own page; the commodity / mandi focus is shared between them.
  */
 
@@ -26,7 +26,7 @@ export default function TraderToolsHub() {
         <DeskHero
           kicker="Trader Tools"
           title="Trader Tools"
-          subtitle="Eight focused tools for spreads, volatility, precedent, scenarios, forward pricing, position risk and cross-commodity transmission. Pick one."
+          subtitle="Thirteen focused tools: the market-choice grid with its verified floor, the supply-shock desk, spreads, volatility, precedent, scenarios, forward pricing, position risk, cross-commodity transmission and the forecast audit. Pick one."
           icon={<Wrench className="h-7 w-7" />}
           accent="amber"
           photo="desk-scale"

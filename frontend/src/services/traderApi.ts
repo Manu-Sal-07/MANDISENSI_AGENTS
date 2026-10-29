@@ -104,8 +104,8 @@ export interface AnalogsResult {
   horizon_days?: number;
   current_path?: number[];
   analogs?: AnalogEntry[];
-  outcome?: { n: number; share_up: number; median_pct: number; p10_pct: number; p90_pct: number };
-  baseline?: { n: number; share_up: number; median_pct: number };
+  outcome?: { n: number; share_up: number; median_pct: number; mean_pct?: number; p10_pct: number; p90_pct: number };
+  baseline?: { n: number; share_up: number; median_pct: number; mean_pct?: number };
   disclaimer?: string;
 }
 
@@ -121,12 +121,13 @@ export interface ScenarioResult {
   horizon_days?: number;
   reason?: string;
   disclaimer?: string;
-  baseline?: { n: number; share_down: number; median_pct: number };
+  baseline?: { n: number; share_down: number; median_pct: number; mean_pct?: number };
   as_of?: string;
   condition_active_now?: boolean;
   episodes?: number;
   outcome?: { share_down: number; median_pct: number; p10_pct: number; p90_pct: number; mean_pct: number };
   edge_vs_baseline_pct?: number;
+  edge_ci_pct?: [number, number];
   recent_episodes?: Array<{ date: string; price: number; forward_return_pct: number }>;
 }
 

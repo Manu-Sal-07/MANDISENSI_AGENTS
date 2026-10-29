@@ -9,6 +9,7 @@ import {
   HandCoins,
   MapPinned,
   PackageX,
+  ShieldCheck,
   Sprout,
   Truck,
   Wallet,
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
+import BestPlaceTool from './BestPlaceTool';
 import FairPriceTool from './FairPriceTool';
 import HarvestTool from './HarvestTool';
 import HoldOrRotTool from './HoldOrRotTool';
@@ -28,10 +30,11 @@ import AlertsTool from './AlertsTool';
 import TruckShareTool from './TruckShareTool';
 
 type ToolKey =
-  | 'fair_price' | 'harvest' | 'hold_or_rot' | 'seasonal_memory' | 'where_to_sell'
+  | 'best_place' | 'fair_price' | 'harvest' | 'hold_or_rot' | 'seasonal_memory' | 'where_to_sell'
   | 'supply_signal' | 'track_record' | 'crop_planning' | 'alerts' | 'truck_share';
 
 const TILES: Array<{ key: ToolKey; icon: React.ReactNode; colour: string; wash: string }> = [
+  { key: 'best_place', icon: <ShieldCheck className="h-6 w-6" />, colour: '#0b6e4f', wash: '#e3f1ea' },
   { key: 'fair_price', icon: <HandCoins className="h-6 w-6" />, colour: 'var(--tomato)', wash: 'var(--tomato-wash)' },
   { key: 'harvest', icon: <Wallet className="h-6 w-6" />, colour: 'var(--leaf-deep)', wash: 'var(--leaf-wash)' },
   { key: 'hold_or_rot', icon: <PackageX className="h-6 w-6" />, colour: 'var(--turmeric)', wash: 'var(--turmeric-wash)' },
@@ -47,7 +50,7 @@ const TILES: Array<{ key: ToolKey; icon: React.ReactNode; colour: string; wash: 
 /**
  * The farmer tools launcher grid.
  *
- * Nine features that all need the same two questions answered ("which
+ * Ten features that all need the same two questions answered ("which
  * crop", "which mandi") share one context (`ToolContext`) rather than
  * asking again per tile, and each opens as a full-screen sheet rather than
  * navigating to a new route — this is a set of quick lookups a farmer
@@ -89,6 +92,7 @@ export default function ToolsGrid() {
         ))}
       </div>
 
+      <BestPlaceTool open={openTool === 'best_place'} onClose={() => setOpenTool(null)} />
       <FairPriceTool open={openTool === 'fair_price'} onClose={() => setOpenTool(null)} />
       <HarvestTool open={openTool === 'harvest'} onClose={() => setOpenTool(null)} />
       <HoldOrRotTool open={openTool === 'hold_or_rot'} onClose={() => setOpenTool(null)} />

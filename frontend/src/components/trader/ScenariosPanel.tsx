@@ -58,13 +58,22 @@ export default function ScenariosPanel({ commodity, mandiId }: { commodity: stri
                     </span>
                   )}
                 </span>
-                <span className="font-mono text-xs font-black" style={{ color: (s.outcome?.median_pct ?? 0) >= 0 ? 'var(--bullish)' : 'var(--bearish)' }}>
-                  {formatPct(s.outcome?.median_pct)}
+                <span className="font-mono text-xs font-black" style={{ color: (s.outcome?.mean_pct ?? 0) >= 0 ? 'var(--bullish)' : 'var(--bearish)' }}>
+                  {formatPct(s.outcome?.mean_pct)} avg
                 </span>
               </div>
               <p className="mt-1 text-[10px] text-neutral-signal">{s.definition}</p>
               <p className="mt-1 text-[10px] text-neutral-signal">
-                {s.episodes} episodes · edge vs baseline {formatPct(s.edge_vs_baseline_pct)}
+                {s.episodes} episodes · typical range {formatPct(s.outcome?.p10_pct, 0)} to {formatPct(s.outcome?.p90_pct, 0)} · fell {Math.round((s.outcome?.share_down ?? 0) * 100)}% of the time
+              </p>
+              <p className="mt-0.5 text-[10px] text-neutral-signal">
+                edge vs any other day {formatPct(s.edge_vs_baseline_pct)}
+                {s.edge_ci_pct && (
+                  <>
+                    {' '}(95% {formatPct(s.edge_ci_pct[0])} to {formatPct(s.edge_ci_pct[1])}
+                    {s.edge_ci_pct[0] <= 0 && s.edge_ci_pct[1] >= 0 ? ', not distinguishable from zero' : ''})
+                  </>
+                )}
               </p>
             </motion.div>
           ))}

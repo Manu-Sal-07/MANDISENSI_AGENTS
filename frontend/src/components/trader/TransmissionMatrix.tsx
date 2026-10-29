@@ -97,7 +97,7 @@ export default function TransmissionMatrix() {
                             onMouseEnter={() => setHover(edge)}
                             onMouseLeave={() => setHover((h) => (h === edge ? null : h))}
                             whileHover={{ scale: 1.08 }}
-                            className="h-9 w-full rounded-md border border-border/40"
+                            className="flex h-9 w-full items-center justify-center rounded-md border border-border/40"
                             style={{
                               background: edge.tier === 'NOT_SIGNIFICANT'
                                 ? `color-mix(in srgb, ${TIER_COLOUR[edge.tier]} ${22 + mag * 28}%, transparent)`
@@ -105,7 +105,11 @@ export default function TransmissionMatrix() {
                               borderColor: edge.tier === 'ROBUST' ? TIER_COLOUR.ROBUST : undefined,
                             }}
                             aria-label={`${source} to ${target}, ${edge.tier}`}
-                          />
+                          >
+                            <span className="font-mono text-[10px] font-bold text-foreground">
+                              {edge.effect != null ? `${edge.effect > 0 ? '+' : ''}${(edge.effect * 100).toFixed(0)}%` : '—'}
+                            </span>
+                          </motion.button>
                         </td>
                       );
                     })}

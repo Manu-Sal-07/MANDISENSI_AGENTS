@@ -15,6 +15,7 @@ const NAV_LINKS = [
   { href: '/intelligence-lab', label: 'Intelligence Lab' },
   { href: '/terminal', label: 'Command Center' },
   { href: '/trader-tools', label: 'Trader Tools' },
+  { href: '/evidence', label: 'Evidence' },
   { href: '/ai-brief', label: 'AI Brief' },
 ];
 

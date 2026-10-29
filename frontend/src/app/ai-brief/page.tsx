@@ -13,7 +13,8 @@
  */
 
 import DeskHero from '@/components/trader/DeskHero';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { apiClient } from '@/services/api';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -39,10 +40,7 @@ const COMMODITIES = [
   { id: 'ginger', label: 'Ginger' },
 ];
 
-const MANDIS = [
-  { id: 'kolar_apmc', label: 'Kolar APMC' },
-  { id: 'bangalore_apmc', label: 'Bangalore APMC' },
-];
+const mandiLabel = (id: string) => id.replace(/_apmc$/, '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) + ' APMC';
 
 const ACTION_STYLE: Record<string, string> = {
   BUY: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
@@ -62,6 +60,18 @@ export default function AiBriefPage() {
   const [mandiId, setMandiId] = useState('kolar_apmc');
   const [showEvidence, setShowEvidence] = useState(false);
 
+  // Only mandis the forecast service has a validated forecast for are offered, so a brief is never asked for a series without one.
+  const availableQuery = useQuery({
+    queryKey: ['cognition-available'],
+    queryFn: () => apiClient<Record<string, string[]>>('/v1/cognition/available'),
+    staleTime: 10 * 60 * 1000,
+  });
+  const MANDIS = (availableQuery.data?.[commodity] ?? [mandiId]).map((id) => ({ id, label: mandiLabel(id) }));
+  useEffect(() => {
+    const ids = availableQuery.data?.[commodity];
+    if (ids?.length && !ids.includes(mandiId)) setMandiId(ids.includes('kolar_apmc') ? 'kolar_apmc' : ids[0]);
+  }, [availableQuery.data, commodity, mandiId]);
+
   const statusQuery = useQuery({
     queryKey: ['intelligence-status'],
     queryFn: () => mandiApi.getIntelligenceStatus(),
@@ -76,7 +86,7 @@ export default function AiBriefPage() {
   const status = statusQuery.data;
   const brief = briefQuery.data;
   const providerLabel = (status?.provider ?? '…').toUpperCase();
-  const isLiveLlm = status?.provider === 'claude';
+  const isLiveLlm = Boolean(status?.provider) && !['rules', 'none', 'deterministic'].includes(String(status?.provider));
 
   return (
     <div className="tb-clear min-h-screen text-slate-100 font-sans antialiased">

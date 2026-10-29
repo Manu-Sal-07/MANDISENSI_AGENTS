@@ -42,6 +42,12 @@ export const TRANSLATIONS: Record<string, Entry> = {
     kn: 'ಇಂದಿನ ಸಲಹೆಯ ಆಚೆಗಿನ ಎಲ್ಲವೂ',
   },
 
+  'tool.best_place.title': { en: 'Best Place & Day to Sell', hi: 'बेचने की सबसे अच्छी जगह और दिन', kn: 'ಮಾರಲು ಉತ್ತಮ ಸ್ಥಳ ಮತ್ತು ದಿನ' },
+  'tool.best_place.desc': {
+    en: 'Which mandi, which day, and the least you will get',
+    hi: 'कौन सी मंडी, कौन सा दिन, और कम से कम कितना मिलेगा',
+    kn: 'ಯಾವ ಮಂಡಿ, ಯಾವ ದಿನ, ಮತ್ತು ಕನಿಷ್ಠ ಎಷ್ಟು ಸಿಗುತ್ತದೆ',
+  },
   'tool.fair_price.title': { en: 'Fair Price Check', hi: 'उचित मूल्य जांच', kn: 'ನ್ಯಾಯಯುತ ಬೆಲೆ ಪರಿಶೀಲನೆ' },
   'tool.fair_price.desc': {
     en: 'Is the trader’s offer fair, right now?',

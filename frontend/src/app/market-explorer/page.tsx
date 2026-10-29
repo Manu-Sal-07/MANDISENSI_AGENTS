@@ -81,19 +81,17 @@ type MarketState = {
   historical_analogs?: Array<{ timestamp: string; similarity: number; regime?: string; directive?: string }>;
 };
 
-// Canonical list of all research markets to ensure dropdown always has complete coverage
+// Fallback while the live list loads: real commodity x mandi pairs only (the API replaces it with every pair that has observations)
 const ALL_MARKETS: MarketOption[] = [
   { commodity: 'tomato', mandi_id: 'kolar_apmc' },
-  { commodity: 'tomato', mandi_id: 'bangalore_yeshwanthpur' },
-  { commodity: 'onion', mandi_id: 'lasalgaon_apmc' },
-  { commodity: 'onion', mandi_id: 'hoskote_apmc' },
-  { commodity: 'potato', mandi_id: 'agra_apmc' },
-  { commodity: 'potato', mandi_id: 'anekal_apmc' },
-  { commodity: 'garlic', mandi_id: 'neemuch_apmc' },
-  { commodity: 'garlic', mandi_id: 'sidlaghatta_apmc' },
-  { commodity: 'ginger', mandi_id: 'bangalore_apmc' },
-  { commodity: 'ginger', mandi_id: 'channapatna_apmc' },
-  { commodity: 'dry_chillies', mandi_id: 'guntur_apmc' }
+  { commodity: 'tomato', mandi_id: 'ramanagara_apmc' },
+  { commodity: 'onion', mandi_id: 'bengaluru_apmc' },
+  { commodity: 'onion', mandi_id: 'kolar_apmc' },
+  { commodity: 'potato', mandi_id: 'bengaluru_apmc' },
+  { commodity: 'potato', mandi_id: 'kolar_apmc' },
+  { commodity: 'garlic', mandi_id: 'bengaluru_apmc' },
+  { commodity: 'ginger', mandi_id: 'bengaluru_apmc' },
+  { commodity: 'ginger', mandi_id: 'ramanagara_apmc' },
 ];
 
 const formatPrice = (price: number | null | undefined) => {

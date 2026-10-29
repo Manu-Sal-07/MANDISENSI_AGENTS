@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { Handshake } from 'lucide-react';
@@ -13,8 +13,13 @@ import { traderApi } from '@/services/traderApi';
  * trader's risk-adjusted ceiling, split evenly when they overlap, refused
  * outright and explained when they don't.
  */
+// Days a crop keeps in ordinary storage (mirrors farmer/reference.py); a forward contract longer than this would deliver spoiled produce.
+const SHELF_DAYS: Record<string, number> = { tomato: 5, ginger: 30, onion: 120, potato: 90, garlic: 180, dry_chillies: 270 };
+
 export default function ForwardPriceCalculator({ commodity, mandiId }: { commodity: string; mandiId: string }) {
-  const [horizon, setHorizon] = useState(7);
+  const maxDays = Math.min(14, SHELF_DAYS[commodity] ?? 14);
+  const [horizon, setHorizon] = useState(Math.min(5, maxDays));
+  useEffect(() => setHorizon((h) => Math.min(h, maxDays)), [maxDays]);
   const [quantity, setQuantity] = useState(10);
 
   const { data, isFetching } = useQuery({
@@ -31,13 +36,13 @@ export default function ForwardPriceCalculator({ commodity, mandiId }: { commodi
     >
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <label className="flex items-center gap-1.5 text-[11px] text-neutral-signal">
-          Days
+          Days{maxDays < 14 && <span className="text-[10px]">(max {maxDays}: shelf life)</span>}
           <input
             type="number"
             min={1}
-            max={14}
+            max={maxDays}
             value={horizon}
-            onChange={(e) => setHorizon(Math.min(14, Math.max(1, Number(e.target.value) || 1)))}
+            onChange={(e) => setHorizon(Math.min(maxDays, Math.max(1, Number(e.target.value) || 1)))}
             className="w-14 rounded-lg border border-border bg-surface-2 px-2 py-1 text-xs font-semibold tabular-nums text-foreground"
           />
         </label>
@@ -54,9 +59,8 @@ export default function ForwardPriceCalculator({ commodity, mandiId }: { commodi
       </div>
 
       {isFetching && <LoadingRow label="Pricing the contract…" />}
-      {!isFetching && (data?.status === 'UNAVAILABLE' || data?.status === 'UNSUITABLE') && (
-        <RefusalNotice reason={data.reason} />
-      )}
+      {!isFetching && data?.status === 'UNAVAILABLE' && <RefusalNotice reason={data.reason} />}
+      {!isFetching && data?.status === 'UNSUITABLE' && <RefusalNotice title="This crop cannot be contracted for that long" reason={data.reason} />}
 
       {!isFetching && data?.status === 'OK' && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -71,7 +75,7 @@ export default function ForwardPriceCalculator({ commodity, mandiId }: { commodi
               </p>
             </div>
           ) : (
-            <RefusalNotice reason={data.reason} />
+            <RefusalNotice title="No contract price works at this horizon" reason={data.reason} />
           )}
 
           <div className="mt-3 grid grid-cols-2 gap-2 text-center">

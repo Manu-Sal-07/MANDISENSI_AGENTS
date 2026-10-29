@@ -71,12 +71,12 @@ export function LoadingRow({ label }: { label: string }) {
   );
 }
 
-export function RefusalNotice({ reason }: { reason?: string }) {
+export function RefusalNotice({ reason, title = 'Not enough data yet' }: { reason?: string; title?: string }) {
   return (
     <div className="flex items-start gap-2.5 rounded-xl border border-amber-500/20 bg-amber-500/10 px-3.5 py-3">
       <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
       <div>
-        <p className="text-xs font-bold text-amber-500">Not enough data yet</p>
+        <p className="text-xs font-bold text-amber-500">{title}</p>
         {reason && <p className="mt-0.5 text-xs leading-relaxed text-amber-500/80">{reason}</p>}
       </div>
     </div>

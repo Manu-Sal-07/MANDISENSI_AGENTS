@@ -32,6 +32,7 @@ export function isFarmRoute(pathname: string | null | undefined): boolean {
     pathname.startsWith('/prices') ||
     pathname.startsWith('/sell-plan') ||
     pathname.startsWith('/my-money') ||
-    pathname.startsWith('/accuracy')
+    pathname.startsWith('/accuracy') ||
+    pathname.startsWith('/evidence')
   );
 }

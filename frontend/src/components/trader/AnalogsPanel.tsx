@@ -45,7 +45,7 @@ export default function AnalogsPanel({ commodity, mandiId }: { commodity: string
                 {data.analogs?.length} analogs · {data.horizon_days}-day forward outcome
               </span>
               <span className="font-mono text-sm font-black text-foreground">
-                {formatPct(data.outcome.median_pct)} median
+                {formatPct(data.outcome.mean_pct ?? data.outcome.median_pct)} avg · {formatPct(data.outcome.p10_pct, 0)} to {formatPct(data.outcome.p90_pct, 0)}
               </span>
             </div>
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-surface-3">

@@ -2,10 +2,15 @@ import {
   Activity,
   FlaskConical,
   Gauge,
+  Grid3x3,
   History,
   Network,
   Route,
+  Users,
+  Waves,
   Scale,
+  ScanSearch,
+  ShieldCheck,
   Wallet,
   type LucideIcon,
 } from 'lucide-react';
@@ -26,7 +31,7 @@ export interface TraderTool {
 }
 
 /**
- * The eight trader tools, one page each. The hub, the page shell and the
+ * The thirteen trader tools, one page each. The hub, the page shell and the
  * previous/next navigation all read this list so the set stays consistent.
  */
 export const TRADER_TOOLS: TraderTool[] = [
@@ -39,6 +44,61 @@ export const TRADER_TOOLS: TraderTool[] = [
     accent: 'cyan',
     photo: 'desk-yard',
     icon: Scale,
+    focus: false,
+  },
+  {
+    slug: 'market-choice',
+    href: '/trader-tools/market-choice',
+    title: 'Market-Choice Desk',
+    blurb: 'Net revenue per quintal for every mandi and holding period, with a verified floor and the chance each mandi is open.',
+    group: 'Market scan',
+    accent: 'cyan',
+    photo: 'desk-yard',
+    icon: Grid3x3,
+    focus: false,
+  },
+  {
+    slug: 'shock-desk',
+    href: '/trader-tools/shock-desk',
+    title: 'Shock Desk',
+    blurb: 'Where arrivals are unusual today, what the tested price response is, and which cross-commodity links are armed, each with its evidence tier.',
+    group: 'Market scan',
+    accent: 'amber',
+    photo: 'desk-unload',
+    icon: Waves,
+    focus: false,
+  },
+  {
+    slug: 'floor-monitor',
+    href: '/trader-tools/floor-monitor',
+    title: 'Floor Monitor',
+    blurb: 'The out-of-sample track record of the advice and how often its stated minimum was broken.',
+    group: 'Risk and regime',
+    accent: 'green',
+    photo: 'desk-hall',
+    icon: ShieldCheck,
+    focus: false,
+  },
+  {
+    slug: 'agent-council',
+    href: '/trader-tools/agent-council',
+    title: 'Agent Council',
+    blurb: 'Four specialist forecasters, a learned fusion, and the walk-forward evidence for whether the fusion beats the single model.',
+    group: 'Forecasting',
+    accent: 'violet',
+    photo: 'desk-night',
+    icon: Users,
+    focus: true,
+  },
+  {
+    slug: 'forecast-audit',
+    href: '/trader-tools/forecast-audit',
+    title: 'Forecast Audit',
+    blurb: 'Why decomposition forecasters look strong only when the decomposition may see the future.',
+    group: 'Forecasting',
+    accent: 'violet',
+    photo: 'desk-night',
+    icon: ScanSearch,
     focus: false,
   },
   {
