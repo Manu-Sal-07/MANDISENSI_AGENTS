@@ -1,0 +1,27 @@
+MandiSense - CICPS 2027 (Springer LNNS) paper: self-conducted similarity check
+============================================================================
+File: MandiSense_CICPS2027.pdf (15 pages, LNCS format)
+This is NOT a Turnitin/Drillbit report. It reproduces how free checkers work.
+
+1. Local 8-word-sequence overlap
+   vs. team's earlier documents (final_report, new_report, rev1/rev2, sample,
+   seniors_repor, final_presentation, ppt, KSCST proposal):
+       < 1% of words; the only match is the department/college affiliation.
+   vs. the team's own unsubmitted IEEE draft (IEEE_Paper/MandiSense_IEEE.tex):
+       41% (expected - this paper is derived from it).
+       DO NOT submit or upload the IEEE draft anywhere (conference, Turnitin,
+       free checker), or this paper will match it.
+
+2. Web exact-phrase search
+   32 distinctive fragments sampled across all sections (24 checked on the
+   IEEE draft whose text carries over, plus 8 sentences new in this version:
+   cyber-physical framing, fusion weights, missing-modality dropout,
+   positioning, decision dial, conclusion).
+   Verbatim matches found: 0.
+   Earlier near-paraphrases of stock phrasing were rewritten before this version.
+
+3. What to expect from the official check
+   Turnitin/Drillbit will flag reference-list entries, the affiliation and
+   standard method names (Diebold-Mariano, Kupiec, walk-forward). Run with
+   "exclude bibliography" and "exclude quotes". The prose itself has no
+   identified source overlap. Only the official report can confirm <5%.

@@ -1,0 +1,17 @@
+\begin{tabular}{lcc}
+\toprule
+Metric & Rule-based & gpt-oss-120b\\
+\midrule
+Faithfulness briefs & 120 & 118\\
+Passed the platform grounding check & 100.0\% & 80.5\%\\
+Contain an invented figure ($>$10\% off) & 0.0\% & 24.6\%\\
+Contain only approximate figures & 0.0\% & 22.0\%\\
+Contradict the policy or spoilage gate & 0.0\% & 24.6\%\\
+Advise a hold that loses money & 0.0\% & 35.6\%\\
+Confident action when policy abstains & 0.0\% & 2.5\%\\
+Abstain when forecast is dormant & 100.0\% & not run\\
+Abstain when forecast is absent & 100.0\% & not run\\
+Median latency per brief & $<$0.001\,s & 2.5\,s\\
+Mean tokens per brief & -- & 1958\\
+\bottomrule
+\end{tabular}

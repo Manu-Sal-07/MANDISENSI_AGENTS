@@ -1,0 +1,266 @@
+\documentclass[runningheads]{llncs}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{figures/}}
+\input{tables/numbers}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.85}
+\newcommand{\todo}[1]{\textcolor{red}{#1}}
+
+\begin{document}
+
+\title{Fusing Specialist Agents and Market Signals into Calibrated Price Ranges: A Pre-Registered Evaluation on Indian Agricultural Mandis}
+\titlerunning{Fusing Specialist Agents into Calibrated Price Ranges}
+
+\author{Manohara Salmani\inst{1} \and Srijan C. Vachadmath\inst{1} \and Shreejit Shah\inst{1} \and Kalyan N\inst{1}}
+\authorrunning{M. Salmani et al.}
+\institute{Department of Computer Science and Engineering (Data Science), B.M.S. College of Engineering, Bengaluru 560019, Karnataka, India\\
+\email{manoharsalmani.cd23@bmsce.ac.in, srijanc.cd23@bmsce.ac.in, shreejitshah.cd23@bmsce.ac.in, kalyan.n@bmsce.ac.in}}
+
+\maketitle
+
+\begin{abstract}
+Farmers who sell perishable crops in India's regulated markets (mandis) decide with little forward-looking information, and most forecasting tools return a single price with no sign of how far to trust it. We study MandiSense AI, a system that fuses three specialist forecasting agents (seasonal patterns, arrival volumes and weather) and attaches a calibrated price range to the result. Every agent is trained on the same price history plus its own signals. We fixed our hypotheses and decision rules before running the agent experiments. On \NTotal{} out-of-sample forecasts for five real markets between 2016 and 2025, the fused forecast beat a ``no change'' forecast by 1.6 to 3.7 percent, significantly so at the three-day horizon, and the single model that uses every feature was excluded from the set of best models at three of four horizons. A control using random feature subsets showed that this gain comes from the agents' specialisation and not from generic averaging. Two expectations failed. Shifting agent weights by market regime (calm, turbulent, crisis) did no better than shuffled regimes, and a plain linear model matched the fusion from three to seven days. Price ranges from a quantile model contained the true price about 90 percent of the time and, unlike fixed-width ranges, stayed dependable in crises (\CrisisXgb{} versus \CrisisPooled{} percent). An audit finally showed that synthetic rows in our own evaluation store had inflated apparent accuracy about tenfold.
+\keywords{Multi-agent fusion \and Probabilistic forecasting \and Forecast calibration \and Agricultural markets \and Decision support.}
+\end{abstract}
+
+%======================================================================
+\section{Introduction}
+A grower near Bengaluru or Kolar who brings tomatoes, onions or potatoes to a regulated market (mandi) faces three recurring questions: harvest now or wait, sell here or travel, sell today or hold. Prices in these markets can change sharply within a week \cite{birthal2019}, and public portals only publish what has already happened \cite{agmarknet}. Studies in Kerala and Niger found that timely market information changes when and where producers sell \cite{jensen2007,aker2010}. What such information should look like for the daily prices of a single yard is still unsettled.
+
+A mandi can be viewed as a small cyber-physical system. Produce arrives, auctions clear and prices are reported, but the computer sees this process only through noisy and often missing streams: price prints, arrival volumes and weather. A useful system must fuse those streams, say how uncertain the fused picture is, and return an action to the farmer. Published work on Indian farm prices usually reports the error of a point forecast from a single hold-out window \cite{ray2023,meena2024,jha2014} and rarely tests the result against the naive rule that tomorrow's price equals today's. Short-horizon returns are famously hard to predict \cite{fama1970}, and our data are no exception.
+
+\subsection{Objectives and Hypotheses}
+The aim of this work is to test, on real market records and with predeclared criteria, whether decomposing the forecasting task into specialist agents is worth the added structure. The objectives are:
+\begin{enumerate}
+\item[\textbf{O1}] to build specialist agents (seasonality, arrival volume, external weather) and fuse them with the platform's own adaptive weighting rule;
+\item[\textbf{O2}] to measure whether the fused forecast and its price ranges are trustworthy, including inside volatile regimes;
+\item[\textbf{O3}] to check that the resulting sell, hold or wait advice beats the base rates of price movements;
+\item[\textbf{O4}] to audit our own evaluation pipeline for hidden sources of optimism.
+\end{enumerate}
+Before running the agent experiments we wrote down three hypotheses and the rule for reading them:
+\begin{itemize}
+\item \textbf{H1:} each specialist agent beats the random walk (Holm-adjusted $p<0.05$ at one or more horizons);
+\item \textbf{H2:} the fused forecast beats the single model using all features, or the single model is excluded from the 90\% Model Confidence Set that contains a fusion;
+\item \textbf{H3:} regime-aware weights beat both regime-free weights and weights driven by shuffled regime labels.
+\end{itemize}
+If H2 or H3 held, the multi-agent design would remain the headline contribution; if fusion turned out significantly worse than the single model, we committed to demoting it to a negative result.
+
+\subsection{Contributions}
+(i) A quality-gated architecture of three specialist agents, adaptive fusion and calibrated quantile ranges, evaluated end to end on verified data. (ii) A verdict on H1--H3 with controls that isolate what the agents contribute: random feature subsets, shuffled regimes, past-only (causal) regime labels and four alternative learners. (iii) A comparison of five interval methods, stratified by causal volatility regime. (iv) An audit showing how synthetic data silently manufactured a tenfold accuracy illusion.
+
+%======================================================================
+\section{Related Work}
+Early work on crop prices used seasonal decomposition \cite{cleveland1990} and the smoothing and ARIMA model families \cite{hyndman2021}. For India, time-delay neural networks were applied to monthly oilseed prices \cite{jha2014}, an ARIMA--GARCH--LSTM hybrid to pulse price indices \cite{ray2023}, and a vector-autoregression--LSTM combination to ragi in Karnataka \cite{meena2024}. Hidden Markov models have been used to guide deep learners for volatile commodities \cite{avinash2024}. These studies report point accuracy; none tests coverage of prediction intervals, and none asks whether a proposed component beats a shuffled version of itself.
+
+Boosted trees remain hard to beat on medium-sized tables \cite{chen2016,grinsztajn2022}, while sequence models such as DeepAR \cite{salinas2020} need long, dense series that mandi reporting rarely provides. Forecasting competitions found that combining methods matters more than any single architecture \cite{makridakis2020}. Quantile regression \cite{koenker1978} gives distribution-free intervals, coverage can be tested with Kupiec's and Christoffersen's backtests \cite{kupiec1995,christoffersen1998}, and conformal adjustment adds finite-sample guarantees \cite{romano2019}. We use these tools to judge intervals rather than to build a new one.
+
+%======================================================================
+\section{The MandiSense Architecture}
+Figure~\ref{fig:arch} shows the pipeline. Training is offline and a nightly batch job scores every (commodity, market, horizon) cell, so serving a request is a table lookup.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{fig_arch.pdf}
+\caption{Pipeline of the platform. Boxes in orange are decision components, blue boxes are interfaces, and the green box supplies past-only regime labels.}
+\label{fig:arch}
+\end{figure}
+
+\subsubsection{Ingestion and quality gates.} A hard-bounds gate quarantines implausible prints. A graded score then combines commodity limits, the series' own recent distribution and agreement with same-day prints elsewhere, and doubles as a per-row fitting weight. Because the live daily feed does not report arrivals, arrival columns are hidden on 35\% of training rows so that models learn to cope without that stream.
+
+\subsubsection{Specialist agents.} All features are computed inside continuity segments so that no lag crosses a trading gap. Each agent sees a shared base of 28 price-history features (lags, returns, rolling statistics, momentum) plus its own signal group:
+\begin{itemize}
+\item \emph{seasonality agent}: 10 calendar and seasonal features, including deviation from the same-period median of earlier years;
+\item \emph{arrival agent}: 13 features on arrival volume, trading absence and reporting rate;
+\item \emph{external agent}: 5 weather features (rainfall and temperature statistics from Open-Meteo for each market's location, lagged by one day).
+\end{itemize}
+The single comparison model uses all 51 features. Every agent is an XGBoost regressor \cite{chen2016} of depth 2 with 150 trees, learning rate 0.03 and strong penalties, fitted to the log-return $y_{t,h}=\ln(P_{t+h}/P_t)$ separately for each horizon $h\in\{1,3,5,7\}$ days. We could not evaluate the news component of the external agent because free news feeds do not reach back to 2020.
+
+\subsubsection{Adaptive fusion.} The platform's weighting class fuses the agents' forecasts $\hat y_i$ as $\hat y=\sum_i w_i\hat y_i$ with
+\begin{equation}
+w_i \propto \operatorname{clip}\bigl(b_i\, m_i(r)\, \rho_i\, c_i,\; 0.10,\; 0.70\bigr),
+\end{equation}
+where $b_i$ is the inverse of the agent's recent absolute error, $m_i(r)$ a hand-set multiplier for regime $r$ (Table~\ref{tab:mult}), $\rho_i$ a recency factor and $c_i$ the agent's confidence, fixed here at 0.5 for all agents. Errors enter only after their targets have been realised, so the weights never use information from the future.
+
+\begin{table}[!htb]
+\centering
+\caption{Regime multipliers $m_i(r)$ of the platform's weighting rule (seasonality / arrival / external).}
+\label{tab:mult}
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{lcccc}
+\toprule
+Regime & Stable & Medium & High & Crisis\\
+\midrule
+Multipliers & 1.2 / 0.8 / 0.5 & 1.0 / 1.2 / 0.8 & 0.6 / 1.5 / 1.2 & 0.3 / 0.9 / 2.0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Causal regimes.} For every series and fold, an EGARCH(1,1) model \cite{nelson1991} and a four-state Gaussian HMM \cite{rabiner1989} are fitted on training data only. The HMM is then run forward over later prints with a filtering recursion, so each label uses information available on that day and nothing later. States are ordered by volatility and called Stable, Medium, High and Crisis.
+
+\subsubsection{Price ranges and decisions.} A second booster with the same penalties minimises the pinball loss \cite{koenker1978} at levels $0.05, 0.25, 0.75, 0.95$, giving a row-specific 90\% band. The implied probability of a decline $\pi$ is read off the band where it crosses zero, and the advice is SELL if $\pi\ge\theta$, HOLD if $1-\pi\ge\theta$ and WAIT otherwise. The system may therefore decline to advise.
+
+%======================================================================
+\section{Evaluation Design}
+\subsubsection{Data.} We use only verified Agmarknet records: five benchmark series from five states (Table~\ref{tab:data}), \NRealRows{} rows in total. Only tomato at Kolar is from Karnataka. Returns are heavy-tailed, with excess kurtosis between 10 and 101, so we avoid Gaussian assumptions.
+
+\begin{table}[!htb]
+\centering
+\caption{Verified benchmark series. SD$_r$ and Kurt.\ are the standard deviation and excess kurtosis of log-returns between reports.}
+\label{tab:data}
+\setlength{\tabcolsep}{5pt}
+\resizebox{\textwidth}{!}{\input{tables/tab_data}}
+\end{table}
+
+\subsubsection{Protocol.} Each fold trains on all data up to a cut date and tests on the next slice; four expanding folds cover June 2020 to February 2025, giving \NTotal{} forecasts. All models, weights and bands are refitted in every fold. Baselines are the random walk ($\hat y=0$), a direct linear autoregression on five lagged features (AR), LightGBM, a neural network tuned by inner validation (MLP) and a GRU on the last 30 returns.
+
+\subsubsection{Statistics.} Accuracy is the MAE skill $1-\mathrm{MAE}_m/\mathrm{MAE}_{\text{random walk}}$. Models are compared with the Diebold--Mariano test \cite{diebold1995} on date-averaged absolute-error differences, using Newey--West variances \cite{newey1987}, the small-sample correction of \cite{harvey1997} and Holm adjustment \cite{holm1979}. Uncertainty of skill is given by moving-block bootstrap intervals \cite{kunsch1989}. Sets of statistically equivalent models come from the Model Confidence Set \cite{hansen2011}. Direction is tested with the Pesaran--Timmermann statistic \cite{pesaran1992}. Intervals are judged by coverage, Kupiec's test \cite{kupiec1995}, the interval score \cite{gneiting2007} and, per series, Christoffersen's conditional-coverage test \cite{christoffersen1998}.
+
+%======================================================================
+\section{Results}
+\subsection{Point Accuracy Against Baselines}
+Table~\ref{tab:point} and Fig.~\ref{fig:skill}(a) compare all forecasters. The fused forecast has the lowest error at 1, 3 and 5 days and ties the linear AR model at 7 days. Its skill is small, \SkFusA{}, \SkFusB{}, \SkFusC{} and \SkFusD{} percent at the four horizons, and statistically significant against the random walk only at three days. The single 51-feature model is significant there as well but not elsewhere. Direction is more predictable than size: the fused forecast points the right way \HitA{}--\HitD{} percent of the time, well above chance (Pesaran--Timmermann $p<0.001$ at every horizon).
+
+Neither of the two more elaborate learners helps. The tuned MLP is worse than the random walk at every horizon and the GRU is not better than the single XGBoost model, which beats LightGBM at three days (Holm $p=.023$). A plain linear autoregression is a strong competitor: the fusion beats it significantly only at one day, and the two are indistinguishable from three to seven days.
+
+\begin{table}[!htb]
+\centering
+\caption{Pooled out-of-sample accuracy: MAE of log-returns ($\times10^2$, best in bold) and statistical tests.}
+\label{tab:point}
+\setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{\input{tables/tab_point}}
+\end{table}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.96\textwidth]{fig_skill.pdf}
+\caption{(a) MAE skill over the random walk on verified data; error bars are 95\% block-bootstrap intervals for the fusion. (b) The same single model trained and scored on the platform's mixed store (grey) and on verified rows only (blue).}
+\label{fig:skill}
+\end{figure}
+
+\subsection{Do the Specialist Agents Help? (H1--H3)}
+Table~\ref{tab:agents} lists the skill of every agent and fusion variant, and Table~\ref{tab:htests} the pre-registered tests.
+
+\emph{H1 holds at three days only.} All three agents beat the random walk at that horizon (Holm $p<.001$) and none does so elsewhere. The weather agent is the most accurate agent at 3, 5 and 7 days, but the single model that adds the weather features to all others gains nothing (Table~\ref{tab:agents}), so weather helps only when isolated in its own specialist.
+
+\emph{H2 is supported.} The inverse-error fusion beats the single model at 3 and 7 days, the platform's regime rule at 7 days and the model-plus-agents average at 3 days (Holm $p=.039$ in each case). The Model Confidence Set contains fusions at every horizon but excludes the single model at 1, 3 and 7 days.
+
+\emph{The gain is due to specialisation, not to averaging.} Three random feature subsets of the same sizes, averaged with equal weights, score \BagMeanA{}, \BagMeanB{}, \BagMeanC{} and \BagMeanD{} percent, no better than the single model. The equal-weight fusion of the real agents scores \SkEqA{}, \SkEqB{}, \SkEqC{} and \SkEqD{}, above all five random draws at 3 and 5 days (median Diebold--Mariano $p=$ \BagPB{} and \BagPC{}).
+
+\emph{H3 is rejected.} The regime rule moves weight exactly as designed (Table~\ref{tab:weights}: the external agent rises from 21\% of the weight in stable markets to 62\% in crises), yet its forecasts are not distinguishable from those of the same rule driven by shuffled regime labels or from plain inverse-error weights, on all rows or on crisis rows only (all Holm $p=1.0$), and it beats equal weights only before adjustment (smallest Holm $p=.37$). In our data the value of the regime layer lies in describing uncertainty, not in re-weighting agents.
+
+\begin{table}[!htb]
+\centering
+\caption{MAE skill (\%) of agents and fusion variants. $^{\ddagger}$: member of the 90\% Model Confidence Set, computed over eight models (the placebo and the weather-augmented model were excluded).}
+\label{tab:agents}
+\setlength{\tabcolsep}{4pt}
+\resizebox{0.9\textwidth}{!}{\input{tables/tab_agents}}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Pre-registered tests: Diebold--Mariano statistic (Holm-adjusted $p$). Positive statistics favour the second-named model.}
+\label{tab:htests}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{\input{tables/tab_htests}}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Mean agent weight under the platform's rule, by causal regime.}
+\label{tab:weights}
+\setlength{\tabcolsep}{8pt}
+\input{tables/tab_weights}
+\end{table}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.96\textwidth]{fig_agents.pdf}
+\caption{(a) Skill of agents and fusion; the placebo uses shuffled regime labels. (b) Mean agent weights per regime.}
+\label{fig:agents}
+\end{figure}
+
+\subsection{Calibrated Ranges and Regimes}
+Table~\ref{tab:intervals} compares five interval methods and Fig.~\ref{fig:cal} shows their behaviour by regime. The quantile band covers 89.0--90.7\% of outcomes; Kupiec's test rejects correct coverage only at five days (\KupC{}, coverage \CovC{}\%). A LightGBM quantile model is equally sharp but under-covers at three horizons, and a conformal adjustment (CQR) widens the band without a better interval score. Bands built from pooled training residuals and from a volatility-scaled Gaussian have significantly worse interval scores ($p<.001$ at every horizon).
+
+Regimes expose what the pooled numbers hide. The pooled-residual band covers \StablePooled{}\% of outcomes in stable markets and only \CrisisPooled{}\% in crises, because its width never changes. The quantile band widens from \StableWidthXgb{}\% of the price to \CrisisWidthXgb{}\% and keeps \CrisisXgb{}\% coverage in crises. The volatility-scaled band reaches 96\% in crises, but only by growing to 343\% of the price, which is no use to a farmer. Calibration is uneven across markets: at one day the quantile band passes the conditional-coverage test for Tomato--Kolar and narrowly for Onion--Lasalgaon, but fails for the other three, and conformal adjustment does not repair this.
+
+\begin{table}[!htb]
+\centering
+\caption{Five interval methods for the 90\% band: coverage, interval score and width.}
+\label{tab:intervals}
+\setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{\input{tables/tab_intervals}}
+\end{table}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.96\textwidth]{fig_calibration.pdf}
+\caption{(a) Reliability of the four predicted quantiles. (b) Coverage of the 90\% band by causal regime.}
+\label{fig:cal}
+\end{figure}
+
+\subsection{Sell, Hold or Wait}
+At $\theta=0.55$ the policy speaks on 65--69\% of rows; its SELL calls are 1.16--1.22 times and its HOLD calls 1.12--1.20 times more often right than the base rate of falls and rises (binomial $p<.001$). At $\theta=0.65$ it speaks on 14--17\% of rows with lifts of 1.30--1.40 and 1.22--1.32. Raising $\theta$ trades how often the system speaks for how often it is right, and it may always answer WAIT.
+
+\subsection{Audit of the Evaluation Store}
+Before this study, the platform's stored model reported \AuditBundle{}\% skill. Its store held 97{,}572 rows, of which 86{,}663 (89\%) came from a Karnataka series generated as a seasonal sine wave plus Gaussian noise. On such data the deviation from a short moving average is almost perfectly mean-reverting, and it was the model's most important feature. The same code on verified rows gives \AuditReal{}\% (Fig.~\ref{fig:skill}b), and the stored SELL and HOLD precision of 0.75--0.77 falls to 0.55--0.58 on real data. Neither the leakage guard nor the baseline gate caught this because the synthetic rows were internally consistent. We now record provenance for every row and exclude synthetic sources from training and evaluation by default.
+
+%======================================================================
+\section{Discussion and Limitations}
+Splitting a forecasting task by information source helps a little, but only if the split follows real distinctions between sources; random splits do not help. The benefit is a variance reduction, not a discovery of new signal. Re-weighting agents by regime, the most distinctive element of the design, has no measurable benefit, whereas regimes are valuable for judging how much to trust a range. For a cyber-physical setting, this suggests spending design effort on honest uncertainty and on knowing when to stay silent.
+
+Limitations are as follows. Only one Karnataka series was available, so the results speak for five markets and not for the state. The agents are feature-group specialists trained inside one harness; the platform's older per-commodity agent stack was trained on synthetic data and is not evaluated. News is not evaluated. Regime multipliers are hand-set and were not tuned. Calibration is uneven across markets. Overlapping targets and shared shocks reduce the effective sample size below the row count despite date-averaged differences, Newey--West variances and block resampling.
+
+\section{Conclusion}
+On verified data from five markets, fusing three specialist agents gave the best point forecasts, significantly better than a no-change forecast at three days and better than a single all-feature model at some horizons, and a control shows that specialisation is what matters. Regime-dependent weights added nothing, and a simple linear model is a formidable rival beyond one day. Quantile ranges remained trustworthy in crises, which is where fixed-width ranges fail. Future work will collect same-market panels of several commodities, add verified Karnataka records, calibrate per series and test the advice with growers.
+
+\begin{credits}
+\subsubsection{\ackname} We thank B.M.S. College of Engineering for computing support, the Directorate of Marketing and Inspection for Agmarknet data and Open-Meteo for weather archives.
+
+\subsubsection{\discintname} The authors have no competing interests to declare that are relevant to the content of this article.
+\end{credits}
+
+%======================================================================
+\begin{thebibliography}{99}
+\bibitem{birthal2019} Birthal, P.S., Negi, A., Joshi, P.K.: Understanding causes of volatility in onion prices in India. J. Agribus. Dev. Emerg. Econ. \textbf{9}(3), 255--275 (2019)
+\bibitem{agmarknet} Directorate of Marketing and Inspection, Government of India: AGMARKNET -- Agricultural Marketing Information Network, \url{https://agmarknet.gov.in}
+\bibitem{jensen2007} Jensen, R.: The digital provide: Information (technology), market performance, and welfare in the South Indian fisheries sector. Q. J. Econ. \textbf{122}(3), 879--924 (2007)
+\bibitem{aker2010} Aker, J.C.: Information from markets near and far: Mobile phones and agricultural markets in Niger. Am. Econ. J. Appl. Econ. \textbf{2}(3), 46--59 (2010)
+\bibitem{ray2023} Ray, S., Lama, A., Mishra, P., Biswas, T., Das, S.S., Gurung, B.: An ARIMA-LSTM model for predicting volatile agricultural price series with random forest technique. Appl. Soft Comput. \textbf{149}, 110939 (2023)
+\bibitem{meena2024} Meena, K., Chaitra, B.: A novel framework using deep learning techniques for ragi price prediction in Karnataka. IEEE Access \textbf{12}, 194829--194838 (2024)
+\bibitem{jha2014} Jha, G.K., Sinha, K.: Time-delay neural networks for time series prediction: an application to the monthly wholesale price of oilseeds in India. Neural Comput. Appl. \textbf{24}, 563--571 (2014)
+\bibitem{fama1970} Fama, E.F.: Efficient capital markets: A review of theory and empirical work. J. Finance \textbf{25}(2), 383--417 (1970)
+\bibitem{cleveland1990} Cleveland, R.B., Cleveland, W.S., McRae, J.E., Terpenning, I.: STL: A seasonal-trend decomposition procedure based on loess. J. Off. Stat. \textbf{6}(1), 3--73 (1990)
+\bibitem{hyndman2021} Hyndman, R.J., Athanasopoulos, G.: Forecasting: Principles and Practice, 3rd edn. OTexts, Melbourne (2021)
+\bibitem{avinash2024} Avinash, G., et al.: Hidden Markov guided deep learning models for forecasting highly volatile agricultural commodity prices. Appl. Soft Comput. \textbf{158}, 111557 (2024)
+\bibitem{chen2016} Chen, T., Guestrin, C.: XGBoost: A scalable tree boosting system. In: Proc. 22nd ACM SIGKDD Int. Conf. Knowledge Discovery and Data Mining, pp. 785--794 (2016)
+\bibitem{grinsztajn2022} Grinsztajn, L., Oyallon, E., Varoquaux, G.: Why do tree-based models still outperform deep learning on typical tabular data? In: Advances in Neural Information Processing Systems 35, Datasets and Benchmarks Track (2022)
+\bibitem{salinas2020} Salinas, D., Flunkert, V., Gasthaus, J., Januschowski, T.: DeepAR: Probabilistic forecasting with autoregressive recurrent networks. Int. J. Forecast. \textbf{36}(3), 1181--1191 (2020)
+\bibitem{makridakis2020} Makridakis, S., Spiliotis, E., Assimakopoulos, V.: The M4 competition: 100,000 time series and 61 forecasting methods. Int. J. Forecast. \textbf{36}(1), 54--74 (2020)
+\bibitem{koenker1978} Koenker, R., Bassett, G.: Regression quantiles. Econometrica \textbf{46}(1), 33--50 (1978)
+\bibitem{kupiec1995} Kupiec, P.H.: Techniques for verifying the accuracy of risk measurement models. J. Deriv. \textbf{3}(2), 73--84 (1995)
+\bibitem{christoffersen1998} Christoffersen, P.F.: Evaluating interval forecasts. Int. Econ. Rev. \textbf{39}(4), 841--862 (1998)
+\bibitem{romano2019} Romano, Y., Patterson, E., Cand\`{e}s, E.: Conformalized quantile regression. In: Advances in Neural Information Processing Systems 32 (2019)
+\bibitem{nelson1991} Nelson, D.B.: Conditional heteroskedasticity in asset returns: A new approach. Econometrica \textbf{59}(2), 347--370 (1991)
+\bibitem{rabiner1989} Rabiner, L.R.: A tutorial on hidden Markov models and selected applications in speech recognition. Proc. IEEE \textbf{77}(2), 257--286 (1989)
+\bibitem{diebold1995} Diebold, F.X., Mariano, R.S.: Comparing predictive accuracy. J. Bus. Econ. Stat. \textbf{13}(3), 253--263 (1995)
+\bibitem{newey1987} Newey, W.K., West, K.D.: A simple, positive semi-definite, heteroskedasticity and autocorrelation consistent covariance matrix. Econometrica \textbf{55}(3), 703--708 (1987)
+\bibitem{harvey1997} Harvey, D., Leybourne, S., Newbold, P.: Testing the equality of prediction mean squared errors. Int. J. Forecast. \textbf{13}(2), 281--291 (1997)
+\bibitem{holm1979} Holm, S.: A simple sequentially rejective multiple test procedure. Scand. J. Stat. \textbf{6}(2), 65--70 (1979)
+\bibitem{kunsch1989} K\"{u}nsch, H.R.: The jackknife and the bootstrap for general stationary observations. Ann. Stat. \textbf{17}(3), 1217--1241 (1989)
+\bibitem{hansen2011} Hansen, P.R., Lunde, A., Nason, J.M.: The model confidence set. Econometrica \textbf{79}(2), 453--497 (2011)
+\bibitem{pesaran1992} Pesaran, M.H., Timmermann, A.: A simple nonparametric test of predictive performance. J. Bus. Econ. Stat. \textbf{10}(4), 461--465 (1992)
+\bibitem{gneiting2007} Gneiting, T., Raftery, A.E.: Strictly proper scoring rules, prediction, and estimation. J. Am. Stat. Assoc. \textbf{102}(477), 359--378 (2007)
+\end{thebibliography}
+\end{document}

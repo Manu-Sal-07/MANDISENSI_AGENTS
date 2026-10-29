@@ -1,0 +1,19 @@
+\begin{tabular}{lrrr}
+\toprule
+Comparison (A vs B) & $\Delta$ regret & 95\% CI & Holm $p$\\
+\midrule
+Realised vs observed labels, neural & $-$123 & [$-$165, $-$87] & $<$.0001\\
+Realised vs observed labels, LightGBM & $-$140 & [$-$181, $-$102] & $<$.0001\\
+SPO+ + head + silence vs LightGBM (observed) & $-$132 & [$-$174, $-$90] & $<$.0001\\
+SPO+ + head + silence vs XGBoost (observed) & $-$129 & [$-$171, $-$89] & $<$.0001\\
+SPO+ + head + silence vs random walk & $-$141 & [$-$185, $-$98] & $<$.0001\\
+SPO+ + head + silence vs best heuristic & $-$127 & [$-$170, $-$87] & $<$.0001\\
+SPO+ + head + silence vs LightGBM (realised) & $+$8 & [$-$18, 38] & 1.000\\
+SPO+ vs MSE, same labels and network & $-$25 & [$-$53, 3] & .505\\
+Reporting head vs none & $+$23 & [8, 36] & .012\\
+Silence features, neural & $-$6 & [$-$27, 20] & 1.000\\
+Silence features, LightGBM & $-$12 & [$-$31, 3] & .695\\
+Tuned on regret vs forecast loss & $-$8 & [$-$32, 15] & 1.000\\
+SPO+ + head vs LightGBM, same labels & $+$14 & [$-$8, 39] & .865\\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,20 @@
+\begin{tabular}{lcccc}
+\toprule
+ & $h{=}1$ & $h{=}3$ & $h{=}5$ & $h{=}7$\\
+\midrule
+\multicolumn{5}{l}{\emph{H1: agent vs random walk}}\\
+Seasonality agent & 1.17 (.630) & 3.91 ($<$.001) & 1.93 (.377) & 1.41 (.630)\\
+Arrival agent & 1.38 (.630) & 3.99 ($<$.001) & 2.18 (.232) & 1.80 (.428)\\
+External agent (weather) & 1.26 (.630) & 4.35 ($<$.001) & 2.55 (.098) & 1.80 (.428)\\
+\multicolumn{5}{l}{\emph{H2: fusion vs single 51-feature model}}\\
+Equal weights & 2.36 (.092) & 2.72 (.061) & 1.70 (.121) & 2.53 (.078)\\
+Inverse-error weights & 2.54 (.078) & 3.04 (.039) & 2.17 (.121) & 2.99 (.039)\\
+Platform regime rule & 2.74 (.061) & 2.87 (.051) & 2.09 (.121) & 3.02 (.039)\\
+Model + 3 agents & 2.74 (.061) & 3.04 (.039) & 2.00 (.121) & 2.82 (.053)\\
+\multicolumn{5}{l}{\emph{H3: regime rule vs alternatives}}\\
+vs shuffled regimes, all rows & 0.01 (1.000) & 1.47 (1.000) & 0.02 (1.000) & 0.58 (1.000)\\
+vs shuffled regimes, crisis rows & 0.94 (1.000) & 1.97 (1.000) & $-$0.05 (1.000) & 0.63 (1.000)\\
+vs inverse-error, all rows & 1.78 (1.000) & 0.14 (1.000) & $-$0.12 (1.000) & $-$0.13 (1.000)\\
+vs inverse-error, crisis rows & 1.77 (1.000) & 1.36 (1.000) & 0.66 (1.000) & 0.85 (1.000)\\
+\bottomrule
+\end{tabular}

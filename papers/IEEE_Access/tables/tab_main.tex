@@ -1,0 +1,24 @@
+\begin{tabular}{lrrrrr}
+\toprule
+Method & Revenue & Regret & Gap closed & CVaR$_{10}$ & Fallback\\
+\midrule
+\emph{Hindsight oracle} & 2{,}570 & 0 & 1.00 & -- & --\\
+\midrule
+LightGBM (realised) + silence & \textbf{2{,}168} & 401 & 0.59 & 801 & 12\%\\
+Neural SPO+ (realised) & 2{,}164 & 406 & 0.58 & 802 & 12\%\\
+LightGBM (realised) & 2{,}156 & 414 & 0.57 & 791 & 12\%\\
+SPO+ + head + silence & 2{,}148 & 422 & 0.56 & 828 & 11\%\\
+SPO+ + reporting head & 2{,}141 & 428 & 0.56 & 820 & 12\%\\
+Neural MSE (realised) & 2{,}139 & 431 & 0.56 & 818 & 11\%\\
+\midrule
+Highest price yesterday & 2{,}021 & 549 & 0.43 & 690 & 28\%\\
+XGBoost (observed) & 2{,}019 & 551 & 0.43 & 674 & 29\%\\
+LightGBM (observed) & 2{,}016 & 554 & 0.43 & 679 & 29\%\\
+Neural MSE (observed) & 2{,}016 & 554 & 0.43 & 681 & 29\%\\
+Random walk & 2{,}006 & 564 & 0.42 & 675 & 30\%\\
+\midrule
+Best 7-day mean & 1{,}993 & 577 & 0.41 & 669 & 28\%\\
+Nearest mandi, today & 1{,}600 & 970 & 0.00 & 605 & 34\%\\
+Farm gate & 1{,}344 & 1{,}226 & $-$0.26 & 620 & 0\%\\
+\bottomrule
+\end{tabular}

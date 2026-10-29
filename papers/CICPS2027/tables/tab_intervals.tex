@@ -1,0 +1,24 @@
+\begin{tabular}{lcccc}
+\toprule
+Method & $h{=}1$ & $h{=}3$ & $h{=}5$ & $h{=}7$\\
+\midrule
+\multicolumn{5}{l}{\emph{Coverage of the 90\% band (\%); $\ast$: Kupiec rejects at 5\%}}\\
+Pooled residual & 90.2 & 90.8$^{\ast}$ & 90.6 & 90.7\\
+Volatility-scaled Gaussian & 89.9 & 91.2$^{\ast}$ & 92.0$^{\ast}$ & 91.9$^{\ast}$\\
+LightGBM quantile & 89.3 & 87.9$^{\ast}$ & 87.1$^{\ast}$ & 87.1$^{\ast}$\\
+XGBoost quantile (ours) & 90.7 & 89.9 & 89.0$^{\ast}$ & 89.3\\
+Conformalised quantile (CQR) & 90.4 & 91.0$^{\ast}$ & 90.8 & 91.3$^{\ast}$\\
+\multicolumn{5}{l}{\emph{Interval score (lower is better)}}\\
+Pooled residual & 0.645 & 0.803 & 0.865 & 0.937\\
+Volatility-scaled Gaussian & 0.562 & 0.800 & 0.971 & 1.129\\
+LightGBM quantile & \textbf{0.481} & \textbf{0.625} & 0.709 & \textbf{0.770}\\
+XGBoost quantile (ours) & \textbf{0.481} & 0.627 & \textbf{0.708} & 0.774\\
+Conformalised quantile (CQR) & 0.491 & 0.648 & 0.719 & 0.787\\
+\multicolumn{5}{l}{\emph{Mean width (\% of price)}}\\
+Pooled residual & 33.2 & 49.2 & 57.2 & 63.2\\
+Volatility-scaled Gaussian & 38.1 & 72.9 & 105.0 & 140.6\\
+LightGBM quantile & 26.2 & 36.8 & 40.7 & 45.0\\
+XGBoost quantile (ours) & 28.0 & 38.9 & 43.8 & 49.3\\
+Conformalised quantile (CQR) & 28.4 & 42.3 & 48.1 & 54.2\\
+\bottomrule
+\end{tabular}

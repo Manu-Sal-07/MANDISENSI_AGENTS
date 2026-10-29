@@ -1,0 +1,14 @@
+\begin{tabular}{lrrr}
+\toprule
+Method & Skill, observed & Skill, realised & Gap closed (vs heuristic)\\
+\midrule
+Random walk & 0.0\% & 0.0\% & $-$2.6\%\\
+LightGBM (observed) & $+$3.9\% & $+$6.4\% & $-$0.9\%\\
+XGBoost (observed) & $+$3.2\% & $+$6.5\% & $-$0.4\%\\
+Neural MSE (observed) & $+$4.1\% & $+$7.9\% & $-$0.9\%\\
+LightGBM (realised) & $-$2.5\% & $+$18.8\% & $+$24.6\%\\
+Neural MSE (realised) & $-$5.9\% & $+$17.9\% & $+$21.5\%\\
+Neural SPO+ (realised) & $-$191.5\% & $-$136.5\% & $+$26.2\%\\
+SPO+ + reporting head & $-$60.0\% & $-$22.8\% & $+$22.0\%\\
+\bottomrule
+\end{tabular}

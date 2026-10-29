@@ -1,0 +1,26 @@
+\begin{tabular}{llcrrrr}
+\toprule
+Predictor & Policy & $\alpha$ & Violation & Mean floor & Revenue & CVaR$_{10}$\\
+\midrule
+SPO+ model & plug-in (no floor) & -- & -- & -- & 2{,}148 & 828\\
+ & adaptive conformal & 0.05 & 4.6\% & 1{,}167 & 2{,}077 & 744\\
+ & adaptive conformal & 0.10 & 10.6\% & 1{,}556 & 2{,}135 & 801\\
+ & adaptive conformal & 0.20 & 23.3\% & 1{,}853 & 2{,}149 & 826\\
+ & static conformal & 0.10 & 9.0\% & 1{,}470 & 2{,}125 & 766\\
+ & naive Gaussian & 0.10 & 3.3\% & 1{,}096 & 2{,}042 & 643\\
+\midrule
+LightGBM (realised) & plug-in (no floor) & -- & -- & -- & 2{,}156 & 791\\
+ & adaptive conformal & 0.05 & 3.0\% & 841 & 1{,}857 & 589\\
+ & adaptive conformal & 0.10 & 9.0\% & 1{,}357 & 2{,}004 & 610\\
+ & adaptive conformal & 0.20 & 21.3\% & 1{,}809 & 2{,}129 & 706\\
+ & static conformal & 0.10 & 6.0\% & 1{,}216 & 1{,}968 & 603\\
+ & naive Gaussian & 0.10 & 17.3\% & 1{,}710 & 2{,}129 & 742\\
+\midrule
+LightGBM (observed) & plug-in (no floor) & -- & -- & -- & 2{,}016 & 679\\
+ & adaptive conformal & 0.05 & 1.1\% & $-$2{,}564 & 1{,}519 & 548\\
+ & adaptive conformal & 0.10 & 7.8\% & 1{,}151 & 1{,}858 & 600\\
+ & adaptive conformal & 0.20 & 18.5\% & 1{,}536 & 1{,}945 & 612\\
+ & static conformal & 0.10 & 5.1\% & 985 & 1{,}816 & 599\\
+ & naive Gaussian & 0.10 & 27.4\% & 1{,}725 & 1{,}989 & 659\\
+\bottomrule
+\end{tabular}

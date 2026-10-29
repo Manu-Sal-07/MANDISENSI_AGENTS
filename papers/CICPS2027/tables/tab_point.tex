@@ -1,0 +1,23 @@
+\begin{tabular}{lcccc}
+\toprule
+ & $h{=}1$ & $h{=}3$ & $h{=}5$ & $h{=}7$\\
+\midrule
+Random walk & 6.91 & 9.59 & 10.96 & 12.18\\
+AR(5), OLS & 6.88 & 9.32 & 10.74 & \textbf{11.94}\\
+LightGBM & 6.87 & 9.47 & 10.92 & 12.11\\
+MLP (tuned) & 7.13 & 10.18 & 11.24 & 12.37\\
+GRU & 6.92 & 9.44 & 10.90 & 12.18\\
+XGBoost, 51 features & 6.82 & 9.27 & 10.74 & 12.02\\
+Multi-agent fusion & \textbf{6.79} & \textbf{9.23} & \textbf{10.70} & 11.94\\
+\midrule
+Skill: XGBoost (\%) & 1.28 & 3.28 & 1.96 & 1.36\\
+Skill: fusion (\%) & 1.62 & 3.74 & 2.33 & 2.04\\
+\quad 95\% block CI (fusion) & [0.1, 3.4] & [2.1, 5.2] & [0.8, 3.8] & [$-$0.1, 3.8]\\
+DM: XGBoost vs RW ($p_{\text{Holm}}$) & 1.16 (1.000) & 3.90 (.002) & 2.05 (.448) & 1.29 (1.000)\\
+DM: fusion vs RW ($p_{\text{Holm}}$) & 1.51 (.782) & 4.27 ($<$.001) & 2.52 (.271) & 2.11 (.469)\\
+DM: fusion vs AR ($p_{\text{Holm}}$) & 3.86 (.004) & 2.07 (.469) & 0.21 (1.000) & $-$0.01 (1.000)\\
+DM: fusion vs GRU ($p_{\text{Holm}}$) & 1.99 (.469) & 3.36 (.020) & 2.42 (.281) & 2.02 (.469)\\
+Direction hit rate, fusion (\%) & 55.7 & 55.7 & 56.0 & 56.2\\
+Pesaran--Timmermann, fusion & 8.04 & 8.67 & 9.00 & 9.66\\
+\bottomrule
+\end{tabular}

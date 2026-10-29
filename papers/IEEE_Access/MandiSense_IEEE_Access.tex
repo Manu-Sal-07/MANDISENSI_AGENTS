@@ -1,0 +1,608 @@
+\documentclass{ieeeaccess}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\graphicspath{{figures/}}
+\input{tables/numbers}
+\newcommand{\cmark}{\ensuremath{\checkmark}}
+\newcommand{\xmark}{\ensuremath{\times}}
+\newcommand{\Rs}{Rs\,}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\makeatletter\gdef\xfigwd{0pt}\makeatother
+\setlength{\emergencystretch}{2em}
+
+\begin{document}
+\history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
+\doi{10.1109/ACCESS.2026.DOI}
+
+\title{Where and When to Sell: Outcome-Supervised Market Choice with Conformal Revenue Floors for Indian Mandis, and a Look-Ahead Audit of Decomposition Forecasters}
+
+\author{\uppercase{Manohara Salmani}\authorrefmark{1},
+\uppercase{Srijan C. Vachadmath}\authorrefmark{1}, and
+\uppercase{Shreejit Shah}\authorrefmark{1}}
+\address[1]{Department of Computer Science and Engineering (Data Science), B.M.S. College of Engineering, Bengaluru, Karnataka 560019, India (e-mail: manoharsalmani.cd23@bmsce.ac.in; srijanc.cd23@bmsce.ac.in; shreejitshah.cd23@bmsce.ac.in)}
+\tfootnote{This work was conducted as part of the Final Year Capstone Project at the Department of Computer Science and Engineering (Data Science), B.M.S. College of Engineering, under the guidance of Dr. Kalyan N, Assistant Professor.}
+
+\markboth
+{Salmani \headeretal: Where and When to Sell: Outcome-Supervised Market Choice with Conformal Revenue Floors}
+{Salmani \headeretal: Where and When to Sell: Outcome-Supervised Market Choice with Conformal Revenue Floors}
+
+\corresp{Corresponding author: Dr. Kalyan N (e-mail: kalyan.n@bmsce.ac.in).}
+
+\begin{abstract}
+A farmer who grows tomatoes must decide both where and when to sell, yet price-forecasting research scores models by forecast error, not by what the farmer earns. We study this gap on 5.8 years of real daily prices from 12 mandis in Karnataka, using five walk-forward test blocks that cover \NTest{} decision days. Four findings stand out. First, a model trained on the revenue a farmer actually realises, including the loss from travelling to a mandi that did not report, earns \PctGainLo{} to \PctGainHi{} percent more per quintal than a standard model trained on observed prices (daily regret lower by \Rs\LabelHiAbs{} to \LabelLoAbs{} per quintal, Holm $p$ \LabelP{}), and the effect repeats for onion and potato. The decision-focused SPO+ loss, a reporting-probability head, features that describe other markets' silence, and tuning on decisions add nothing that we can measure. Second, forecast skill does not rank decisions: the best decision models are worse than a random walk on observed prices. Third, an adaptive conformal revenue floor, which tells the farmer a minimum revenue he can count on, was broken \ViolFive{}, \ViolTen{} and \ViolTwenty{} of the time at targets of 5, 10 and 20 percent, whereas a naive Gaussian floor on a standard model was broken \ViolNaiveObs{} of the time against a 10 percent target. Fourth, decomposition hybrids, which dominate the literature, show skill of $+$\PubLo{} to $+$\PubHi{} percent over a random walk when the series is decomposed once before the split, and of $-$\CauLoAbs{} to $-$\CauHiAbs{} percent when the decomposition may not see the future. A zero-shot foundation model has no skill either.
+\end{abstract}
+
+\begin{keywords}
+Agricultural price forecasting, decision-focused learning, conformal prediction, market choice, missing market reports, look-ahead bias, decision support systems, mandi market analysis.
+\end{keywords}
+
+\titlepgskip=-15pt
+
+\maketitle
+
+%======================================================================
+\section{Introduction}
+\PARstart{A}{smallholder} near Bengaluru or Kolar who harvests tomatoes faces a repeated choice: sell at the nearest Agricultural Produce Market Committee (APMC) yard, travel to another, or hold the crop for a few days and accept spoilage. Tomato, onion and potato prices in India are among the most volatile in the food basket, and a week of glut or shortage can halve or double what a grower receives \cite{birthal2019}. Public portals publish past prices \cite{agmarknet}, and field evidence from Kerala and Niger shows that timely market information changes where and when producers sell \cite{jensen2007,aker2010}. The open question is what a data-driven system should hand the farmer.
+
+Most published work answers with a price forecast and scores it by error on a hold-out window, often at monthly resolution \cite{ray2023,meena2024,jha2014}. Two things follow that this paper takes seriously. First, a forecast is an input to a decision, not the decision. A model that is slightly more accurate on average can still send a farmer to the wrong yard, and a model that is slightly less accurate can send him to the right one. Second, the headline gains in this literature come from pipelines that decompose the price series into components and forecast each one \cite{sathe2025,celik2025}. Decomposition methods such as STL and variational mode decomposition are two-sided smoothers, so a component on day $t$ depends on prices after day $t$. If that happens before the data are split, the evaluation uses the future, and a recent review lists data leakage among the field's recurring pitfalls \cite{wu2026}.
+
+We therefore take an \emph{outcome-first} position. We define the farmer's problem in rupees, train and score models on the revenue he would actually have received, and ask what the advice can guarantee. Four challenges shape the design:
+\begin{itemize}
+\item \textbf{Silent markets:} mandis report irregularly. On an average day only \AvgReporting{} of the \NMkt{} candidate yards report, and in \SilentShare{} of the market-and-day options that a farmer could choose the yard would have been silent on the sale day. A forecasting target that ignores this describes a world in which every yard is always open.
+\item \textbf{Forecast error is not decision value:} models are ranked by error, but farmers are paid by the choice.
+\item \textbf{Look-ahead in evaluation:} decomposition before splitting, and global normalisation, let the future into the past.
+\item \textbf{No stated floor:} advice that says ``sell at Kolar'' does not say how bad the outcome can be.
+\end{itemize}
+
+\subsection{Objectives}
+\label{sec:obj}
+The primary objective is to establish, with leak-free evaluation, which training signal produces better selling decisions for mandi farmers and what minimum revenue the advice can verifiably promise. The specific objectives, each with an acceptance criterion, are:
+\begin{enumerate}
+\item \textbf{To audit decomposition hybrids for look-ahead} by running identical forecasters under the published protocol and under a protocol in which components see only the data available at each forecast origin. \emph{Criterion:} report the skill gap between the two for every decomposer, forecaster and horizon with a paired 95\% interval, against a raw-series control, the random walk and a zero-shot foundation model.
+\item \textbf{To compare training signals for market choice}: models trained on observed prices against models trained on realised revenue, which includes the cost of a silent yard. \emph{Criterion:} realised-outcome models reduce daily regret against every observed-price baseline (Holm-adjusted $p<0.05$), belong to the 90\% Model Confidence Set, and the effect appears in at least two further crops.
+\item \textbf{To isolate the sources of any gain} by testing the SPO+ loss, a reporting head, network-silence features and the tuning criterion one at a time. \emph{Criterion:} report each paired effect with its interval whether or not it helps.
+\item \textbf{To attach a verified revenue floor} to each recommendation. \emph{Criterion:} the observed violation rate stays within three percentage points of the target $\alpha\in\{0.05,0.10,0.20\}$ without distributional assumptions, and the cost of the floor in revenue is reported.
+\end{enumerate}
+Five hypotheses were written into the study protocol before the tuned experiments ran: \textbf{H1}, decomposition hybrids show higher skill under the published protocol than under the causal protocol with identical model structure; \textbf{H2}, realised-outcome supervision lowers regret relative to observed-price supervision; \textbf{H3}, the SPO+ loss lowers regret relative to a squared-error loss on the same labels; \textbf{H4}, network-silence features improve prediction of whether a yard reports and of next-day returns; \textbf{H5}, adaptive conformal floors keep the violation rate within three points of $\alpha$. Section~\ref{sec:dev} lists the departures from this protocol.
+
+\subsection{Contributions}
+The paper contributes:
+\begin{enumerate}
+\item a formulation of mandi market choice as an action-value problem over \NAct{} market-and-hold actions whose revenue is affine in prices and whose silent-yard outcome is part of the label, scored in rupees against a hindsight oracle;
+\item evidence from \NFold{} nested walk-forward folds that supervising on realised outcomes is what improves decisions, with a clean ablation showing that the SPO+ loss, a reporting head, network-silence features and decision-based tuning do not add significantly;
+\item an adaptive conformal revenue floor with delayed feedback for adaptively selected actions, compared with static and naive floors, with its cost in revenue stated;
+\item a look-ahead audit of STL and VMD hybrids with a consistent causal protocol, a mechanism measurement, a positive-control test and a foundation-model baseline;
+\item a fully reproducible pipeline with property tests that prove features never use the future (the tests found and removed a real leak while the study was built).
+\end{enumerate}
+
+Section~\ref{sec:related} reviews related work and Section~\ref{sec:gap} analyses the gaps. Section~\ref{sec:system} describes the framework, Section~\ref{sec:method} the mathematics and Section~\ref{sec:setup} the experimental setup. Section~\ref{sec:results} reports results, Section~\ref{sec:objectives} assesses the objectives, and Sections~\ref{sec:discussion} and \ref{sec:conclusion} discuss and conclude.
+
+%======================================================================
+\section{Related Work}
+\label{sec:related}
+\subsection{Decomposition and Hybrid Price Models}
+Seasonal-trend decomposition by loess \cite{cleveland1990} and the smoothing and ARIMA families \cite{hyndman2021} are classical tools for crop prices. Recent studies decompose a series into components and forecast each with a neural network: Sathe \emph{et al.} \cite{sathe2025} used ICEEMDAN and VMD \cite{dragomiretskiy2014} before a GRU, Ray \emph{et al.} \cite{ray2023} combined ARIMA, GARCH and LSTM for monthly pulse indices, and Celik and Celik \cite{celik2025} blended LSTM with stochastic processes across crisis periods. Reported gains are large, but whether the decomposition was fitted before or after the train--test split is rarely stated in the summaries we reviewed. Time-series validation practice warns against any procedure that uses later data to build earlier features \cite{bergmeir2012,cerqueira2020}.
+
+\subsection{Deep, Tabular and Foundation Models}
+Meena and Chaitra \cite{meena2024} combined vector autoregression with LSTM for ragi prices in Karnataka, and Bundak \emph{et al.} \cite{bundak2025} proposed a transformer-convolutional encoder. On medium-sized tables, boosted trees \cite{chen2016,ke2017} remain hard to beat \cite{grinsztajn2022}. Pretrained time-series foundation models forecast without task training \cite{ansari2024}; Wang and Zhang \cite{wang2026} report that they beat several baselines on monthly US commodity prices, a setting with 200--400 observations per series that differs from daily, gappy mandi data.
+
+\subsection{Decision-Focused Learning}
+Smart predict-then-optimise (SPO) trains a predictor on the regret of the decision it induces, using the convex SPO+ surrogate \cite{elmachtoub2022}, and a recent survey covers the wider family \cite{mandi2024}. We found no application to farmers' selling decisions with a spatial choice, a holding option and spoilage in the agricultural price literature we surveyed. Section~\ref{sec:results} tests the loss on this problem and finds that the labels, not the loss, carry the gain.
+
+\subsection{Conformal Prediction and Missing Data}
+Conformal prediction wraps any predictor in intervals with finite-sample coverage under exchangeability \cite{vovk2005,angelopoulos2023,romano2019}. Adaptive conformal inference tracks a long-run error rate under distribution shift without exchangeability \cite{gibbs2021}. For missing observations, the classical distinction is between data missing at random and not at random \cite{rubin1976}, and deep models such as GRU-D use missingness patterns as inputs \cite{che2018}. We test whether neighbouring yards' silence is informative for price and for reporting, rather than assuming it.
+
+%======================================================================
+\section{Gap Analysis}
+\label{sec:gap}
+The surveyed literature leaves five gaps that motivate the objectives.
+
+\subsection{Gap 1: Look-Ahead in Decomposition Hybrids Is Not Measured}
+Studies report gains from decomposition hybrids \cite{sathe2025,celik2025} but do not measure how much of the gain survives when the decomposition sees only the past. A review names leakage as a recurring problem \cite{wu2026} without quantifying it for these methods.
+
+\subsection{Gap 2: Forecast Metrics Stand in for Decisions}
+Models are ranked by RMSE, MAE or MAPE \cite{ray2023,meena2024,bundak2025}. The effect of the ranking criterion on the farmer's earnings is not tested, and two models with the same forecast error can send him to different yards.
+
+\subsection{Gap 3: Silent Markets Are Treated as Nuisance Data}
+Gaps in reporting are filled or ignored. Whether a yard will report on the sale day, and what a wasted trip costs, are not part of the learning target, and the informativeness of other yards' silence is untested.
+
+\subsection{Gap 4: No Verified Revenue Guarantee}
+Interval forecasts, where given, concern prices \cite{ray2023,sathe2025} and carry coverage claims that depend on model assumptions. Distribution-free tools \cite{romano2019,gibbs2021} have not been applied to the revenue of the action actually recommended.
+
+\subsection{Gap 5: Market Choice With Transport Is Missing}
+Price forecasts are produced one market at a time. Choosing among yards requires combining forecasts with distance, spoilage and the chance that the yard is closed.
+
+\subsection{Comparative Gap Analysis}
+Table~\ref{tab:gap} compares the studies we reviewed with the gaps, based on the scope each study reports in its abstract and method summary. To our reading none reports all six dimensions.
+
+\begin{table*}[!t]
+\caption{Comparative Gap Analysis: Surveyed Studies vs. This Work}
+\label{tab:gap}
+\centering
+\setlength{\tabcolsep}{5pt}
+\resizebox{0.86\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+Study & Interval or risk output & Tested vs.\ benchmark & Decision or rupee outcome & Market choice with transport & Look-ahead audit & Coverage guarantee\\
+\midrule
+Ray \emph{et al.} \cite{ray2023} & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark\\
+Celik and Celik \cite{celik2025} & Partial & \xmark & \xmark & \xmark & \xmark & \xmark\\
+Sathe \emph{et al.} \cite{sathe2025} & Partial & \xmark & \xmark & \xmark & \xmark & \xmark\\
+Avinash \emph{et al.} \cite{avinash2024} & \xmark & \cmark & \xmark & \xmark & \xmark & \xmark\\
+Zeng \emph{et al.} \cite{zeng2023} & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark\\
+Sediyono \emph{et al.} \cite{sediyono2025} & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark\\
+Bundak \emph{et al.} \cite{bundak2025} & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark\\
+Meena and Chaitra \cite{meena2024} & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark\\
+Wang and Zhang \cite{wang2026} & \xmark & Partial & \xmark & \xmark & \xmark & \xmark\\
+\midrule
+\textbf{This work} & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark\\
+\bottomrule
+\end{tabular}}
+\vspace{4pt}
+
+{\footnotesize \raggedright \cmark: reported; Partial: reported in part (risk measure or quantile loss without a coverage claim; comparison with an external benchmark only); \xmark: not reported in the abstract or method summary we reviewed. The marks are our reading of each study's stated scope and should be checked against the full texts.\par}
+\end{table*}
+
+%======================================================================
+\section{Proposed Framework}
+\label{sec:system}
+Fig.~\ref{fig:arch} summarises the framework. Portal exports become a day-by-market panel with an explicit reporting mask; causal features feed a price-vector model trained on either observed or realised-outcome labels; the model's predicted prices become the predicted revenue of every action; and a conformal layer turns the best action into a recommendation with a stated floor.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{fig_arch.pdf}
+\caption{Framework. Orange boxes hold action values and the recommendation, green the model whose training labels are the object of study, and red the conformal floor.}
+\label{fig:arch}
+\end{figure*}
+
+\subsection{Data and the Reporting Mask}
+Two Agmarknet exports are parsed. The \emph{history} export gives, for every market, crop and day, the arrivals-weighted modal price and arrivals from January 2021; the \emph{daily} export gives minimum, maximum and modal price per variety from November 2025. Footer rows are dropped, units are asserted (Rs per quintal; metric tonnes), keys are checked for uniqueness, and a load report records every row read and removed. A \emph{cell} of the day-by-market panel is observed only if the yard reported a price; \textbf{nothing is imputed into the panel}. A forward-filled view is derived downstream and always carries a staleness counter.
+
+\subsection{Causal Features}
+Every feature at index $s$ uses data from days up to $s$ only; a decision on day $t=s+1$ never sees day $t$. The \emph{base} group has the forward-filled log price relative to the cross-market mean, returns over 1, 3, 7, 14 and 28 days, 14-day volatility, cross-market momentum, the market's own staleness and report rate (7, 14, 30 days), log arrivals, and calendar terms. The \emph{silence} group describes the \emph{network}: the distance-weighted share of neighbouring yards silent today, yesterday and over seven days, its change, the number reporting, days since the last day on which at least half of the yards were silent, the silent share of trading volume, and neighbours' staleness. Because the base group already contains a yard's own report history, it is a strong treatment of missing data, and the silence group tests only what neighbours add.
+
+\subsection{Price-Vector Models}
+All learned models predict, for each offered yard and hold $k\in\{0,1,2,3\}$, the log-return of the sale-day price against the yard's last observed price. Four families are compared: the cost-aware random walk; LightGBM \cite{ke2017} and XGBoost \cite{chen2016} with one regressor per hold and the yard as a categorical feature; and a DeepSets network \cite{zaheer2017} whose shared per-yard encoder is concatenated with an order-invariant context (the masked mean over offered yards) before a shared head. Parameter sharing keeps the network small enough for about \MeanTrain{} training days. Each family is trained either on observed prices or on realised-outcome labels (Section~\ref{sec:labels}).
+
+\subsection{Recommendation and Floor}
+Predicted prices become predicted revenues $\hat r_t(a)$ for every action. The plug-in policy recommends $\argmax_a\hat r_t(a)$. The floor policy recommends $\argmax_a\bigl[\hat r_t(a)-q_t\hat\sigma_{t}(a)\bigr]$, the action with the best guaranteed revenue, and reports that value as the floor (Section~\ref{sec:floor}).
+
+\subsection{Reproducibility and Safeguards}
+The pipeline passes all 57 automated tests. Property tests perturb every price after day $s$ and require the features at $s$ to be bit-identical; they assert that targets are strictly future prices, that the conformal procedure never reads an outcome before its sale date has passed (corrupting not-yet-known outcomes must leave earlier decisions unchanged), and that SPO+ is non-negative, zero at the truth and an upper bound on regret. These tests found one genuine leak during development: two features had been centred on a whole-series mean.
+
+%======================================================================
+\section{Mathematical Formulation}
+\label{sec:method}
+\subsection{The Farmer's Problem}
+Let $P_{t,m}$ be the price at yard $m$ on day $t$, $r_{t,m}\in\{0,1\}$ whether it reported, and $\bar P_t=\sum_m r_{t,m}P_{t,m}/\sum_m r_{t,m}$ the mean reported price. A farmer at origin $\ell$ holds one quintal. On day $t$, knowing data through $t-1$, he chooses an action $a$: sell at yard $m$ after holding $k$ days, or sell at the farm gate. The \emph{realised} price of yard $m$ on the sale day is
+\begin{equation}
+\tilde P_{t+k,m}=\begin{cases}P_{t+k,m} & r_{t+k,m}=1,\\ \phi\,\bar P_{t+k} & r_{t+k,m}=0,\end{cases}
+\end{equation}
+so a silent yard still costs the trip and yields a discounted price, and the net revenue is
+\begin{equation}
+R_t(m,k;\ell)=(1-f)(1-\delta)^k\,\tilde P_{t+k,m}-\tau\rho\,d(\ell,m)-c_0,\qquad R_t(\mathrm{gate})=\phi_g\bar P_t,
+\label{eq:rev}
+\end{equation}
+where $f$ is the market fee, $\delta$ the daily spoilage, $\tau$ the transport cost per quintal-kilometre, $\rho$ the road factor, $d$ the great-circle distance and $c_0$ the handling cost (Table~\ref{tab:econ}). A yard is offered only if it reported within the previous 14 days, giving $\NAct{}$ actions. The \emph{regret} of action $a$ is
+\begin{equation}
+\mathrm{reg}_t(a)=\max_{a'\in\mathcal A_t}R_t(a')-R_t(a),
+\end{equation}
+and we report the share of the oracle gap closed relative to a reference rule $\varrho$,
+\begin{equation}
+\Gamma=\frac{\bar R_{\text{method}}-\bar R_{\varrho}}{\bar R_{\text{oracle}}-\bar R_{\varrho}},
+\end{equation}
+together with the mean of the worst 10\% of outcomes, $\mathrm{CVaR}_{10}$. Because \eqref{eq:rev} is affine in the price vector, a predicted price vector $\hat P$ induces predicted revenues $\hat r=\mathbf{B}\hat P+\mathbf c$ and a plug-in decision $\hat a_t=\argmax_a\hat r_t(a)$.
+
+\begin{table}[!t]
+\caption{Economic Parameters of the Net-Revenue Function (Scenario Assumptions)}
+\label{tab:econ}
+\centering
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{tables/tab_econ}}
+\end{table}
+
+\subsection{Observed Versus Realised Supervision}
+\label{sec:labels}
+Let $\hat y_{t,m,k}$ be the predicted log-return and $\hat P_{t+k,m}=P^{\mathrm{ref}}_{t-1,m}e^{\hat y_{t,m,k}}$ with $P^{\mathrm{ref}}$ the last observed price. The usual \emph{observed-label} objective uses only cells where the yard reported,
+\begin{equation}
+\mathcal L_{\mathrm{obs}}=\frac{1}{|\Omega|}\sum_{(t,m,k)\in\Omega}\ell_\kappa\!\bigl(\hat y_{t,m,k}-y^{\mathrm{obs}}_{t,m,k}\bigr),\quad y^{\mathrm{obs}}=\ln\frac{P_{t+k,m}}{P^{\mathrm{ref}}_{t-1,m}},
+\end{equation}
+with $\Omega=\{r_{t+k,m}=1\}$ and $\ell_\kappa$ the Huber loss \cite{huber1964}. The \emph{realised-label} objective uses every offered cell with the realised price of the previous subsection,
+\begin{equation}
+\mathcal L_{\mathrm{real}}=\frac{1}{|\Omega'|}\sum_{(t,m,k)\in\Omega'}\ell_\kappa\!\Bigl(\hat y_{t,m,k}-\ln\frac{\tilde P_{t+k,m}}{P^{\mathrm{ref}}_{t-1,m}}\Bigr),
+\end{equation}
+so a yard that is often silent learns a lower expected price, because silence is in the label. Realised labels use only information resolved by the sale date.
+
+\subsection{SPO+ and the Reporting Head}
+For a maximisation over a finite action set with $a^\ast=\argmax_a R(a)$, the SPO+ surrogate \cite{elmachtoub2022} is
+\begin{equation}
+\ell_{\mathrm{SPO+}}(\hat r,R)=\max_{a}\bigl(2\hat r_a-R_a\bigr)-2\hat r_{a^\ast}+R_{a^\ast}.
+\end{equation}
+It is convex in $\hat r$, non-negative, zero when $\hat r=R$, and upper-bounds the regret of $\argmax\hat r$; each property is verified in the test suite. The decision-focused objective is $\mathcal L=\ell_{\mathrm{SPO+}}+\lambda\mathcal L_{\mathrm{real}}$, where the second term anchors price levels. A \emph{reporting head} adds a probability $\hat\varrho_{t,m,k}=\sigma(\hat g_{t,m,k})$ that the yard reports, so the expected realised price is $\hat\varrho\hat P+(1-\hat\varrho)\phi\hat{\bar P}$, trained with a binary cross-entropy term.
+
+\subsection{Adaptive Conformal Revenue Floor}
+\label{sec:floor}
+For the recommended action $a_t$ the normalised score is
+\begin{equation}
+s_t=\frac{\hat r_t(a_t)-R_t(a_t)}{\hat\sigma_t(a_t)},\qquad \hat\sigma^2_{t}(a)=\lambda\hat\sigma^2_{t-1}(a)+(1-\lambda)\bigl(\hat r_{t'}(a)-R_{t'}(a)\bigr)^2,
+\end{equation}
+with the error scale updated only from resolved days $t'$. The floor and recommendation are
+\begin{equation}
+L_t(a)=\hat r_t(a)-q_t\hat\sigma_t(a),\qquad a_t=\argmax_{a\in\mathcal A_t}L_t(a),
+\label{eq:floor}
+\end{equation}
+where $q_t$ is the empirical $\lceil(n+1)(1-\alpha_t)\rceil/n$ quantile of the last $W=365$ resolved scores of recommended actions. Following adaptive conformal inference \cite{gibbs2021},
+\begin{equation}
+\alpha_{t+1}=\alpha_t+\gamma\bigl(\alpha-\mathbb 1[R_t(a_t)<L_t(a_t)]\bigr).
+\end{equation}
+In the undelayed, unclipped setting ACI bounds the long-run miscoverage of the observed sequence for \emph{any} prediction sequence, including one produced by adaptive selection \cite{gibbs2021}. Our implementation clips the quantile level to $[0.5,0.995]$ and delays feedback, because a $k$-day hold resolves $k$ days after the sale: day $t'$ is released on day $t$ only if $t'+K\le t-1$ with $K=3$. We therefore verify coverage empirically (Section~\ref{sec:resfloor}). Algorithm~\ref{alg:floor} gives the procedure.
+
+\begin{algorithm}[!t]
+\caption{Online Conformal Floor With Delayed Feedback (one farmer origin)}
+\label{alg:floor}
+\begin{algorithmic}[1]
+\REQUIRE predicted revenues $\hat r_t$, realised revenues $R_t$ (revealed late), target $\alpha$, step $\gamma$, window $W$, delay $K$
+\ENSURE recommendation $a_t$ and floor $L_t(a_t)$ for each day
+\STATE $\alpha_1\leftarrow\alpha$; scores $\leftarrow\emptyset$; $\hat\sigma^2\leftarrow$ undefined
+\FOR{each day $t$}
+\FOR{each unresolved day $t'$ with $t'+K\le t-1$}
+\STATE update $\hat\sigma^2(a)$ for all offered $a$ from $(\hat r_{t'}(a)-R_{t'}(a))^2$
+\STATE append $s_{t'}$ to scores; $\alpha_t\leftarrow\alpha_t+\gamma(\alpha-\mathbb 1[R_{t'}(a_{t'})<L_{t'}(a_{t'})])$
+\ENDFOR
+\STATE $q_t\leftarrow$ conformal quantile of the last $W$ scores at level $1-\alpha_t$ (default if too few)
+\STATE $L_t(a)\leftarrow\hat r_t(a)-q_t\hat\sigma_t(a)$; $a_t\leftarrow\argmax_{a\in\mathcal A_t}L_t(a)$; report $L_t(a_t)$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Look-Ahead in Decomposition}
+A decomposer $\mathcal D$ maps a series $y_{1:T}$ to components $C_{1:T}\in\mathbb R^{T\times c}$ with $\sum_jC_{s,j}=y_s$. It is \emph{causal} if $C_s(y_{1:T})=C_s(y_{1:s})$ for every $T\ge s$. Its \emph{look-ahead sensitivity} at day $t$ is
+\begin{equation}
+\Lambda_t(\mathcal D)=\frac{\max_{t-4\le s\le t}\bigl\|C_s(y)-C_s(y')\bigr\|_\infty}{\mathrm{sd}(y)},\quad y'_s=y_s+\epsilon\,\mathbb 1[s>t],
+\end{equation}
+which is exactly zero for a causal procedure. For horizon $h$ the \emph{skill} of a forecaster is $\mathcal S=1-\mathrm{MAE}/\mathrm{MAE}_{\mathrm{rw}}$, with the random walk forecasting no change. The \emph{published} protocol computes $C(y_{1:T})$ once and trains and applies models on it. The \emph{causal} protocol computes, for every origin $t$, $C_{t-L+1:t}(y_{1:t})$, the endpoint of a decomposition of the data available at $t$, and uses these both to train (at earlier origins) and to predict, so that training and test features have the same distribution. A joint model on all components' lags is used in both protocols, so the \emph{leak gap}
+\begin{equation}
+\mathcal G=\mathcal S_{\text{published-joint}}-\mathcal S_{\text{causal-joint}}
+\end{equation}
+differs only in whether components may see the future. A positive control is built in: if $\mathcal D$ is the identity, both joint pipelines and the raw-series control coincide to $10^{-9}$.
+
+\subsection{Testing Whether Silence Is Informative}
+For the reporting question, let $\mathrm{AUC}_0$ and $\mathrm{AUC}_1$ be the areas under the curve of untuned classifiers using the base group and the base-plus-silence group, trained on data before each outer fold. The statistic is $\Delta\mathrm{AUC}=\mathrm{AUC}_1-\mathrm{AUC}_0$ with a permutation null that shuffles the silence features in 14-day blocks, and the paired difference in log-loss is bootstrapped over days. For next-day returns the squared errors of the two regressors are compared with the Diebold--Mariano test.
+
+\subsection{Evaluation Protocol and Statistical Tests}
+Algorithm~\ref{alg:wf} summarises the nested walk-forward protocol. Differences between methods are computed on \emph{daily} regret averaged over the five origins, because the origins are strongly dependent. Inference uses:
+\begin{itemize}
+\item \emph{Paired accuracy:} the Diebold--Mariano test \cite{diebold1995} with Newey--West variance at lag 7 \cite{newey1987}, the small-sample correction of \cite{harvey1997} and Holm adjustment \cite{holm1979} over all comparisons;
+\item \emph{Model sets:} the 90\% Model Confidence Set \cite{hansen2011};
+\item \emph{Uncertainty of means and differences:} 95\% moving-block bootstrap intervals \cite{kunsch1989} with 14-day blocks and 4{,}000 resamples;
+\item \emph{Floor validity:} the observed violation rate $\hat\alpha=\frac1n\sum\mathbb 1[R_t(a_t)<L_t(a_t)]$ against the target $\alpha$.
+\end{itemize}
+
+\begin{algorithm}[!t]
+\caption{Nested Walk-Forward Training, Calibration and Prediction}
+\label{alg:wf}
+\begin{algorithmic}[1]
+\REQUIRE decision data $\mathcal D$, outer test blocks $\{[a_j,b_j)\}$, method specifications, trial budget $B$
+\ENSURE out-of-sample predictions for every method on every outer block
+\FOR{each outer block $[a,b)$}
+\STATE inner blocks $V_1,V_2\leftarrow$ the two 6-month blocks before $a$; gap $\leftarrow K+2$ days
+\FOR{each method}
+\STATE tune hyper-parameters with Optuna (TPE, $B$ trials): fit on days before $V_i$ minus the gap, score on $V_i$
+\STATE calibration model $\leftarrow$ fit on days before $V_2$ minus the gap; predict $V_2$
+\STATE final model $\leftarrow$ fit on days before $a$ minus the gap; predict $[a,b)$
+\STATE run Algorithm~\ref{alg:floor} over $V_2$ (warm start) then $[a,b)$; score $[a,b)$ only
+\ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+%======================================================================
+\section{Experimental Setup}
+\label{sec:setup}
+\subsection{Dataset Description}
+The history export contains 63{,}524 market-crop-day rows (January 2021 to October 2026, 19 markets, eight crops) and the daily export 12{,}015 market-crop-days (November 2025 to October 2026). Where the two overlap for tomato (\XRows{} market-days) they agree to a correlation of \XCorr{} with a median relative difference of zero (Fig.~\ref{fig:data}(b)), so the weighted modal price is the same quantity in both. \textbf{Every price used here is a portal record; no value is synthetic or imputed.}
+
+The primary crop is tomato, with the \NMkt{} yards that reported on at least 700 days (Table~\ref{tab:data}, Fig.~\ref{fig:data}(a)). The panel covers \NCal{} calendar days; on \NNoReport{} of them no yard reported, and those days are excluded from training and scoring (\DecisionDays{} decision days remain). Prices differ persistently across yards (the median same-day range between offered yards is \Rs\MedRange{} per quintal), so decisions depend more on price level than on distance. Onion (4 yards) and potato (3 yards) are used only to check generalisation.
+
+\begin{table}[!t]
+\caption{Tomato Yards Used (Days Reporting of 2{,}125; Cover.: Share of Days)}
+\label{tab:data}
+\centering
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{tables/tab_data}}
+\end{table}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{fig_data.pdf}
+\caption{(a) Monthly share of days each tomato yard reported; blank areas are silence, the object of the study. (b) The two independent portal exports give the same price for the same market-day.}
+\label{fig:data}
+\end{figure*}
+
+\subsection{Protocol, Baselines and Controls}
+\label{sec:protocol}
+Five outer test blocks of \BlockLo{}--\BlockHi{} decision days each cover January 2024 to October 2026 (\NTest{} days). Table~\ref{tab:methods} lists the eleven compared methods and four heuristics; every method receives the same Optuna budget (20 trials for neural models, 25 for boosted trees) and is tuned on its native criterion, except one ablation that is tuned on the other criterion. Farmers start from the five district centres; economics are in Table~\ref{tab:econ}.
+
+\begin{table}[!t]
+\caption{Compared Methods}
+\label{tab:methods}
+\centering
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{p{2.3cm}p{5.5cm}}
+\toprule
+Name & Training signal and model\\
+\midrule
+Random walk & last price, cost-aware plug-in\\
+LightGBM, XGBoost (observed) & predict-then-optimise on observed prices\\
+Neural MSE (observed) & DeepSets, Huber on observed cells\\
+LightGBM (realised) [+ silence] & boosted trees on realised-outcome labels [+ network-silence features]\\
+Neural MSE (realised) & DeepSets, Huber on realised labels\\
+Neural SPO+ (realised) & DeepSets, SPO+ plus realised-label anchor\\
+SPO+ + reporting head [+ silence] & as above with a report-probability head [+ silence]\\
+\ldots{} tuned on MSE & ablation: tuned on forecast loss\\
+Heuristics & nearest yard today; highest price yesterday; best 7-day mean; farm gate\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Protocol Deviations}
+\label{sec:dev}
+Three departures from the protocol are disclosed. (i) The first causal port trained on interior components and applied them to endpoint components; the resulting train--test mismatch would have overstated the leak gap, so the consistent \emph{causal-joint} protocol was added and is used for every headline number (the first variant is reported in the data files as \emph{causal per-component}, with skill between $-$\PercompLoAbs{}\% and $-$\PercompHiAbs{}\%). (ii) Twelve paired comparisons were fixed before the tuned results; two were added afterwards for the secondary crops (LightGBM label effect, SPO+ against LightGBM). Holm adjustment covers all fourteen. (iii) The silence tests and the floor evaluation were specified before the results; their outcomes did not change the protocol, but they did change which model we recommend, because silence and the reporting head proved unhelpful.
+
+\subsection{Implementation Details}
+The system is written in Python 3.12 with pandas, scikit-learn, LightGBM, XGBoost, statsmodels, PyTorch (CPU), Optuna \cite{akiba2019} and Chronos \cite{ansari2024}. VMD is implemented from the published algorithm \cite{dragomiretskiy2014}. Experiments ran on a 32-core CPU workstation without GPU acceleration; the full tuned grid for tomato takes a few hours.
+
+%======================================================================
+\section{Results and Discussion}
+\label{sec:results}
+\subsection{Look-Ahead Audit of Decomposition Hybrids}
+Table~\ref{tab:leak} and Fig.~\ref{fig:leak} compare protocols on the five densest tomato series (about \LeakNOrigins{} scored origins per row, every third day from January 2024, scored where the target price was reported). Under the published protocol the hybrids reach $+$\PubLo{} to $+$\PubHi{} percent skill over the random walk, in line with the gains the literature reports. With identical model structure and only look-ahead removed, skill falls to $-$\CauLoAbs{} to $-$\CauHiAbs{} percent: the leak gap is \LeakGapLo{} to \LeakGapHi{} percentage points, and every 95\% interval excludes zero (all $p<0.001$). H1 is supported.
+
+The mechanism is direct. Moving only the \emph{future} by 10\% of a standard deviation changes the STL and VMD components at day $t$ by \SensStl{}\% and \SensVmd{}\% of the series' standard deviation (Fig.~\ref{fig:leak}(c)); the causal procedure changes them by exactly zero. Causal decomposition adds essentially nothing to the raw series, and no causally evaluated forecaster beats the random walk at one to seven days. A zero-shot foundation model (Chronos-Bolt, a faster variant of the Chronos family \cite{ansari2024}, with no training on these data) has skill of \FoundA{} at one day and \FoundB{} at seven days, so price history alone is almost unpredictable here. This agrees with our earlier finding of 1--3\% skill on verified benchmark series.
+
+\begin{table*}[!t]
+\caption{MAE Skill (\%) Against the Random Walk on Tomato, by Protocol; Leak Gap in Percentage Points With 95\% Block-Bootstrap Interval}
+\label{tab:leak}
+\centering
+\setlength{\tabcolsep}{4pt}
+\resizebox{0.9\textwidth}{!}{\input{tables/tab_leak}}
+\par\vspace{2pt}{\footnotesize Published: one model per component on a global decomposition (literature recipe). Pub.-joint and Causal-joint: one joint model on all components' lags, with components from the global decomposition or from data available at each origin; their difference is the leak gap. Raw: same forecaster on the undecomposed series.\par}
+\end{table*}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{fig_leak.pdf}
+\caption{MAE skill over the random walk at (a) one and (b) seven days under three protocols, and (c) the change in components at day $t$ when only the future moves.}
+\label{fig:leak}
+\end{figure*}
+
+\subsection{Decision Value}
+Table~\ref{tab:main} and Fig.~\ref{fig:decision} give the decision results. The hindsight oracle earns \Rs\RevOracle{} per quintal. The strongest heuristic, the yard with the highest price yesterday, earns \Rs\RevHighYday{}, and the standard predict-then-optimise models \Rs\RevLgbmObs{}--\RevXgbObs{}. Models trained on realised outcomes earn \Rs\RevFilledLo{} to \Rs\RevFilledHi{}, closing \GapDsMseFilled{} to \GapLgbmFilledSil{} of the gap between the nearest-yard rule and the oracle against \GapLgbmObs{} for the observed-label models, and cutting fallback trips from about \FBLgbmObs{} to \FBLgbmFilled{}. The 90\% Model Confidence Set contains exactly the realised-outcome models; every observed-label model and every heuristic is excluded. The gain appears in every outer fold (Fig.~\ref{fig:decision}(b)) and for every farmer origin: the nearest-yard rule earns only \Rs\KolarNearest{} for a Kolar farmer, against \Rs\KolarLearned{} with the learned policy.
+
+\begin{table}[!t]
+\caption{Out-of-Sample Decisions on Tomato (\NTest{} Days, Five Origins; Revenue in Rs per Quintal)}
+\label{tab:main}
+\centering
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{tables/tab_main}}
+\par\vspace{2pt}{\footnotesize Gap closed: share of the gap between the nearest-yard rule and the oracle. Fallback: share of recommended trips to a silent yard.\par}
+\end{table}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{fig_decision.pdf}
+\caption{(a) Mean realised net revenue by method; blue methods are trained on realised outcomes, grey on observed prices, gold are heuristics. (b) Mean revenue by outer test block.}
+\label{fig:decision}
+\end{figure*}
+
+\subsection{What Produces the Gain}
+Table~\ref{tab:effects} and Fig.~\ref{fig:effects} separate the sources. \textbf{The label effect is large and robust:} realised-outcome supervision lowers daily regret by \Rs\LabelHiAbs{} to \LabelLoAbs{} per quintal (point estimate \Rs\LabelDAbs{}, Holm $p$ \LabelP{}) with the same network. H2 is supported. The comparison with the standard baselines is of the same size (\Rs\VsLgbmDAbs{} lower regret than LightGBM on observed prices, Holm $p$ \VsLgbmP{}). \textbf{Everything else adds nothing measurable.} The SPO+ loss lowers regret by only \Rs\LossDAbs{}, with an interval from \Rs\LossLoAbs{} lower to \Rs\LossHiAbs{} higher and Holm $p$ \LossP{}, so H3 is not supported. The reporting head is worse (regret higher by \Rs\HeadD{}, Holm $p$ \HeadP{}). Network-silence features are not helpful in either model family (Holm $p$ \SilNNP{} and \SilGbmP{}), and tuning on decision regret instead of forecast loss lowers regret by only \Rs\TuneDAbs{} (Holm $p$ \TuneP{}). A plain LightGBM on realised labels is indistinguishable from the neural network on the same labels (Holm $p$ \NnGbmP{}). The gain therefore comes from the \emph{supervision signal}, learning from realised revenue which yards fail to report and what a wasted trip costs, and not from the learner or the loss.
+
+\begin{table}[!t]
+\caption{Paired Effects on Daily Regret (Rs per Quintal; Negative: First Method Better), Holm-Adjusted Over All Comparisons}
+\label{tab:effects}
+\centering
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{tables/tab_effects}}
+\end{table}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{fig_effects.pdf}
+\caption{Paired differences in daily regret with 95\% block-bootstrap intervals. Only the label effect and the comparisons with predict-then-optimise baselines are significant gains; the reporting head is significantly worse.}
+\label{fig:effects}
+\end{figure*}
+
+\subsection{Forecast Skill Does Not Rank Decisions}
+Table~\ref{tab:forecast} and Fig.~\ref{fig:decouple} show a decoupling. Observed-label models have positive skill on observed prices (\SkObsLgbm{} for LightGBM, \SkObsNn{} for the neural network), matching our earlier 1--3\% on verified benchmark series. The models that decide best have \emph{negative} skill on those targets (\SkObsFilled{} for LightGBM on realised labels), and the SPO+ outputs, which are not anchored to price levels, are far worse. On the realised targets the ordering reverses: \SkRealFilled{} for realised-label LightGBM against \SkRealObs{} for the observed-label one. A leaderboard sorted by forecast error would have selected the wrong models.
+
+\begin{table}[!t]
+\caption{Forecast MAE Skill Against the Random Walk and Decision Gain}
+\label{tab:forecast}
+\centering
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{tables/tab_forecast}}
+\par\vspace{2pt}{\footnotesize Skill measured on observed prices and on realised (fallback-filled) prices; gap closed: share of the oracle gap closed beyond the best heuristic.\par}
+\end{table}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{fig_decouple.pdf}
+\caption{(a) Forecast skill on observed prices against decision gain; (b) the same against skill on realised labels. SPO+ models are omitted because their outputs are not price-anchored.}
+\label{fig:decouple}
+\end{figure*}
+
+\subsection{Is Market Silence Informative?}
+Table~\ref{tab:silence} gives the fixed-hyper-parameter tests. Whether a yard reports is well predictable from its own history and the calendar (AUC \AucBaseLo{}--\AucBaseHi{} across folds), and adding network silence changes the AUC by \SilDAuc{} on average, improves it in only \SilFolds{} of five folds, and moves the log-loss by an interval of \SilLLLo{} to \SilLLHi{}. For next-day returns the Diebold--Mariano test gives $p=$ \SilDMp{} with the silence model nominally worse. H4 is rejected. A trained report-probability head reaches AUC \AucStruct{}, against \AucOwn{} for the yard's own 30-day report rate alone, a small gain that does not translate into better decisions.
+
+\begin{table}[!t]
+\caption{Does Network Silence Add Information? Untuned LightGBM, by Outer Fold}
+\label{tab:silence}
+\centering
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{\input{tables/tab_silence}}
+\par\vspace{2pt}{\footnotesize AUC for ``will this yard report on the sale day'', averaged over four holds; MAE of the next-day log-return at yards that report.\par}
+\end{table}
+
+\subsection{Verified Revenue Floors}
+\label{sec:resfloor}
+Table~\ref{tab:floor} and Fig.~\ref{fig:floor} evaluate the floor. The adaptive floor was broken \ViolFive{}, \ViolTen{} and \ViolTwenty{} of the time at targets of 5, 10 and 20 percent, within three points of the target (H5 is supported), without any distributional assumption, and per-fold violation at $\alpha=0.10$ ranges from \ViolFoldLo{} to \ViolFoldHi{} because the blocks are only a few hundred days long. A naive Gaussian floor is mis-calibrated in both directions: it was broken \ViolNaiveObs{} of the time on the standard LightGBM model, almost three times the target, and \ViolNaiveG{} of the time on the SPO+ model, needlessly low. On the weaker predictor the adaptive floor is conservative, as expected from the one-sided guarantee, which makes the floor lower and less informative than it needs to be.
+
+The floor has a price. For the SPO+ model the 10\% floor lowers mean revenue by \Rs\FloorCost{} per quintal (\FloorCostPct{}\%) and a mean floor of \Rs\MeanFloor{} is stated; for LightGBM on realised labels it costs \Rs\FloorCostLgbm{} (\FloorCostLgbmPct{}\%). The floor does \emph{not} improve the worst outcomes in our data ($\mathrm{CVaR}_{10}$ is not higher than for the plug-in policy). Its value is the stated and verified guarantee, not risk reduction.
+
+\begin{table*}[!t]
+\caption{Revenue Floors on Tomato: Violation Rate, Mean Floor, Revenue and CVaR$_{10}$ (Rs per Quintal)}
+\label{tab:floor}
+\centering
+\setlength{\tabcolsep}{4pt}
+\resizebox{0.78\textwidth}{!}{\input{tables/tab_floor}}
+\par\vspace{2pt}{\footnotesize Violation: share of recommendations whose realised revenue fell below the stated floor, over \NTest{} days and five origins. A negative mean floor means the conformal multiplier was large relative to the predicted revenue, so the guarantee holds but is uninformative.\par}
+\end{table*}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{fig_floor.pdf}
+\caption{(a) Observed violation against target $\alpha$ for adaptive conformal floors (lines) and naive Gaussian floors (squares). (b) Rolling violation rate and the adaptive level $\alpha_t$ for the SPO+ model at $\alpha=0.10$.}
+\label{fig:floor}
+\end{figure*}
+
+\subsection{Robustness to the Economic Assumptions}
+Fig.~\ref{fig:sens} sweeps transport cost (Rs 0.20--1.40 per quintal-km), spoilage (1--6\% per day) and the silent-yard price factor $\phi$ (0.70--1.00) at evaluation time, which also tests robustness to a mis-specified cost model, since the models were trained at the defaults. Realised-outcome models close \SensGapLo{} to \SensGapHi{} percent of the oracle gap beyond the best heuristic in every setting, and observed-label models stay near zero. The advantage shrinks as silence becomes costless ($\phi=1$) but does not vanish, so it is not only a silence-penalty artefact.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{fig_sens.pdf}
+\caption{Share of the oracle gap closed beyond the best heuristic as (a) transport cost, (b) spoilage and (c) the silent-yard price factor vary.}
+\label{fig:sens}
+\end{figure*}
+
+\subsection{Other Crops}
+Table~\ref{tab:crops} repeats the main comparison for onion and potato with crop-specific spoilage, a reduced tuning budget (10 and 15 trials) and a subset of methods. The label effect is significant in all three crops (Holm $p$ \LabelP{}, \OnionLabelP{} and \PotatoLabelP{}); the SPO+ loss is never significantly better than the squared-error loss on the same labels (regret difference \LossD{}, \OnionLossD{} and \PotatoLossD{} rupees per quintal, with $p$ \LossRaw{}, \OnionLossP{} and \PotatoLossP{}). With only three or four yards these crops are weaker tests of \emph{market choice}; they support the label effect and the floor behaviour (a naive floor on the standard model is broken far more than 10\% of the time in both crops) but not more.
+
+\begin{table*}[!t]
+\caption{Generalisation to Other Crops (Number of Yards in Brackets; Revenue in Rs per Quintal)}
+\label{tab:crops}
+\centering
+\setlength{\tabcolsep}{5pt}
+\resizebox{0.78\textwidth}{!}{\input{tables/tab_crops}}
+\par\vspace{2pt}{\footnotesize Heuristic: highest price yesterday. LGBM-obs and LGBM-real: LightGBM on observed and on realised labels. Label effect: regret difference, with 95\% interval.\par}
+\end{table*}
+
+%======================================================================
+\section{Assessment of Objectives}
+\label{sec:objectives}
+Table~\ref{tab:objectives} checks each objective against its acceptance criterion.
+
+\begin{table*}[!t]
+\caption{Achievement of Research Objectives Against Acceptance Criteria}
+\label{tab:objectives}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{p{3.0cm}p{4.8cm}p{6.6cm}p{1.6cm}}
+\toprule
+Objective & Criterion & Measured result & Status\\
+\midrule
+1. Look-ahead audit & Leak gap with paired 95\% interval for every cell; raw, random-walk and foundation-model controls & Gap \LeakGapLo{}--\LeakGapHi{} points, every interval excludes zero; causal skill $-$\CauLoAbs{} to $-$\CauHiAbs{}\%; foundation model \FoundA{} and \FoundB{} & Met\\
+2. Training signals for market choice & Realised-outcome models beat observed-label baselines (Holm $p<.05$), join the 90\% Model Confidence Set, replicate in two further crops & Regret lower by \Rs\LabelDAbs{} (Holm $p$ \LabelP{}); only realised-outcome models in the set; onion and potato significant & Met\\
+3. Sources of the gain & Report every paired effect with its interval & SPO+ loss, reporting head, silence features and decision-based tuning: no significant gain (head significantly worse) & Met (negative results)\\
+4. Verified revenue floor & Violation within 3 points of $\alpha$; cost reported & \ViolFive{}, \ViolTen{}, \ViolTwenty{} at 5, 10, 20\%; cost \Rs\FloorCost{} per quintal for the SPO+ model; no improvement in worst outcomes & Met for validity; no risk reduction\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+%======================================================================
+\section{Discussion and Limitations}
+\label{sec:discussion}
+\subsection{Implications}
+The decisive choice is not the model but what the model is asked to learn. When the label records what the farmer actually received, including the trip to a closed yard, an off-the-shelf gradient-boosting model improves net revenue by about six percent, and sophisticated losses and network features on top of it do not help. For a farmer-facing service this suggests a modest design: a simple model, trained on realised outcomes and evaluated in rupees, whose advice carries a floor that is checked against its own record. Forecast leaderboards, the usual way of choosing models, would have chosen worse ones.
+
+The audit has a second implication for the literature. A large share of reported gains for decomposition hybrids can be an artefact of decomposing before splitting; a reader should ask whether the decomposition used data after the forecast origin, as the leak gap here is far larger than any gain these methods report over simple baselines.
+
+\subsection{Limitations}
+\begin{itemize}
+\item Transport, spoilage, fee, handling and the silent-yard discount are scenario assumptions, not estimates. Conclusions are stable across the sweeps, but rupee gains are not predictions of farmer income.
+\item ``Did not report'' is treated as ``no sale at that yard that day''. Some silent days may be reporting failures of an operating yard; $\phi=1$ bounds this.
+\item Evaluation replays historical prices and ignores the farmer's own price impact and the capacity of thin yards (some trade 2--3 tonnes per day).
+\item Cross-yard price differences are large and persistent, so transport matters little except at the top of the sweep, and the market-choice result rests on one state and one main crop; onion and potato have too few yards for a strong test.
+\item The floor guarantee is a long-run average over the observed sequence, not conditional on a day or farmer; our implementation clips the quantile level and delays feedback, so validity is empirical. The floor does not improve worst-case outcomes here.
+\item The leakage audit covers two decomposers and two forecasters on five series. The EMD and CEEMDAN family and the recurrent forecasters of the reviewed papers were not re-implemented, and the mechanism is general but the size for those models is not measured.
+\item Tuning budgets are modest (20 and 25 trials) and equal across methods. Confidence intervals of revenue \emph{levels} are wide because prices swing seasonally; the conclusions rest on paired differences, which are narrow.
+\item Overlapping multi-day targets and shared shocks reduce effective sample sizes below raw counts, even with daily averaging, HAC variances and block resampling.
+\end{itemize}
+
+%======================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+On real Karnataka data, the single change that improved selling decisions was to train models on the revenue the farmer actually realises, including the cost of travelling to a yard that did not report. It raised net revenue by \PctGainLo{} to \PctGainHi{} percent, was significant after correction, and appeared in tomato, onion and potato. Four ideas that seemed promising did not help: the SPO+ loss, a reporting head, features describing other yards' silence, and tuning on decisions. Forecast accuracy did not rank decision quality. An adaptive conformal floor gave the farmer a stated minimum revenue whose violation rate matched its target, at a small cost in mean revenue and with no gain in worst-case outcomes. Finally, decomposition hybrids lost every point of their apparent advantage once the decomposition could not see the future, and a zero-shot foundation model had no skill, which says that the useful part of a price system is its decision layer.
+
+\section{Future Work}
+\begin{itemize}
+\item \textbf{Field validation:} test the recommendations and floors with growers around Kolar and Bengaluru and measure realised rupees, including price impact and yard capacity.
+\item \textbf{Estimate the economics:} replace scenario parameters with transport, spoilage and fee data collected from growers and traders.
+\item \textbf{Longer and wider histories:} extend the panel before 2021 and to more states, and add per-yard min--max prices when more than a year exists.
+\item \textbf{Re-implement the full decomposition family:} EMD, CEEMDAN and recurrent forecasters under the causal protocol.
+\item \textbf{Conditional guarantees:} floors that hold per crop, season or farmer segment rather than only on average.
+\end{itemize}
+
+\section*{Acknowledgment}
+The authors thank Dr. Kalyan N, Assistant Professor, Department of Computer Science and Engineering (Data Science), B.M.S. College of Engineering, for his guidance, and the Directorate of Marketing and Inspection for publishing the data used here. This work was conducted as part of the Final Year Capstone Project.
+
+\section*{Data and Code Availability}
+The Agmarknet exports are public. Code that regenerates every number, table and figure in this paper (including the number macros), the 57-test suite and the protocol documents are available from the corresponding author on request.
+
+\begin{thebibliography}{00}
+\bibitem{birthal2019} P.~S. Birthal, A.~Negi, and P.~K. Joshi, ``Understanding causes of volatility in onion prices in India,'' \emph{J. Agribusiness Develop. Emerg. Econ.}, vol.~9, no.~3, pp.~255--275, 2019.
+\bibitem{agmarknet} Directorate of Marketing and Inspection, Govt.\ of India, ``AGMARKNET: Agricultural marketing information network.'' [Online]. Available: https://agmarknet.gov.in
+\bibitem{jensen2007} R.~Jensen, ``The digital provide: Information (technology), market performance, and welfare in the South Indian fisheries sector,'' \emph{Quart. J. Econ.}, vol.~122, no.~3, pp.~879--924, 2007.
+\bibitem{aker2010} J.~C. Aker, ``Information from markets near and far: Mobile phones and agricultural markets in Niger,'' \emph{Amer. Econ. J.: Appl. Econ.}, vol.~2, no.~3, pp.~46--59, 2010.
+\bibitem{ray2023} S.~Ray, A.~Lama, P.~Mishra, T.~Biswas, S.~S. Das, and B.~Gurung, ``An ARIMA-LSTM model for predicting volatile agricultural price series with random forest technique,'' \emph{Appl. Soft Comput.}, vol.~149, 2023, Art.\ no.~110939.
+\bibitem{meena2024} K.~Meena and B.~Chaitra, ``A novel framework using deep learning techniques for ragi price prediction in Karnataka,'' \emph{IEEE Access}, vol.~12, pp.~194829--194838, 2024.
+\bibitem{jha2014} G.~K. Jha and K.~Sinha, ``Time-delay neural networks for time series prediction: An application to the monthly wholesale price of oilseeds in India,'' \emph{Neural Comput. Appl.}, vol.~24, pp.~563--571, 2014.
+\bibitem{wu2026} Wu \emph{et al.}, ``A comprehensive review for agricultural product prices forecasting: Architectural diversity and open challenges,'' \emph{Expert Syst.}, 2026, doi: 10.1111/exsy.70254.
+\bibitem{cleveland1990} R.~B. Cleveland, W.~S. Cleveland, J.~E. McRae, and I.~Terpenning, ``STL: A seasonal-trend decomposition procedure based on loess,'' \emph{J. Official Statist.}, vol.~6, no.~1, pp.~3--73, 1990.
+\bibitem{hyndman2021} R.~J. Hyndman and G.~Athanasopoulos, \emph{Forecasting: Principles and Practice}, 3rd~ed. Melbourne, Australia: OTexts, 2021.
+\bibitem{sathe2025} A.~M. Sathe, Supraja R., and A.~A. Thomas, ``Enhancing agricultural sustainability: Time series forecasting with ICEEMDAN-VMD-GRU for economic-resilience,'' \emph{Results Eng.}, vol.~27, 2025, Art.\ no.~106423.
+\bibitem{celik2025} B.~A. Celik and S.~Celik, ``Hybrid forecasting of agricultural commodity prices: Integrating machine learning, time series, and stochastic simulation models,'' \emph{Borsa Istanbul Rev.}, vol.~25, no.~6, 2025.
+\bibitem{dragomiretskiy2014} K.~Dragomiretskiy and D.~Zosso, ``Variational mode decomposition,'' \emph{IEEE Trans. Signal Process.}, vol.~62, no.~3, pp.~531--544, 2014.
+\bibitem{bergmeir2012} C.~Bergmeir and J.~M. Ben\'{i}tez, ``On the use of cross-validation for time series predictor evaluation,'' \emph{Inf. Sci.}, vol.~191, pp.~192--213, 2012.
+\bibitem{cerqueira2020} V.~Cerqueira, L.~Torgo, and I.~Mozeti\v{c}, ``Evaluating time series forecasting models: An empirical study on performance estimation methods,'' \emph{Mach. Learn.}, vol.~109, pp.~1997--2028, 2020.
+\bibitem{bundak2025} C.~E.~A. Bundak \emph{et al.}, ``Computationally efficient single layer transformer convolutional encoder for accurate price prediction of agriculture commodities,'' \emph{IEEE Access}, vol.~13, pp.~82144--82159, 2025.
+\bibitem{chen2016} T.~Chen and C.~Guestrin, ``XGBoost: A scalable tree boosting system,'' in \emph{Proc. 22nd ACM SIGKDD Int. Conf. Knowl. Discovery Data Mining}, 2016, pp.~785--794.
+\bibitem{ke2017} G.~Ke \emph{et al.}, ``LightGBM: A highly efficient gradient boosting decision tree,'' in \emph{Adv. Neural Inf. Process. Syst.}, vol.~30, 2017.
+\bibitem{grinsztajn2022} L.~Grinsztajn, E.~Oyallon, and G.~Varoquaux, ``Why do tree-based models still outperform deep learning on typical tabular data?'' in \emph{Adv. Neural Inf. Process. Syst. (Datasets and Benchmarks Track)}, 2022.
+\bibitem{ansari2024} A.~F. Ansari \emph{et al.}, ``Chronos: Learning the language of time series,'' \emph{Trans. Mach. Learn. Res.}, 2024, arXiv:2403.07815.
+\bibitem{wang2026} L.~Wang and B.~Zhang, ``The promise of time-series foundation models for agricultural forecasting: Evidence from commodity prices,'' arXiv:2601.06371, 2026.
+\bibitem{elmachtoub2022} A.~N. Elmachtoub and P.~Grigas, ``Smart ``predict, then optimize'','' \emph{Manage. Sci.}, vol.~68, no.~1, pp.~9--26, 2022.
+\bibitem{mandi2024} J.~Mandi \emph{et al.}, ``Decision-focused learning: Foundations, state of the art, benchmark and future opportunities,'' \emph{J. Artif. Intell. Res.}, vol.~80, pp.~1623--1701, 2024.
+\bibitem{vovk2005} V.~Vovk, A.~Gammerman, and G.~Shafer, \emph{Algorithmic Learning in a Random World}. New York, NY, USA: Springer, 2005.
+\bibitem{angelopoulos2023} A.~N. Angelopoulos and S.~Bates, ``Conformal prediction: A gentle introduction,'' \emph{Found. Trends Mach. Learn.}, vol.~16, no.~4, pp.~494--591, 2023.
+\bibitem{romano2019} Y.~Romano, E.~Patterson, and E.~Cand\`{e}s, ``Conformalized quantile regression,'' in \emph{Adv. Neural Inf. Process. Syst.}, vol.~32, 2019.
+\bibitem{gibbs2021} I.~Gibbs and E.~Cand\`{e}s, ``Adaptive conformal inference under distribution shift,'' in \emph{Adv. Neural Inf. Process. Syst.}, vol.~34, 2021.
+\bibitem{rubin1976} D.~B. Rubin, ``Inference and missing data,'' \emph{Biometrika}, vol.~63, no.~3, pp.~581--592, 1976.
+\bibitem{che2018} Z.~Che, S.~Purushotham, K.~Cho, D.~Sontag, and Y.~Liu, ``Recurrent neural networks for multivariate time series with missing values,'' \emph{Sci. Rep.}, vol.~8, Art.\ no.~6085, 2018.
+\bibitem{avinash2024} G.~Avinash \emph{et al.}, ``Hidden Markov guided deep learning models for forecasting highly volatile agricultural commodity prices,'' \emph{Appl. Soft Comput.}, vol.~158, 2024, Art.\ no.~111557.
+\bibitem{zeng2023} L.~Zeng, L.~Ling, D.~Zhang, and W.~Jiang, ``Optimal forecast combination based on PSO-CS approach for daily agricultural future prices forecasting,'' \emph{Appl. Soft Comput.}, vol.~132, 2023.
+\bibitem{sediyono2025} E.~Sediyono \emph{et al.}, ``An integrated framework for multi-commodity agricultural price forecasting and anomaly detection using attention-boosted models,'' \emph{J. Agric. Food Res.}, vol.~22, 2025, Art.\ no.~102021.
+\bibitem{zaheer2017} M.~Zaheer, S.~Kottur, S.~Ravanbakhsh, B.~Poczos, R.~Salakhutdinov, and A.~Smola, ``Deep sets,'' in \emph{Adv. Neural Inf. Process. Syst.}, vol.~30, 2017.
+\bibitem{huber1964} P.~J. Huber, ``Robust estimation of a location parameter,'' \emph{Ann. Math. Statist.}, vol.~35, no.~1, pp.~73--101, 1964.
+\bibitem{akiba2019} T.~Akiba, S.~Sano, T.~Yanase, T.~Ohta, and M.~Koyama, ``Optuna: A next-generation hyperparameter optimization framework,'' in \emph{Proc. 25th ACM SIGKDD Int. Conf. Knowl. Discovery Data Mining}, 2019, pp.~2623--2631.
+\bibitem{diebold1995} F.~X. Diebold and R.~S. Mariano, ``Comparing predictive accuracy,'' \emph{J. Bus. Econ. Statist.}, vol.~13, no.~3, pp.~253--263, 1995.
+\bibitem{newey1987} W.~K. Newey and K.~D. West, ``A simple, positive semi-definite, heteroskedasticity and autocorrelation consistent covariance matrix,'' \emph{Econometrica}, vol.~55, no.~3, pp.~703--708, 1987.
+\bibitem{harvey1997} D.~Harvey, S.~Leybourne, and P.~Newbold, ``Testing the equality of prediction mean squared errors,'' \emph{Int. J. Forecasting}, vol.~13, no.~2, pp.~281--291, 1997.
+\bibitem{holm1979} S.~Holm, ``A simple sequentially rejective multiple test procedure,'' \emph{Scand. J. Statist.}, vol.~6, no.~2, pp.~65--70, 1979.
+\bibitem{hansen2011} P.~R. Hansen, A.~Lunde, and J.~M. Nason, ``The model confidence set,'' \emph{Econometrica}, vol.~79, no.~2, pp.~453--497, 2011.
+\bibitem{kunsch1989} H.~R. K\"{u}nsch, ``The jackknife and the bootstrap for general stationary observations,'' \emph{Ann. Statist.}, vol.~17, no.~3, pp.~1217--1241, 1989.
+\end{thebibliography}
+
+\EOD
+
+\end{document}

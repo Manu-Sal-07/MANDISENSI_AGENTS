@@ -1,0 +1,16 @@
+\begin{tabular}{lcccc}
+\toprule
+ & $h{=}1$ & $h{=}3$ & $h{=}5$ & $h{=}7$\\
+\midrule
+Seasonality agent & 1.33 & 3.33 & 1.83 & 1.39\\
+Arrival agent & 1.47$^{\ddagger}$ & 3.60$^{\ddagger}$ & 2.08$^{\ddagger}$ & 1.73$^{\ddagger}$\\
+External agent (weather) & 1.47 & 3.78$^{\ddagger}$ & 2.33$^{\ddagger}$ & 1.83$^{\ddagger}$\\
+Single model, 51 features & 1.28 & 3.28 & 1.96$^{\ddagger}$ & 1.36\\
+Single model + weather & 1.36 & 3.39 & 1.92 & 1.36\\
+Fusion: equal weights & 1.56 & 3.69 & 2.25 & 1.92\\
+Fusion: inverse-error weights & 1.59$^{\ddagger}$ & 3.75$^{\ddagger}$ & 2.34$^{\ddagger}$ & 2.04$^{\ddagger}$\\
+Fusion: platform regime rule & 1.62$^{\ddagger}$ & 3.74$^{\ddagger}$ & 2.33$^{\ddagger}$ & 2.04$^{\ddagger}$\\
+Fusion: shuffled-regime placebo & 1.63 & 3.69 & 2.33 & 2.02\\
+Single model + 3 agents, equal & 1.52$^{\ddagger}$ & 3.62 & 2.21 & 1.84\\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,51 @@
+{
+  "crop": "Onion",
+  "test_days": 511,
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "specs": [
+    "rw",
+    "lgbm_obs",
+    "lgbm_filled",
+    "ds_mse_filled",
+    "ds_spo"
+  ],
+  "load_report": {
+    "source": "agmarknet_all_type_report",
+    "files": [
+      "All_Type_of_Report_(All_Grades)_28-10-2026_08-05-01_PM.csv"
+    ],
+    "rows_read": 63526,
+    "footer_rows_dropped": 2,
+    "unparseable_dates": 0,
+    "nonpositive_price": 0,
+    "nonpositive_arrivals": 1,
+    "duplicate_keys": 0,
+    "rows_kept": 63524,
+    "date_min": "2021-01-01",
+    "date_max": "2026-10-26"
+  },
+  "model_confidence_set": {
+    "survivors": [
+      "lgbm_filled",
+      "ds_mse_filled",
+      "ds_spo"
+    ],
+    "p_values": {
+      "nearest_today": 0.0,
+      "highest_yesterday": 0.0,
+      "trailing_best": 0.0,
+      "farm_gate": 0.0,
+      "rw": 0.0,
+      "lgbm_obs": 0.0,
+      "lgbm_filled": 1.0,
+      "ds_mse_filled": 0.4265,
+      "ds_spo": 1.0
+    }
+  }
+}
