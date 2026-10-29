@@ -1,0 +1,162 @@
+{
+  "crop": "tomato",
+  "markets": [
+    "ramanagara_apmc",
+    "kolar_apmc",
+    "chintamani_apmc",
+    "mulbagal_apmc",
+    "binny_mill_apmc",
+    "bangarpet_apmc",
+    "srinivasapur_apmc",
+    "chikkaballapura_apmc",
+    "channapatna_apmc",
+    "gauribidanur_apmc",
+    "kanakapura_apmc",
+    "doddaballapur_apmc"
+  ],
+  "n_markets": 12,
+  "trained_through": "2026-10-26",
+  "n_train_days": 1981,
+  "economics": {
+    "transport_per_q_km": 0.7,
+    "road_factor": 1.3,
+    "market_fee": 0.04,
+    "handling": 20.0,
+    "spoilage_per_day": 0.03,
+    "silent_price_factor": 0.85,
+    "farmgate_factor": 0.8
+  },
+  "limited_evidence": false,
+  "backtest": {
+    "status": "OK",
+    "window": [
+      "2025-11-09",
+      "2026-10-23"
+    ],
+    "scored_days": 330,
+    "mean_net_revenue": {
+      "recommended": 2244.2,
+      "safest": 2070.6,
+      "nearest": 1673.0,
+      "highest_yesterday": 2074.5,
+      "farm_gate": 1363.0,
+      "oracle": 2602.2
+    },
+    "share_of_oracle_gap_closed": 0.615,
+    "gain_vs_highest_yesterday": {
+      "mean": 169.6,
+      "ci_lo": 104.0,
+      "ci_hi": 254.7
+    },
+    "gain_vs_nearest": {
+      "mean": 571.2,
+      "ci_lo": 482.6,
+      "ci_hi": 677.4
+    },
+    "safest_gain_vs_highest_yesterday": {
+      "mean": -3.9,
+      "ci_lo": -140.0,
+      "ci_hi": 127.3
+    },
+    "silent_trip_rate": 0.095,
+    "floor_violation_static_out_of_sample": {
+      "0.05": 0.033,
+      "0.10": 0.125,
+      "0.20": 0.216
+    },
+    "floor_violation_adaptive": {
+      "0.05": 0.053,
+      "0.10": 0.096,
+      "0.20": 0.198
+    },
+    "alpha_effective": {
+      "0.05": 0.062,
+      "0.10": 0.112,
+      "0.20": 0.228
+    },
+    "evidence_level": "strong",
+    "monthly": {
+      "months": [
+        "2025-11",
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09",
+        "2026-10"
+      ],
+      "recommended": [
+        3196.0,
+        3446.0,
+        2651.0,
+        1620.0,
+        1233.0,
+        2188.0,
+        3303.0,
+        2950.0,
+        1535.0,
+        1537.0,
+        1663.0,
+        2353.0
+      ],
+      "nearest": [
+        2368.0,
+        2767.0,
+        2046.0,
+        1056.0,
+        934.0,
+        1514.0,
+        2585.0,
+        2214.0,
+        1179.0,
+        1039.0,
+        1280.0,
+        1669.0
+      ],
+      "highest": [
+        2984.0,
+        3045.0,
+        2486.0,
+        1407.0,
+        1168.0,
+        2116.0,
+        3108.0,
+        2521.0,
+        1425.0,
+        1353.0,
+        1638.0,
+        2362.0
+      ],
+      "oracle": [
+        3666.0,
+        4109.0,
+        3549.0,
+        1817.0,
+        1458.0,
+        2529.0,
+        3545.0,
+        3175.0,
+        1883.0,
+        1766.0,
+        2003.0,
+        2706.0
+      ]
+    }
+  },
+  "alphas": [
+    0.05,
+    0.1,
+    0.2
+  ],
+  "q": {
+    "0.05": 2.1504,
+    "0.10": 1.2479,
+    "0.20": 0.6299
+  },
+  "calibration_scores": 1650
+}

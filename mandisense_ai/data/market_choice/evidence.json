@@ -1,0 +1,696 @@
+{
+  "generated_at": "2026-10-29T11:58:54.024585+00:00",
+  "source": "GFMC study (research/docs/RESULTS.md); every number is out of sample",
+  "study": {
+    "crop": "tomato",
+    "mandis": 12,
+    "decision_days": 963,
+    "folds": 5,
+    "period": [
+      "2024-01-01",
+      "2026-10-27"
+    ],
+    "oracle_revenue": 2569.864014099513,
+    "data": "Agmarknet exports, Karnataka, 2021-2026; no synthetic or imputed prices"
+  },
+  "decision": {
+    "methods": [
+      {
+        "method": "lgbm_filled_sil",
+        "label": "LightGBM, realised outcomes + silence",
+        "class": "realised",
+        "revenue": 2168.0,
+        "regret": 401.0,
+        "gap_closed": 0.586,
+        "cvar10": 801.0,
+        "fallback_rate": 0.116
+      },
+      {
+        "method": "ds_spo",
+        "label": "Neural SPO+, realised outcomes",
+        "class": "realised",
+        "revenue": 2164.0,
+        "regret": 406.0,
+        "gap_closed": 0.582,
+        "cvar10": 802.0,
+        "fallback_rate": 0.125
+      },
+      {
+        "method": "lgbm_filled",
+        "label": "LightGBM, realised outcomes",
+        "class": "realised",
+        "revenue": 2156.0,
+        "regret": 414.0,
+        "gap_closed": 0.573,
+        "cvar10": 791.0,
+        "fallback_rate": 0.124
+      },
+      {
+        "method": "gfmc_pred",
+        "label": "SPO+ + head + silence",
+        "class": "realised",
+        "revenue": 2148.0,
+        "regret": 422.0,
+        "gap_closed": 0.565,
+        "cvar10": 828.0,
+        "fallback_rate": 0.106
+      },
+      {
+        "method": "ds_spo_struct",
+        "label": "SPO+ + reporting head",
+        "class": "realised",
+        "revenue": 2141.0,
+        "regret": 428.0,
+        "gap_closed": 0.558,
+        "cvar10": 820.0,
+        "fallback_rate": 0.119
+      },
+      {
+        "method": "ds_mse_filled",
+        "label": "Neural, realised outcomes",
+        "class": "realised",
+        "revenue": 2139.0,
+        "regret": 431.0,
+        "gap_closed": 0.556,
+        "cvar10": 818.0,
+        "fallback_rate": 0.113
+      },
+      {
+        "method": "gfmc_pred_tuneMSE",
+        "label": "SPO+ + head + silence, tuned on forecast loss",
+        "class": "realised",
+        "revenue": 2139.0,
+        "regret": 430.0,
+        "gap_closed": 0.556,
+        "cvar10": 830.0,
+        "fallback_rate": 0.096
+      },
+      {
+        "method": "highest_yesterday",
+        "label": "Mandi with highest price yesterday",
+        "class": "heuristic",
+        "revenue": 2021.0,
+        "regret": 549.0,
+        "gap_closed": 0.434,
+        "cvar10": 690.0,
+        "fallback_rate": 0.278
+      },
+      {
+        "method": "xgb_obs",
+        "label": "XGBoost, observed prices",
+        "class": "observed",
+        "revenue": 2019.0,
+        "regret": 551.0,
+        "gap_closed": 0.432,
+        "cvar10": 674.0,
+        "fallback_rate": 0.293
+      },
+      {
+        "method": "lgbm_obs",
+        "label": "LightGBM, observed prices",
+        "class": "observed",
+        "revenue": 2016.0,
+        "regret": 554.0,
+        "gap_closed": 0.428,
+        "cvar10": 679.0,
+        "fallback_rate": 0.287
+      },
+      {
+        "method": "ds_mse_obs",
+        "label": "Neural, observed prices",
+        "class": "observed",
+        "revenue": 2016.0,
+        "regret": 554.0,
+        "gap_closed": 0.428,
+        "cvar10": 681.0,
+        "fallback_rate": 0.294
+      },
+      {
+        "method": "rw",
+        "label": "Random walk",
+        "class": "observed",
+        "revenue": 2006.0,
+        "regret": 564.0,
+        "gap_closed": 0.419,
+        "cvar10": 675.0,
+        "fallback_rate": 0.297
+      },
+      {
+        "method": "trailing_best",
+        "label": "Best 7-day mean price",
+        "class": "heuristic",
+        "revenue": 1993.0,
+        "regret": 577.0,
+        "gap_closed": 0.405,
+        "cvar10": 669.0,
+        "fallback_rate": 0.283
+      },
+      {
+        "method": "nearest_today",
+        "label": "Nearest mandi, sell today",
+        "class": "heuristic",
+        "revenue": 1600.0,
+        "regret": 970.0,
+        "gap_closed": 0.0,
+        "cvar10": 605.0,
+        "fallback_rate": 0.337
+      },
+      {
+        "method": "farm_gate",
+        "label": "Sell at the farm gate",
+        "class": "heuristic",
+        "revenue": 1344.0,
+        "regret": 1226.0,
+        "gap_closed": -0.264,
+        "cvar10": 620.0,
+        "fallback_rate": 0.0
+      }
+    ]
+  },
+  "effects": [
+    {
+      "label": "GFMC predictor vs random walk",
+      "diff": -141.5,
+      "ci_lo": -185.4,
+      "ci_hi": -98.2,
+      "holm_p": 0.0,
+      "verdict": "better"
+    },
+    {
+      "label": "GFMC predictor vs LightGBM (predict-then-optimise)",
+      "diff": -132.0,
+      "ci_lo": -174.4,
+      "ci_hi": -89.9,
+      "holm_p": 0.0,
+      "verdict": "better"
+    },
+    {
+      "label": "GFMC predictor vs XGBoost (predict-then-optimise)",
+      "diff": -129.0,
+      "ci_lo": -171.5,
+      "ci_hi": -89.0,
+      "holm_p": 0.0,
+      "verdict": "better"
+    },
+    {
+      "label": "GFMC predictor vs LightGBM on realised-revenue labels",
+      "diff": 8.4,
+      "ci_lo": -17.8,
+      "ci_hi": 37.9,
+      "holm_p": 1.0,
+      "verdict": "no_effect"
+    },
+    {
+      "label": "GFMC predictor vs best simple heuristic",
+      "diff": -126.9,
+      "ci_lo": -170.4,
+      "ci_hi": -86.8,
+      "holm_p": 0.0,
+      "verdict": "better"
+    },
+    {
+      "label": "[label effect] realised-revenue labels vs observed-price labels",
+      "diff": -123.3,
+      "ci_lo": -165.3,
+      "ci_hi": -87.2,
+      "holm_p": 0.0,
+      "verdict": "better"
+    },
+    {
+      "label": "[label effect, GBM] realised-revenue labels vs observed-price labels",
+      "diff": -140.4,
+      "ci_lo": -181.3,
+      "ci_hi": -101.8,
+      "holm_p": 0.0,
+      "verdict": "better"
+    },
+    {
+      "label": "SPO+ network on realised labels vs LightGBM predict-then-optimise",
+      "diff": -148.7,
+      "ci_lo": -191.2,
+      "ci_hi": -109.1,
+      "holm_p": 0.0,
+      "verdict": "better"
+    },
+    {
+      "label": "[loss effect] SPO+ vs MSE, same labels and network",
+      "diff": -25.4,
+      "ci_lo": -53.4,
+      "ci_hi": 3.4,
+      "holm_p": 0.5054,
+      "verdict": "no_effect"
+    },
+    {
+      "label": "[head effect] reporting head vs none",
+      "diff": 22.7,
+      "ci_lo": 8.4,
+      "ci_hi": 36.4,
+      "holm_p": 0.0125,
+      "verdict": "worse"
+    },
+    {
+      "label": "[silence effect] + network silence features",
+      "diff": -6.0,
+      "ci_lo": -27.2,
+      "ci_hi": 20.2,
+      "holm_p": 1.0,
+      "verdict": "no_effect"
+    },
+    {
+      "label": "[silence effect] GBM with vs without silence features",
+      "diff": -12.5,
+      "ci_lo": -31.1,
+      "ci_hi": 2.7,
+      "holm_p": 0.6954,
+      "verdict": "no_effect"
+    },
+    {
+      "label": "[tuning effect] tuned on decision regret vs forecast loss",
+      "diff": -8.2,
+      "ci_lo": -32.1,
+      "ci_hi": 15.5,
+      "holm_p": 1.0,
+      "verdict": "no_effect"
+    },
+    {
+      "label": "structured SPO+ network vs GBM, both on realised labels",
+      "diff": 14.4,
+      "ci_lo": -8.3,
+      "ci_hi": 39.4,
+      "holm_p": 0.8648,
+      "verdict": "no_effect"
+    }
+  ],
+  "crops": [
+    {
+      "crop": "tomato",
+      "markets": 12,
+      "oracle": 2570.0,
+      "heuristic": 2021.0,
+      "observed_labels": 2016.0,
+      "realised_labels": 2156.0,
+      "label_effect": {
+        "diff": -123.0,
+        "ci_lo": -165.0,
+        "ci_hi": -87.0,
+        "holm_p": 0.0
+      },
+      "loss_effect": {
+        "diff": -25.0,
+        "p": 0.084
+      }
+    },
+    {
+      "crop": "onion",
+      "markets": 4,
+      "oracle": 2902.0,
+      "heuristic": 2407.0,
+      "observed_labels": 2395.0,
+      "realised_labels": 2552.0,
+      "label_effect": {
+        "diff": -157.0,
+        "ci_lo": -224.0,
+        "ci_hi": -89.0,
+        "holm_p": 0.0
+      },
+      "loss_effect": {
+        "diff": -23.0,
+        "p": 0.212
+      }
+    },
+    {
+      "crop": "potato",
+      "markets": 3,
+      "oracle": 2173.0,
+      "heuristic": 1780.0,
+      "observed_labels": 1758.0,
+      "realised_labels": 1845.0,
+      "label_effect": {
+        "diff": -87.0,
+        "ci_lo": -142.0,
+        "ci_hi": -39.0,
+        "holm_p": 0.0016
+      },
+      "loss_effect": {
+        "diff": 1.0,
+        "p": 0.952
+      }
+    }
+  ],
+  "floors": [
+    {
+      "predictor": "SPO+ model",
+      "policy": "adaptive conformal floor",
+      "alpha": 0.05,
+      "violation": 0.046,
+      "mean_floor": 1167.0,
+      "revenue": 2077.0,
+      "cvar10": 744.0
+    },
+    {
+      "predictor": "SPO+ model",
+      "policy": "adaptive conformal floor",
+      "alpha": 0.1,
+      "violation": 0.106,
+      "mean_floor": 1556.0,
+      "revenue": 2135.0,
+      "cvar10": 801.0
+    },
+    {
+      "predictor": "SPO+ model",
+      "policy": "adaptive conformal floor",
+      "alpha": 0.2,
+      "violation": 0.233,
+      "mean_floor": 1853.0,
+      "revenue": 2149.0,
+      "cvar10": 826.0
+    },
+    {
+      "predictor": "SPO+ model",
+      "policy": "static conformal floor",
+      "alpha": 0.1,
+      "violation": 0.09,
+      "mean_floor": 1470.0,
+      "revenue": 2125.0,
+      "cvar10": 766.0
+    },
+    {
+      "predictor": "SPO+ model",
+      "policy": "naive Gaussian floor (z=1.28)",
+      "alpha": 0.1,
+      "violation": 0.033,
+      "mean_floor": 1096.0,
+      "revenue": 2042.0,
+      "cvar10": 643.0
+    },
+    {
+      "predictor": "LightGBM, realised outcomes",
+      "policy": "adaptive conformal floor",
+      "alpha": 0.05,
+      "violation": 0.03,
+      "mean_floor": 841.0,
+      "revenue": 1857.0,
+      "cvar10": 589.0
+    },
+    {
+      "predictor": "LightGBM, realised outcomes",
+      "policy": "adaptive conformal floor",
+      "alpha": 0.1,
+      "violation": 0.09,
+      "mean_floor": 1357.0,
+      "revenue": 2004.0,
+      "cvar10": 610.0
+    },
+    {
+      "predictor": "LightGBM, realised outcomes",
+      "policy": "adaptive conformal floor",
+      "alpha": 0.2,
+      "violation": 0.213,
+      "mean_floor": 1809.0,
+      "revenue": 2129.0,
+      "cvar10": 706.0
+    },
+    {
+      "predictor": "LightGBM, realised outcomes",
+      "policy": "static conformal floor",
+      "alpha": 0.1,
+      "violation": 0.06,
+      "mean_floor": 1216.0,
+      "revenue": 1968.0,
+      "cvar10": 603.0
+    },
+    {
+      "predictor": "LightGBM, realised outcomes",
+      "policy": "naive Gaussian floor (z=1.28)",
+      "alpha": 0.1,
+      "violation": 0.173,
+      "mean_floor": 1710.0,
+      "revenue": 2129.0,
+      "cvar10": 742.0
+    },
+    {
+      "predictor": "LightGBM, observed prices",
+      "policy": "adaptive conformal floor",
+      "alpha": 0.05,
+      "violation": 0.011,
+      "mean_floor": -2564.0,
+      "revenue": 1519.0,
+      "cvar10": 548.0
+    },
+    {
+      "predictor": "LightGBM, observed prices",
+      "policy": "adaptive conformal floor",
+      "alpha": 0.1,
+      "violation": 0.078,
+      "mean_floor": 1151.0,
+      "revenue": 1858.0,
+      "cvar10": 600.0
+    },
+    {
+      "predictor": "LightGBM, observed prices",
+      "policy": "adaptive conformal floor",
+      "alpha": 0.2,
+      "violation": 0.185,
+      "mean_floor": 1536.0,
+      "revenue": 1945.0,
+      "cvar10": 612.0
+    },
+    {
+      "predictor": "LightGBM, observed prices",
+      "policy": "static conformal floor",
+      "alpha": 0.1,
+      "violation": 0.051,
+      "mean_floor": 985.0,
+      "revenue": 1816.0,
+      "cvar10": 599.0
+    },
+    {
+      "predictor": "LightGBM, observed prices",
+      "policy": "naive Gaussian floor (z=1.28)",
+      "alpha": 0.1,
+      "violation": 0.274,
+      "mean_floor": 1725.0,
+      "revenue": 1989.0,
+      "cvar10": 659.0
+    }
+  ],
+  "leakage": [
+    {
+      "decomposer": "STL",
+      "forecaster": "LightGBM",
+      "h": 1,
+      "published": 0.273,
+      "published_joint": 0.172,
+      "causal_joint": -0.147,
+      "raw": -0.138,
+      "gap": 0.318,
+      "gap_ci_lo": 0.278,
+      "gap_ci_hi": 0.361
+    },
+    {
+      "decomposer": "STL",
+      "forecaster": "LightGBM",
+      "h": 7,
+      "published": 0.408,
+      "published_joint": 0.352,
+      "causal_joint": -0.117,
+      "raw": -0.098,
+      "gap": 0.469,
+      "gap_ci_lo": 0.42,
+      "gap_ci_hi": 0.517
+    },
+    {
+      "decomposer": "STL",
+      "forecaster": "Ridge",
+      "h": 1,
+      "published": 0.285,
+      "published_joint": 0.221,
+      "causal_joint": -0.076,
+      "raw": -0.057,
+      "gap": 0.297,
+      "gap_ci_lo": 0.253,
+      "gap_ci_hi": 0.339
+    },
+    {
+      "decomposer": "STL",
+      "forecaster": "Ridge",
+      "h": 7,
+      "published": 0.411,
+      "published_joint": 0.389,
+      "causal_joint": -0.027,
+      "raw": -0.015,
+      "gap": 0.416,
+      "gap_ci_lo": 0.375,
+      "gap_ci_hi": 0.463
+    },
+    {
+      "decomposer": "VMD",
+      "forecaster": "LightGBM",
+      "h": 1,
+      "published": 0.444,
+      "published_joint": 0.384,
+      "causal_joint": -0.126,
+      "raw": -0.138,
+      "gap": 0.511,
+      "gap_ci_lo": 0.465,
+      "gap_ci_hi": 0.561
+    },
+    {
+      "decomposer": "VMD",
+      "forecaster": "LightGBM",
+      "h": 7,
+      "published": 0.579,
+      "published_joint": 0.503,
+      "causal_joint": -0.058,
+      "raw": -0.098,
+      "gap": 0.561,
+      "gap_ci_lo": 0.515,
+      "gap_ci_hi": 0.613
+    },
+    {
+      "decomposer": "VMD",
+      "forecaster": "Ridge",
+      "h": 1,
+      "published": 0.505,
+      "published_joint": 0.607,
+      "causal_joint": -0.108,
+      "raw": -0.057,
+      "gap": 0.715,
+      "gap_ci_lo": 0.654,
+      "gap_ci_hi": 0.781
+    },
+    {
+      "decomposer": "VMD",
+      "forecaster": "Ridge",
+      "h": 7,
+      "published": 0.624,
+      "published_joint": 0.704,
+      "causal_joint": -0.006,
+      "raw": -0.015,
+      "gap": 0.71,
+      "gap_ci_lo": 0.664,
+      "gap_ci_hi": 0.763
+    }
+  ],
+  "future_sensitivity": [
+    {
+      "decomposer": "STL",
+      "median": 0.0608
+    },
+    {
+      "decomposer": "VMD",
+      "median": 0.0646
+    }
+  ],
+  "foundation_model": {
+    "1": -0.094,
+    "7": -0.021
+  },
+  "silence": {
+    "reporting_delta_auc": -0.001,
+    "returns_dm_p": 0.157
+  },
+  "forecast_vs_decision": [
+    {
+      "method": "lgbm_obs",
+      "label": "LightGBM, observed prices",
+      "skill_observed": 0.039,
+      "skill_realised": 0.064,
+      "gap_closed_vs_heuristic": -0.009
+    },
+    {
+      "method": "xgb_obs",
+      "label": "XGBoost, observed prices",
+      "skill_observed": 0.032,
+      "skill_realised": 0.065,
+      "gap_closed_vs_heuristic": -0.004
+    },
+    {
+      "method": "ds_mse_obs",
+      "label": "Neural, observed prices",
+      "skill_observed": 0.041,
+      "skill_realised": 0.079,
+      "gap_closed_vs_heuristic": -0.009
+    },
+    {
+      "method": "lgbm_filled",
+      "label": "LightGBM, realised outcomes",
+      "skill_observed": -0.025,
+      "skill_realised": 0.188,
+      "gap_closed_vs_heuristic": 0.246
+    },
+    {
+      "method": "ds_mse_filled",
+      "label": "Neural, realised outcomes",
+      "skill_observed": -0.059,
+      "skill_realised": 0.179,
+      "gap_closed_vs_heuristic": 0.215
+    }
+  ],
+  "negative_results": [
+    {
+      "id": "spo_loss",
+      "text": "The decision-focused SPO+ loss did not beat a squared-error loss on the same labels in any crop."
+    },
+    {
+      "id": "reporting_head",
+      "text": "A model head that predicts whether a mandi will report made decisions slightly worse."
+    },
+    {
+      "id": "silence",
+      "text": "Whether neighbouring mandis are silent adds nothing beyond a mandi's own reporting history."
+    },
+    {
+      "id": "tuning",
+      "text": "Tuning on decision regret instead of forecast error made no measurable difference."
+    },
+    {
+      "id": "floor_tail",
+      "text": "The revenue floor states a verified minimum but does not by itself improve the worst outcomes."
+    }
+  ],
+  "limitations": [
+    "Transport, spoilage, fee and closed-mandi costs are scenario assumptions, not estimates of any farmer's costs.",
+    "'Did not report' is treated as 'no sale at that mandi that day'.",
+    "Results replay historical prices; they ignore the effect of your own sale on the price and the capacity of small mandis.",
+    "Onion and potato have few mandis, so they are weaker tests of choosing between mandis."
+  ],
+  "figures": [
+    {
+      "id": "fig_decision",
+      "title": "Decision value",
+      "caption": "Models trained on realised outcomes (blue) earn more per quintal than models trained on observed prices (grey) or simple rules (gold), and the gain recurs in every test period.",
+      "path": "/evidence/fig_decision.png"
+    },
+    {
+      "id": "fig_effects",
+      "title": "What produces the gain",
+      "caption": "Only training on realised outcomes helps. The decision-focused loss, a reporting head, other mandis' silence and decision-based tuning add nothing significant.",
+      "path": "/evidence/fig_effects.png"
+    },
+    {
+      "id": "fig_floor",
+      "title": "The guaranteed floor",
+      "caption": "The conformal floor is broken about as often as it says; a naive Gaussian floor is not.",
+      "path": "/evidence/fig_floor.png"
+    },
+    {
+      "id": "fig_leak",
+      "title": "Decomposition hybrids and look-ahead",
+      "caption": "Forecasting methods that decompose the price series first look excellent only when the decomposition is allowed to see the future.",
+      "path": "/evidence/fig_leak.png"
+    },
+    {
+      "id": "fig_decouple",
+      "title": "Forecast accuracy is not decision value",
+      "caption": "The models that choose best are not the ones with the lowest forecast error.",
+      "path": "/evidence/fig_decouple.png"
+    },
+    {
+      "id": "fig_sens",
+      "title": "Robustness to cost assumptions",
+      "caption": "The advantage holds across transport, spoilage and closed-mandi assumptions.",
+      "path": "/evidence/fig_sens.png"
+    }
+  ]
+}

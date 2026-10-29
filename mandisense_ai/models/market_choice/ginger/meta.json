@@ -1,0 +1,164 @@
+{
+  "crop": "ginger",
+  "markets": [
+    "ramanagara_apmc",
+    "binny_mill_apmc",
+    "bengaluru_apmc",
+    "kolar_apmc"
+  ],
+  "n_markets": 4,
+  "trained_through": "2026-10-26",
+  "n_train_days": 1718,
+  "economics": {
+    "transport_per_q_km": 0.7,
+    "road_factor": 1.3,
+    "market_fee": 0.04,
+    "handling": 20.0,
+    "spoilage_per_day": 0.008,
+    "silent_price_factor": 0.85,
+    "farmgate_factor": 0.8
+  },
+  "limited_evidence": false,
+  "backtest": {
+    "status": "OK",
+    "window": [
+      "2025-09-19",
+      "2026-10-21"
+    ],
+    "scored_days": 330,
+    "mean_net_revenue": {
+      "recommended": 7815.5,
+      "safest": 7918.8,
+      "nearest": 6220.4,
+      "highest_yesterday": 7613.8,
+      "farm_gate": 5745.5,
+      "oracle": 8599.6
+    },
+    "share_of_oracle_gap_closed": 0.67,
+    "gain_vs_highest_yesterday": {
+      "mean": 201.7,
+      "ci_lo": 25.4,
+      "ci_hi": 429.1
+    },
+    "gain_vs_nearest": {
+      "mean": 1595.1,
+      "ci_lo": 1074.3,
+      "ci_hi": 2193.3
+    },
+    "safest_gain_vs_highest_yesterday": {
+      "mean": 305.0,
+      "ci_lo": 121.2,
+      "ci_hi": 528.8
+    },
+    "silent_trip_rate": 0.039,
+    "floor_violation_static_out_of_sample": {
+      "0.05": 0.153,
+      "0.10": 0.177,
+      "0.20": 0.232
+    },
+    "floor_violation_adaptive": {
+      "0.05": 0.064,
+      "0.10": 0.123,
+      "0.20": 0.216
+    },
+    "alpha_effective": {
+      "0.05": 0.008,
+      "0.10": 0.032,
+      "0.20": 0.17
+    },
+    "evidence_level": "strong",
+    "monthly": {
+      "months": [
+        "2025-09",
+        "2025-10",
+        "2025-11",
+        "2025-12",
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09",
+        "2026-10"
+      ],
+      "recommended": [
+        4416.0,
+        4341.0,
+        4726.0,
+        4739.0,
+        4681.0,
+        4791.0,
+        4898.0,
+        4856.0,
+        8852.0,
+        8809.0,
+        14140.0,
+        14472.0,
+        10990.0,
+        8758.0
+      ],
+      "nearest": [
+        4184.0,
+        4057.0,
+        3992.0,
+        3955.0,
+        4089.0,
+        4063.0,
+        4069.0,
+        4246.0,
+        7361.0,
+        7888.0,
+        11785.0,
+        9639.0,
+        7763.0,
+        6148.0
+      ],
+      "highest": [
+        4477.0,
+        4471.0,
+        4584.0,
+        4764.0,
+        4678.0,
+        4784.0,
+        4894.0,
+        4652.0,
+        9001.0,
+        8573.0,
+        14427.0,
+        12991.0,
+        10260.0,
+        8641.0
+      ],
+      "oracle": [
+        4708.0,
+        5107.0,
+        5111.0,
+        4953.0,
+        4746.0,
+        4936.0,
+        5122.0,
+        5890.0,
+        9417.0,
+        9307.0,
+        15214.0,
+        14920.0,
+        12712.0,
+        12211.0
+      ]
+    }
+  },
+  "alphas": [
+    0.05,
+    0.1,
+    0.2
+  ],
+  "q": {
+    "0.05": 3.6743,
+    "0.10": 2.5772,
+    "0.20": 0.708
+  },
+  "calibration_scores": 1650
+}
