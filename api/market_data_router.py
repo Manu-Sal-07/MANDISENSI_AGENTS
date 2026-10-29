@@ -82,7 +82,10 @@ async def compare_commodities(
 
 @router.post("/sync")
 async def sync_live_prices():
-    """Manually trigger the previous-day data.gov.in ingestion for all 5 commodities."""
-    from mandisense_ai.ingestion.daily_price_sync import sync_all
-    results = await asyncio.to_thread(sync_all)
-    return {"status": "complete", "results": results}
+    """The same-day data.gov.in append used to write into the removed synthetic `v4` CSVs. Charts now read the Agmarknet market
+    panel, which is refreshed by re-running the farmer-world build on a fresh export, so this reports that instead of writing."""
+    return {
+        "status": "disabled",
+        "reason": "Charts read the Agmarknet market panel. To update it, add the new Agmarknet export and run "
+                  "`python scripts/build_farmer_world.py --ingest`, then `python scripts/run_nightly_job.py`.",
+    }

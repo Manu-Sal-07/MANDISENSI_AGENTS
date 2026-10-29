@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
-from mandisense_ai.core.agents.inference_engine_v3 import DecisionGradeInferenceEngine
+from mandisense_ai.cognition.forecast_engine import ForecastBackedEngine
 from mandisense_ai.cognition.state_store import MarketMemoryStore
 from mandisense_ai.cognition.ontology import MarketState, MarketRegime, CognitionStatus
 from mandisense_ai.cognition.agents.base import AgentRegistry, AgentSignal
@@ -55,7 +55,7 @@ class CognitionEngine:
         
         # 2. Core Services
         try:
-            self.inference_engine = DecisionGradeInferenceEngine()
+            self.inference_engine = ForecastBackedEngine()
             self.state_store = MarketMemoryStore()
             self.arbitrator = SignalArbitrator()
             self.meta_cognition = MetaCognitionEngine()
@@ -106,13 +106,13 @@ class CognitionEngine:
         measured: Dict[str, Any] = {}
 
         try:
-            from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
+            from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market, forecast_market
             from mandisense_ai.forecasting.service import get_forecast_service
 
             service = get_forecast_service()
             if service.is_available:
                 resolved_commodity = canonical_commodity(commodity) or commodity
-                resolved_mandi = canonical_market(mandi_id) or mandi_id
+                resolved_mandi = forecast_market(canonical_market(mandi_id) or mandi_id)
                 for row in service.get_curve(resolved_commodity, resolved_mandi):
                     if row.get("status") != "OK":
                         continue
@@ -128,11 +128,11 @@ class CognitionEngine:
         try:
             import pandas as pd
 
-            from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market
+            from mandisense_ai.forecasting.naming import canonical_commodity, canonical_market, forecast_market
             from mandisense_ai.forecasting.store import ObservationStore
 
             resolved_commodity = canonical_commodity(commodity) or commodity
-            resolved_mandi = canonical_market(mandi_id) or mandi_id
+            resolved_mandi = forecast_market(canonical_market(mandi_id) or mandi_id)
             series = ObservationStore().read_series(resolved_commodity, resolved_mandi, limit=30)
             if not series.empty and "arrivals" in series.columns:
                 arrivals = pd.to_numeric(series["arrivals"], errors="coerce").dropna()
@@ -171,13 +171,11 @@ class CognitionEngine:
         telemetry = self.reality_sync.get_source_status()
         avg_trust = sum(t.trust_score for t in telemetry) / len(telemetry)
         
-        # 2. Institutional Artifact Validation
-        package_root = Path(__file__).resolve().parents[1]
-        model_path = package_root / "models" / commodity / "v3"
-        if not model_path.exists():
-            logger.warning(f"INTEGRITY FAILURE: Institutional artifacts missing for {commodity}.")
+        # 2. Model validation: the series needs a validated forecast from the forecast service
+        if not self.inference_engine.has_series(commodity, mandi_id):
+            logger.warning(f"INTEGRITY FAILURE: no validated forecast for {commodity} @ {mandi_id}.")
             return CognitionStatus.MODEL_UNAVAILABLE
-            
+
         # 3. Data Availability Check
         # (This would check for latest parquet files in production)
         
@@ -229,26 +227,13 @@ class CognitionEngine:
             snapshot["meta"]["telemetry_trust"] = avg_trust
             snapshot["integrity_status"] = integrity
             
-            try:
-                from mandisense_ai.core.agents.decision_engine import MandiDecisionEngine
-                from mandisense_ai.core.data.data_service import MandiDataService
-                ds = MandiDataService.get_instance()
-                series, _, _ = await ds.get_mandi_series(commodity, mandi_id, window=1)
-                last_price = float(series['price'].iloc[-1])
-            except Exception:
+            last_price = self.inference_engine.last_price(commodity, mandi_id)
+            if last_price is None:
                 last_price = prev_state.price_prediction if prev_state else snapshot["forecast"]["price"]
-                
             forecast_price = snapshot["forecast"]["price"]
             price_change_pct = (forecast_price - last_price) / (last_price or 1.0)
-            
-            try:
-                decision_engine = MandiDecisionEngine()
-                decision_res = await decision_engine.get_decision(commodity, mandi_id)
-                decision = decision_res.get("decision", "WAIT")
-                reasoning = decision_res.get("reasoning", "")
-            except Exception:
-                decision = "WAIT"
-                reasoning = ""
+            decision_res = self.inference_engine.decision(commodity, mandi_id)
+            decision, reasoning = decision_res["decision"], decision_res["reasoning"]
 
             snapshot["meta"]["price_change_pct"] = float(round(price_change_pct, 4))
             snapshot["meta"]["last_price"] = float(last_price)
@@ -362,13 +347,9 @@ class CognitionEngine:
             start_time = time.time()
             
             # Phase 5B: Enforce Canonical Namespace Iteration
-            commodities = CognitionRegistry.get_canonical_commodities()
-            mandis = CognitionRegistry.get_canonical_mandis()
-            
-            tasks = []
-            for commodity in commodities:
-                for mandi in mandis:
-                    tasks.append(self.generate_cognition(commodity, mandi))
+            pairs = CognitionRegistry.get_forecastable_pairs()
+
+            tasks = [self.generate_cognition(commodity, mandi) for commodity, mandi in pairs]
             
             results = await asyncio.gather(*tasks, return_exceptions=True)
             valid_states = [r for r in results if isinstance(r, MarketState)]

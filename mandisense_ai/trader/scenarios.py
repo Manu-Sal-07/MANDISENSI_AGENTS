@@ -84,6 +84,12 @@ def _declustered(flags: pd.Series, dates: pd.Series, horizon_days: int) -> List[
     return kept
 
 
+def _edge_ci(outcome: np.ndarray, base_mean: float, draws: int = 2000, seed: int = 20261029):
+    rng = np.random.default_rng(seed)
+    means = rng.choice(outcome, size=(draws, len(outcome)), replace=True).mean(axis=1) - base_mean
+    return [round(float(np.percentile(means, 2.5)), 2), round(float(np.percentile(means, 97.5)), 2)]
+
+
 def run_scenario(
     commodity: str,
     mandi_id: str,
@@ -118,6 +124,7 @@ def run_scenario(
             "n": int(len(baseline)),
             "share_down": round(float((baseline < 0).mean()), 3),
             "median_pct": round(float(baseline.median()), 2),
+            "mean_pct": round(float(baseline.mean()), 2),
         },
     }
 
@@ -149,7 +156,11 @@ def run_scenario(
             "p90_pct": round(float(np.percentile(outcome, 90)), 2),
             "mean_pct": round(float(outcome.mean()), 2),
         },
-        "edge_vs_baseline_pct": round(float(np.median(outcome) - baseline.median()), 2),
+        # Reported mandi prices are sticky (many days are unchanged), so the median forward return is often exactly 0 and says
+        # nothing. The edge is therefore the difference of means, with a bootstrap interval over the episodes: an edge whose
+        # interval contains 0 is not distinguishable from "the same thing happens on any day".
+        "edge_vs_baseline_pct": round(float(outcome.mean() - baseline.mean()), 2),
+        "edge_ci_pct": _edge_ci(outcome, float(baseline.mean())),
         "recent_episodes": recent,
     }
 

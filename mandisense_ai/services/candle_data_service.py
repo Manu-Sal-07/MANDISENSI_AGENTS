@@ -1,71 +1,73 @@
 """
 Real historical price + volume data for the TraderOS commodity chart.
 
-Backed by the canonical v4 processed dataset — 5 commodities x 15 Karnataka
-APMC mandis, daily granularity from 2023-01-02 onward. This is deliberately
-independent of the cognition/forecast engine: it serves the raw observed
-price series used purely for charting (candles, volume, comparisons), not
-model predictions or trading directives.
+Backed by the Agmarknet market-level panel the farmer world is built from
+(`farmer.world.MARKET_PANEL`): every row is a price a mandi actually reported
+on that day, five commodities across the Bengaluru-Kolar belt, 2021 onwards.
+Nothing is filled or interpolated, so a mandi that did not report on a day has
+no row; candles and summaries use only days with a report. This is deliberately
+independent of the cognition/forecast engine: it serves the raw observed price
+series used for charting (candles, volume, comparisons), not model predictions.
 
-Only Week / Month / Year timeframes are exposed on purpose — the source
-data is a daily close, so there is no genuine intraday/minute-level signal
-to show, and pretending otherwise would just be a hand-wavy chart.
+(An earlier version read `data/processed/v4/*.csv`, a synthetic seasonal
+backfill that was removed with the other synthetic data.)
+
+Only Week / Month / Year timeframes are exposed on purpose: the source is one
+reported price per day, so there is no genuine intraday signal to show.
 """
 from __future__ import annotations
 
 import threading
-from pathlib import Path
 from typing import Dict, List, Optional
 
 import pandas as pd
 
+from mandisense_ai.forecasting.naming import world_market
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger("candle_data_service")
 
-_V4_DIR = Path(__file__).resolve().parent.parent / "data" / "processed" / "v4"
 VALID_COMMODITIES = ["tomato", "onion", "potato", "garlic", "ginger"]
 
-# Resample rule per timeframe. Week/Month/Year only — see module docstring.
+# Resample rule per timeframe. Week/Month/Year only; see module docstring.
 _TIMEFRAME_RULES = {"week": "W-SUN", "month": "MS", "year": "YS"}
 
 _lock = threading.Lock()
-_cache: Dict[str, Dict[str, object]] = {}
+_cache: Dict[str, object] = {}
 
 
-def _csv_path(commodity: str) -> Path:
-    return _V4_DIR / f"{commodity.lower()}.csv"
+def _panel() -> pd.DataFrame:
+    """The market panel as (date, mandi_id, commodity, price, arrivals); re-read when the file changes."""
+    from mandisense_ai.farmer import world
+
+    path = world.MARKET_PANEL
+    if not path.exists():
+        raise FileNotFoundError(f"Market panel not built at {path}; run scripts/build_farmer_world.py")
+    mtime = path.stat().st_mtime
+    with _lock:
+        if _cache.get("mtime") == mtime:
+            return _cache["df"]  # type: ignore[return-value]
+    df = pd.read_parquet(path).rename(columns={"crop": "commodity"})
+    df["date"] = pd.to_datetime(df["date"])
+    df = df[["date", "mandi_id", "commodity", "price", "arrivals"]].sort_values("date")
+    with _lock:
+        _cache.update({"mtime": mtime, "df": df})
+    return df
 
 
 def _load_commodity_frame(commodity: str) -> pd.DataFrame:
     commodity = commodity.lower()
-    path = _csv_path(commodity)
-    if not path.exists():
-        raise FileNotFoundError(f"No processed dataset for commodity '{commodity}' at {path}")
-
-    mtime = path.stat().st_mtime
-    with _lock:
-        cached = _cache.get(commodity)
-        if cached and cached["mtime"] == mtime:
-            return cached["df"]  # type: ignore[return-value]
-
-    df = pd.read_csv(path, usecols=["date", "mandi_id", "commodity", "price", "arrivals"])
-    df["date"] = pd.to_datetime(df["date"])
-    df = df.sort_values("date")
-
-    with _lock:
-        _cache[commodity] = {"mtime": mtime, "df": df}
-
-    return df
+    df = _panel()
+    out = df[df["commodity"] == commodity]
+    if out.empty:
+        raise FileNotFoundError(f"No observations for commodity '{commodity}'")
+    return out
 
 
 def invalidate_cache(commodity: Optional[str] = None) -> None:
-    """Called by the live sync job after it appends new rows to a CSV."""
+    """Called after new rows are appended to the panel."""
     with _lock:
-        if commodity:
-            _cache.pop(commodity.lower(), None)
-        else:
-            _cache.clear()
+        _cache.clear()
 
 
 def list_available_markets() -> Dict[str, List[str]]:
@@ -81,11 +83,8 @@ def list_available_markets() -> Dict[str, List[str]]:
 
 def get_daily_series(commodity: str, mandi_id: str) -> pd.DataFrame:
     df = _load_commodity_frame(commodity)
-    series = df[df["mandi_id"] == mandi_id][["date", "price", "arrivals"]].copy()
-    # ~6% of days are flagged is_missing in the source data and carry a NaN
-    # price. Resampling into candles already skips these safely, but a
-    # point-in-time lookup (e.g. "the price 7 days ago") must not be allowed
-    # to land on one of them, or every stat derived from it turns into NaN.
+    series = df[df["mandi_id"] == world_market(mandi_id)][["date", "price", "arrivals"]].copy()
+    # A row can carry a NaN price; a point-in-time lookup ("the price 7 days ago") must not land on one.
     series = series.dropna(subset=["price"])
     if series.empty:
         raise ValueError(f"No data for {commodity} @ {mandi_id}")

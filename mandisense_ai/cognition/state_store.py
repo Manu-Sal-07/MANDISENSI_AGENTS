@@ -165,6 +165,28 @@ class MarketMemoryStore:
         if not prev_state: return False
         return new_data["forecast"]["price"] > prev_state.price_prediction * 1.05
         
+    def prune(self, keep_pairs) -> int:
+        """Remove snapshots (and their history) that are not for a current (commodity, mandi) pair, or that recorded a collapse
+        (`MODEL_UNAVAILABLE`, i.e. no model was available when they were written). They are derived, regenerated on the next
+        cycle, and showing them would put a zero price in front of a user. Returns how many were removed."""
+        import shutil
+
+        keep = set(keep_pairs)
+        removed = 0
+        for file in list(self.snapshots_path.glob("*_latest.json")):
+            stem = file.stem.replace("_latest", "")
+            comm, _, mandi = stem.partition("_")
+            try:
+                collapsed = json.loads(file.read_text(encoding="utf-8")).get("integrity_status") == "MODEL_UNAVAILABLE"
+            except Exception:
+                collapsed = True
+            if collapsed or (comm, mandi) not in keep:
+                file.unlink(missing_ok=True)
+                if (comm, mandi) not in keep:
+                    shutil.rmtree(self.history_path / comm / mandi, ignore_errors=True)
+                removed += 1
+        return removed
+
     def list_available_intelligence(self) -> Dict[str, list]:
         intel_map = {}
         for file in self.snapshots_path.glob("*_latest.json"):

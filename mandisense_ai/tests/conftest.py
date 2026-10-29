@@ -17,3 +17,13 @@ def mock_settings():
         paths={"data_dir": "test_data", "raw_data": "test_data/raw", "processed_data": "test_data/processed", "models_dir": "test_models"},
         ensemble={"activation_threshold": 0.5, "default_weight": 0.33}
     )
+
+
+@pytest.fixture(autouse=True)
+def _no_hosted_model_by_default(monkeypatch):
+    """Tests must not depend on whether a developer's `.env` holds an LLM key: chat runs its keyless tool-driven path unless a test
+    passes a provider explicitly (the explanation tests stub the model call themselves)."""
+    monkeypatch.setenv("CHAT_PROVIDER", "none")
+    monkeypatch.setenv("MANDISENSE_LLM_PROVIDER", "deterministic")
+    # `select_provider()` re-reads `.env` on every call, which would put a developer's key back after a test removed it.
+    monkeypatch.setattr("mandisense_ai.intelligence.providers.load_env", lambda: None)

@@ -30,7 +30,7 @@ sys.path.append(os.path.join(BASE_DIR, "mandisense_ai"))
 
 from mandisense_ai.db.connection import ping_db_async, execute_async, execute_write_async
 from mandisense_ai.lib.cache import ping_redis
-from run_agents import run_pipeline
+from mandisense_ai.forecasting.trace import run_pipeline
 from mandisense_ai.core.decision_engine import generate_decision
 from mandisense_ai.services.prediction_cache import (
     get_prediction_cache_key, 
@@ -41,7 +41,7 @@ from mandisense_ai.services.prediction_cache import (
 # Discovery/Legacy Imports
 from backend.app.routes import discovery, query, decision, predict as legacy_predict
 from backend.app.services.model_loader import init_engines
-from api import visualizer, cognition_router, cognition_streaming, cognition_seed, market_data_router, spillover_router, forecast_router, intelligence_router, farmer_router, trader_router, chat_router
+from api import visualizer, cognition_router, cognition_streaming, cognition_seed, market_data_router, spillover_router, forecast_router, intelligence_router, farmer_router, trader_router, chat_router, market_choice_router, shock_router, council_router
 from mandisense_ai.utils.event_bus import event_bus
 from mandisense_ai.cognition.state_store import MarketMemoryStore
 from fastapi.responses import FileResponse
@@ -114,7 +114,7 @@ redis_breaker = CircuitBreaker("REDIS", threshold=3, recovery_time=30)
 # ── FastAPI App Initialization ────────────────────────────────────────
 app = FastAPI(
     title="MandiSense AI API",
-    description="High-reliability FastAPI service for multi-agent price forecasting.",
+    description="FastAPI service for mandi price forecasting, where-and-when-to-sell advice with a verified revenue floor, supply-shock evidence and a specialist-agent council.",
     version="1.2.0"
 )
 
@@ -185,6 +185,9 @@ app.include_router(intelligence_router.router, prefix="/v1/intelligence", tags=[
 app.include_router(farmer_router.router, tags=["Farmer Features"])  # prefix is already /v1/farmer on the router
 app.include_router(trader_router.router, tags=["Trader Features"])  # prefix is already /v1/trader on the router
 app.include_router(chat_router.router)  # /v1/chat: farmer and trader chatbots
+app.include_router(market_choice_router.router, tags=["Market Choice"])  # /v1/market-choice: where and when to sell, with a verified floor
+app.include_router(council_router.router)  # /v1/council: specialist agents, fused forecast, and the evidence for trusting it
+app.include_router(shock_router.router, tags=["Supply Shock"])  # /v1/shock: arrival shocks, what follows them, neighbour gaps
 
 @app.get("/visualizer")
 async def get_visualizer():
@@ -429,28 +432,21 @@ async def background_activation():
     app.state.status = "OPERATIONAL"
     logger.info("[ACTIVATE] MANDISENSE COGNITION FULLY SYNCHRONIZED")
     
-    # --- 4. Auto-Seed Cognition (populate snapshots if empty) ---
-    logger.info("[ACTIVATE] Auto-seeding cognition intelligence...")
+    # --- 4. Seed cognition from the validated forecasts -------------------------------------
+    # One state per (commodity, mandi) the forecast service has a validated forecast for. Collapsed or orphaned snapshots
+    # left by an earlier run are pruned first, so a page never opens on a zero price.
+    logger.info("[ACTIVATE] Seeding cognition from validated forecasts...")
     try:
         from mandisense_ai.cognition.state_store import MarketMemoryStore
-        store = MarketMemoryStore()
-        available = store.list_available_intelligence()
-        total = sum(len(v) for v in available.values())
-        if total == 0:
-            logger.info("[ACTIVATE] No existing snapshots found. Running full cognition seed...")
-            from mandisense_ai.cognition.engine import CognitionEngine
-            from mandisense_ai.cognition.registry import CognitionRegistry
-            engine = CognitionEngine()
-            commodities = CognitionRegistry.get_canonical_commodities()
-            mandis = CognitionRegistry.get_canonical_mandis()
-            seed_tasks = [engine.generate_cognition(c, m) for c in commodities for m in mandis]
-            await asyncio.gather(*seed_tasks, return_exceptions=True)
-            logger.info("[ACTIVATE] Cognition seed complete.")
-        else:
-            logger.info(f"[ACTIVATE] Found {total} existing cognition snapshots. Refreshing stale data...")
-            asyncio.create_task(app.state.cognition_engine.run_full_refresh() if app.state.cognition_engine else asyncio.sleep(0))
+        from mandisense_ai.cognition.registry import CognitionRegistry
+        pairs = await asyncio.to_thread(CognitionRegistry.get_forecastable_pairs)
+        removed = MarketMemoryStore().prune(pairs)
+        if removed:
+            logger.info(f"[ACTIVATE] Pruned {removed} collapsed or orphaned cognition snapshots.")
+        if app.state.cognition_engine and pairs:
+            asyncio.create_task(app.state.cognition_engine.run_full_refresh())   # background: the API is not held up by it
     except Exception as e:
-        logger.error(f"[ACTIVATE] Auto-seed failed: {e}", exc_info=True)
+        logger.error(f"[ACTIVATE] Cognition seed failed: {e}", exc_info=True)
 
     # --- 5. Forecast Scheduler (Phase 2 nightly cadence) ---
     # `run_nightly` previously had no caller at all outside a manual CLI

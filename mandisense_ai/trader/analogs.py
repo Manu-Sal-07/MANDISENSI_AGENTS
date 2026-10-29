@@ -128,6 +128,7 @@ def find_analogs(
             "n": int(len(pct)),
             "share_up": round(float((pct > 0).mean()), 3),
             "median_pct": round(float(np.median(pct)), 2),
+            "mean_pct": round(float(pct.mean()), 2),
             "p10_pct": round(float(np.percentile(pct, 10)), 2),
             "p90_pct": round(float(np.percentile(pct, 90)), 2),
         },
@@ -135,6 +136,7 @@ def find_analogs(
             "n": int(len(base_pct)),
             "share_up": round(float((base_pct > 0).mean()), 3),
             "median_pct": round(float(np.median(base_pct)), 2),
+            "mean_pct": round(float(base_pct.mean()), 2),
         },
         "disclaimer": "Empirical precedent from this series' own history, not a forecast.",
     }
