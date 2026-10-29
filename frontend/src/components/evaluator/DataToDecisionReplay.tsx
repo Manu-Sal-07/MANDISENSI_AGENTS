@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw, SkipForward, Sparkles, Brain, Cpu, Terminal, Database, Layers } from 'lucide-react';
+import { Play, Pause, RotateCcw, SkipForward, Sparkles, Brain } from 'lucide-react';
 import FarmerOSIntelligenceView from './FarmerOSIntelligenceView';
 import { JourneyState } from './hooks/useDecisionJourney';
 

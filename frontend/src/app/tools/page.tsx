@@ -3,7 +3,7 @@
 import PageHero from '@/components/farm/PageHero';
 import { Wrench } from 'lucide-react';
 import React from 'react';
-import { motion } from 'framer-motion';
+
 import ToolsGrid from '@/components/farm/tools/ToolsGrid';
 import { ToolProvider } from '@/context/ToolContext';
 import { useLanguage } from '@/context/LanguageContext';

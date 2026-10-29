@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { Activity, ShieldAlert, GraduationCap } from 'lucide-react';
+import { ShieldAlert, GraduationCap } from 'lucide-react';
 import WorkflowContainer from '@/evaluator_demo/components/WorkflowContainer';
 
 export const metadata: Metadata = {

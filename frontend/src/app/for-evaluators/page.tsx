@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Compass, GraduationCap, Play, Pause, RotateCcw, FastForward, ShieldAlert } from 'lucide-react';
+import { GraduationCap, Play, Pause, RotateCcw, FastForward, ShieldAlert } from 'lucide-react';
 import { workflowSteps, WorkflowStepId } from '@/evaluator_demo/workflowConfig';
 import LiveOSDashboard from '@/evaluator_demo/components/LiveOSDashboard';
 import NarrationPanel from '@/evaluator_demo/components/NarrationPanel';
@@ -47,6 +47,10 @@ export default function ForEvaluatorsPage() {
     });
   };
 
+  // Delta-time animation loop refs
+  const elapsedRef = useRef(0);
+  const requestRef = useRef<number | null>(null);
+
   const handleRunAnalysis = (inputText: string) => {
     setQueryText(inputText);
     addRecentQuery(inputText);
@@ -63,9 +67,6 @@ export default function ForEvaluatorsPage() {
 
   const analysisResult = getMockAnalysis(queryText);
 
-  // Delta-time animation loop refs
-  const elapsedRef = useRef(0);
-  const requestRef = useRef<number | null>(null);
 
   const currentStepIdRef = useRef(currentStepId);
   const isSimulatingRef = useRef(isSimulating);

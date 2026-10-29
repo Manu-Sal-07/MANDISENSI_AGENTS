@@ -1,37 +1,8 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
-import {
-  BarChart3,
-  BrainCircuit,
-  ChevronRight,
-  Command,
-  Database,
-  Gauge,
-  Layers3,
-  RefreshCw,
-  Search,
-  Sparkles,
-  Zap,
-  TrendingUp,
-  TrendingDown,
-  Activity,
-  AlertTriangle,
-  Sliders,
-  Server,
-  ShieldAlert,
-  Cpu,
-  Play,
-  CheckCircle,
-  Clock,
-  Terminal,
-  ArrowRight,
-  ShieldCheck,
-  Wallet,
-  Target,
-  Siren,
-} from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+
+import { BarChart3, BrainCircuit, Gauge, RefreshCw, Sparkles, Activity, Sliders, ShieldAlert, Cpu, CheckCircle, Terminal, ShieldCheck, Wallet, Target, Siren } from 'lucide-react';
 import { useCognitionStream } from '@/hooks/useCognitionStream';
 import TradingSection from '@/components/trading/TradingSection';
 import TraderHeader from '@/components/trader/TraderHeader';
@@ -150,7 +121,7 @@ const getMarketMetrics = (state: MarketState) => {
   const risk = state.risk_level ?? 'LOW';
 
   const meta = state.metadata || {};
-  let priceChangePct = typeof meta.price_change_pct === 'number' 
+  const priceChangePct = typeof meta.price_change_pct === 'number' 
     ? Math.abs(meta.price_change_pct) 
     : (trend === 'upward' ? 0.05 * confidence : trend === 'downward' ? 0.06 * confidence : 0);
 
@@ -166,6 +137,12 @@ const getMarketMetrics = (state: MarketState) => {
       actionName = risk === 'HIGH' || risk === 'CRITICAL' ? 'LOCK CONTRACTS' : 'ACCELERATE PROCUREMENT';
       tone = risk === 'HIGH' || risk === 'CRITICAL' ? 'warning' : 'positive';
       costOfDelay = financialImpact / 4;
+    } else if (backendDecision === 'WAIT') {
+      // The forecaster abstained: it sees no reliable edge, so the honest posture is to leave the plan as it is.
+      actionName = 'HOLD CURRENT PLAN';
+      tone = 'neutral';
+      costOfDelay = 0;
+      financialImpact = 0;
     } else if (backendDecision === 'SELL') {
       actionName = 'DELAY PROCUREMENT';
       tone = 'risk';
@@ -231,6 +208,7 @@ export default function TraderOS() {
   const latestUpdate = rawLatestUpdate;
 
   const [activeIdx, setActiveIdx] = useState(0);
+  const openedOnReference = useRef(false);
   const [clock, setClock] = useState('');
   const [enterprisePosture, setEnterprisePosture] = useState<any>(null);
   
@@ -294,6 +272,13 @@ export default function TraderOS() {
       return matchComm && matchMandi;
     });
   }, [allStates, selectedCommodity, selectedMandi]);
+
+  useEffect(() => {
+    if (openedOnReference.current || allStates.length === 0) return;
+    openedOnReference.current = true;
+    const i = allStates.findIndex((st) => st.commodity?.toLowerCase() === 'tomato' && st.mandi_id?.toLowerCase() === 'kolar_apmc');
+    if (i > 0) setActiveIdx(i);
+  }, [allStates]);
 
   const safeActiveIdx = allStates.length > 0 ? Math.min(activeIdx, allStates.length - 1) : 0;
   const activeState = useMemo(() => {
@@ -582,11 +567,14 @@ export default function TraderOS() {
     const mandi = activeState.mandi_id?.replace('_apmc', '').replace(/_/g, ' ').toUpperCase() || '';
     
     let memoText = "";
-    if (activeState.risk_level === 'CRITICAL' || activeState.risk_level === 'HIGH') {
+    const noEdge = activeState.metadata?.decision === 'WAIT' || (activeState.confidence?.score ?? 0) < 0.6;
+    if (noEdge) {
+      memoText = `FORECAST BRIEF: ${comm} at ${mandi}. ${activeState.metadata?.reasoning ?? ''} The model does not see a reliable edge here, so no change to procurement is indicated. Volatility regime: ${activeState.volatility?.regime || 'unmeasured'}. Exposure figures elsewhere on this page use an assumed volume and are illustrative.`;
+    } else if (activeState.risk_level === 'CRITICAL' || activeState.risk_level === 'HIGH') {
       // The archive prices in rupees per quintal (see forecasting/config.py),
       // never per metric tonne -- "/MT" here was a unit that does not match
       // the number it labelled.
-      memoText = `STRATEGIC ADVISORY: ${comm} markets at ${mandi} are under high pressure. Pricing trend is ${activeState.trend} with a predicted modal rate of ₹${activeState.price_prediction?.toFixed(0)}/quintal. Volatility regime is classified as ${activeState.volatility?.regime || 'ELEVATED'}. We advise immediate LOCK CONTRACTS action. Expected exposure variance is ₹${(metrics.financialImpact / 100000).toFixed(2)} Lakhs (illustrative, assumed volume), and delaying procurement by 48 hours could incur a cost of ₹${(metrics.costOfDelay / 100000).toFixed(2)} Lakhs.`;
+      memoText = `STRATEGIC ADVISORY: ${comm} markets at ${mandi} are under high pressure. Pricing trend is ${activeState.trend} with a predicted modal rate of ₹${activeState.price_prediction?.toFixed(0)}/quintal. Volatility regime is classified as ${activeState.volatility?.regime || 'ELEVATED'}. The recommended posture is ${metrics.actionName}. Expected exposure variance is ₹${(metrics.financialImpact / 100000).toFixed(2)} Lakhs (illustrative, assumed volume), and delaying procurement by 48 hours could incur a cost of ₹${(metrics.costOfDelay / 100000).toFixed(2)} Lakhs.`;
     } else {
       memoText = `MARKET OVERVIEW: ${comm} markets at ${mandi} remain stable. Pricing trend is ${activeState.trend} with a predicted modal rate of ₹${activeState.price_prediction?.toFixed(0)}/quintal. Volatility regime is classified as ${activeState.volatility?.regime || 'NOMINAL'}. The recommended posture is ${metrics.actionName}. Estimated exposure variance is ₹${(metrics.financialImpact / 100000).toFixed(2)} Lakhs (illustrative, assumed volume). Standard sourcing corridors are fully operational.`;
     }

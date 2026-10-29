@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Cpu, ShieldCheck, Server, Layers, Network } from 'lucide-react';
+import { ChevronDown, ChevronUp, ShieldCheck, Server, Layers, Network } from 'lucide-react';
 
 export default function ModelStackView() {
   const [isOpen, setIsOpen] = useState(false);

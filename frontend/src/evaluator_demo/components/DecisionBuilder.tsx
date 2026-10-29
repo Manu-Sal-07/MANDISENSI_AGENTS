@@ -49,7 +49,7 @@ export default function DecisionBuilder({ progress, details, confidence }: Decis
     }
 
     // Smooth count-up effect
-    let start = currentScore;
+    const start = currentScore;
     const end = targetScore;
     if (start === end) return;
 

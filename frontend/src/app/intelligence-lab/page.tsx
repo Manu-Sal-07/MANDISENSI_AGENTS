@@ -5,25 +5,7 @@ import { FlaskConical as DeskFlaskIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { mandiApi } from '@/services/api';
-import {
-  Activity,
-  AlertTriangle,
-  BarChart3,
-  Bolt,
-  CircleDot,
-  Clock3,
-  Compass,
-  Eye,
-  Funnel,
-  Globe2,
-  Layers,
-  MapPin,
-  Shield,
-  ShieldCheck,
-  Sparkles,
-  TrendingDown,
-  TrendingUp,
-} from 'lucide-react';
+import { AlertTriangle, CircleDot } from 'lucide-react';
 
 const SCENARIOS = [
   { id: 'arrival_increase', label: 'Arrival Increase' },
@@ -257,7 +239,8 @@ const IntelligenceLabPage = () => {
         setAllStates(normalizedStates);
 
         if (normalizedStates.length > 0) {
-          const firstState = normalizedStates[0];
+          // Open on the belt's reference series (Kolar tomato) when it exists, rather than whichever state sorts first.
+          const firstState = normalizedStates.find((s: any) => s.commodity === 'tomato' && s.mandi_id === 'kolar_apmc') ?? normalizedStates[0];
           setSelectedState(firstState);
         }
 

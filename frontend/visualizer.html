@@ -97,18 +97,25 @@
             nodes = new vis.DataSet([
                 { id: 'query', label: 'Query Input', shape: 'box', font: { color: '#fff' } },
                 { id: 'seasonality', label: 'Seasonality Agent', shape: 'box', font: { color: '#fff' } },
-                { id: 'arrival', label: 'Arrival Agent', shape: 'box', font: { color: '#fff' } },
-                { id: 'ensemble', label: 'Ensemble Layer', shape: 'box', font: { color: '#fff' } },
+                { id: 'supply', label: 'Supply Agent', shape: 'box', font: { color: '#fff' } },
+                { id: 'activity', label: 'Market-Activity Agent', shape: 'box', font: { color: '#fff' } },
+                { id: 'trend', label: 'Price-Trend Agent', shape: 'box', font: { color: '#fff' } },
+                { id: 'external', label: 'External Context (no weight)', shape: 'box', font: { color: '#fff' } },
                 { id: 'meta', label: 'Meta-Ensemble', shape: 'box', font: { color: '#fff' } },
                 { id: 'output', label: 'Final Output', shape: 'box', font: { color: '#fff' } }
             ]);
 
             edges = new vis.DataSet([
                 { from: 'query', to: 'seasonality', arrows: 'to' },
-                { from: 'query', to: 'arrival', arrows: 'to' },
-                { from: 'seasonality', to: 'ensemble', arrows: 'to' },
-                { from: 'arrival', to: 'ensemble', arrows: 'to' },
-                { from: 'ensemble', to: 'meta', arrows: 'to' },
+                { from: 'query', to: 'supply', arrows: 'to' },
+                { from: 'query', to: 'activity', arrows: 'to' },
+                { from: 'query', to: 'trend', arrows: 'to' },
+                { from: 'query', to: 'external', arrows: 'to' },
+                { from: 'seasonality', to: 'meta', arrows: 'to' },
+                { from: 'supply', to: 'meta', arrows: 'to' },
+                { from: 'activity', to: 'meta', arrows: 'to' },
+                { from: 'trend', to: 'meta', arrows: 'to' },
+                { from: 'external', to: 'output', arrows: 'to', dashes: true },
                 { from: 'meta', to: 'output', arrows: 'to' }
             ]);
 
@@ -269,48 +276,29 @@
                     logEvent('Query received and validated.', 'success');
                     break;
 
-                case 'seasonality_started':
-                    updateNode('seasonality', 'active');
-                    logEvent('Seasonality Agent: Processing started...', 'info');
-                    break;
-                case 'seasonality_completed':
-                    updateNode('seasonality', 'completed', data);
-                    logEvent('Seasonality Agent: Forecast generated.', 'success');
-                    break;
-
-                case 'arrival_started':
-                    updateNode('arrival', 'active');
-                    logEvent('Arrival Agent: Volume analysis started...', 'info');
-                    break;
-                case 'arrival_completed':
-                    updateNode('arrival', 'completed', data);
-                    logEvent('Arrival Agent: Supply signal ready.', 'success');
+                case 'agent_completed':
+                    updateNode(data.agent, 'completed', data);
+                    logEvent(`${data.agent} agent: forecasts ready (` + Object.entries(data.forecast_pct).map(([h, v]) => `${h}d ${v > 0 ? '+' : ''}${v}%`).join(', ') + ').', 'success');
                     break;
 
                 case 'external_started':
-                    logEvent('External Factors: News & Weather check...', 'info');
+                    updateNode('external', 'active');
+                    logEvent('External context: news & weather check (carries no forecast weight)...', 'info');
                     break;
                 case 'external_completed':
-                    logEvent('External Factors: Signal integrated.', 'success');
+                    updateNode('external', 'completed', data);
+                    logEvent('External context: read.', 'success');
                     break;
 
-                case 'ensemble_started':
-                    updateNode('ensemble', 'active');
-                    logEvent('Ensemble Layer: Weight computation started...', 'info');
-                    break;
                 case 'ensemble_weights_computed':
-                    updateNode('ensemble', 'completed', data);
-                    logEvent('Ensemble Layer: Weights computed via Ridge correction.', 'success');
+                    logEvent('Meta-ensemble weights (learned inside each walk-forward fold, sum <= 1) loaded.', 'info');
                     break;
-
-                case 'meta_ensemble_started':
-                    updateNode('meta', 'active');
-                    logEvent('Meta-Ensemble: Final fusion active...', 'info');
-                    break;
-                case 'meta_ensemble_completed':
+                case 'meta_ensemble_completed': {
                     updateNode('meta', 'completed', data);
-                    logEvent('Meta-Ensemble: System consensus reached.', 'success');
+                    const trusted = Object.entries(data).filter(([, v]) => v.council_trusted_over_single).map(([h]) => h + 'd');
+                    logEvent(trusted.length ? `Council beats the single model at: ${trusted.join(', ')}.` : 'Council is not significantly better than the single served model at any horizon; the single model stays.', trusted.length ? 'success' : 'info');
                     break;
+                }
 
                 case 'final_output':
                     updateNode('output', 'completed', data);

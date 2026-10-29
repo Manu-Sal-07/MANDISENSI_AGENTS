@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+
 import { Cpu } from 'lucide-react';
 
 interface DecisionScoreAnimatorProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, Play, Circle, Loader2 } from 'lucide-react';
+import { Check, Loader2 } from 'lucide-react';
 import { WorkflowStepConfig, WorkflowStepId } from '../workflowConfig';
 
 interface StepIndicatorProps {

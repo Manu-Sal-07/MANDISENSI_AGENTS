@@ -15,21 +15,9 @@
 import DeskHero from '@/components/trader/DeskHero';
 import React, { useEffect, useState } from 'react';
 import { apiClient } from '@/services/api';
-import Link from 'next/link';
+
 import { useQuery } from '@tanstack/react-query';
-import {
-  ArrowLeft,
-  BrainCircuit,
-  ChevronDown,
-  ChevronUp,
-  Loader2,
-  Minus,
-  ShieldCheck,
-  ShieldAlert,
-  TrendingDown,
-  TrendingUp,
-  WifiOff,
-} from 'lucide-react';
+import { BrainCircuit, ChevronDown, ChevronUp, Loader2, Minus, ShieldCheck, ShieldAlert, TrendingDown, TrendingUp, WifiOff } from 'lucide-react';
 import { mandiApi } from '@/services/api';
 
 const COMMODITIES = [

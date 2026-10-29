@@ -163,7 +163,7 @@ export default function FloorMonitor() {
             </table>
             <p className="mt-2 text-[11px] leading-relaxed text-neutral-signal">
               The adaptive floor is the one served: its level is nudged online, with delayed feedback, so the broken-floor rate tracks the target without
-              assuming any distribution. Green means within 3 points of the target. Choosing by the floor instead of by expected revenue ("best-floor alternative") earned {formatRupees(rev.safest)}/q against {formatRupees(rev.recommended)}/q for the recommendation in this window; the app recommends the best expected option and attaches the floor to it, because the study found choosing by the floor usually gives up expected revenue. Check the bars above for this crop.
+              assuming any distribution. Green means within 3 points of the target. Choosing by the floor instead of by expected revenue (&quot;best-floor alternative&quot;) earned {formatRupees(rev.safest)}/q against {formatRupees(rev.recommended)}/q for the recommendation in this window; the app recommends the best expected option and attaches the floor to it, because the study found choosing by the floor usually gives up expected revenue. Check the bars above for this crop.
             </p>
           </div>
         </div>

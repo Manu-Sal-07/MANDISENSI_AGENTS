@@ -2,32 +2,12 @@
 
 import DeskHero from '@/components/trader/DeskHero';
 import { LineChart as DeskLineIcon } from 'lucide-react';
-import Link from 'next/link';
+
 import { useEffect, useMemo, useState, useRef } from 'react';
 import ForecastPanel from '@/components/ForecastPanel';
-import { apiClient, mandiApi } from '@/services/api';
+import { mandiApi } from '@/services/api';
 import marketCache, { MarketAnalysis, HistoricalSeriesEntry } from '@/services/marketCache';
-import {
-  TrendingUp,
-  Sliders,
-  Calendar,
-  Share2,
-  Maximize2,
-  CalendarDays,
-  Play,
-  Pause,
-  RotateCcw,
-  Sparkles,
-  Layers,
-  Info,
-  ChevronRight,
-  TrendingDown,
-  Percent,
-  Search,
-  BookOpen,
-  ArrowRightLeft,
-  ChevronDown
-} from 'lucide-react';
+import { Sliders, Play, Pause, RotateCcw, Info, BookOpen, ArrowRightLeft } from 'lucide-react';
 
 type MarketOption = {
   commodity: string;

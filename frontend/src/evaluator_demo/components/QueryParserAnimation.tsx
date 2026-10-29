@@ -43,7 +43,7 @@ export default function QueryParserAnimation({ progress, parsed, queryText }: Qu
       {/* Raw input text bubble */}
       <div className="bg-slate-900/30 border border-slate-900 rounded-lg p-3 font-mono text-[10px] text-slate-300">
         <span className="text-slate-550 uppercase text-[8px] block font-bold tracking-wider mb-1">Raw User Query:</span>
-        <span className="italic">"{queryText}"</span>
+        <span className="italic">&ldquo;{queryText}&rdquo;</span>
       </div>
 
       {/* Structured Token Extraction Grid */}
