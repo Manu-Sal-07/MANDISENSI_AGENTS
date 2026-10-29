@@ -214,6 +214,111 @@ def _add_spillover(bundle: EvidenceBundle) -> None:
         bundle.unavailable["spillover"] = f"error: {exc}"
 
 
+def _district_of(mandi_id: str) -> Optional[str]:
+    from mandisense_ai.farmer import registry
+
+    m = registry.MANDIS.get(registry.resolve_place(mandi_id))
+    if m:
+        return m.district
+    place = registry.resolve_place(mandi_id)
+    return place if place in registry.DISTRICTS else None
+
+
+def _add_shock(bundle: EvidenceBundle) -> None:
+    """Supply-shock radar: arrivals against the series' own norm, what usually followed such shocks
+    (with the evidence tier), and the same-crop gap to neighbouring districts."""
+    try:
+        from mandisense_ai.shock.service import radar
+
+        district = _district_of(bundle.requested_mandi_id or bundle.mandi_id)
+        if district is None:
+            bundle.unavailable["shock"] = "mandi is not in the farmer registry"
+            return
+        out = radar("trader", bundle.commodity, district)
+        item = (out.get("items") or [None])[0] if out.get("status") == "OK" else None
+        if not item:
+            bundle.unavailable["shock"] = "no arrival series for this crop and district"
+            return
+        a, f = item["arrivals"], bundle.facts
+        f["shock.arrivals.state"] = a["state"]
+        f["shock.arrivals.z"] = a["z"]
+        f["shock.arrivals.times_normal"] = a["times_normal"]
+        f["shock.arrivals.as_of"] = a["as_of"]
+        f["shock.price.change_7d_pct"] = item["price"]["change_7d_pct"]
+        r = item.get("response")
+        if r:
+            f["shock.response.tier"] = r["tier"]
+            f["shock.response.effect_pct"] = r["effect_pct"]
+            f["shock.response.n_episodes"] = r["n_episodes"]
+            f["shock.response.horizon_days"] = r["horizon_days"]
+            f["shock.response.min_detectable_pct"] = r["min_detectable_pct"]
+        else:
+            f["shock.response.note"] = item["response_note"]
+        g = item.get("gap")
+        if g:
+            f["shock.gap.neighbours_dearer_pct"] = g["neighbours_dearer_by_pct"]
+            f["shock.gap.median_half_life_weeks"] = g["median_half_life_weeks"]
+        f["shock.interpretation"] = (
+            "Tiers: ROBUST passed every check; SUGGESTIVE has an interval excluding zero but failed a check "
+            "(placebo, multiple-testing or district stability) and must be described as suggestive; NONE means no "
+            "reliable price response was measured, which is not evidence that none exists."
+        )
+    except Exception as exc:  # pragma: no cover - defensive
+        logger.warning("Evidence: shock source failed: %s", exc)
+        bundle.unavailable["shock"] = f"error: {exc}"
+
+
+def _add_market_choice(bundle: EvidenceBundle) -> None:
+    """The validated market-choice engine's recommendation. It is DECIDED elsewhere; the brief explains it."""
+    try:
+        from mandisense_ai.farmer import registry
+        from mandisense_ai.market_choice import service as mc
+
+        district = _district_of(bundle.requested_mandi_id or bundle.mandi_id)
+        if district is None:
+            bundle.unavailable["market_choice"] = "mandi is not in the farmer registry"
+            return
+        origin = mc.resolve_origin(district, None, None, None)
+        rec = mc.recommend(bundle.commodity, origin, 10.0)
+        if rec.get("status") != "OK":
+            bundle.unavailable["market_choice"] = rec.get("reason", "unavailable")
+            return
+        f, best = bundle.facts, rec["recommended"]
+        f["choice.best.mandi"] = best["mandi_name"] if best["kind"] == "mandi" else "farm gate"
+        f["choice.best.hold_days"] = best["hold_days"]
+        f["choice.best.sale_date"] = best["sale_date"]
+        f["choice.best.net_per_q"] = best["expected_net_per_q"]
+        f["choice.best.floor_per_q"] = best["floor_per_q"]
+        f["choice.best.chance_open"] = best["chance_open"]
+        f["choice.floor.confidence_pct"] = rec["confidence_pct"]
+        v = (rec.get("guarantee") or {}).get("backtest_violation")
+        if v is not None:
+            f["choice.floor.backtest_miss_rate"] = v
+        near = (rec.get("baselines") or {}).get("nearest_today")
+        if near:
+            f["choice.nearest.mandi"] = near["mandi_name"]
+            f["choice.nearest.net_per_q"] = near["expected_net_per_q"]
+        high = (rec.get("baselines") or {}).get("highest_yesterday")
+        if high:
+            f["choice.highest_yesterday.mandi"] = high["mandi_name"]
+        gain = rec.get("gain") or {}
+        f["choice.gain_vs_nearest_per_q"] = gain.get("vs_nearest_per_q")
+        ev = rec.get("evidence") or {}
+        if ev.get("status") == "OK":
+            f["choice.evidence.level"] = ev["level"]
+            f["choice.evidence.scored_days"] = ev["scored_days"]
+            f["choice.evidence.gain_vs_highest_yesterday_per_q"] = ev["gain_vs_highest_yesterday"]["mean"]
+        f["choice.caveats"] = ",".join(rec.get("caveats") or []) or "none"
+        f["choice.interpretation"] = (
+            "The recommended action and its floor are decided by a separate validated engine. The brief must explain "
+            "and qualify it, never recommend a different mandi or day. The floor is a minimum that was missed about "
+            "`choice.floor.backtest_miss_rate` of the time in out-of-sample tests; it is not a guarantee."
+        )
+    except Exception as exc:  # pragma: no cover - defensive
+        logger.warning("Evidence: market-choice source failed: %s", exc)
+        bundle.unavailable["market_choice"] = f"error: {exc}"
+
+
 def _add_cognition(bundle: EvidenceBundle) -> None:
     """Phase 1 multi-agent cognition: the directive and its confidence."""
     try:
@@ -330,7 +435,8 @@ def build_evidence(commodity: str, mandi_id: str) -> EvidenceBundle:
     _add_market(bundle)
     _add_cognition(bundle)
     _add_forecast(bundle)
-    _add_spillover(bundle)
+    _add_market_choice(bundle)
+    _add_shock(bundle)
 
     # Drop keys whose value is None so the model is never shown "= None" and
     # invited to treat it as a measurement.

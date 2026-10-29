@@ -81,6 +81,8 @@ class DecisionIntelligenceService:
             brief,
             allowed_numbers=bundle.numeric_values(),
             allowed_keys=list(bundle.facts.keys()),
+            allowed_text=[bundle.commodity, bundle.mandi_id, str(bundle.requested_mandi_id or "")]
+            + [str(v) for k, v in bundle.facts.items() if isinstance(v, str)],
         )
         brief.grounded = grounded
         brief.grounding_issues = issues

@@ -21,6 +21,8 @@ Messages use one internal shape:
 from __future__ import annotations
 
 import json
+import re
+import time
 import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -113,6 +115,21 @@ class AnthropicProvider(Provider):
         return out
 
 
+RATE_LIMIT_RETRIES = 2
+RATE_LIMIT_MAX_WAIT = 45.0
+
+
+def _reset_seconds(headers) -> Optional[float]:
+    """Seconds until the per-minute token budget refills, from `retry-after` or `x-ratelimit-reset-tokens` (e.g. '42.01s', '1m5.2s')."""
+    raw = headers.get("retry-after") or headers.get("x-ratelimit-reset-tokens")
+    if not raw:
+        return None
+    m = re.fullmatch(r"\s*(?:(\d+(?:\.\d+)?)m)?\s*(?:(\d+(?:\.\d+)?)s?)?\s*", str(raw))
+    if not m or not (m.group(1) or m.group(2)):
+        return None
+    return 60 * float(m.group(1) or 0) + float(m.group(2) or 0)
+
+
 class OpenAICompatProvider(Provider):
     def __init__(self, name: str, api_key: str, model: str, base_url: str):
         self.name, self.api_key, self.model, self.base_url = name, api_key, model, base_url.rstrip("/")
@@ -135,11 +152,18 @@ class OpenAICompatProvider(Provider):
         if tools:
             body["tools"] = [{"type": "function", "function": t} for t in _tool_specs(tools)]
             body["tool_choice"] = "auto"
-        try:
-            r = httpx.post(f"{self.base_url}/chat/completions", json=body, timeout=60,
-                           headers={"Authorization": f"Bearer {self.api_key}", "content-type": "application/json"})
-        except httpx.HTTPError as exc:
-            raise LLMError(f"{self.name} network error: {type(exc).__name__}") from exc
+        for attempt in range(RATE_LIMIT_RETRIES + 1):
+            try:
+                r = httpx.post(f"{self.base_url}/chat/completions", json=body, timeout=60,
+                               headers={"Authorization": f"Bearer {self.api_key}", "content-type": "application/json"})
+            except httpx.HTTPError as exc:
+                raise LLMError(f"{self.name} network error: {type(exc).__name__}") from exc
+            if r.status_code != 429 or attempt == RATE_LIMIT_RETRIES:
+                break
+            wait = _reset_seconds(r.headers)
+            if wait is None or wait > RATE_LIMIT_MAX_WAIT:    # a long wait is a real outage: let the caller fall back
+                break
+            time.sleep(wait + 0.5)
         if r.status_code >= 400:
             raise LLMError(f"{self.name} HTTP {r.status_code}: {r.text[:200]}")
         msg = r.json()["choices"][0]["message"]

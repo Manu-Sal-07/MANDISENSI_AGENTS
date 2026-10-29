@@ -94,6 +94,46 @@ def _where_to_sell(crop: str, mandi_id: str, quantity_quintals: float = 10) -> D
     return r
 
 
+def _best_place(crop: str, district: str, quantity_quintals: float = 10) -> Dict[str, Any]:
+    """The market-choice engine's answer: which mandi, which day, the verified minimum. Trimmed to what a chat reply needs."""
+    from mandisense_ai.market_choice import service as mc
+    rec = mc.recommend(crop, mc.resolve_origin(district, None, None, None), quantity_quintals)
+    if rec.get("status") != "OK":
+        return {k: rec.get(k) for k in ("status", "reason", "crop")}
+    keep = ("name", "kind", "mandi_name", "hold_days", "sale_date", "weekday", "distance_km", "expected_net_per_q", "floor_per_q",
+            "total_expected", "total_floor", "chance_open")
+    pick = lambda o: {k: o[k] for k in keep if o and k in o}
+    ev = rec.get("evidence") or {}
+    return {"status": "OK", "crop": crop, "as_of": rec.get("as_of"), "quantity_quintals": rec.get("quantity_quintals"),
+            "confidence_pct": rec.get("confidence_pct"), "recommended": pick(rec["recommended"]),
+            "safest": pick(rec.get("safest") or {}), "gain": rec.get("gain"), "caveats": rec.get("caveats"),
+            "minimum_missed_in_past_tests": (rec.get("guarantee") or {}).get("backtest_violation"),
+            "track_record": {k: ev.get(k) for k in ("level", "scored_days", "gain_vs_highest_yesterday")}}
+
+
+def _shock_radar_farmer(crop: str, district: str) -> Dict[str, Any]:
+    """Arrivals against normal and the neighbour price gap. Price-response claims are present only when the study rated them ROBUST."""
+    from mandisense_ai.shock.service import radar
+    out = radar("farmer", crop, district)
+    return {k: out.get(k) for k in ("status", "reason", "as_of", "items")} | {"study": out.get("study")}
+
+
+def _shock_desk(crop: Optional[str] = None) -> Dict[str, Any]:
+    """Trader view: arrival state per district, and the cross-commodity links that have evidence, flagged when armed today."""
+    from mandisense_ai.shock.service import radar
+    out = radar("trader", crop, None)
+    items = [{"crop": i["crop"], "district": i["district"], "arrivals": i["arrivals"], "price": i["price"], "gap": i["gap"]} for i in out.get("items", [])]
+    cc = out.get("cross_crop") or {}
+    links = [l for l in (cc.get("links") or []) if l["tier"] != "NONE" and (not crop or crop in (l["source"], l["target"]))]
+    own = (out.get("study") or {}).get("own_crop") or {}
+    return {"status": out.get("status"), "as_of": out.get("as_of"), "items": items,
+            "links_with_evidence": [{**l, "note": "suggestive: a lead to check, not a signal" if l["tier"] == "SUGGESTIVE" else "robust"} for l in links],
+            "battery": {"cross_commodity_links_tested": cc.get("n_tested"), "robust": cc.get("n_robust"), "suggestive": cc.get("n_suggestive"),
+                        "own_crop_price_response_tests_all_crops": own.get("n_tested"), "own_crop_robust": own.get("n_robust"),
+                        "own_crop_suggestive": own.get("n_suggestive")},
+            "note": "Links not listed were tested and showed no effect. Armed means the source crop is in that shock state today."}
+
+
 def _seasonal(crop: str, mandi_id: str) -> Dict[str, Any]:
     from mandisense_ai.farmer.seasonal_memory import seasonal_reading
     return seasonal_reading(crop, mandi_id)
@@ -182,9 +222,14 @@ def _forward_price(crop: str, mandi_id: str, horizon_days: int = 7, quantity_qui
 
 
 def _transmission() -> Dict[str, Any]:
+    """Cross-commodity links, compacted to what a reply needs (the full edge records exceed a model's budget)."""
     from mandisense_ai.trader.transmission import cross_commodity_matrix
     r = cross_commodity_matrix()
-    return json.loads(json.dumps(r, default=str)[:MAX_RESULT_CHARS]) if len(json.dumps(r, default=str)) > MAX_RESULT_CHARS else r
+    edges = [{"when": f"{e['source']} {e['shock']}", "then": f"{e['target']} price", "effect_pct": round(100 * e["effect"], 1) if e.get("effect") is not None else None,
+              "ci_pct": [round(100 * e["ci"][0], 1), round(100 * e["ci"][1], 1)] if e.get("ci") else None, "episodes": e.get("n_episodes"),
+              "published": e.get("published"), "placebo_p": e.get("placebo_p")} for e in r.get("edges", []) if e.get("status") == "OK"]
+    edges.sort(key=lambda e: (not e["published"], -abs(e["effect_pct"] or 0)))
+    return {"status": r.get("status"), "n_tested": r.get("n_tested"), "n_robust": r.get("n_robust"), "data_to": r.get("data_to"), "edges": edges[:14]}
 
 
 def _brief(crop: str, mandi_id: str) -> Dict[str, Any]:
@@ -263,9 +308,15 @@ TOOLS: List[Tool] = [
          _schema({"crop": _CROP, "mandi_id": _MANDI, "quantity_quintals": _QTY}, ["crop", "mandi_id"]), _hold_or_sell, F),
     Tool("get_where_to_sell", "Compare nearby mandis for a crop after transport cost.",
          _schema({"crop": _CROP, "mandi_id": _MANDI, "quantity_quintals": _QTY}, ["crop", "mandi_id"]), _where_to_sell, F),
+    Tool("get_best_place_to_sell", "The best mandi and day to sell a load, after transport, fees and spoilage, with a minimum revenue that held in past tests and the chance the mandi is open. Prefer this for 'where and when should I sell'.",
+         _schema({"crop": _CROP, "district": _DISTRICT, "quantity_quintals": _QTY}, ["crop", "district"]), _best_place, BOTH),
+    Tool("get_supply_watch", "Whether arrivals in the district are far above or below normal, and how much neighbouring districts pay compared with it. Makes a price-response claim only when the evidence is robust; otherwise say that no reliable claim can be made.",
+         _schema({"crop": _CROP, "district": _DISTRICT}, ["crop", "district"]), _shock_radar_farmer, F),
+    Tool("get_shock_desk", "Trader: arrival gluts and squeezes across districts and the cross-commodity links they arm, each with its evidence tier (robust, suggestive). Treat suggestive as a lead to check, never as a signal.",
+         _schema({"crop": _CROP}), _shock_desk, T),
     Tool("get_seasonal_memory", "This time last year: how today's price compares with the same season before.",
          _schema({"crop": _CROP, "mandi_id": _MANDI}, ["crop", "mandi_id"]), _seasonal, BOTH),
-    Tool("get_supply_signal", "Whether arrivals at the mandi are unusually high or low (a supply glut warning).",
+    Tool("get_supply_signal", "Whether arrivals at one mandi are unusually high or low. For a district and the neighbour price gap use get_supply_watch.",
          _schema({"crop": _CROP, "mandi_id": _MANDI}, ["crop", "mandi_id"]), _supply, BOTH),
     Tool("get_track_record", "How often the forecasts for this crop at this mandi have been right.",
          _schema({"crop": _CROP, "mandi_id": _MANDI}, ["crop", "mandi_id"]), _track_record, F),
@@ -291,7 +342,7 @@ TOOLS: List[Tool] = [
          _schema({"crop": _CROP, "mandi_id": _MANDI, "horizon_days": {"type": "integer", "minimum": 1, "maximum": 30}}, ["crop", "mandi_id"]), _scenarios, T),
     Tool("get_forward_price", "Trader: forward price range for a horizon from the calibrated forecast.",
          _schema({"crop": _CROP, "mandi_id": _MANDI, "horizon_days": {"type": "integer", "minimum": 1, "maximum": 14}, "quantity_quintals": _QTY}, ["crop", "mandi_id"]), _forward_price, T),
-    Tool("get_transmission_matrix", "Trader: the tested cross-commodity transmission links and their evidence tiers.", _schema({}), _transmission, T),
+    Tool("get_transmission_matrix", "Trader: the full list of tested cross-commodity transmission links (history only; for what is happening today use get_shock_desk).", _schema({}), _transmission, T),
     Tool("get_decision_brief", "Trader: the evidence-checked decision brief for one crop at one mandi.",
          _schema({"crop": _CROP, "mandi_id": _MANDI}, ["crop", "mandi_id"]), _brief, T),
 

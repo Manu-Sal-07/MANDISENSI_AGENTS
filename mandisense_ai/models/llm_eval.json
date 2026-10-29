@@ -1,0 +1,465 @@
+{
+ "generated_at": "2026-10-29T10:41:32.000167+00:00",
+ "writer": "openai/gpt-oss-120b",
+ "judge": "qwen/qwen3.8-27b",
+ "explanations": 24,
+ "sentences": 120,
+ "decision_unchanged_all": true,
+ "by_language": {
+  "en": {
+   "explanations": 8,
+   "sentences": 40,
+   "accepted_from_model": 38,
+   "accepted_ci": [
+    0.835,
+    0.986
+   ],
+   "judge_rejected": 2,
+   "validator_rejected": 0,
+   "all_rule_based": 0
+  },
+  "kn": {
+   "explanations": 8,
+   "sentences": 40,
+   "accepted_from_model": 31,
+   "accepted_ci": [
+    0.625,
+    0.877
+   ],
+   "judge_rejected": 9,
+   "validator_rejected": 0,
+   "all_rule_based": 1
+  },
+  "hi": {
+   "explanations": 8,
+   "sentences": 40,
+   "accepted_from_model": 33,
+   "accepted_ci": [
+    0.68,
+    0.913
+   ],
+   "judge_rejected": 7,
+   "validator_rejected": 0,
+   "all_rule_based": 0
+  }
+ },
+ "rejection_reasons": {
+  "judge": 18
+ },
+ "median_latency_ms": 6685,
+ "llm_errors": 0,
+ "judge_power": {
+  "corruptions": 9,
+  "caught": 9,
+  "caught_ci": [
+   0.701,
+   1.0
+  ],
+  "faithful": 3,
+  "wrongly_rejected": 0,
+  "wrongly_rejected_ci": [
+   0.0,
+   0.562
+  ],
+  "detail": [
+   {
+    "kind": "faithful",
+    "judge_says_faithful": true,
+    "problem": ""
+   },
+   {
+    "kind": "reversed",
+    "judge_says_faithful": false,
+    "problem": "Reverses the comparison; implies the gain is relative to the nearest mandi rather than the alternative option."
+   },
+   {
+    "kind": "added_claim",
+    "judge_says_faithful": false,
+    "problem": "Adds a prediction about prices rising and drops 'spoilage' from the cost list."
+   },
+   {
+    "kind": "dropped_qualifier",
+    "judge_says_faithful": false,
+    "problem": "Drops the condition 'After transport, fees and spoilage'."
+   },
+   {
+    "kind": "faithful",
+    "judge_says_faithful": true,
+    "problem": ""
+   },
+   {
+    "kind": "added_claim",
+    "judge_says_faithful": false,
+    "problem": "Adds a claim about being 'crowded with buyers' which is not in the original."
+   },
+   {
+    "kind": "reversed",
+    "judge_says_faithful": false,
+    "problem": "Reverses the direction from 'open' to 'closed'."
+   },
+   {
+    "kind": "wrong_meaning",
+    "judge_says_faithful": false,
+    "problem": "Changes the meaning from being 'open and trading' to 'pays the best price'."
+   },
+   {
+    "kind": "faithful",
+    "judge_says_faithful": true,
+    "problem": ""
+   },
+   {
+    "kind": "reversed",
+    "judge_says_faithful": false,
+    "problem": "Reverses the meaning of 'not a promise' to 'firm promise' and changes 'missed' to 'met'."
+   },
+   {
+    "kind": "added_claim",
+    "judge_says_faithful": false,
+    "problem": "Adds a claim about the maximum being higher that is not in the original."
+   },
+   {
+    "kind": "dropped_qualifier",
+    "judge_says_faithful": false,
+    "problem": "Drops the claim that the minimum is a careful estimate, not a promise."
+   }
+  ]
+ },
+ "rows": [
+  {
+   "crop": "tomato",
+   "origin": "kolar",
+   "lang": "en",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 3778
+  },
+  {
+   "crop": "tomato",
+   "origin": "kolar",
+   "lang": "kn",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 4,
+   "rejected": 1,
+   "judge_rejected": 1,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 2870
+  },
+  {
+   "crop": "tomato",
+   "origin": "kolar",
+   "lang": "hi",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 4,
+   "rejected": 1,
+   "judge_rejected": 1,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 3525
+  },
+  {
+   "crop": "tomato",
+   "origin": "bengaluru",
+   "lang": "en",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 4,
+   "rejected": 1,
+   "judge_rejected": 1,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 2753
+  },
+  {
+   "crop": "tomato",
+   "origin": "bengaluru",
+   "lang": "kn",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 2898
+  },
+  {
+   "crop": "tomato",
+   "origin": "bengaluru",
+   "lang": "hi",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 3,
+   "rejected": 2,
+   "judge_rejected": 2,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 2313
+  },
+  {
+   "crop": "onion",
+   "origin": "kolar",
+   "lang": "en",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 4,
+   "rejected": 1,
+   "judge_rejected": 1,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 9780
+  },
+  {
+   "crop": "onion",
+   "origin": "kolar",
+   "lang": "kn",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 1,
+   "rejected": 4,
+   "judge_rejected": 4,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 11330
+  },
+  {
+   "crop": "onion",
+   "origin": "kolar",
+   "lang": "hi",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 3,
+   "rejected": 2,
+   "judge_rejected": 2,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 21784
+  },
+  {
+   "crop": "onion",
+   "origin": "bengaluru",
+   "lang": "en",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 2714
+  },
+  {
+   "crop": "onion",
+   "origin": "bengaluru",
+   "lang": "kn",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 6685
+  },
+  {
+   "crop": "onion",
+   "origin": "bengaluru",
+   "lang": "hi",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 18408
+  },
+  {
+   "crop": "potato",
+   "origin": "kolar",
+   "lang": "en",
+   "author": "llm",
+   "sentences": 4,
+   "by_llm": 4,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 2308
+  },
+  {
+   "crop": "potato",
+   "origin": "kolar",
+   "lang": "kn",
+   "author": "rules",
+   "sentences": 4,
+   "by_llm": 0,
+   "rejected": 4,
+   "judge_rejected": 4,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 7121
+  },
+  {
+   "crop": "potato",
+   "origin": "kolar",
+   "lang": "hi",
+   "author": "llm",
+   "sentences": 4,
+   "by_llm": 4,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 3080
+  },
+  {
+   "crop": "potato",
+   "origin": "bengaluru",
+   "lang": "en",
+   "author": "llm",
+   "sentences": 6,
+   "by_llm": 6,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 4364
+  },
+  {
+   "crop": "potato",
+   "origin": "bengaluru",
+   "lang": "kn",
+   "author": "llm",
+   "sentences": 6,
+   "by_llm": 6,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 19486
+  },
+  {
+   "crop": "potato",
+   "origin": "bengaluru",
+   "lang": "hi",
+   "author": "llm",
+   "sentences": 6,
+   "by_llm": 5,
+   "rejected": 1,
+   "judge_rejected": 1,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 5019
+  },
+  {
+   "crop": "ginger",
+   "origin": "kolar",
+   "lang": "en",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 11559
+  },
+  {
+   "crop": "ginger",
+   "origin": "kolar",
+   "lang": "kn",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 8565
+  },
+  {
+   "crop": "ginger",
+   "origin": "kolar",
+   "lang": "hi",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 17001
+  },
+  {
+   "crop": "ginger",
+   "origin": "bengaluru",
+   "lang": "en",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 2894
+  },
+  {
+   "crop": "ginger",
+   "origin": "bengaluru",
+   "lang": "kn",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 5,
+   "rejected": 0,
+   "judge_rejected": 0,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 15983
+  },
+  {
+   "crop": "ginger",
+   "origin": "bengaluru",
+   "lang": "hi",
+   "author": "llm",
+   "sentences": 5,
+   "by_llm": 4,
+   "rejected": 1,
+   "judge_rejected": 1,
+   "validator_rejected": 0,
+   "decision_unchanged": true,
+   "llm_error": null,
+   "latency_ms": 9148
+  }
+ ]
+}

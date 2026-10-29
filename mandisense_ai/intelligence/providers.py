@@ -24,6 +24,7 @@ incapable of hallucinating.
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
@@ -32,6 +33,16 @@ from mandisense_ai.intelligence.schema import BRIEF_TOOL_SCHEMA
 from mandisense_ai.utils.logger import get_logger
 
 logger = get_logger(__name__)
+
+def load_env() -> None:
+    """Load the repository's .env into the process environment (idempotent; real environment wins)."""
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv(Path(__file__).resolve().parents[2] / ".env", override=False)
+    except Exception:  # python-dotenv missing or unreadable file: environment variables still work
+        pass
+
 
 DEFAULT_MODEL = "claude-opus-5"
 
@@ -57,6 +68,15 @@ few percent, so never describe a point forecast as what the price will be.
 5. A withheld spillover result means transmission could not be measured. It \
 does not mean there is no transmission. Never report it as safety.
 6. Sources listed as UNAVAILABLE are unknown, not zero and not benign.
+7. Facts under `choice.` come from a separate, validated market-choice engine. \
+Its recommendation is DECIDED: explain and qualify it, never recommend a \
+different mandi or day, and never name a mandi that does not appear in the \
+EVIDENCE. The floor is a minimum that was missed about `choice.floor.\
+backtest_miss_rate` of the time in tests; never call it a guarantee.
+8. Facts under `shock.` describe arrival shocks. Respect the tier: ROBUST may \
+be stated plainly; SUGGESTIVE must be called suggestive; a missing response \
+means no reliable price effect was measured, which is not proof of none.
+9. If `choice.evidence.level` is limited, say the advice is a guide, not a promise.
 
 Call `publish_decision_brief` exactly once. Write for an operator deciding \
 whether to buy today: direct, specific, no hedging filler."""
@@ -135,6 +155,47 @@ class ClaudeProvider(BriefProvider):
         raise RuntimeError(
             f"Claude returned no brief tool call (stop_reason={response.stop_reason})"
         )
+
+
+class GroqProvider(BriefProvider):
+    """A model hosted on Groq (OpenAI-compatible), forced to fill the brief schema through a function call."""
+
+    name = "groq"
+    URL = "https://api.groq.com/openai/v1/chat/completions"
+
+    def __init__(self, model: Optional[str] = None, api_key: Optional[str] = None):
+        load_env()
+        self._key = (api_key or os.getenv("GROQ_API_KEY", "")).strip()
+        if not self._key:
+            raise RuntimeError("GROQ_API_KEY is not set")
+        self._model = model or os.getenv("MANDISENSE_GROQ_MODEL", "openai/gpt-oss-120b")
+
+    @property
+    def model_id(self) -> Optional[str]:
+        return self._model
+
+    def generate(self, evidence: EvidenceBundle) -> Dict[str, Any]:
+        import json
+        import httpx
+
+        tool = {"type": "function", "function": {"name": BRIEF_TOOL_SCHEMA["name"],
+                                                   "description": BRIEF_TOOL_SCHEMA.get("description", ""),
+                                                   "parameters": BRIEF_TOOL_SCHEMA["input_schema"]}}
+        body = {"model": self._model, "temperature": 0, "max_tokens": 3000, "tools": [tool],
+                "tool_choice": {"type": "function", "function": {"name": BRIEF_TOOL_SCHEMA["name"]}},
+                "messages": [{"role": "system", "content": SYSTEM_PROMPT},
+                             {"role": "user", "content": f"EVIDENCE\n========\n{evidence.render()}\n\nPublish the decision brief."}]}
+        try:
+            resp = httpx.post(self.URL, headers={"Authorization": f"Bearer {self._key}"}, json=body, timeout=45)
+        except httpx.HTTPError as exc:
+            raise RuntimeError(f"Groq unreachable: {exc}") from exc
+        if resp.status_code != 200:
+            raise RuntimeError(f"Groq API error {resp.status_code}: {resp.text[:200]}")
+        calls = (resp.json()["choices"][0]["message"].get("tool_calls")) or []
+        for call in calls:
+            if call["function"]["name"] == BRIEF_TOOL_SCHEMA["name"]:
+                return dict(json.loads(call["function"]["arguments"]))
+        raise RuntimeError("Groq returned no brief tool call")
 
 
 class DeterministicProvider(BriefProvider):
@@ -332,21 +393,27 @@ class DeterministicProvider(BriefProvider):
 def select_provider(prefer: Optional[str] = None) -> BriefProvider:
     """Pick a provider.
 
-    Resolution order: an explicit `prefer` argument, then
-    `MANDISENSE_LLM_PROVIDER`, then the deterministic default. Choosing
-    Claude without usable credentials falls back rather than failing the
-    request — the brief records which provider actually ran, so the
-    degradation is reported rather than hidden.
+    Resolution order: an explicit `prefer`, then `MANDISENSE_LLM_PROVIDER`
+    (`claude`, `groq`, `auto` or `deterministic`), then the deterministic default.
+    `auto` uses a hosted model when its key is present. A hosted provider without
+    usable credentials falls back rather than failing the request; the brief
+    records which provider actually ran, so any degradation is reported.
     """
+    load_env()
     choice = (prefer or os.getenv("MANDISENSE_LLM_PROVIDER") or "deterministic").lower()
+    if choice == "auto":
+        if os.getenv("ANTHROPIC_API_KEY", "").strip():
+            choice = "claude"
+        elif os.getenv("GROQ_API_KEY", "").strip():
+            choice = "groq"
+        else:
+            choice = "deterministic"
 
-    if choice in ("claude", "anthropic", "llm"):
-        try:
+    try:
+        if choice in ("claude", "anthropic", "llm"):
             return ClaudeProvider()
-        except Exception as exc:
-            logger.warning(
-                "Claude provider unavailable (%s); using deterministic provider", exc
-            )
-            return DeterministicProvider()
-
+        if choice == "groq":
+            return GroqProvider()
+    except Exception as exc:
+        logger.warning("%s provider unavailable (%s); using deterministic provider", choice, exc)
     return DeterministicProvider()

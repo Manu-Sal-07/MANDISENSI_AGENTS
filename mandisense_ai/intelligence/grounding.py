@@ -78,10 +78,20 @@ def _matches_any(value: float, allowed: Sequence[float]) -> bool:
     return False
 
 
+def _mandi_names() -> List[str]:
+    try:
+        from mandisense_ai.farmer import registry
+
+        return sorted({m.name.split(" (")[0].split(",")[0].strip() for m in registry.MANDIS.values()}, key=len, reverse=True)
+    except Exception:  # pragma: no cover
+        return []
+
+
 def verify_grounding(
     brief: DecisionBrief,
     allowed_numbers: Sequence[float],
     allowed_keys: Sequence[str],
+    allowed_text: Sequence[str] = (),
 ) -> Tuple[bool, List[str]]:
     """Check a brief against the evidence it was built from.
 
@@ -113,6 +123,15 @@ def verify_grounding(
             issues.append(
                 f"factor '{factor.label}' cites unknown evidence key '{ref}'"
             )
+
+    # A brief may only name mandis that appear in its own evidence (the series itself, the recommended mandi
+    # and the baselines). Naming any other mandi is how a model quietly recommends something the engine did not.
+    if allowed_text:
+        haystack = " ".join(allowed_text).lower()
+        lowered = prose.lower()
+        for name in _mandi_names():
+            if re.search(rf"\b{re.escape(name.lower())}\b", lowered) and name.lower() not in haystack:
+                issues.append(f"names '{name}', which is not in the evidence")
 
     # De-duplicate while preserving order; the same invented figure repeated
     # in three places is one problem, not three.
