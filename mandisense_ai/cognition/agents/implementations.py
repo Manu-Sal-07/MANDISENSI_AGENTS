@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any
 from mandisense_ai.cognition.agents.base import CognitiveAgent, AgentSignal
-from mandisense_ai.core.agents.inference_engine_v3 import DecisionGradeInferenceEngine
+from mandisense_ai.cognition.forecast_engine import ForecastBackedEngine
 
 logger = logging.getLogger("CognitiveAgents")
 
@@ -9,7 +9,7 @@ class ForecastAgent(CognitiveAgent):
     """
     Cognitive Agent responsible for short-term price forecasting.
     """
-    def __init__(self, engine: DecisionGradeInferenceEngine):
+    def __init__(self, engine: ForecastBackedEngine):
         super().__init__("forecast_agent")
         self.engine = engine
 

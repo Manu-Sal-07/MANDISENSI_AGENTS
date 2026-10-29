@@ -1,3 +1,1 @@
-"""Service package for MandiSense application-facing data contracts."""
-
-from .mandi_data_service import fallback_data, get_mandi_snapshot
+"""Service package: read-side data services (charts, candles) used by the API."""
