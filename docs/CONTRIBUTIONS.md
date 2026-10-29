@@ -7,7 +7,7 @@ Generated 2026-10-29 by `scripts/contributions.py` from `git log --no-merges`. O
 | Member | USN | Commits | Lines added | Lines removed | First | Last | Main areas (by lines changed) |
 |---|---|---|---|---|---|---|---|
 | Srijan C Vachadmath | 1BM23CD060 | 1 | 17900 | 0 | 2026-04-28 | 2026-04-28 | `mandisense_ai` 13973, `frontend` 3355, `(root)` 572 |
-| Manohara Salmani | 1BM23CD035 | 61 | 115721 | 61342 | 2026-05-04 | 2026-10-29 | `mandisense_ai` 64171, `frontend` 41397, `presentation_assets` 27644, `presentation` 11840 |
+| Manohara Salmani | 1BM23CD035 | 64 | 116820 | 61627 | 2026-05-04 | 2026-10-29 | `mandisense_ai` 64242, `frontend` 41680, `presentation_assets` 27644, `presentation` 11840 |
 | Shreejith Shah | 1BM23CD057 | 0 | 0 | 0 | — | — | — |
 
 ## Reading this record
