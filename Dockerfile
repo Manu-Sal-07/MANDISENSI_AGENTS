@@ -18,7 +18,6 @@ COPY mandisense_ai /app/mandisense_ai
 COPY api /app/api
 COPY backend /app/backend
 COPY scripts /app/scripts
-COPY run_agents.py /app/
 
 RUN pip install --no-cache-dir .
 
