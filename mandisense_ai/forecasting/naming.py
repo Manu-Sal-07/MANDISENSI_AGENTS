@@ -131,3 +131,21 @@ def canonical_commodity(raw_name: str) -> Optional[str]:
 
 def series_key(commodity: str, mandi_id: str) -> str:
     return f"{commodity}::{mandi_id}"
+
+
+# ── one mandi, several historical spellings ─────────────────────────────────
+# The Bengaluru main market (Yeshwanthpur) was keyed `bangalore_yeshwanthpur` by the forecasting store and `bangalore_apmc`
+# by the cognition layer, while the Agmarknet-derived farmer world calls it `bengaluru_apmc`. Their latest prices are identical,
+# so they are one series. Layers that key on the world id call `world_market`; the forecast store's callers use `forecast_market`.
+_TO_WORLD = {"bangalore_yeshwanthpur": "bengaluru_apmc", "bangalore_apmc": "bengaluru_apmc"}
+_TO_FORECAST = {"bengaluru_apmc": "bangalore_yeshwanthpur", "bangalore_apmc": "bangalore_yeshwanthpur"}
+
+
+def world_market(mandi_id: str) -> str:
+    """The id used by the farmer world / market panel."""
+    return _TO_WORLD.get(mandi_id, mandi_id)
+
+
+def forecast_market(mandi_id: str) -> str:
+    """The id used by the forecast store."""
+    return _TO_FORECAST.get(mandi_id, mandi_id)

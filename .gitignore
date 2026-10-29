@@ -83,3 +83,21 @@ presentation_assets/
 *.toc
 *.synctex.gz
 *.vrb
+
+# Research package: local environment and caches are rebuilt, not tracked
+research/.venv/
+research/.pytest_cache/
+research/results/cache/
+research/results/*.log
+research/results/*.err
+
+# LaTeX build products
+*.aux
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+mandisense_ai/data/deployment/audit_log.json

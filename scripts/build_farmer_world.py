@@ -76,12 +76,69 @@ def stage_sources(district_csv: Path | None, mandi_dir: Path | None) -> None:
             shutil.copy2(path, world.SOURCE_DIR / f"mandi_report_{len(seen):02d}.csv")
 
 
-def build_district_observations() -> dict:
-    raw = pd.read_csv(world.SOURCE_DIR / "district_report.csv", skiprows=1, thousands=",")
-    raw.columns = ["state", "district", "group", "commodity", "date", "arrivals", "arr_unit", "price", "price_unit"]
-    raw = raw[raw["date"].notna() & raw["state"].notna()].copy()
+DISTRICT_COLUMNS_9 = ["state", "district", "group", "commodity", "date", "arrivals", "arr_unit", "price", "price_unit"]
+MARKET_COLUMNS_10 = ["state", "district", "market", "group", "commodity", "date", "arrivals", "arr_unit", "price", "price_unit"]
+
+
+def _read_history_report(path: Path) -> tuple[pd.DataFrame, bool]:
+    """Read the portal's "All Type of Report" export in either layout.
+
+    The older export is district-level (9 columns). The current one is
+    market-level (10 columns, with a Market column); its headers also carry the
+    date range, so columns are assigned by position. Footer rows ("Note: ...")
+    have no parseable date and are dropped.
+    """
+    raw = pd.read_csv(path, skiprows=1, thousands=",")
+    market_level = raw.shape[1] == len(MARKET_COLUMNS_10)
+    if not market_level and raw.shape[1] != len(DISTRICT_COLUMNS_9):
+        raise ValueError(f"Unexpected history layout: {raw.shape[1]} columns in {path.name}")
+    raw.columns = MARKET_COLUMNS_10 if market_level else DISTRICT_COLUMNS_9
     raw["date"] = pd.to_datetime(raw["date"], format="%d-%m-%Y", errors="coerce")
-    raw = raw.dropna(subset=["date"])
+    raw = raw.dropna(subset=["date", "state"]).copy()
+    for col in ("arrivals", "price"):
+        raw[col] = pd.to_numeric(raw[col], errors="coerce")
+    return raw, market_level
+
+
+def _district_from_markets(raw: pd.DataFrame) -> pd.DataFrame:
+    """Arrivals-weighted district price per crop and day from market rows.
+
+    This is the definition the portal itself states in the report footer
+    ("Weighted Average Price = sum(arrival quantity x modal price) / sum(arrival quantity)"),
+    with a plain mean on days where no arrivals were reported.
+    """
+    r = raw.dropna(subset=["price"]).copy()
+    r["arr"] = r["arrivals"].fillna(0.0).clip(lower=0.0)
+    r["w"] = r["price"] * r["arr"]
+    g = r.groupby(["state", "district", "commodity", "date"], as_index=False).agg(
+        arrivals=("arr", "sum"), w=("w", "sum"), simple=("price", "mean"))
+    g["price"] = np.where(g["arrivals"] > 0, g["w"] / g["arrivals"].where(g["arrivals"] > 0, 1.0), g["simple"])
+    g["group"] = "Vegetables"
+    g["arr_unit"] = "Metric Tonnes"
+    g["price_unit"] = "Rs./Quintal"
+    return g[DISTRICT_COLUMNS_9]
+
+
+def build_market_panel(raw: pd.DataFrame) -> dict:
+    """Persist the market-level daily panel read by the market-choice engine."""
+    known = raw.copy()
+    known["mandi_id"] = known["market"].str.strip().map(registry.AGMARKNET_MARKET_TO_ID)
+    known["crop"] = known["commodity"].map(registry.AGMARKNET_TO_CROP)
+    known = known.dropna(subset=["mandi_id", "crop", "price"])
+    known = known[known["price"] > 0]
+    out = known[["date", "crop", "mandi_id", "price", "arrivals"]].drop_duplicates(["date", "crop", "mandi_id"], keep="last")
+    out = out.sort_values(["crop", "mandi_id", "date"]).reset_index(drop=True)
+    world.DATA_DIR.mkdir(parents=True, exist_ok=True)
+    out.to_parquet(world.MARKET_PANEL, index=False)
+    per = out.groupby(["crop", "mandi_id"]).size()
+    return {"rows": int(len(out)), "series": int(len(per)), "date_range": [str(out["date"].min().date()), str(out["date"].max().date())]}
+
+
+def build_district_observations() -> dict:
+    raw, market_level = _read_history_report(world.SOURCE_DIR / "district_report.csv")
+    panel_summary = build_market_panel(raw) if market_level else None
+    if market_level:
+        raw = _district_from_markets(raw)
 
     raw["district_id"] = raw["district"].map(registry.AGMARKNET_DISTRICT_TO_ID)
     raw["crop"] = raw["commodity"].map(registry.AGMARKNET_TO_CROP)
@@ -125,6 +182,7 @@ def build_district_observations() -> dict:
 
     dropped = stats.drop(index=list(kept_keys))
     return {
+        "market_panel": panel_summary,
         "rows_read": int(len(raw)),
         "rows_rejected_by_bounds_gate": int(rejected),
         "series_kept": len(kept_keys),

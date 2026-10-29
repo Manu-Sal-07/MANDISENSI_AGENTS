@@ -30,7 +30,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from mandisense_ai.farmer import registry, transmission as tr, world  # noqa: E402
 
-RESULTS_DIR = Path(r"D:\BMS COLL\PROJECT\MS-AI\IEEE_Paper\experiments\results")
+RESULTS_DIR = PROJECT_ROOT.parent / "papers" / "IEEE_Paper" / "experiments" / "results"
 
 
 def run_test_c(obs) -> dict:
@@ -43,7 +43,7 @@ def run_test_c(obs) -> dict:
     from mandisense_ai.forecasting.config import DEFAULT_CONFIG as CFG
     from mandisense_ai.forecasting.train import _prepare_training_frame, _apply_arrival_dropout, _make_estimator, _sample_weights
     import stats_lib as sl  # type: ignore
-    sys.path.insert(0, str(Path(r"D:\BMS COLL\PROJECT\MS-AI\IEEE_Paper\experiments")))
+    sys.path.insert(0, str(PROJECT_ROOT.parent / "papers" / "IEEE_Paper" / "experiments"))
     import stats_lib as sl  # noqa: E402,F811
 
     crops = sorted(obs["commodity"].unique())

@@ -33,6 +33,7 @@ DATA_DIR = _PACKAGE_ROOT / "data" / "farmer"
 SOURCE_DIR = DATA_DIR / "source"
 DISTRICT_OBSERVATIONS = DATA_DIR / "district_observations.parquet"
 MANDI_PRICES = DATA_DIR / "mandi_prices.parquet"
+MARKET_PANEL = DATA_DIR / "market_daily.parquet"   # market-level daily price and arrivals (market-choice engine)
 
 MODEL_DIR = _PACKAGE_ROOT / "models" / "farmer"
 BUNDLE_DIR = MODEL_DIR / "forecast_models"

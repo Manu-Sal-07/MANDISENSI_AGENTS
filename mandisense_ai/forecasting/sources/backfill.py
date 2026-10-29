@@ -222,15 +222,74 @@ def load_v4_karnataka_history() -> pd.DataFrame:
     return pd.concat(rows, ignore_index=True)
 
 
+PANEL_SOURCE_NAME = "agmarknet_market_panel"
+
+
+def load_market_panel_history() -> pd.DataFrame:
+    """
+    Seed the observation store from the real market-level daily panel.
+
+    `data/farmer/market_daily.parquet` is built from the portal's "All Type of
+    Report" export (see `scripts/build_farmer_world.py`): one arrivals-weighted
+    modal price and the arrivals per mandi, crop and day, from January 2021.
+    Every row is a genuine report; days a mandi did not report simply have no
+    row, so nothing here can masquerade as an observation the market made.
+    Min and max prices are filled from the per-variety daily reports where
+    those exist (from November 2025).
+    """
+    from mandisense_ai.farmer import registry, world
+
+    path = world.MARKET_PANEL
+    if not path.exists():
+        logger.warning("Market panel missing: %s", path)
+        return pd.DataFrame()
+
+    frame = pd.read_parquet(path)
+    frame["date"] = pd.to_datetime(frame["date"])
+    frame = frame[pd.to_numeric(frame["price"], errors="coerce") > 0]
+    ingested_at = datetime.utcnow().isoformat() + "Z"
+
+    out = pd.DataFrame(
+        {
+            "date": frame["date"].dt.normalize(),
+            "commodity": frame["crop"].map(canonical_commodity),
+            "mandi_id": frame["mandi_id"].map(lambda m: canonical_market(m) or m),
+            "modal_price": pd.to_numeric(frame["price"], errors="coerce"),
+            "min_price": None,
+            "max_price": None,
+            "arrivals": pd.to_numeric(frame["arrivals"], errors="coerce"),
+            "state": "Karnataka",
+            "district": frame["mandi_id"].map(lambda m: registry.MANDIS[m].district if m in registry.MANDIS else None),
+            "source": PANEL_SOURCE_NAME,
+            "ingested_at": ingested_at,
+        }
+    ).dropna(subset=["commodity", "mandi_id"])
+
+    mandi_prices = world.MANDI_PRICES
+    if mandi_prices.exists():
+        detail = pd.read_parquet(mandi_prices)
+        detail["date"] = pd.to_datetime(detail["date"]).dt.normalize()
+        detail = detail.rename(columns={"mandi_id": "mandi_id", "commodity": "crop"})
+        detail["commodity"] = detail["crop"].map(canonical_commodity)
+        detail["mandi_id"] = detail["mandi_id"].map(lambda m: canonical_market(m) or m)
+        key = detail.set_index(["date", "commodity", "mandi_id"])[["min_price", "max_price"]]
+        out = out.set_index(["date", "commodity", "mandi_id"])
+        out.update(key.reindex(out.index))
+        out = out.reset_index()
+    logger.info("Market panel backfill prepared: %d observations", len(out))
+    return out
+
+
 def load_all_history() -> pd.DataFrame:
     """
-    Every bundled archive, national benchmark markets and Karnataka together.
+    Every bundled real history: the processed benchmark archives (if present)
+    and the Karnataka market panel.
 
-    This is what a first run should seed from: the benchmark parquets supply
-    the long history the models are trained on, the v4 dataset supplies the
-    markets the product actually serves.
+    The earlier Karnataka "v4" backfill was synthetic (a seasonal sinusoid plus
+    noise, see the evaluation audit) and is deliberately no longer part of
+    seeding; `load_v4_karnataka_history` remains only so old tests import.
     """
-    frames = [frame for frame in (load_archive_history(), load_v4_karnataka_history()) if not frame.empty]
+    frames = [frame for frame in (load_archive_history(), load_market_panel_history()) if not frame.empty]
     if not frames:
         return pd.DataFrame()
     return pd.concat(frames, ignore_index=True)
