@@ -10,7 +10,7 @@ farmer data world (Test A, B from PREREGISTERED_ADDENDUM_2_TRANSMISSION.txt).
 
 Writes:
   mandisense_ai/models/farmer/transmission_matrix.json   (served to the app)
-  IEEE_Paper/experiments/results/transmission_stats.json (for the paper)
+  research/results/transmission/transmission_stats.json (for the paper)
 """
 from __future__ import annotations
 
@@ -30,7 +30,25 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from mandisense_ai.farmer import registry, transmission as tr, world  # noqa: E402
 
-RESULTS_DIR = PROJECT_ROOT.parent / "papers" / "IEEE_Paper" / "experiments" / "results"
+RESULTS_DIR = PROJECT_ROOT / "research" / "results" / "transmission"
+
+
+def _block_boot(df, statistic, B: int = 1000, block_weeks: int = tr.BLOCK_WEEKS, seed: int = 20261001):
+    """95% interval of `statistic(frame)` under a week-block bootstrap (keeps within-week and nearby-week dependence)."""
+    import numpy as np
+    import pandas as pd
+
+    rng = np.random.default_rng(seed)
+    weeks = pd.PeriodIndex(pd.to_datetime(df["date"]), freq="W")
+    uniq = sorted(set(weeks))
+    by_week = {w: np.where(weeks == w)[0] for w in uniq}
+    n_blocks = int(np.ceil(len(uniq) / block_weeks))
+    stats_ = []
+    for _ in range(B):
+        starts = rng.integers(0, max(1, len(uniq) - block_weeks), n_blocks)
+        idx = np.concatenate([np.concatenate([by_week[w] for w in uniq[s:s + block_weeks]]) for s in starts])
+        stats_.append(statistic(df.iloc[idx]))
+    return tuple(np.percentile(stats_, [2.5, 97.5]))
 
 
 def run_test_c(obs) -> dict:
@@ -42,9 +60,7 @@ def run_test_c(obs) -> dict:
 
     from mandisense_ai.forecasting.config import DEFAULT_CONFIG as CFG
     from mandisense_ai.forecasting.train import _prepare_training_frame, _apply_arrival_dropout, _make_estimator, _sample_weights
-    import stats_lib as sl  # type: ignore
-    sys.path.insert(0, str(PROJECT_ROOT.parent / "papers" / "IEEE_Paper" / "experiments"))
-    import stats_lib as sl  # noqa: E402,F811
+    from mandisense_ai.farmer.significance import dm_test
 
     crops = sorted(obs["commodity"].unique())
     extra_frames = []
@@ -90,9 +106,9 @@ def run_test_c(obs) -> dict:
         mae_trans = np.abs(trans.actual - trans.pred).mean()
         skill_gain = 1 - mae_trans / mae_base
         abs_base, abs_trans = np.abs(base.actual - base.pred).to_numpy(), np.abs(trans.actual - trans.pred).to_numpy()
-        stat, p, n = sl.dm_test(abs_base, abs_trans, base.date.to_numpy(), h)
-        lo, hi = sl.block_boot(pd.DataFrame({"date": base.date, "a": abs_base, "b": abs_trans}),
-                               lambda g: 1 - g["b"].mean() / g["a"].mean(), B=1000)
+        stat, p, n = dm_test(abs_base, abs_trans, base.date.to_numpy(), h)
+        lo, hi = _block_boot(pd.DataFrame({"date": base.date, "a": abs_base, "b": abs_trans}),
+                               lambda g: 1 - g["b"].mean() / g["a"].mean())
         horizons[str(h)] = {"mae_base": float(mae_base), "mae_with_transmission": float(mae_trans),
                             "skill_gain_pct": round(float(skill_gain) * 100, 3), "ci": [round(float(lo) * 100, 3), round(float(hi) * 100, 3)],
                             "dm_p": float(p)}

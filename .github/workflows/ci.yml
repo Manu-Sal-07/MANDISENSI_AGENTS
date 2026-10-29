@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "feature/**"]
+  pull_request:
+
+jobs:
+  backend:
+    name: Backend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Install pinned dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock
+      - name: Run the application tests
+        # CHAT_PROVIDER/MANDISENSE_LLM_PROVIDER are forced off in tests/conftest.py, so no key or network is needed.
+        run: python -m pytest mandisense_ai -q -p no:cacheprovider
+      - name: Check the pipeline orchestrator resolves
+        run: python scripts/pipeline.py --dry-run
+
+  frontend:
+    name: Frontend type-check, lint and build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - name: Type-check
+        run: npx tsc --noEmit
+      - name: Unit tests
+        run: npm test
+      - name: Lint (errors fail the build; warnings are tracked but allowed)
+        run: npx eslint . --quiet
+      - name: Production build
+        run: npm run build

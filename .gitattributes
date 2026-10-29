@@ -1,0 +1,9 @@
+# Normalise line endings in the repository; checkout uses the platform's own.
+* text=auto
+*.parquet binary
+*.pkl binary
+*.joblib binary
+*.npy binary
+*.png binary
+*.pdf binary
+*.xlsx binary

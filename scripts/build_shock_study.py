@@ -27,6 +27,50 @@ from mandisense_ai.farmer import world  # noqa: E402
 from mandisense_ai.shock.study import run_study  # noqa: E402
 
 OUT = PROJECT_ROOT / "mandisense_ai" / "models" / "shock" / "shock_study.json"
+DOC = PROJECT_ROOT / "docs" / "SHOCK_STUDY.md"
+
+
+def write_report(artifact: dict) -> None:
+    """The study as a readable document, generated from the artefact so the two cannot disagree."""
+    own, cc = artifact["own_crop"], (artifact.get("cross_commodity") or {})
+    rules = own["rules"]
+    L = ["# Supply-shock study", "",
+         f"Generated {artifact['generated_at'][:19]}Z from {artifact['data']['from']} to {artifact['data']['to']}; crops {', '.join(artifact['data']['crops'])}; "
+         f"districts {', '.join(artifact['data']['districts'])}.", "",
+         "A **shock onset** is a day when arrivals sit at least "
+         f"{rules['z_onset']} standard deviations from their trailing norm in a district, with at least {rules['min_gap_days']} days since the previous onset. "
+         "The **effect** is the crop's own price change over the horizon minus the average change of the other crops in the same district on the same dates, "
+         "so market-wide moves cancel. Intervals are block bootstraps over weeks; the **placebo** moves every district's shocks to random other dates "
+         f"({rules['placebo_draws']} draws, shifts of at least {rules['placebo_min_shift_days']} days) and asks how often a gap this large appears by chance; "
+         f"**Holm** correction is applied across all {rules['holm_over']} tests. **Detectable** is the smallest effect each test could have found (2.8 standard errors).", "",
+         "A result is **ROBUST** only if it survives Holm correction, the placebo, an interval that excludes zero and agreement across districts. "
+         "**SUGGESTIVE** means it shows in the sample but fails one of those. Farmers are only ever shown robust results.", "",
+         f"## Own-crop price response ({own['n_tested']} tests: {own['n_robust']} robust, {own['n_suggestive']} suggestive)", "",
+         "| Crop | Shock | Days after | Episodes | Effect | 95% interval | Detectable | Placebo p | Holm p | Evidence |", "|---|---|---|---|---|---|---|---|---|---|"]
+    for r in own["results"]:
+        if r["status"] != "OK":
+            L.append(f"| {r['crop']} | {r['direction']} | {r['horizon']} | {r.get('n', 0)} | not enough episodes | | | | | |")
+            continue
+        L.append(f"| {r['crop']} | {r['direction']} | {r['horizon']} | {r['n']} | {100 * r['effect']:+.1f}% | {100 * r['ci'][0]:+.1f} to {100 * r['ci'][1]:+.1f} | "
+                 f"±{100 * (r['mde'] or 0):.1f}% | {r['placebo_p']:.3f} | {r['holm_p']:.3f} | {r['tier'].lower()} |")
+    edges = [e for e in cc.get("edges", []) if e.get("status") == "OK"]
+    if edges:
+        L += ["", f"## Cross-commodity links ({len(edges)} tested)", "",
+              "| When | Then | Episodes | Effect | 95% interval | Detectable | Placebo p | Published as |", "|---|---|---|---|---|---|---|---|"]
+        for e in sorted(edges, key=lambda x: (not x.get("published"), -abs(x.get("effect") or 0))):
+            L.append(f"| {e['source']} {e['shock']} | {e['target']} price | {e['n_episodes']} | {100 * e['effect']:+.1f}% | "
+                     f"{100 * e['ci'][0]:+.1f} to {100 * e['ci'][1]:+.1f} | ±{100 * (e.get('min_detectable_effect') or 0):.1f}% | {e['placebo_p']:.3f} | "
+                     f"{'robust' if e.get('published') else 'not published'} |")
+    L += ["", "## Reading", "",
+          "No own-crop price response is robust, so the application makes no claim that a glut or squeeze of arrivals will move a price. Where results are only suggestive "
+          "they are shown to traders as leads to check, never as signals, and never to farmers. The farmer app reports only what is observed: arrivals against normal and the "
+          "price gap to neighbouring districts.", "",
+          "## Limits", "",
+          "- Five crops in five districts over under six years give a few hundred episodes at best; the *detectable* column says how large an effect would have to be to be seen.",
+          "- Thirty-plus tests invite chance findings; the Holm column is the guard, and the suggestive rows should be read with it.",
+          "- Reported modal prices change in steps, so short-horizon price changes are lumpy and many are exactly zero."]
+    DOC.parent.mkdir(exist_ok=True)
+    DOC.write_text("\n".join(L), encoding="utf-8")
 
 
 def main() -> None:
@@ -47,6 +91,7 @@ def main() -> None:
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(artifact, indent=1, default=str), encoding="utf-8")
+    write_report(artifact)
     print(f"wrote {OUT.name} in {time.time() - t0:.0f}s: tested {study['n_tested']}, robust {study['n_robust']}, suggestive {study['n_suggestive']}")
     for r in study["results"]:
         if r["status"] == "OK" and r["tier"] != "NONE":
