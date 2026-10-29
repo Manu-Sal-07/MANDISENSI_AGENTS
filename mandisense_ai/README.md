@@ -1,50 +1,21 @@
-# MandiSense AI (Path A)
+# `mandisense_ai`: the Python package
 
-An adaptive multi-agent intelligent system for agricultural mandi price forecasting.
+The repository [README](../README.md) explains what the system does and how to run it; [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) shows how
+the pieces connect. This file is a map of the modules.
 
-## Path A Improved Architecture
-Built using Clean Architecture principles, ensuring modularity, testability, and separation of concerns. The system is designed specifically to handle messy, incomplete, and delayed data from sources like Agmarknet.
-
-### Path A Specifics
-- **Meta-Ensemble Ready**: Introduces a unified `AgentOutput` schema ensuring all agents (Seasonality, ArrivalVolume, ExternalIntelligence) emit standard confidences and predictions safely before aggregation.
-- **Strict Configuration**: Powered by `Pydantic v2` for rigorous type-safety and robust multi-factor models.
-
-## Folder Structure & Purpose
-- `api/` - Future FastAPI endpoints layer
-- `config/` - Pydantic settings and YAML defaults (Unified schema configured here)
-- `core/` - Core business logic
-  - `agents/` - Home for individual forecasting agents
-- `data/` - Data access layer (Repository pattern)
-- `ensemble/` - Will contain the meta-ensemble architecture to receive `AgentOutput` list and determine dynamic weights
-- `explainability/` - Model interpretability logic (SHAP/LIME)
-- `frontend/` - Future Streamlit dashboard application
-- `models/` - Serialized machine learning artifacts directory
-- `tests/` - Pytest suites configuration
-- `utils/` - Shared helpers, logging, and custom exceptions
-
-## Setup Instructions
-
-1. **Clone the repository and create a virtual environment:**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-2. **Install project dependencies:**
-   ```bash
-   pip install -e .
-   ```
-
-3. **Configure the environment:**
-   Copy `.env.example` to `.env`.
-   ```bash
-   cp .env.example .env
-   ```
-
-4. **Run the initial orchestration process:**
-   ```bash
-   python main.py
-   ```
-
-## Development Flow & Next Phases
-Phase 0 currently implements the foundational structures. Future phases will introduce the distinct Multi-Agent modules into `core/agents/`, implement the dynamic weighting in `ensemble/`, and connect to production datasources via `data/`.
+| Module | Responsibility | Entry points |
+|---|---|---|
+| `farmer/` | The data world: registry of districts and mandis, the district, mandi and market panels built from Agmarknet exports, sell plans, transmission tests, farmer-facing readings | `world.py`, `registry.py`, `transmission.py` |
+| `forecasting/` | The served forecaster: causal features, walk-forward training, conformal bands, forecast store, scheduler; the agent council and its traced run | `train.py`, `features.py`, `service.py`, `council.py`, `trace.py`, `naming.py` (one id per mandi) |
+| `market_choice/` | Where-and-when-to-sell: realised-outcome labels, economics, conformal floor, backtest, service | `engine.py`, `econ.py`, `conformal.py`, `service.py` |
+| `shock/` | Arrival-shock event study and the radar both audiences read | `study.py`, `service.py` |
+| `spillover/` | Weekly cross-commodity spillover matrix (evidence for the AI Brief) | `build.py`, `service.py` |
+| `cognition/` | Per-series market state from a council of agents, arbitration, state store, orchestration | `engine.py`, `forecast_engine.py`, `state_store.py` |
+| `intelligence/` | AI Brief and the explanation layer (code-written sentences, paraphrase, independent judge) | `explain.py`, `service.py`, `providers.py` |
+| `chat/` | Farmer and trader assistants with tool calling; the tools wrap the same functions the API serves | `engine.py`, `tools.py`, `providers.py` |
+| `trader/` | Spreads, gap arbitrage, volatility regime, analogues, scenarios, forward price, position risk | one module per tool |
+| `core/` | Query/decision orchestrators and the external-factors (weather, news) reader | `orchestrator/`, `agents/external_factors_agent/` |
+| `services/` | Read-side data services for charts and candles over the market panel | `candle_data_service.py` |
+| `lib/`, `utils/`, `config/`, `db/` | Caching, logging, settings, optional Postgres access | |
+| `data/`, `models/` | Panels, source exports and trained artefacts (produced by `scripts/`, not edited by hand) | |
+| `tests/` | Application tests (no network or API key needed) | `python -m pytest mandisense_ai -q` |
