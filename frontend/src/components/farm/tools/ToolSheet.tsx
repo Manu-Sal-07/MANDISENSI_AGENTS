@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
 
@@ -25,6 +26,11 @@ interface ToolSheetProps {
  * built by different code paths.
  */
 export default function ToolSheet({ open, onClose, title, subtitle, accentColour, icon, children }: ToolSheetProps) {
+  // Rendered into document.body: inside the page the sheet shared a stacking context with the sticky header,
+  // which then drew over the top of the sheet and clipped its title.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
@@ -38,10 +44,12 @@ export default function ToolSheet({ open, onClose, title, subtitle, accentColour
     };
   }, [open, onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center sm:p-4">
+        <div className="fixed inset-0 z-[80] flex items-end justify-center sm:items-center sm:p-4">
           <motion.div
             className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             initial={{ opacity: 0 }}
@@ -54,7 +62,7 @@ export default function ToolSheet({ open, onClose, title, subtitle, accentColour
             role="dialog"
             aria-modal="true"
             aria-label={title}
-            className="farm-surface relative flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-t-[2rem] sm:rounded-[2rem]"
+            className="farm-surface relative flex max-h-[90dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-[2rem] sm:rounded-[2rem]"
             style={{ background: 'var(--farm-paper)' }}
             initial={{ y: '100%', opacity: 0.6 }}
             animate={{ y: 0, opacity: 1 }}
@@ -86,6 +94,7 @@ export default function ToolSheet({ open, onClose, title, subtitle, accentColour
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
