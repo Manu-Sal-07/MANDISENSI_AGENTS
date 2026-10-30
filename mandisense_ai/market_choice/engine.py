@@ -239,7 +239,7 @@ def _aci_stream(score: np.ndarray, sale: np.ndarray, today: np.ndarray, alpha: f
     return float(np.mean(finals)), float(np.mean(viol))
 
 
-def backtest(dd: DecisionData, e: Economics) -> Dict[str, Any]:
+def backtest(dd: DecisionData, e: Economics, daily: bool = False) -> Dict[str, Any]:
     """Walk-forward out-of-sample evaluation over the most recent decision days.
 
     The served policy is the plug-in one: recommend the action with the best
@@ -328,7 +328,27 @@ def backtest(dd: DecisionData, e: Economics) -> Dict[str, Any]:
                     "oracle": monthly["oracle"].round(0).tolist()},
         "_scores": pooled_scores[-6000:],
         "_sigma": sigma_final,
+        **({"_daily": _daily_record(dates[stream], ev, half, got, score, rh_c, sig_c, aci[DEFAULT_ALPHA][0])} if daily else {}),
     }
+
+
+def _daily_record(stream_dates: np.ndarray, ev: np.ndarray, half: int, got: Dict[str, np.ndarray], score: np.ndarray,
+                  rh_c: np.ndarray, sig_c: np.ndarray, alpha_eff: float) -> Dict[str, Any]:
+    """Day-by-day out-of-sample record of the served policy, for the public track record.
+
+    Only days in the second half of the scored period are listed: the floor multiplier is fitted on the first half,
+    so these days were never used to set the floor they are judged against.
+    """
+    q = conformal_quantile(score[BURN_IN_DAYS:half].ravel(), alpha_eff)
+    floor = rh_c - q * sig_c
+    held = got["recommended"] >= floor
+    rows = []
+    for i in np.flatnonzero(ev)[np.flatnonzero(ev) >= half]:
+        rows.append({"date": str(stream_dates[i].date()),
+                     "recommended": round(float(got["recommended"][i].mean()), 1), "nearest": round(float(got["nearest"][i].mean()), 1),
+                     "highest_yesterday": round(float(got["highest_yesterday"][i].mean()), 1), "oracle": round(float(got["oracle"][i].mean()), 1),
+                     "floor": round(float(floor[i].mean()), 1), "floor_held": round(float(held[i].mean()), 2)})
+    return {"q": round(float(q), 4), "alpha_effective": round(float(alpha_eff), 4), "days": rows}
 
 
 # ----------------------------------------------------------------- training
@@ -354,6 +374,7 @@ def train_crop(crop: str, long: Optional[pd.DataFrame] = None) -> Optional[Dict[
     bundle = fit_bundle(dd, valid, e)
     scores = bt.pop("_scores", np.array([]))
     sigma = bt.pop("_sigma", None)
+    bt.pop("_daily", None)
     meta = {
         "crop": crop, "markets": list(panel.markets), "n_markets": panel.M, "trained_through": str(panel.dates[-1].date()),
         "n_train_days": int(len(valid)), "economics": asdict(e), "limited_evidence": panel.M < EVIDENCE_MARKETS,
@@ -477,7 +498,7 @@ class MarketChoiceEngine:
         return {
             "panel": panel, "meta": meta, "econ": e, "elig": elig, "price": price, "prep": prep[0], "r_hat": r_hat,
             "floor": floor, "sigma": sigma, "q": q, "alpha": alpha, "offered": offered, "dist": dist,
-            "decision_day": panel.dates[-1] + timedelta(days=1), "as_of": panel.dates[-1], "ref_lp": ref_lp,
+            "gate_price": gate_price, "decision_day": panel.dates[-1] + timedelta(days=1), "as_of": panel.dates[-1], "ref_lp": ref_lp,
             "last_price": np.exp(np.nan_to_num(ref_lp)), "stale": fs.stale[s],
         }
 

@@ -1,0 +1,77 @@
+\chapter{Conclusion and Future Discussion}
+\label{ch:concl}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+MandiSense AI was built to answer one question for a farmer in the Bengaluru--Kolar belt: where, and when, to sell. Real Agmarknet records (\NhistoryRows{} rows, \DataFrom{} to \DataTo{}) were arranged into a panel of \NpanelRows{} mandi-days, and a market-choice model was trained on the revenue a farmer would actually have received, with transport, shrinkage and silent markets included.
+
+Against the objectives of Section~\ref{sec:objectives}: the panel was built with every exclusion recorded (objective 1, met). Net revenue was formulated and models were scored on 511 to 963 held-out days per crop (objective 2, met). Realised-revenue labels improved decisions in all four crops by Rs~87 to 157 per quintal (Table~\ref{tab:effect}), while the decision-focused loss added no reliable gain (objective 3, met as a test; the second hypothesis was not supported). Adaptive floors held their level in tomato and ginger and were conservative in onion and potato (objective 4, met for two of four crops). The system was delivered as a service and a trilingual application with 650 passing tests and a reproducible pipeline (objective 5, met; public deployment unverified). The audit showed that the large skill reported by decompose-then-forecast models disappears under causal evaluation (objective 6, met). The decision-intelligence service was built with a grounding verifier, a deterministic fallback and 30 passing tests, and the explanation layer kept 0.83 to 0.99 of English sentences and 0.62 to 0.91 of Kannada and Hindi sentences after an independent judge that caught nine of nine corrupted rewrites (objective 7, met for the service and its verifier; not evaluated for the effect of briefs on decisions). The spillover engine was built and run on all 40 edges but published none, because no shock episode reached the evidence floor (objective 8, met as engineering; no transmission result is claimed). The five insight features were built and tested: the breakdown adds up exactly, the advice survives a transport cost over four times the default and changes at 5\% spoilage a day, the replay shows the advice beating the nearest mandi on 63 to 93\% of days with the floor holding on 84 to 92\%, the silence tax puts a figure on unreliable mandis, and 200 farmers all following the best advice cut that mandi's price by 32\% (objective 9, met; the crowd effect is a scenario). A Telegram bot that builds and sends a dated digest in three languages, with a delivery log, was built, unit-tested against a fake client and delivered to one real account with the sends logged (objective 10, met as built and tested; no farmer pilot was run).
+
+In the daily back-test, the served advice earned Rs~\EngineTomatoGain{} per quintal more than the strongest heuristic for tomato, a 62\% share of the gap to the oracle, and was not distinguishable from it for potato. Two further ideas, the specialist council and the supply-shock study, were evaluated honestly and were not promoted. The project's contribution is therefore a tested decision aid with stated limits.
+
+\section{Key Learnings}
+\label{sec:key-learnings}
+
+\begin{itemize}
+    \item \textbf{Data provenance comes first.} The first dataset in the repository was synthetic; discovering it late cost weeks. Every dataset now carries a load report and an integrity check between independent exports.
+    \item \textbf{Evaluation design decides conclusions.} Walk-forward splits with gaps, block bootstrap and multiple-comparison control turned several apparent gains into null results, and exposed the leak in decomposition hybrids.
+    \item \textbf{Report negative results.} The decision-focused loss, the reporting head, silence features, the council and the shock study did not help; recording them saved readers from believing otherwise.
+    \item \textbf{Make claims testable.} Writing a results generator, so that no number in the report is typed by hand, removed a class of transcription errors.
+    \item \textbf{Dependencies need pins.} An unpinned upgrade broke the data stack; a lock file and a fresh-clone check now guard it.
+    \item \textbf{Make advice inspectable.} Showing the arithmetic, the break-even cost and the record on unseen days exposed that the floors held on 84 to 92\% of replayed days against the 90\% aimed for, a weakness the headline back-test had hidden.
+    \item \textbf{Teamwork.} Splitting work into data, application and verification packages worked on paper; the commit history shows the work concentrated in one member's repository account, a coordination weakness the team recognises (Section~\ref{sec:ram}).
+\end{itemize}
+
+\section{Mapping to a Complex Engineering Problem}
+\label{sec:cep}
+
+\begin{table}[!t]
+\centering
+\caption{Attributes of a complex engineering problem and how this project exhibits them}
+\label{tab:cep}
+\small
+\begin{tabular}{|p{3.6cm}|p{8.2cm}|l|}
+\hline
+\textbf{Attribute} & \textbf{Evidence in this project} & \textbf{Section} \\ \hline
+Depth of knowledge & Statistics of forecasting, conformal inference, optimisation, web engineering & \ref{sec:proposed} \\ \hline
+Conflicting requirements & Accuracy against interpretability; farmer simplicity against statistical caveats; coverage against floor tightness & \ref{sec:floor-results} \\ \hline
+Depth of analysis & No ready formula: revenue, floor and evaluation protocol were derived and tested & \ref{sec:formulation} \\ \hline
+Familiarity of issues & Reporting gaps and delayed feedback are not covered by standard forecasting practice & \ref{sec:related-forecast} \\ \hline
+Extent of codes and standards & Time-ordered evaluation practice; API typing; data-source terms of the Agmarknet portal & \ref{sec:setup} \\ \hline
+Stakeholder involvement & Farmers and traders as users, the guide as reviewer; survey instrument prepared, field responses not collected & Appendix~\ref{appendix:survey} \\ \hline
+Interdependence & Data, models, service, language layer and interface depend on one another & \ref{sec:architecture} \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Limitations and Future Work}
+\label{sec:future-work}
+
+\noindent\textbf{Limitations.} One region, one data source and 5.8 years of history; revenue parameters are scenarios; the study is offline and no farmer acted on the advice; garlic is not covered; the language layer is weaker in Kannada and Hindi than in English, and the judge was validated on only nine corrupted and three faithful English sentences; briefs were verified for traceability of figures, not tested with users; the spillover engine found no episodes and so no transmission; the crowd effect rests on an assumed price flexibility; the replayed floors held on 84 to 92\% of days against 90\% aimed for; the digest has not been piloted with farmers and has no live feed; the public deployment has not been verified.
+
+\noindent\textbf{Future work, in priority order.}
+\begin{enumerate}
+    \item \emph{Field pilot.} Run the survey (Appendix~\ref{appendix:survey}) and a small trial with farmers, to measure whether advice changes decisions and revenue. This is the largest gap.
+    \item \emph{Estimate the economics.} Replace assumed transport, spoilage and silent-market parameters with measured values, which Section~\ref{sec:performance-evaluation} showed to be influential but not decisive.
+    \item \emph{Understand silence.} Collect reasons for non-reporting from mandi officials, to test the assumption that a silent day means no sale.
+    \item \emph{Verify deployment} and add monitoring of floor violations in production, which is the check that matters once advice is live.
+    \item \emph{Diagnose the spillover pipeline.} Establish why the weekly panel yields no squeeze or glut episodes (market calm, labelling threshold, or labelling stage not fed from the real panel), define episodes directly from arrivals as the shock study does, and rerun the 40 edges.
+    \item \emph{Evaluate briefs with users.} Test whether grounded briefs change decisions or confidence, and extend the judge's validation to Kannada and Hindi with native-speaker review.
+    \item \emph{Widen coverage} to more districts and crops, and larger lots with price impact.
+\end{enumerate}
+
+\section{Sustainable Development Goals}
+\label{sec:sdgs-achieved}
+
+The project addresses three goals. Each connection below separates what the evidence supports from what remains a potential.
+
+\noindent\textbf{SDG 2, Zero Hunger (target 2.3).} Target 2.3 aims to raise the incomes of small-scale food producers, including through access to markets and information. The system gives a smallholder the market-comparison advice that traders already have. Evidence: in the daily back-test the advice earned Rs~60 to 202 per quintal more than the strongest simple rule in three of four crops, and Rs~69 to 1,595 more than selling at the nearest mandi. These are offline figures; the real income effect is not measured. The morning digest puts the same information on a free messaging channel in three languages; whether farmers use it is untested.
+
+\noindent\textbf{SDG 1, No Poverty (target 1.1/1.4 on access to economic resources and services).} Volatile prices and lack of information keep the poorest sellers poor; a free, trilingual tool lowers the barrier. Evidence is indirect: the interface is in Kannada, Hindi and English, and works for small lots. No poverty outcome was measured.
+
+\noindent\textbf{SDG 12, Responsible Consumption and Production (target 12.3).} Target 12.3 calls for reducing food loss along production and supply chains. Spoilage is built into the revenue model, so advice avoids waiting where shrinkage costs more than the expected price gain. The loss avoided is not measured in kilograms and is a potential rather than a result.
+
+\noindent\textbf{SDG 9, Industry, Innovation and Infrastructure (target 9.c).} The system uses a public data feed to widen access to information technology; the pipeline, tests and open documentation are reusable. This is an engineering contribution rather than a measured impact.
+
+\vspace{0.3cm}
+\noindent The evidence is strongest where the numbers are from held-out data (SDG 2.3) and weakest where the link is plausible but unmeasured (SDG 1, 12.3). We make no claim beyond that.

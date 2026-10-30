@@ -1,0 +1,249 @@
+\chapter{Methodology}
+\label{ch:method}
+
+This chapter states what the system must do, the method proposed to do it, the architecture that carries the method, the data it uses, how it is evaluated, and the software and hardware used.
+
+\section{Requirements}
+\label{sec:requirements}
+
+Requirements were fixed from the problem statement and from the way a farmer or trader would use the system. Each functional requirement is traced to a test in Chapter~\ref{ch:impl}.
+
+\begin{table}[!t]
+\centering
+\caption{Functional (FR) and non-functional (NFR) requirements}
+\label{tab:requirements}
+\small
+\begin{tabular}{|c|p{9.2cm}|p{3.2cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement} & \textbf{Verified by} \\ \hline
+FR1 & Recommend a market and holding period for a crop and location, with reasons & Engine back-test; API tests \\ \hline
+FR2 & State a revenue floor with a nominal violation rate & Floor calibration (Sec.~\ref{sec:floors}) \\ \hline
+FR3 & Show price forecasts with a band and say when a horizon is not served & Forecast tests \\ \hline
+FR4 & Refuse a crop with no market choice (garlic) instead of guessing & Engine tests \\ \hline
+FR5 & Let a trader see arrivals, shocks and cross-crop spillover & Trader pages; shock study \\ \hline
+FR6 & Answer questions in English, Kannada and Hindi without inventing numbers & LLM evaluation (Sec.~\ref{sec:llm-results}) \\ \hline
+FR7 & Produce a decision brief (BUY, SELL, HOLD or WAIT, confidence, cited factors) whose every figure is in the evidence; fall back to rules when it is not & Grounding tests; LLM evaluation (Sec.~\ref{sec:llm-results}) \\ \hline
+FR8 & Show how a supply shock in one crop transmits to others, and publish an edge only with enough episodes & Spillover study (Sec.~\ref{sec:spill-results}) \\ \hline
+FR9 & Show the arithmetic behind the advice, with parts that add up to the served net revenue & Identity test (Sec.~\ref{sec:insight-results}) \\ \hline
+FR10 & Re-price the advice under the farmer's own costs and report the cost at which it changes & Scenario tests \\ \hline
+FR11 & Replay the advice day by day on days it was not fitted on and publish wins, ties, losses and the floor score & Track-record build \\ \hline
+FR12 & Send a dated morning digest on a free messaging channel, advising only where the evidence is strong & Digest tests; demonstration \\ \hline
+NFR1 & Every reported number reproducible from one command & Pipeline; results generator \\ \hline
+NFR2 & No evaluation step may use information dated after its decision & Leakage tests \\ \hline
+NFR3 & Fresh clone installs and passes its tests & Fresh-clone check \\ \hline
+NFR4 & A language model may rephrase but never change a number & Validator and judge \\ \hline
+NFR5 & Page response suitable for a phone on a rural connection & Lightweight pages; smoke tests \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Proposed Methodology}
+\label{sec:proposed}
+
+\subsection{Net revenue of an action}
+\label{sec:formulation}
+
+On the morning of day $t$ a farmer knows every price through day $t-1$. With one quintal to sell, the farmer chooses a market $m$ and a holding period $k\in\{0,1,2,3\}$, or the farm gate. The realised net revenue in rupees per quintal from origin $\ell$ is
+\begin{equation}
+R(m,k\mid\ell)=(1-f)(1-\delta)^{k}\,\tilde P(m,t{+}k)-\tau\rho\,d(\ell,m)-c_0,
+\label{eq:revenue}
+\end{equation}
+where $\tilde P(m,t{+}k)=P(m,t{+}k)$ if market $m$ reported that day and $\tilde P=\varphi\,\bar P(t{+}k)$ otherwise, $\bar P$ being the mean price over markets that did report. The parameters are scenario assumptions, not estimates: fee and commission $f=4\%$, handling $c_0=$ Rs~20, transport $\tau=$ Rs~0.35 per quintal-km with road factor $\rho=1.3$, daily spoilage $\delta=3\%$ for tomato, $0.8\%$ for onion and $0.4\%$ for potato, and a silent-market discount $\varphi=0.85$. A farm-gate sale pays $0.8\,\bar P(t)$. Because $R$ is affine in the price vector, the loss in Equation~\ref{eq:spo} is exact for this problem. Chapter~\ref{ch:results} sweeps $\tau$, $\delta$ and $\varphi$.
+
+\subsection{Outcome-supervised learning}
+
+A conventional model is trained to predict the price at each market from the prices it has seen, and the best predicted action is taken. Such a model never sees a silent cell, so it cannot learn that a market may be closed. The proposed model is instead trained on $R$ itself: silent cells carry the fallback price, so the label is what the farmer would actually have received. Two separate effects are therefore tested: better \emph{labels} (realised revenue instead of observed price) and a better \emph{loss} (SPO+ instead of squared error).
+
+\subsection{Decision-focused loss}
+
+For a maximisation over a finite action set with true revenues $r$, optimum $a^*$ and predictions $\hat r$, the SPO+ loss~\cite{elmachtoub2022} is
+\begin{equation}
+\mathcal{L}_{\mathrm{SPO+}}(\hat r,r)=\max_{a}\,(2\hat r_a-r_a)-2\hat r_{a^*}+r_{a^*},
+\label{eq:spo}
+\end{equation}
+which is non-negative, zero at the truth, and an upper bound on regret. The network is a DeepSets encoder~\cite{zaheer2017}: a shared per-market encoder, an order-invariant context over the offered markets, and a head giving the four hold-$k$ log-returns. A Huber auxiliary loss~\cite{huber1964} stabilises training.
+
+\subsection{Guaranteed revenue floor}
+\label{sec:floors}
+
+For the chosen action with predicted revenue $\hat r$ and recent error scale $\hat\sigma$, the floor is $L=\hat r-q\hat\sigma$, where $q$ is the $(1-\alpha_t)$ quantile of past normalised scores of recommended actions. The miscoverage level follows adaptive conformal inference~\cite{gibbs2021},
+\begin{equation}
+\alpha_{t+1}=\alpha_t+\gamma\left(\alpha-\mathbf{1}[R<L]\right).
+\label{eq:aci}
+\end{equation}
+A $k$-day hold resolves $k$ days after the decision, so an outcome is released to the calibrator only once its sale date is strictly in the past. Section~\ref{sec:floor-results} compares this rule with a static conformal quantile and a naive Gaussian floor.
+
+\begin{algorithm}[!t]
+\caption{Recommendation with a verified floor}
+\label{alg:recommend}
+\begin{algorithmic}[1]
+\Require Prices through day $t-1$, origin $\ell$, crop, offered markets $\mathcal{M}_t$ (reported within 14 days)
+\Ensure Action $(m^\star,k^\star)$, floor $L$
+\State Build features per market (lags, spreads, arrivals, staleness, calendar) using only data before $t$
+\State $\hat r_{m,k}\gets$ model prediction of Eq.~\ref{eq:revenue} for every $m\in\mathcal M_t,\,k\in\{0..3\}$, plus farm gate
+\State $\hat\sigma_{m,k}\gets$ recent error scale; $q\gets$ quantile of past normalised scores at level $1-\alpha_t$
+\State $L_{m,k}\gets\hat r_{m,k}-q\,\hat\sigma_{m,k}$ \Comment{best guaranteed revenue}
+\State $(m^\star,k^\star)\gets\arg\max L_{m,k}$
+\State After the sale date has passed, update $\alpha_t$ with Eq.~\ref{eq:aci}
+\State \Return $(m^\star,k^\star)$, $L_{m^\star,k^\star}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Decision intelligence: grounded briefs}
+\label{sec:intel-method}
+
+The engines produce numbers; a farmer or trader wants a recommendation with reasons. The decision-intelligence service builds an \emph{evidence bundle} for one crop and market: a flat map from dotted keys (for example \texttt{forecast.h5.point}) to values, drawn from the forecast store, the market-choice engine, arrivals and the spillover matrix, together with a list of items that were unavailable and why. A provider is asked to fill a fixed schema, not to write free text: an action from \{BUY, SELL, HOLD, WAIT\}, a confidence from \{HIGH, MEDIUM, LOW, INSUFFICIENT\_EVIDENCE\}, a headline, a rationale, and factors, each with a direction (supports, opposes, neutral) and the evidence key it rests on. A factor that cannot name its key is treated as invented.
+
+Every brief is then verified. Each number stated in the brief must match a value in the evidence within a relative tolerance of 1\%, small integers below 32 are ignored as ordinary prose, every cited key must exist, and the brief may name only markets that appear in its own evidence. A brief that fails is not discarded; it is served with \texttt{grounded: false} and the issues listed, so the failure is visible. If the language-model provider errors, a deterministic provider that writes the brief from rules is used instead. The action in a brief follows the validated decision policy of the engines, and a hold is overridden when spoilage over the holding period outruns the expected price gain. The service never raises into a request.
+
+\subsection{Cross-commodity spillover}
+\label{sec:spill-method}
+
+The spillover engine asks: when a source crop $i$ enters a supply shock of type $s$ (squeeze or glut), what is the cumulative idiosyncratic return of target crop $j$ over the next $h$ weeks, relative to what it would normally have been? Weekly log-returns of the five crops (garlic, ginger, onion, potato, tomato) at one reference market per crop are first made idiosyncratic by removing the first principal component across crops (the common market factor, computed leave-one-out) and each crop's calendar-month mean return. A shock episode starts when the source crop is in a squeeze or glut supply regime; onsets closer than four weeks are merged into one episode. The effect at horizon $h\in\{1,2,3,4\}$ is a difference of means,
+\begin{equation}
+\hat\beta_{i\to j}^{s}(h)=\frac{1}{n}\sum_{e=1}^{n}\sum_{k=1}^{h} r_{j,\,t_e+k}\;-\;\bar b_j(h),
+\label{eq:spill}
+\end{equation}
+where $t_e$ is the onset of episode $e$, $r_{j}$ the idiosyncratic return of the target, and $\bar b_j(h)$ its unconditional mean over the same horizon. Intervals come from a bootstrap that resamples whole episodes (2,000 draws, 90\% level), because rows within an episode are strongly dependent. Across all 40 ordered pair and direction combinations the Benjamini--Hochberg procedure controls the false-discovery rate at 10\%. An edge is published as significant only if it has at least 8 episodes, its interval excludes zero and its size exceeds 1\%; otherwise it is published as \texttt{INSUFFICIENT\_EVIDENCE} instead of as a number that looks authoritative. A holdout check compares the sign of in-sample and held-out estimates on the final 30\% of the periods.
+
+\subsection{Explaining, stress-testing and auditing the advice}
+\label{sec:insight-method}
+
+Five features are computed from the served engine and the ingested panel; none fits a model when a request arrives.
+
+\noindent\textbf{Breakdown.} For an action $(m,k)$ with expected price $P$, the served net revenue of Equation~\ref{eq:revenue} is written as its parts,
+\begin{equation}
+R = P - fP - (1-f)P\left[1-(1-\delta)^{k}\right] - \tau\rho\,d - c_0 ,
+\label{eq:breakdown}
+\end{equation}
+and the parts are returned for the advice and for the three alternatives a farmer would otherwise use (nearest mandi today, highest price yesterday, farm gate). The expected price already allows for the chance that the mandi reports no price, because the model is trained on realised revenue.
+
+\noindent\textbf{What-if.} Predicted prices and the chance a mandi reports do not depend on the farmer's costs, so every action can be re-priced exactly under new values of $\tau$, $\delta$, $f$, $c_0$ and a longest wait. Sweeping one cost over a grid ($\tau$ from 0.1 to 3.0 rupees per quintal-km; $\delta$ from 0 to 8\% a day) and recording where the best action changes gives its \emph{break-even}: the cost at which the advice flips. The guaranteed floor keeps the error scale calibrated at the default costs, so it is indicative when costs differ a lot.
+
+\noindent\textbf{Track record.} The walk-forward back-test is replayed with day-level output. A multiplier for the floor is fitted on the first half of the scored days, and only the second half is reported, so every listed day is one the floor was not fitted on. For each day the advice is compared with the nearest mandi and with yesterday's highest-priced mandi (a win or loss is a difference of more than Rs~1, otherwise a tie), and the floor counts as held if realised revenue is at least the floor.
+
+\noindent\textbf{Silence tax.} A farmer who travels to mandi $m$ gets its price if it reports and otherwise the fraction $\varphi$ of the day's mean price at the mandis that did. Weekdays on which $m$ is silent on at least 90\% of days are treated as closed days that farmers already know. Over the remaining days,
+\begin{equation}
+T_m = s_m^{\mathrm{open}}\;\max\!\left(\bar P_m - \varphi\,\bar P_{\mathrm{day}},\,0\right),
+\label{eq:silence}
+\end{equation}
+where $s_m^{\mathrm{open}}$ is the share of its open days on which it reported nothing, $\bar P_m$ its mean price when it reports and $\bar P_{\mathrm{day}}$ the mean day price. A day with no price may be a closed mandi or a missed upload.
+
+\noindent\textbf{Crowd.} A yard's price falls when it receives more than its usual daily arrivals $A_m$ (median over the last year). If $x$ quintals arrive,
+\begin{equation}
+P_m(x) = P_m\left(1+\frac{x}{A_m}\right)^{-b}.
+\label{eq:crowd}
+\end{equation}
+The flexibility $b=0.115$ is the within-mandi, within-month association of log price with log arrivals in the tomato panel (standard error 0.023); it is an association, not a causal estimate, so it is a scenario that can be varied. For $N$ farmers with $q$ quintals each, three policies are compared with a single farmer: all take the best action, all go to the nearest mandi, and a coordinated split that hands out the quantity in small steps, each to the action with the best marginal revenue, which maximises the group's total revenue. The split also gives the probability with which each farmer can be advised each action.
+
+\subsection{Daily digest}
+\label{sec:digest-method}
+
+The digest is one message per subscriber, built only from ingested data. It gives the most recent reported price of the farmer's district for each crop \emph{with its date and the age of the data}, the change against the previous seven reports, and, for crops whose engine has strong back-test evidence, the best place and day to sell with the floor. Potato (limited evidence) and garlic (no choice between mandis) get prices only. If the recommended mandi was silent on most past occurrences of the sale weekday, the message says so. It is written in English, Kannada or Hindi and delivered over the Telegram Bot API, which is free; there is no live price feed, so the message is only as fresh as the last data load, and says so.
+
+
+\section{System Architecture}
+\label{sec:architecture}
+
+The system has five layers (Figure~\ref{fig:architecture}). The data layer turns raw Agmarknet exports into the market panel and a district-level observation store. The model layer holds the market-choice engines, price forecasters, the council, the shock and spillover studies. The service layer is a FastAPI application exposing farmer, trader and chat endpoints. The language layer holds the decision-intelligence service and the explanation writer, both under a validator and a grounding check. The presentation layer is a Next.js web application. The insight features sit inside the service layer, and a Telegram bot beside it delivers the morning digest.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[node distance=5mm and 7mm, every node/.style={font=\footnotesize}, box/.style={draw, rounded corners=2pt, align=center, minimum height=8mm, text width=2.7cm, fill=blue!6}, lay/.style={draw, dashed, rounded corners=4pt, inner sep=5pt}]
+\node[box] (raw) {Agmarknet exports\\ history, daily};
+\node[box, right=of raw] (clean) {Clean and audit\\ loader, integrity check};
+\node[box, right=of clean] (panel) {Market panel\\ and observation store};
+\node[box, below=9mm of clean] (me) {Market-choice\\ engines, floors};
+\node[box, left=of me] (fc) {Forecasters\\ and council};
+\node[box, right=of me] (sh) {Shock study,\\ spillover};
+\node[box, below=9mm of me] (api) {FastAPI service\\ farmer, trader, chat};
+\node[box, left=of api] (llm) {Decision intelligence,\\ explanation, judge};
+\node[box, right=of api] (web) {Next.js application\\ EN, KN, HI};
+\draw[->] (raw)--(clean); \draw[->] (clean)--(panel);
+\draw[->] (panel)--(me); \draw[->] (panel)--(fc); \draw[->] (panel)--(sh);
+\draw[->] (me)--(api); \draw[->] (fc)--(api); \draw[->] (sh)--(api);
+\draw[<->] (llm)--(api); \draw[->] (api)--(web);
+\node[box, below=9mm of llm] (ins) {Insight features\\ why, what-if, record};
+\node[box, below=9mm of web] (bot) {Telegram bot\\ morning digest};
+\draw[<->] (api)--(ins); \draw[->] (api)--(bot);
+\begin{scope}[on background layer]
+\node[lay, fit=(raw)(clean)(panel), label={[font=\scriptsize]above:data layer}] {};
+\node[lay, fit=(fc)(me)(sh), label={[font=\scriptsize]left:model layer}] {};
+\end{scope}
+\end{tikzpicture}
+\caption{Architecture of MandiSense AI: data and model layers feed a single service layer, which the language layer and the web application use.}
+\label{fig:architecture}
+\end{figure}
+
+\section{Dataset Description}
+\label{sec:dataset}
+
+All results use real portal records; no synthetic data enter any result (test fixtures are arrays used only to check code). Two Agmarknet exports were used: the history export, giving an arrivals-weighted modal price and arrivals per market, crop and day from \DataFrom{} to \DataTo{} (\NhistoryRows{} rows kept after cleaning), and the daily price report from 7 November 2025, with minimum, maximum and modal price per variety. Where the two overlap on 3,307 tomato market-days they agree (Pearson $r=0.99996$, 99.97\% within 5\%). The market panel holds \NpanelRows{} mandi-days. Table~\ref{tab:dataset} gives the panel by crop. The spillover engine uses a weekly panel of five crops over 232 weeks (3 January 2021 to 1 November 2026), at one reference market per crop (Bengaluru APMC for garlic, onion and potato; Ramanagara APMC for ginger and tomato). A cell of the panel is \emph{observed} only if the market reported; nothing is imputed into the panel, and any forward-filled view carries a staleness counter.
+
+\begin{table}[!t]
+\centering
+\caption{Market panel by crop. ``Eligible'' counts markets with at least 700 reported days.}
+\label{tab:dataset}
+\gentable{tab_dataset}
+\end{table}
+
+\section{Experimental Setup, Metrics and Baselines}
+\label{sec:setup}
+
+\noindent\textbf{Protocol.} Nested walk-forward: five outer test blocks (2024-H1 to 2026-10), each trained on earlier data only. Inside every fold, two six-month validation blocks drive hyper-parameter search with Optuna~\cite{akiba2019} (TPE; 20 trials for neural models, 25 for boosting), and a gap of $K{+}2$ days separates each training window from its validation or test block so that no four-day target overlaps. Every method receives the same budget. This follows the guidance on time-ordered evaluation~\cite{bergmeir2012,cerqueira2020}.
+
+\noindent\textbf{Metrics.} Mean realised net revenue and regret to a hindsight oracle, with day-block bootstrap intervals~\cite{kunsch1989}; the share of the gap between the nearest-mandi rule and the oracle that a method closes; the fraction of recommendations that went to a silent market; floor violation against the nominal level; forecast skill against the no-change forecast.
+
+\noindent\textbf{Inference.} Paired daily regret differences are tested with a moving-block bootstrap (block length 14) and Newey--West Diebold--Mariano tests~\cite{diebold1995,newey1987,harvey1997}, with Holm correction~\cite{holm1979} across all pre-specified comparisons and a model confidence set~\cite{hansen2011}.
+
+\noindent\textbf{Baselines.} Random walk with transport costs; LightGBM~\cite{ke2017} and XGBoost~\cite{chen2016} trained on observed prices (the standard predict-then-optimise); LightGBM trained on the same realised labels (to separate better labels from a better learner); and the heuristics nearest mandi today, highest price yesterday, best seven-day mean, and farm gate.
+
+\noindent\textbf{Language layer.} Twenty-four explanations (120 sentences) were generated, eight per language in English, Kannada and Hindi, by a writer model (gpt-oss-120b) and judged by a model of a different family (Qwen). Metrics are the share of sentences kept after the validator and judge, with 95\% intervals, and the judge's power on nine deliberately corrupted and three faithful English rewrites (reversed meaning, added claim, dropped qualifier, wrong meaning).
+
+\noindent\textbf{Spillover.} Metrics are the number of shock episodes per source and direction, the status of each of the 40 edges, the share of variance removed with the common factor, and sign agreement between in-sample and held-out estimates.
+
+\noindent\textbf{Insight features.} The breakdown is checked by an identity: its parts must sum to the served net revenue within Rs~1. The track record replays the back-test and must reproduce its headline numbers or it is not written. The silence tax and the crowd simulator are scenario analyses on the ingested panel and the served engine; their parameters (the silent-price fraction, the price flexibility) are stated and varied.
+
+\noindent\textbf{Pre-specification.} The model ladder, the paired comparisons, the silence tests and the leakage protocol were fixed before tuned results were seen.
+
+\section{Software and Hardware Requirements}
+\label{sec:swhw}
+
+\begin{table}[!t]
+\centering
+\caption{Software used, with versions from the locked environment}
+\label{tab:software-req}
+\small
+\begin{tabular}{|p{3.6cm}|p{5.8cm}|p{5.0cm}|}
+\hline
+\textbf{Category} & \textbf{Tool / library} & \textbf{Version} \\ \hline
+Language & Python & 3.12 \\ \hline
+Data and statistics & NumPy, pandas, SciPy, statsmodels & 1.26.4, 2.1.4, 1.11.4, 0.14.1 \\ \hline
+Learning & scikit-learn, LightGBM, XGBoost, Optuna & 1.3.2, 4.6.0, 2.0.3, as locked \\ \hline
+Neural (research environment) & PyTorch, Chronos-Bolt & separate research environment \\ \hline
+Backend & FastAPI, Uvicorn, Pydantic & 0.136.1, 0.46.0, 2.13.3 \\ \hline
+Frontend & Next.js, React, TypeScript, Tailwind CSS & 16.2.4, 19.2.4, 5, 4 \\ \hline
+Testing & pytest, vitest & 9.0.3, 3.2 \\ \hline
+Language layer & Groq API: gpt-oss-120b (writer), Qwen (judge) & hosted \\ \hline
+Tooling & Git, GitHub Actions, Docker, Node.js & CI workflow; Node 23 \\ \hline
+Messaging & Telegram Bot API (long polling), Requests & hosted, free \\ \hline
+Documents & \LaTeX{} (MiKTeX), matplotlib & 3.10.0 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!t]
+\centering
+\caption{Hardware used for development and all experiments}
+\label{tab:hardware-req}
+\small
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Component} & \textbf{Specification} \\ \hline
+CPU & Intel Core i9-13900HX, 24 cores / 32 threads \\ \hline
+GPU & NVIDIA GeForce RTX 4060 Laptop GPU \\ \hline
+RAM & 31.7 GB \\ \hline
+Storage & SSD, about 180 GB free on the working drive \\ \hline
+OS & Windows 11 Home \\ \hline
+\end{tabular}
+\end{table}
+
+Python was chosen for its statistics and boosting ecosystem, FastAPI for typed validation and automatic API documentation, and Next.js for fast pages on weak connections (alternatives: \texttt{docs/TOOL\_CHOICES.md}).

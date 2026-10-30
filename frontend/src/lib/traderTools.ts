@@ -2,11 +2,13 @@ import {
   Activity,
   FlaskConical,
   Gauge,
+  Megaphone,
   Grid3x3,
   History,
   Network,
   Route,
   Users,
+  UsersRound,
   Waves,
   Scale,
   ScanSearch,
@@ -31,7 +33,7 @@ export interface TraderTool {
 }
 
 /**
- * The thirteen trader tools, one page each. The hub, the page shell and the
+ * The fifteen trader tools, one page each. The hub, the page shell and the
  * previous/next navigation all read this list so the set stays consistent.
  */
 export const TRADER_TOOLS: TraderTool[] = [
@@ -44,6 +46,28 @@ export const TRADER_TOOLS: TraderTool[] = [
     accent: 'cyan',
     photo: 'desk-yard',
     icon: Scale,
+    focus: false,
+  },
+  {
+    slug: 'reporting-value',
+    href: '/trader-tools/reporting-value',
+    title: 'Silence Tax',
+    blurb: 'What a silent mandi costs a trip, per mandi: the rupees lost per quintal when a yard reports no price, and the weekdays it usually is.',
+    group: 'Market scan',
+    accent: 'amber',
+    photo: 'desk-yard',
+    icon: Megaphone,
+    focus: false,
+  },
+  {
+    slug: 'crowd-simulator',
+    href: '/trader-tools/crowd-simulator',
+    title: 'Crowd Simulator',
+    blurb: 'What happens to a mandi’s price when many farmers follow the same advice, and a split that avoids crashing it.',
+    group: 'Market scan',
+    accent: 'violet',
+    photo: 'desk-yard',
+    icon: UsersRound,
     focus: false,
   },
   {

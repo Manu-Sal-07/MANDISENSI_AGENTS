@@ -41,7 +41,7 @@ from mandisense_ai.services.prediction_cache import (
 # Discovery/Legacy Imports
 from backend.app.routes import discovery, query, decision, predict as legacy_predict
 from backend.app.services.model_loader import init_engines
-from api import visualizer, cognition_router, cognition_streaming, cognition_seed, market_data_router, spillover_router, forecast_router, intelligence_router, farmer_router, trader_router, chat_router, market_choice_router, shock_router, council_router
+from api import visualizer, cognition_router, cognition_streaming, cognition_seed, market_data_router, spillover_router, forecast_router, intelligence_router, farmer_router, trader_router, chat_router, market_choice_router, shock_router, council_router, notify_router
 from mandisense_ai.utils.event_bus import event_bus
 from mandisense_ai.cognition.state_store import MarketMemoryStore
 from fastapi.responses import FileResponse
@@ -188,6 +188,7 @@ app.include_router(chat_router.router)  # /v1/chat: farmer and trader chatbots
 app.include_router(market_choice_router.router, tags=["Market Choice"])  # /v1/market-choice: where and when to sell, with a verified floor
 app.include_router(council_router.router)  # /v1/council: specialist agents, fused forecast, and the evidence for trusting it
 app.include_router(shock_router.router, tags=["Supply Shock"])  # /v1/shock: arrival shocks, what follows them, neighbour gaps
+app.include_router(notify_router.router)  # /v1/notify: farmer digest preview, Telegram subscribers, send now, delivery log
 
 @app.get("/visualizer")
 async def get_visualizer():

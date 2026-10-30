@@ -105,3 +105,77 @@ async def explain(
 
     return explain_recommendation(crop.lower(), _origin(district, mandi_id, lat, lon), quantity_quintals, alpha,
                                   transport_per_q_km, lang, use_llm)
+
+
+# ----------------------------------------------------------------- insights (mandisense_ai/market_choice/insights.py)
+@router.get("/breakdown/{crop}")
+async def breakdown(
+    crop: str,
+    district: Optional[str] = Query(None),
+    mandi_id: Optional[str] = Query(None),
+    lat: Optional[float] = Query(None, ge=-90, le=90),
+    lon: Optional[float] = Query(None, ge=-180, le=180),
+    quantity_quintals: float = Query(10.0, gt=0, le=10000),
+    alpha: float = Query(0.10, ge=0.01, le=0.5),
+    transport_per_q_km: Optional[float] = Query(None, gt=0, le=20),
+):
+    """Why this mandi: price, fee, spoilage, transport and handling for the advice and the usual alternatives."""
+    from mandisense_ai.market_choice import insights
+
+    return insights.breakdown(crop.lower(), _origin(district, mandi_id, lat, lon), quantity_quintals, alpha, transport_per_q_km)
+
+
+@router.get("/simulate/{crop}")
+async def simulate(
+    crop: str,
+    district: Optional[str] = Query(None),
+    mandi_id: Optional[str] = Query(None),
+    lat: Optional[float] = Query(None, ge=-90, le=90),
+    lon: Optional[float] = Query(None, ge=-180, le=180),
+    quantity_quintals: float = Query(10.0, gt=0, le=10000),
+    alpha: float = Query(0.10, ge=0.01, le=0.5),
+    transport_per_q_km: Optional[float] = Query(None, gt=0, le=20),
+    spoilage_per_day: Optional[float] = Query(None, ge=0, le=0.2),
+    market_fee: Optional[float] = Query(None, ge=0, le=0.2),
+    handling_per_trip: Optional[float] = Query(None, ge=0, le=500),
+    max_hold_days: int = Query(3, ge=0, le=3),
+):
+    """What if my costs differ: the advice under your costs, and the costs at which it would change."""
+    from mandisense_ai.market_choice import insights
+
+    return insights.simulate(crop.lower(), _origin(district, mandi_id, lat, lon), quantity_quintals, alpha, transport_per_q_km,
+                             spoilage_per_day, market_fee, handling_per_trip, max_hold_days)
+
+
+@router.get("/crowd/{crop}")
+async def crowd(
+    crop: str,
+    district: Optional[str] = Query(None),
+    mandi_id: Optional[str] = Query(None),
+    lat: Optional[float] = Query(None, ge=-90, le=90),
+    lon: Optional[float] = Query(None, ge=-180, le=180),
+    farmers: int = Query(200, ge=1, le=20000),
+    quantity_per_farmer: float = Query(10.0, gt=0, le=1000),
+    alpha: float = Query(0.10, ge=0.01, le=0.5),
+    price_flexibility: float = Query(0.115, ge=0, le=1),
+):
+    """What if many farmers follow the same advice, and a split that avoids crashing one mandi's price."""
+    from mandisense_ai.market_choice import insights
+
+    return insights.crowd(crop.lower(), _origin(district, mandi_id, lat, lon), farmers, quantity_per_farmer, alpha, price_flexibility)
+
+
+@router.get("/reporting-value/{crop}")
+async def reporting_value(crop: str, window_days: int = Query(365, ge=90, le=1500)):
+    """What silent mandis cost a farmer who travels to them, per mandi, from the ingested prices."""
+    from mandisense_ai.market_choice import insights
+
+    return insights.reporting_value(crop.lower(), window_days)
+
+
+@router.get("/track-record/{crop}")
+async def track_record(crop: str):
+    """How the served advice did on days it was not fitted on."""
+    from mandisense_ai.market_choice import insights
+
+    return insights.track_record(crop.lower())

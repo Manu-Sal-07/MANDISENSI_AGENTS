@@ -1,0 +1,21 @@
+\renewcommand{\arraystretch}{1.25}
+\footnotesize
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Method} & \textbf{Tomato} & \textbf{Onion} & \textbf{Potato} & \textbf{Ginger} \\
+\hline
+Nearest mandi, sell today & 1,600 [1,423, 1,781] & 2,231 [1,911, 2,543] & 1,699 [1,550, 1,848] & 5,476 [4,850, 6,122] \\
+\hline
+Highest price yesterday & 2,021 [1,796, 2,244] & 2,407 [2,079, 2,738] & 1,780 [1,620, 1,954] & 7,050 [6,155, 7,969] \\
+\hline
+Random walk (cost-aware) & 2,006 [1,782, 2,237] & 2,407 [2,068, 2,741] & 1,776 [1,623, 1,943] & 7,037 [6,140, 7,951] \\
+\hline
+LightGBM, observed prices & 2,016 [1,793, 2,246] & 2,395 [2,076, 2,731] & 1,758 [1,602, 1,919] & 7,047 [6,106, 7,961] \\
+\hline
+LightGBM, realised outcomes & 2,156 [1,927, 2,402] & 2,552 [2,207, 2,893] & 1,845 [1,674, 2,016] & 7,196 [6,238, 8,141] \\
+\hline
+Neural SPO+, realised outcomes & 2,164 [1,932, 2,408] & 2,564 [2,231, 2,900] & 1,830 [1,675, 1,993] & 7,188 [6,233, 8,120] \\
+\hline
+Hindsight oracle & 2,570 & 2,902 & 2,173 & 7,741 \\
+\hline
+\end{tabular}

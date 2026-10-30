@@ -151,6 +151,96 @@ export interface ResearchEvidence {
   figures?: Array<{ id: string; title: string; caption: string; path: string }>;
 }
 
+export interface McPlace { mandi_id: string | null; name: string; name_kn: string; name_hi: string; hold_days: number; kind?: string }
+
+export interface McBreakdownOption {
+  option: McOption;
+  parts: Array<{ key: 'price' | 'fee' | 'spoilage' | 'transport' | 'handling' | 'farm_gate_discount'; value: number }>;
+  net: number;
+}
+export interface McBreakdown {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  crop: string;
+  as_of?: string;
+  options?: Record<'recommended' | 'nearest_today' | 'highest_yesterday' | 'farm_gate', McBreakdownOption>;
+  recommended_vs_nearest?: Record<string, number>;
+  note?: string;
+}
+
+export interface McSweep {
+  param: string;
+  points: Array<{ x: number; mandi_id: string | null; name: string; hold_days: number; net: number }>;
+  flips: Array<{ at: number; from: McPlace; to: McPlace }>;
+}
+export interface McSimulation {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  crop: string;
+  as_of?: string;
+  scenario?: { transport_per_q_km: number; spoilage_per_day: number; market_fee: number; handling_per_trip: number; max_hold_days: number };
+  defaults?: { transport_per_q_km: number; spoilage_per_day: number; market_fee: number; handling_per_trip: number };
+  recommended?: McOption;
+  default_recommended?: McOption;
+  changed?: boolean;
+  sweeps?: { transport: McSweep; spoilage: McSweep };
+  note?: string;
+}
+
+export interface McCrowd {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  crop: string;
+  farmers?: number;
+  quantity_per_farmer?: number;
+  total_quintals?: number;
+  price_flexibility?: number;
+  flexibility_note?: string;
+  recommended?: McPlace;
+  recommended_yard_daily_arrivals_q?: number | null;
+  alone?: { net_per_q: number };
+  everyone_follows_best?: { net_per_q: number; price_drop_pct: number };
+  everyone_goes_nearest?: { net_per_q: number };
+  coordinated?: { net_per_q: number; split: Array<{ label: McPlace; share: number; quintals: number; net_per_q: number; price_drop_pct: number }> };
+  gain_coordinated_vs_everyone_best_per_q?: number;
+  gain_total_rs?: number;
+}
+
+export interface McReportingRow {
+  mandi_id: string; name: string; name_kn: string; name_hi: string; district: string | null;
+  reported_share: number; silent_share_open_days: number; closed_weekdays: string[]; silent_by_weekday: number[];
+  worst_open_weekday: string; worst_open_weekday_silent: number; mean_price: number;
+  expected_loss_per_q: number | null; expected_loss_pct: number | null;
+}
+export interface McReportingValue {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  crop: string;
+  window?: [string, string];
+  silent_price_factor?: number;
+  mandis?: McReportingRow[];
+  mean_reported_share?: number;
+  mean_expected_loss_per_q?: number;
+  note?: string;
+}
+
+export interface McWtl { win: number; tie: number; loss: number; mean: number }
+export interface McTrackWindow { days: number; vs_nearest: McWtl; vs_highest_yesterday: McWtl; floor_held_share: number }
+export interface McTrackRecord {
+  status: 'OK' | 'UNAVAILABLE';
+  reason?: string;
+  crop: string;
+  window?: [string, string];
+  days?: Array<{ date: string; recommended: number; nearest: number; highest_yesterday: number; oracle: number; floor: number; floor_held: number }>;
+  last60?: McTrackWindow;
+  all?: McTrackWindow;
+  alpha?: number;
+  note?: string;
+  evidence_level?: 'strong' | 'limited';
+}
+
+export type McWhatIf = { transport?: number; spoilage?: number; fee?: number; handling?: number; maxHold?: number };
+
 export type McOrigin = { district?: string; mandiId?: string; lat?: number; lon?: number };
 
 const originParams = (o: McOrigin): Record<string, string> => ({
@@ -180,4 +270,32 @@ export const marketChoiceApi = {
   calibration: (crop: string) => apiClient<McCalibration>(`/v1/market-choice/calibration/${crop}`),
 
   evidence: () => apiClient<ResearchEvidence>('/v1/market-choice/evidence'),
+
+  breakdown: (crop: string, origin: McOrigin, quantityQuintals: number, alpha = 0.1, transportPerQKm?: number) =>
+    apiClient<McBreakdown>(`/v1/market-choice/breakdown/${crop}`, {
+      params: { ...originParams(origin), quantity_quintals: String(quantityQuintals), alpha: String(alpha), ...(transportPerQKm ? { transport_per_q_km: String(transportPerQKm) } : {}) },
+    }),
+
+  simulate: (crop: string, origin: McOrigin, quantityQuintals: number, w: McWhatIf, alpha = 0.1) =>
+    apiClient<McSimulation>(`/v1/market-choice/simulate/${crop}`, {
+      params: {
+        ...originParams(origin),
+        quantity_quintals: String(quantityQuintals),
+        alpha: String(alpha),
+        ...(w.transport !== undefined ? { transport_per_q_km: String(w.transport) } : {}),
+        ...(w.spoilage !== undefined ? { spoilage_per_day: String(w.spoilage) } : {}),
+        ...(w.fee !== undefined ? { market_fee: String(w.fee) } : {}),
+        ...(w.handling !== undefined ? { handling_per_trip: String(w.handling) } : {}),
+        ...(w.maxHold !== undefined ? { max_hold_days: String(w.maxHold) } : {}),
+      },
+    }),
+
+  crowd: (crop: string, origin: McOrigin, farmers: number, quantityPerFarmer: number, priceFlexibility = 0.115, alpha = 0.1) =>
+    apiClient<McCrowd>(`/v1/market-choice/crowd/${crop}`, {
+      params: { ...originParams(origin), farmers: String(farmers), quantity_per_farmer: String(quantityPerFarmer), price_flexibility: String(priceFlexibility), alpha: String(alpha) },
+    }),
+
+  reportingValue: (crop: string) => apiClient<McReportingValue>(`/v1/market-choice/reporting-value/${crop}`),
+
+  trackRecord: (crop: string) => apiClient<McTrackRecord>(`/v1/market-choice/track-record/${crop}`),
 };

@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-10-29T12:02:35.387210+00:00",
- "seconds": 51.3,
+ "generated_at": "2026-10-29T14:42:28.532412+00:00",
+ "seconds": 64.2,
  "agents": {
   "seasonality": 11,
   "supply": 8,
@@ -18,6 +18,10 @@
     "single": {
      "mae": 0.13378,
      "skill": 0.0056
+    },
+    "linear": {
+     "mae": 0.13757,
+     "skill": -0.0225
     },
     "equal": {
      "mae": 0.13457,
@@ -58,8 +62,42 @@
     "b_better": false
    },
    "council_vs_no_change": {
-    "mean_abs_error_diff": -0.00023
+    "mean_abs_error_diff": -0.00023,
+    "ci": [
+     -0.00142,
+     0.00131
+    ],
+    "model_better": false,
+    "no_change_better": false
    },
+   "single_vs_no_change": {
+    "mean_abs_error_diff": -0.00076,
+    "ci": [
+     -0.00221,
+     0.00143
+    ],
+    "model_better": false,
+    "no_change_better": false
+   },
+   "linear_vs_no_change": {
+    "mean_abs_error_diff": 0.00303,
+    "ci": [
+     0.00132,
+     0.00488
+    ],
+    "model_better": false,
+    "no_change_better": true
+   },
+   "single_vs_linear": {
+    "mean_abs_error_diff": -0.00378,
+    "ci": [
+     -0.00512,
+     -0.00227
+    ],
+    "a_better": true,
+    "b_better": false
+   },
+   "folds_single_beats_no_change": 3,
    "equal_vs_single": {
     "mean_abs_error_diff": 0.00079,
     "ci": [
@@ -93,6 +131,10 @@
     "single": {
      "mae": 0.1583,
      "skill": 0.0071
+    },
+    "linear": {
+     "mae": 0.16324,
+     "skill": -0.0239
     },
     "equal": {
      "mae": 0.1593,
@@ -133,8 +175,42 @@
     "b_better": false
    },
    "council_vs_no_change": {
-    "mean_abs_error_diff": -0.00045
+    "mean_abs_error_diff": -0.00045,
+    "ci": [
+     -0.00141,
+     0.00069
+    ],
+    "model_better": false,
+    "no_change_better": false
    },
+   "single_vs_no_change": {
+    "mean_abs_error_diff": -0.00113,
+    "ci": [
+     -0.00269,
+     0.00095
+    ],
+    "model_better": false,
+    "no_change_better": false
+   },
+   "linear_vs_no_change": {
+    "mean_abs_error_diff": 0.00381,
+    "ci": [
+     0.00141,
+     0.00654
+    ],
+    "model_better": false,
+    "no_change_better": true
+   },
+   "single_vs_linear": {
+    "mean_abs_error_diff": -0.00494,
+    "ci": [
+     -0.00716,
+     -0.00271
+    ],
+    "a_better": true,
+    "b_better": false
+   },
+   "folds_single_beats_no_change": 3,
    "equal_vs_single": {
     "mean_abs_error_diff": 0.001,
     "ci": [
@@ -168,6 +244,10 @@
     "single": {
      "mae": 0.17808,
      "skill": 0.0076
+    },
+    "linear": {
+     "mae": 0.18481,
+     "skill": -0.03
     },
     "equal": {
      "mae": 0.17882,
@@ -208,8 +288,42 @@
     "b_better": false
    },
    "council_vs_no_change": {
-    "mean_abs_error_diff": -0.00073
+    "mean_abs_error_diff": -0.00073,
+    "ci": [
+     -0.00196,
+     0.00056
+    ],
+    "model_better": false,
+    "no_change_better": false
    },
+   "single_vs_no_change": {
+    "mean_abs_error_diff": -0.00136,
+    "ci": [
+     -0.00308,
+     0.00079
+    ],
+    "model_better": false,
+    "no_change_better": false
+   },
+   "linear_vs_no_change": {
+    "mean_abs_error_diff": 0.00537,
+    "ci": [
+     0.00247,
+     0.00913
+    ],
+    "model_better": false,
+    "no_change_better": true
+   },
+   "single_vs_linear": {
+    "mean_abs_error_diff": -0.00673,
+    "ci": [
+     -0.00994,
+     -0.0039
+    ],
+    "a_better": true,
+    "b_better": false
+   },
+   "folds_single_beats_no_change": 4,
    "equal_vs_single": {
     "mean_abs_error_diff": 0.00075,
     "ci": [

@@ -1,0 +1,39 @@
+def crop_block(crop: str, district: str, lang: str) -> List[str]:
+    """Lines for one crop: home-mandi price with date, then advice where the evidence allows it."""
+    d = registry.DISTRICTS[district]
+    lines = [f"<b>{html.escape(CROP_NAMES[lang][crop])}</b>"]
+    # the district's mandi with the most recent report for this crop (the anchor mandi wins ties)
+    cands = [d.anchor_mandi] + [m.id for m in registry.mandis_in(district) if m.id != d.anchor_mandi]
+    found = [(mid, latest_price(crop, mid)) for mid in cands]
+    found = [(mid, lp) for mid, lp in found if lp]
+    if found:
+        home, lp = max(found, key=lambda x: x[1]["date"])
+        old = (data_as_of() - lp["date"]).days > OLD_PRICE_DAYS
+        ch = f" ({lp['change_pct']:+.0f}% {t('vs_week', lang)})" if lp["change_pct"] is not None and not old else ""
+        tag = f" [!] {t('old', lang)}" if old else ""
+        lines.append(f"* {html.escape(_mandi_name(home, lang))}: Rs {_rs(lp['price'])}{t('per_q', lang)} "
+                     f"[{lp['date'].strftime('%d-%b')}{tag}]{ch}")
+    else:
+        lines.append(f"* {t('no_report', lang)}")
+
+    rec = _recommend(crop, district)
+    strong = rec.get("status") == "OK" and (rec.get("evidence") or {}).get("level") == "strong"
+    if not strong:
+        lines.append(f"<i>{t('price_only', lang)}</i>")
+        return lines
+    r = rec["recommended"]
+    if r["kind"] == "farm_gate":
+        lines.append(f"[ok] {t('farm_gate', lang)}")
+    else:
+        when = t("sell_now", lang) if r["hold_days"] == 0 else t("hold", lang, k=r["hold_days"])
+        lines.append(f"[ok] {t('best', lang)}: <b>{html.escape(_mandi_name(r['mandi_id'], lang))}</b> ({r['distance_km']:.0f} km), {when}")
+    lines.append(f"   {t('net', lang, x=_rs(r['expected_net_per_q']), u=t('per_q', lang))}; {t('floor', lang, x=_rs(r['floor_per_q']))}")
+    g = (rec.get("gain") or {}).get("vs_nearest_per_q")
+    if g and g > 0:
+        lines.append(f"   {t('gain', lang, x=_rs(g))}")
+    if r["kind"] == "mandi":
+        wd = pd.Timestamp(r["sale_date"]).dayofweek
+        s = weekday_silence(crop, r["mandi_id"], wd)
+        if s is not None and s >= SILENT_WARN:
+            lines.append("[!] " + t("warn_silent", lang, m=html.escape(_mandi_name(r["mandi_id"], lang)), p=round(100 * s), w=WEEKDAYS[lang][wd]))
+    return lines

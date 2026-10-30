@@ -1,0 +1,212 @@
+\renewcommand{\chaptername}{Appendix}
+\chapter*{Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+
+\noindent This part holds material too detailed for the chapters. Each appendix is referred to in the text: Appendix~A from Chapter~\ref{ch:impl}, Appendix~B from Section~\ref{sec:cep} and Section~\ref{sec:future-work}, Appendix~C from Chapter~\ref{ch:results}, Appendix~D from Section~\ref{sec:dataset}, Appendix~E from Section~\ref{sec:sdgs-achieved}, and Appendix~F from the front matter.
+
+\chapter{Sample Code Used in the Core Modules}
+\label{appendix:code}
+
+The listings are read directly from the source files of the repository, so they cannot drift from the code that produced the results.
+
+\section{Revenue of every action (net of transport, spoilage and fee)}
+\begin{lstlisting}[language=Python, caption={\texttt{mandisense\_ai/market\_choice/econ.py}: revenue of every action}]
+def revenue_from_prices(price_mk, gate_price, dist_km, e):
+    """price_mk (..., M, N_HOLD), gate_price (...), dist_km (M,) -> revenue of every action (..., A)."""
+    rev = price_mk * hold_discount(e) - trip_cost(dist_km, e)[:, None]
+    flat = rev.reshape(*rev.shape[:-2], -1)
+    gate = (e.farmgate_factor * gate_price)[..., None]
+    return np.concatenate([flat, gate], axis=-1)
+\end{lstlisting}
+
+\section{SPO+ loss and regret}
+\lstinputlisting[language=Python, firstline=20, lastline=40, caption={\texttt{research/gfmc/models/losses.py}: SPO+ loss and realised regret}]{../research/gfmc/models/losses.py}
+
+\section{Conformal quantile}
+\lstinputlisting[language=Python, firstline=27, lastline=35, caption={\texttt{mandisense\_ai/market\_choice/conformal.py}: finite-sample conformal quantile}]{../mandisense_ai/market_choice/conformal.py}
+
+\section{Online floor with delayed feedback}
+\lstinputlisting[language=Python, firstline=64, lastline=88, caption={\texttt{mandisense\_ai/market\_choice/conformal.py}: online floor loop (excerpt)}]{../mandisense_ai/market_choice/conformal.py}
+
+\section{Grounding verification of a decision brief}
+\lstinputlisting[language=Python, firstline=90, lastline=127, caption={\texttt{mandisense\_ai/intelligence/grounding.py}: figures, evidence keys and market names in a brief are checked against the evidence}]{../mandisense_ai/intelligence/grounding.py}
+
+\section{Crowd simulation: price impact and a coordinated split}
+\lstinputlisting[language=Python, caption={\texttt{mandisense\_ai/market\_choice/insights.py}: yard price falls with the quantity received; greedy split on marginal revenue}]{generated/code_crowd.txt}
+
+\section{Digest block for one crop}
+\lstinputlisting[language=Python, caption={\texttt{mandisense\_ai/notify/digest.py}: one crop's lines of the morning digest (non-ASCII characters shown as ASCII)}]{generated/code_digest.txt}
+
+\chapter{Survey Form}
+\label{appendix:survey}
+
+\noindent\textbf{Status.} This instrument was prepared to learn how farmers and traders decide when and where to sell, and what form of advice they would use. No response data are reported in this thesis, and nothing in Chapters~\ref{ch:method}--\ref{ch:results} depends on it.
+
+\noindent\textbf{Objective.} Identify difficulties in deciding when and where to sell; understand current decision habits; assess awareness of data tools; and find the preferred form of advice.
+
+\begin{enumerate}
+    \item What is your primary role? (Farmer / Trader / Aggregator / Other)
+    \item How do you currently decide when to sell your produce? (Past experience / Mandi price trends / Advice from others / Other)
+    \item Do you face uncertainty in predicting future prices? (Yes / No)
+    \item Which factors influence your selling decision most? (Market arrivals / Seasonal demand / Weather / Government policy / Other)
+    \item How many mandis can you reach in a day, and what does the transport cost per trip?
+    \item Have you travelled to a mandi and found it closed or without trade? How often? (Never / Sometimes / Often)
+    \item Would you use a system that gives: price predictions; a recommendation of where and when to sell; an explanation of the recommendation? (Tick all)
+    \item Would a stated minimum expected revenue make you more willing to follow a recommendation? (Yes / No / Unsure)
+    \item Preferred language: Kannada / Hindi / English.
+    \item Preferred platform: Mobile application / Web dashboard / SMS alerts / Telegram or WhatsApp message.
+    \item Would a message every morning with the latest reported prices and the best place to sell be useful, and at what hour? (Yes / No; hour)
+\end{enumerate}
+
+\chapter{Detailed Evaluation Tables}
+\label{appendix:metrics}
+
+The evaluation in this work is of decisions and regression, not classification, so a confusion matrix does not apply. The matching detail is the per-fold revenue of the main methods, which shows whether the result is carried by one period. Table~\ref{tab:perfold} gives it for tomato across the five outer test blocks, and Table~\ref{tab:ablation} in Chapter~\ref{ch:results} lists the ablations.
+
+\begin{table}[!t]
+\centering
+\caption{Mean realised revenue (Rs per quintal) by outer fold, tomato}
+\label{tab:perfold}
+\gentable{tab_perfold}
+\end{table}
+
+\noindent The ordering of the realised-outcome model against the heuristics is not the same in every fold, so the pooled gain should be read with its interval (Table~\ref{tab:decision}) and not as a constant.
+
+\section{Insight features: further tables}
+Table~\ref{tab:c-crowdb} gives the crowd simulation under five values of the price flexibility, and Table~\ref{tab:c-whatif} the what-if scenarios, both referred to from Section~\ref{sec:insight-results}.
+
+\begin{table}[!t]
+\centering
+\caption{Crowd simulation, 200 farmers, by price flexibility}
+\label{tab:c-crowdb}
+\gentable{tab_crowdb}
+\end{table}
+
+\begin{table}[!t]
+\centering
+\caption{What-if scenarios, tomato at Kolar}
+\label{tab:c-whatif}
+\gentable{tab_whatif}
+\end{table}
+
+\chapter{Dataset Description}
+\label{appendix:dataset}
+
+\section{D.1 Source and access}
+Daily price and arrival records of the Agricultural Marketing Information Network (Agmarknet) of the Government of India~\cite{agmarknet}, exported from the public portal by the project team: the ``All Type of Report (All Grades)'' history export (2021-01-01 to \DataTo) for Karnataka, and the ``Daily Price Arrival Report'' from 2025-11-07. The data are public; no personal data are involved.
+
+\section{D.2 Files and volumes}
+\begin{table}[!t]
+\centering
+\caption{Dataset volumes}
+\label{tab:d-volumes}
+\small
+\begin{tabular}{|l|l|r|}
+\hline
+\textbf{Artefact} & \textbf{Content} & \textbf{Rows} \\ \hline
+History export, cleaned & Market-crop-day modal price and arrivals & \NhistoryRows \\ \hline
+Market panel & Mandi-days for five crops, 16 mandis & \NpanelRows \\ \hline
+District observations & District-level observation store with quality flags & \NdistrictRows \\ \hline
+Mandi prices & Daily report records with minimum and maximum & \NmandiRows \\ \hline
+\end{tabular}
+\end{table}
+
+\section{D.3 Schema}
+\begin{table}[!t]
+\centering
+\caption{Fields of the market panel and the observation store}
+\label{tab:d-schema}
+\small
+\begin{tabular}{|l|l|p{7.2cm}|}
+\hline
+\textbf{Table} & \textbf{Field} & \textbf{Meaning} \\ \hline
+Panel & date, crop, mandi\_id & Key; one row per market, crop and day reported \\ \hline
+Panel & price & Arrivals-weighted modal price, Rs per quintal \\ \hline
+Panel & arrivals & Quantity arrived \\ \hline
+Observations & modal\_price, min\_price, max\_price & Daily report prices \\ \hline
+Observations & state, district, source & Location and origin of the record \\ \hline
+Observations & quality\_score, quality\_flags & Result of the quality checks \\ \hline
+\end{tabular}
+\end{table}
+
+\section{D.4 Cleaning and exclusions}
+The loader drops footer rows, rejects unexpected units, checks key uniqueness, and records rows read, dropped and kept. Where both exports cover a market-day they agree (Pearson $r=0.99996$ over 3,307 tomato market-days). Nothing is imputed into the panel. A market is offered for a decision only if it reported within the previous 14 days; days on which no market reported (27 of 2,125 for tomato) are excluded from training and scoring. A market enters the market-choice study only with at least 700 reported days. Garlic has one such market and is excluded from the study and refused by the application. Synthetic data found in the initial repository were removed.
+
+\section{D.5 Splits}
+Five outer walk-forward test blocks (2024-H1, 2024-H2, 2025-H1, 2025-H2, 2026-01 to 2026-10), each trained on earlier data only, with a gap of $K{+}2$ days before every validation or test block. The five blocks give 963 scored days for tomato, 511 for onion, 569 for potato and 776 for ginger.
+
+\section{D.6 Limitations of the data}
+One state and one source; modal prices only, not transaction-level data; a silent market day may be a reporting failure and not a closed market (the sensitivity sweep includes a setting that makes silence free); and the history does not include weather, transport costs or farm-gate prices, which are therefore assumptions (Section~\ref{sec:formulation}).
+
+\chapter{Outcome and Goal Mapping}
+\label{appendix:mapping}
+
+\noindent\textbf{Note.} The course-outcome statements and the CO--PO matrix are those of the departmental course file for 23DS7PWPP2; they are reproduced here unchanged and are not restated by the authors. What follows is the project's justification of each programme outcome with the section that demonstrates it.
+
+\section{E.1 Programme outcomes demonstrated}
+
+\begin{table}[!t]
+\centering
+\caption{Programme outcome (PO) justification with evidence in this thesis}
+\label{tab:po}
+\small
+\begin{tabular}{|c|p{5.2cm}|p{7cm}|}
+\hline
+\textbf{PO} & \textbf{Outcome} & \textbf{Evidence and section} \\ \hline
+PO1 & Engineering knowledge & Statistics, optimisation and conformal inference applied to a pricing decision (Sec.~\ref{sec:proposed}) \\ \hline
+PO2 & Problem analysis & Reporting gaps, delayed feedback and decision loss identified as the structure of the problem (Sec.~\ref{sec:problem-statement}) \\ \hline
+PO3 & Design of solutions & Engines, floors, service and trilingual interface (Sec.~\ref{sec:architecture}, Ch.~\ref{ch:impl}) \\ \hline
+PO4 & Investigation & Pre-specified experiments, paired tests and a leakage audit (Sec.~\ref{sec:setup}, Sec.~\ref{sec:validation}) \\ \hline
+PO5 & Modern tool usage & Optuna, LightGBM, PyTorch, FastAPI, Next.js, Telegram Bot API, CI (Table~\ref{tab:software-req}) \\ \hline
+PO6 & Engineer and society & Advice for smallholders; evidence tiers shown to users (Sec.~\ref{sec:sdgs-achieved}) \\ \hline
+PO7 & Environment and sustainability & Spoilage built into advice (SDG 12.3) \\ \hline
+PO8 & Ethics & No synthetic data in results; negative results reported; language layer cannot change numbers (Ch.~\ref{ch:results}) \\ \hline
+PO9 & Individual and team work & Work-package ownership (Sec.~\ref{sec:ram}) \\ \hline
+PO10 & Communication & This thesis; documentation in the repository \\ \hline
+PO11 & Project management and finance & WBS, critical path, risk register, cost (Ch.~\ref{ch:plan}) \\ \hline
+PO12 & Life-long learning & New methods learned during the project (Sec.~\ref{sec:key-learnings}) \\ \hline
+\end{tabular}
+\end{table}
+
+\noindent\textbf{Complex-engineering-problem attributes} exhibited: depth of knowledge, conflicting requirements, depth of analysis, familiarity of issues, extent of codes and standards, stakeholder involvement and interdependence (Table~\ref{tab:cep}).
+
+\section{E.2 Sustainable Development Goals}
+
+\begin{table}[!t]
+\centering
+\caption{SDG targets, evidence, and whether the effect was measured}
+\label{tab:sdg}
+\small
+\begin{tabular}{|l|p{4.2cm}|p{5.4cm}|l|}
+\hline
+\textbf{SDG / target} & \textbf{Link} & \textbf{Evidence in this thesis} & \textbf{Status} \\ \hline
+2 / 2.3 & Income of small-scale producers through market information & Back-test gains of Rs 60 to 202 per quintal over the best simple rule in three crops (Table~\ref{tab:engine}) & Offline, measured \\ \hline
+1 / 1.4 & Access to economic services & Free trilingual tool & Not measured \\ \hline
+12 / 12.3 & Reduce food loss in supply chains & Spoilage in the revenue model (Eq.~\ref{eq:revenue}) & Potential \\ \hline
+9 / 9.c & Access to information technology & Open pipeline built on a public data feed & Engineering \\ \hline
+\end{tabular}
+\end{table}
+
+\chapter{Similarity Report}
+\label{appendix:similarity}
+
+\noindent The thesis is to be checked with the institution's similarity tool (Drillbit) and the report attached here before submission, with the similarity index within the limit set by the department.
+
+\begin{table}[!t]
+\centering
+\caption{Similarity check record}
+\label{tab:similarity}
+\small
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Item} & \textbf{Entry} \\ \hline
+Tool & Drillbit \\ \hline
+Document checked & Final thesis PDF \\ \hline
+Similarity index & \hspace{3cm} \% \\ \hline
+Departmental limit & \hspace{3cm} \% \\ \hline
+Date of check & \hspace{3cm} \\ \hline
+Report & Attached on the following pages \\ \hline
+\end{tabular}
+\end{table}
+
+\IfFileExists{drillbit_report.pdf}{\includepdf[pages=-]{drillbit_report.pdf}}{}

@@ -1,6 +1,6 @@
 # Agent council: evaluation
 
-Generated 2026-10-29T12:02:35Z in 51.3 s. Agents: `seasonality` (11 features), `supply` (8 features), `activity` (7 features), `trend` (28 features).
+Generated 2026-10-29T14:42:28Z in 64.2 s. Agents: `seasonality` (11 features), `supply` (8 features), `activity` (7 features), `trend` (28 features).
 
 Each agent is a gradient-boosted model that sees only its own family of evidence. The meta-ensemble weights them with non-negative least squares fitted inside each walk-forward fold, on the agents' out-of-sample predictions for the later quarter of that fold's training window, so a fold never chooses weights with its own test period. Everything is scored on the same rows, folds and target as the single served model. Skill is the reduction in mean absolute error against a forecast of no change.
 
@@ -8,11 +8,14 @@ Promotion rule: promote where the paired block-bootstrap CI of (council - single
 
 ## Results
 
-| Horizon | n | No-change MAE | Single model | Equal-weight | Council (weights sum <= 1) | Council, unconstrained weights | Council vs single (MAE diff, 95% CI) | Folds won | Promoted |
-|---|---|---|---|---|---|---|---|---|---|
-| 3d | 16983 | 0.13454 | +0.6% | -0.0% | +0.2% | -1.8% | +0.00053 [-0.00022, +0.00112] | 1/4 | no |
-| 5d | 17369 | 0.15943 | +0.7% | +0.1% | +0.3% | -2.1% | +0.00067 [-0.00050, +0.00162] | 1/4 | no |
-| 7d | 17633 | 0.17944 | +0.8% | +0.3% | +0.4% | -1.6% | +0.00063 [-0.00061, +0.00151] | 0/4 | no |
+| Horizon | n | No-change MAE | Single model | vs no change (MAE diff, 95% CI) | Linear | Equal-weight | Council (weights sum <= 1) | Council, unconstrained | Council vs single (MAE diff, 95% CI) | Folds won | Promoted |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3d | 16983 | 0.13454 | +0.6% | -0.00076 [-0.00221, +0.00143] | -2.2% | -0.0% | +0.2% | -1.8% | +0.00053 [-0.00022, +0.00112] | 1/4 | no |
+| 5d | 17369 | 0.15943 | +0.7% | -0.00113 [-0.00269, +0.00095] | -2.4% | +0.1% | +0.3% | -2.1% | +0.00067 [-0.00050, +0.00162] | 1/4 | no |
+| 7d | 17633 | 0.17944 | +0.8% | -0.00136 [-0.00308, +0.00079] | -3.0% | +0.3% | +0.4% | -1.6% | +0.00063 [-0.00061, +0.00151] | 0/4 | no |
+
+Negative MAE differences mean the first method is better. The single model's interval against no change says whether its small skill is distinguishable from zero.
+
 
 ## Each agent alone (skill against no change)
 

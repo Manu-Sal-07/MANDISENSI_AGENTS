@@ -34,7 +34,7 @@ flowchart LR
 ```mermaid
 flowchart TB
   U1[Farmer: Best place and day to sell] --> FE
-  U2[Trader: thirteen desk tools, Command Center, Lab] --> FE
+  U2[Trader: fifteen desk tools, Command Center, Lab] --> FE
   FE[Next.js app<br/>react-query cache, en / kn / hi copy] --> API
   subgraph API[FastAPI]
     MCR[/market-choice/] --- SHR[/shock/] --- CNR[/council/] --- TRR[/trader/] --- CGR[/cognition/] --- CHR[/chat/] --- INR[/intelligence/]

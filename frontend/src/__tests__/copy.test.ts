@@ -30,4 +30,20 @@ describe('farmer copy', () => {
       expect(dayLabel(2, l)).toContain('2');
     }
   });
+
+  it('has the explain, what-if and scoreboard strings in Kannada and Hindi, with no placeholder left unfilled', () => {
+    const keys = ['why.title', 'why.sub', 'why.note', 'whatif.title', 'whatif.changed', 'whatif.indicative', 'score.title', 'score.floor.note', 'score.win', 'score.loss'];
+    for (const k of keys) for (const l of ['kn', 'hi'] as const) expect(mc(k, l), `${k} (${l})`).not.toBe(mc(k, 'en'));
+    for (const l of LANGS) {
+      expect(mc('whatif.flip.transport', l, { a: 'A', b: 'B', x: '1.20' })).not.toMatch(/\{\w+\}/);
+      expect(mc('whatif.flip.spoilage', l, { a: 'A', b: 'B', x: '4.0' })).not.toMatch(/\{\w+\}/);
+      expect(mc('score.gain', l, { g: '₹10' })).toContain('₹10');
+    }
+  });
+
+  it('names every cost part of the breakdown in each language', () => {
+    for (const part of ['price', 'fee', 'spoilage', 'transport', 'handling', 'farm_gate_discount']) {
+      for (const l of LANGS) expect(mc(`why.${part}`, l)).not.toBe(`why.${part}`);
+    }
+  });
 });

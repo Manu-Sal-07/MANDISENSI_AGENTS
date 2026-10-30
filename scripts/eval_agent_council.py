@@ -35,12 +35,14 @@ def report(result: dict) -> str:
          "weights with its own test period. Everything is scored on the same rows, folds and target as the single served model. Skill is the reduction in mean "
          "absolute error against a forecast of no change.", "",
          f"Promotion rule: {result['rule']}.", "", "## Results", "",
-         "| Horizon | n | No-change MAE | Single model | Equal-weight | Council (weights sum <= 1) | Council, unconstrained weights | Council vs single (MAE diff, 95% CI) | Folds won | Promoted |",
-         "|---|---|---|---|---|---|---|---|---|---|"]
+         "| Horizon | n | No-change MAE | Single model | vs no change (MAE diff, 95% CI) | Linear | Equal-weight | Council (weights sum <= 1) | Council, unconstrained | Council vs single (MAE diff, 95% CI) | Folds won | Promoted |",
+         "|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for h, s in result["horizons"].items():
-        m, c = s["methods"], s["council_vs_single"]
-        L.append(f"| {h}d | {s['n']} | {s['no_change_mae']} | {pct(m['single']['skill'])} | {pct(m['equal']['skill'])} | {pct(m['council']['skill'])} | {pct(m['council_raw']['skill'])} | "
+        m, c, n0 = s["methods"], s["council_vs_single"], s["single_vs_no_change"]
+        L.append(f"| {h}d | {s['n']} | {s['no_change_mae']} | {pct(m['single']['skill'])} | {n0['mean_abs_error_diff']:+.5f} [{n0['ci'][0]:+.5f}, {n0['ci'][1]:+.5f}] | "
+                 f"{pct(m['linear']['skill'])} | {pct(m['equal']['skill'])} | {pct(m['council']['skill'])} | {pct(m['council_raw']['skill'])} | "
                  f"{c['mean_abs_error_diff']:+.5f} [{c['ci'][0]:+.5f}, {c['ci'][1]:+.5f}] | {s['folds_council_beats_single']}/{s['folds']} | {'yes' if s['promoted'] else 'no'} |")
+    L += ["", "Negative MAE differences mean the first method is better. The single model's interval against no change says whether its small skill is distinguishable from zero.", ""]
     L += ["", "## Each agent alone (skill against no change)", "", "| Horizon | " + " | ".join(agents) + " |", "|---|" + "---|" * len(agents)]
     for h, s in result["horizons"].items():
         L.append(f"| {h}d | " + " | ".join(pct(s["methods"][a]["skill"]) for a in agents) + " |")

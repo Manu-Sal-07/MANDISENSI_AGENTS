@@ -27,7 +27,10 @@ K_MAX = 3
 N_HOLD = K_MAX + 1
 
 PRIMARY_CROP = "Tomato"
-SECONDARY_CROPS: Tuple[str, ...] = ("Onion", "Potato")
+SECONDARY_CROPS: Tuple[str, ...] = ("Onion", "Potato", "Ginger")
+# Garlic is not studied: only one mandi in the belt (Bengaluru) has MIN_REPORTED_DAYS reported days, so there is no choice between markets to learn.
+# A crop's name in the Agmarknet export where it differs from the name used here:
+SOURCE_CROP_NAME = {"Ginger": "Ginger(Green)"}
 
 MIN_REPORTED_DAYS = 700          # a market must have this many reported days to be a candidate
 MAX_STALENESS_ELIGIBLE = 14      # a market silent for longer is not offered to the farmer
@@ -69,7 +72,8 @@ DEFAULT_ECON = Economics()
 
 # Daily value loss while holding, by crop (scenario assumption; tomato is the
 # most perishable of the three, potato the least).
-CROP_SPOILAGE = {"Tomato": 0.03, "Onion": 0.008, "Potato": 0.004}
+# Ginger follows the shelf-life table the application uses for farmers (mandisense_ai/farmer/reference.py: 1.5% a day).
+CROP_SPOILAGE = {"Tomato": 0.03, "Onion": 0.008, "Potato": 0.004, "Ginger": 0.015}
 
 # One-at-a-time sensitivity sweeps for the economic assumptions.
 SWEEPS = {

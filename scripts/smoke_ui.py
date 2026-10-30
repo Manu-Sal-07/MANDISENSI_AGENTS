@@ -32,11 +32,13 @@ PAGES = [
     "trader-tools/spreads", "trader-tools/market-choice", "trader-tools/shock-desk", "trader-tools/gap-arbitrage",
     "trader-tools/transmission", "trader-tools/volatility", "trader-tools/scenarios", "trader-tools/analogs",
     "trader-tools/forward-price", "trader-tools/positions", "trader-tools/floor-monitor", "trader-tools/forecast-audit",
-    "trader-tools/agent-council",
+    "trader-tools/agent-council", "trader-tools/reporting-value", "trader-tools/crowd-simulator",
 ]
 ENDPOINTS = [
     "/v1/health", "/v1/farmer/mandis", "/v1/market-choice/crops", "/v1/market-choice/recommend/tomato?district=kolar&quantity_quintals=20",
-    "/v1/market-choice/matrix/tomato?district=kolar", "/v1/market-choice/evidence", "/v1/shock/radar?audience=farmer&crop=tomato&district=kolar",
+    "/v1/market-choice/matrix/tomato?district=kolar", "/v1/market-choice/evidence",
+    "/v1/market-choice/breakdown/tomato?district=kolar", "/v1/market-choice/simulate/tomato?district=kolar&transport_per_q_km=1.4",
+    "/v1/market-choice/crowd/tomato?district=kolar&farmers=200", "/v1/market-choice/reporting-value/tomato", "/v1/market-choice/track-record/tomato", "/v1/shock/radar?audience=farmer&crop=tomato&district=kolar",
     "/v1/shock/radar?audience=trader", "/v1/shock/study", "/v1/council/tomato/kolar_apmc", "/v1/council/evaluation",
     "/v1/trader/spreads/tomato", "/v1/trader/transmission/matrix", "/v1/trader/volatility/tomato/kolar_apmc",
     "/v1/trader/analogs/tomato/kolar_apmc", "/v1/trader/scenarios/tomato/kolar_apmc", "/v1/trader/forward-price/tomato/kolar_apmc?horizon_days=3",

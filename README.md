@@ -79,6 +79,7 @@ cd research && python -m pytest            # 57 tests for the research package (
 
 ```
 api/                  FastAPI app (api/main.py) and its routers: market-choice, shock, council, cognition, chat, ...
+docs/INSIGHTS.md      why-this-mandi, what-if costs, advice track record, silence tax, crowd simulator
 mandisense_ai/
   farmer/             the farmer data world: registry, district and mandi panels, transmission, sell plans
   forecasting/        the served forecaster (features, walk-forward training, conformal bands, store) and the agent council
@@ -112,6 +113,7 @@ is in the commit log. Raw exports are in `datasets/year_data/` and `mandisense_a
 
 | Document | What it covers |
 |---|---|
+| [`docs/RESULTS.md`](docs/RESULTS.md) | All results in one place: protocol, held-out test blocks, four crops, baselines, floor validity, forecast benchmark, comparison with published work, negative results, limitations |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Data flow, components, how an answer is produced, where the evidence enters |
 | [`docs/TOOL_CHOICES.md`](docs/TOOL_CHOICES.md) | Every framework, library and method choice, against the alternatives considered |
 | [`docs/SHOCK_STUDY.md`](docs/SHOCK_STUDY.md) | Every supply-shock test, with intervals, placebo and Holm p-values, and detectable effect sizes |

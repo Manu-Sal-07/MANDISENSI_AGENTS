@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Trader Tools hub: the thirteen tools as photo cards in three groups. Each tool
+ * Trader Tools hub: the fifteen tools as photo cards in three groups. Each tool
  * lives on its own page; the commodity / mandi focus is shared between them.
  */
 

@@ -1,0 +1,237 @@
+\section{Systematic Survey of 25 Studies (2023--2025)}
+\label{sec:survey}
+
+\subsection{Survey protocol}
+The survey was carried out in the initial stage of the project and recorded in a shared workbook with the same fields for every paper: title, publication, abstract, techniques, results, year, link, research gaps and key takeaways. The work was divided among the three team members. The search was limited to peer-reviewed journal and conference papers from 2023 to 2025 on agricultural price prediction, volatility and anomaly analysis, hybrid and ensemble forecasting, and smart-farming decision support, drawn from Springer Nature, Elsevier ScienceDirect and IEEE Xplore. After removing duplicates (six IEEE papers were recorded by two members), \textbf{25 distinct studies} remained, labelled S1 to S25. Every study was matched to a bibliographic record in Crossref before it was cited. The findings below are the authors' own, as recorded in the workbook from the abstracts and results sections; performance figures were not re-measured by us.
+
+\begin{table}[!t]
+\centering
+\caption{Distribution of the 25 surveyed studies by publisher and year (as recorded in the workbook)}
+\label{tab:survey-dist}
+\small
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Source} & \textbf{2023} & \textbf{2024} & \textbf{2025} & \textbf{Total} \\ \hline
+Elsevier (ScienceDirect), S1--S10 & 2 & 5 & 3 & 10 \\ \hline
+Springer Nature, S11--S19 & 2 & 5 & 2 & 9 \\ \hline
+IEEE, S20--S25 & 1 & 3 & 2 & 6 \\ \hline
+\textbf{Total} & \textbf{5} & \textbf{13} & \textbf{7} & \textbf{25} \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Overview of the studies}
+Table~\ref{tab:survey-overview} lists the studies with their venue and the task they address. Of the 25, 15 forecast prices (S2 also detects anomalies), 5 concern volatility or its drivers, 1 is about anomaly detection, and 4 are crop-recommendation systems or reviews.
+
+\Needspace{12\baselineskip}
+{\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{|p{0.9cm}|p{7.7cm}|p{4.2cm}|p{2.7cm}|}
+\caption{The 25 surveyed studies}\label{tab:survey-overview}\\
+\hline \textbf{ID} & \textbf{Study} & \textbf{Venue} & \textbf{Task} \\ \hline \endfirsthead
+\hline \textbf{ID} & \textbf{Study} & \textbf{Venue} & \textbf{Task} \\ \hline \endhead
+\hline \endfoot
+S1 & Hybrid forecasting of commodity prices: machine learning, time series and stochastic simulation~\cite{celik2025} & Borsa \.Istanbul Rev., 2025 & Price, risk \\ \hline
+S2 & Multi-commodity price forecasting and anomaly detection with attention-boosted models~\cite{sediyono2025} & J. Agric. Food Res., 2025 & Price, anomaly \\ \hline
+S3 & ARIMA--LSTM for volatile prices with random forest~\cite{ray2023} & Appl. Soft Comput., 2023 & Price \\ \hline
+S4 & ICEEMDAN--VMD--GRU for economic resilience~\cite{sathe2025} & Results Eng., 2025 & Price \\ \hline
+S5 & Volatility dynamics of agricultural futures under uncertainties~\cite{fiszeder2024} & Energy Econ., 2024 & Volatility \\ \hline
+S6 & Financial stress and realised volatility of agricultural commodities~\cite{algirdas2024} & Res. Int. Bus. Finance, 2024 & Volatility \\ \hline
+S7 & Optimal forecast combination (PSO-CS) for daily futures prices~\cite{zeng2023} & Appl. Soft Comput., 2023 & Price, ensemble \\ \hline
+S8 & Transformer anomaly detection with inter-variable attention~\cite{tranad2024} & Inf. Fusion, 2024 & Anomaly \\ \hline
+S9 & Hidden-Markov-guided deep models for volatile prices~\cite{avinash2024} & Appl. Soft Comput., 2024 & Price \\ \hline
+S10 & Economic policy uncertainty and agricultural prices, China~\cite{epu2024} & Asia Global Econ., 2024 & Volatility \\ \hline
+S11 & STL--LSTM for seasonal agricultural price series~\cite{jaiswal2025} & Ann. Data Sci., 2025 & Price \\ \hline
+S12 & CEEMDAN hybrid models for agricultural prices~\cite{ceemdan2024} & Sci. Rep., 2024/25 & Price \\ \hline
+S13 & Exogenous-variable deep learning for tomato, onion, potato~\cite{exogenous2024} & Sci. Rep., 2024 & Price \\ \hline
+S14 & Hybrid LSTM--GARCH volatility forecasting, India~\cite{manogna2025} & J. Big Data, 2025 & Volatility \\ \hline
+S15 & Commodity price prediction: a machine-learning framework~\cite{mohanty2023} & Neural Comput. Appl., 2023 & Price \\ \hline
+S16 & Demand and price forecasting using deep learning~\cite{demand2023} & LNCS (MIWAI), 2023 & Price, demand \\ \hline
+S17 & Point and interval forecasting, decomposition-ensemble and KDE~\cite{kde2024} & Soft Comput., 2024 & Price, interval \\ \hline
+S18 & Optimised machine learning for commodity prices~\cite{optimized2023} & Neural Comput. Appl., 2024 & Price \\ \hline
+S19 & GCN--BiGRU--TPE futures price prediction~\cite{gcn2024} & Comput. Econ., 2025 & Price, graph \\ \hline
+S20 & Crop yield prediction and recommendation, deep ensembles (survey)~\cite{cropyield} & IEEE conf., 2024 & Crop, survey \\ \hline
+S21 & Framework for ragi price prediction in Karnataka~\cite{meena2024} & IEEE Access, 2024 & Price \\ \hline
+S22 & AgTech: volatility prediction for commodity trading~\cite{agtech2024} & IEEE Access, 2024 & Volatility \\ \hline
+S23 & Smart agriculture: state, opportunities and challenges~\cite{smartag2024} & IEEE Access, 2024 & Review \\ \hline
+S24 & Smart farming: crop recommendation and price prediction~\cite{smartfarm2025} & IEEE conf., 2025 & Crop, price \\ \hline
+S25 & Federated explainable AI for smart agriculture~\cite{fedxai2025} & IEEE Access, 2025 & Crop, XAI \\ \hline
+\end{longtable}}
+
+\subsection{Techniques and results}
+Tables~\ref{tab:survey-t1} to~\ref{tab:survey-t3} record, for each study, the techniques used and the principal results as reported by the authors.
+
+\Needspace{12\baselineskip}
+{\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{|p{0.9cm}|p{5.8cm}|p{9.2cm}|}
+\caption{Techniques and results, S1--S10 (price, volatility and anomaly studies, Elsevier)}\label{tab:survey-t1}\\
+\hline \textbf{ID} & \textbf{Techniques} & \textbf{Principal results} \\ \hline \endfirsthead
+\hline \textbf{ID} & \textbf{Techniques} & \textbf{Principal results} \\ \hline \endhead
+\hline \endfoot
+S1 & ARIMA, VAR, LSTM and stochastic simulation (geometric, fractional and bridge Brownian motion); value-at-risk & LSTM best in high-volatility and crisis periods; ARIMA stable in short-term, low-volatility markets; geometric Brownian motion balances accuracy and risk; fractional motion captures long memory but raises volatility \\ \hline
+S2 & Transformer forecasting; attention-boosted LSTM variational autoencoder for anomalies & Transformers beat LSTM and GRU in price forecasting; the attention-boosted autoencoder improves anomaly detection and captures sudden spikes and drops \\ \hline
+S3 & ARIMA plus LSTM hybrid; random-forest selection of lags and features; volatility modelling & ARIMA captures linear trend, LSTM the non-linear part, random forest improves feature selection; the hybrid cuts RMSE and MAPE markedly \\ \hline
+S4 & ICEEMDAN and VMD decomposition followed by GRU & Decomposition reduces noise and non-stationarity; the hybrid outperforms LSTM and RNN variants \\ \hline
+S5 & Heterogeneous autoregressive (HAR) models, LASSO; news-based and market-based uncertainty indicators & Market-based indicators outperform news-based ones; LASSO improves on HAR; uncertainty is strongly linked to price volatility \\ \hline
+S6 & HAR-RV variants on high-frequency realised volatility & Financial stress predicts realised volatility in-sample and shows financialisation of agricultural markets; out-of-sample prediction is inconsistent \\ \hline
+S7 & EWT, SSA and VMD decomposition; ARIMA, ETS, BPNN, ELM; PSO-CS weight optimisation & The optimised ensemble beats all single models, with a large reduction in MAPE \\ \hline
+S8 & Variable temporal transformer with self-attention for multivariate anomaly detection & Captures temporal and inter-variable dependence, beats traditional detectors and gives interpretable anomaly explanations \\ \hline
+S9 & Hidden Markov model with RNN, LSTM, GRU, BiLSTM, CNN; technical indicators and FFT & The Markov model captures regime change; guided deep models beat the same models alone for short and medium horizons \\ \hline
+S10 & Time-varying-parameter VAR for transmission of policy uncertainty & Policy uncertainty affects price volatility, with effects that vary over time and across commodities \\ \hline
+\end{longtable}}
+
+\Needspace{12\baselineskip}
+{\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{|p{0.9cm}|p{5.8cm}|p{9.2cm}|}
+\caption{Techniques and results, S11--S19 (Springer Nature)}\label{tab:survey-t2}\\
+\hline \textbf{ID} & \textbf{Techniques} & \textbf{Principal results} \\ \hline \endfirsthead
+\hline \textbf{ID} & \textbf{Techniques} & \textbf{Principal results} \\ \hline \endhead
+\hline \endfoot
+S11 & STL decomposition into trend, seasonal and remainder; an LSTM per component; recombined forecast & Beat ARIMA and a plain LSTM; seasonal components predicted more reliably; RMSE and MAPE improved on benchmarks \\ \hline
+S12 & CEEMDAN decomposition with a time-delay neural network per component; compared with ARIMA, random forest, GBM, SVR & Best of all models; RMSE about 20\% lower than other EMD-based models and about 57\% lower than traditional machine learning; MAPE near 2--4\% for major crops \\ \hline
+S13 & NBEATSX and TransformerX with weather variables; compared with ARIMAX, ANN, SVR, random forest, XGBoost; RMSE, MAE, sMAPE, MASE & NBEATSX best for all three crops (tomato, onion, potato); deep models clearly beat statistical and machine-learning baselines \\ \hline
+S14 & LSTM for long-term pattern; GARCH on LSTM residuals; compared with GARCH, GJR-GARCH, EWMA, MEM & Best for all commodities; onion RMSE fell from 5.44 (GARCH) to 0.70, tomato from 7.67 to 0.79 \\ \hline
+S15 & ARIMA, AR, MA, ES, STL for yield; supply from yield, residue and imports; demand by time series; decision tree, RF, KNN, kernel ridge for price & ARIMA(4,1,1) best for yield; decision-tree regressor best for price (RMSE about 0.115, MAPE about 14\%) \\ \hline
+S16 & RNN, LSTM and bidirectional LSTM compared with statistical and machine-learning methods; horizon up to one year & LSTM and Bi-LSTM capture temporal dependence better than ARIMA variants; detailed error figures are not available in the accessible preview \\ \hline
+S17 & VMD with energy entropy; K-means reconstruction; ARIMA for low and LSTM for high frequencies; WOA-optimised adaptive KDE intervals & Lowest error among compared methods; MAPE about 1--2\% one step ahead; interval coverage (PICP) above 95\% at the 95\% level; 5--15\% lower RMSE than other hybrids \\ \hline
+S18 & Extreme learning machine and LSTM tuned by genetic algorithm; Auto-ARIMA; 11 commodities, daily 2000--2022 & GA-ELM best overall (MAPE about 1--3\%), trains faster than GA-LSTM, forecasts 60 days ahead and follows the 2022 peaks \\ \hline
+S19 & Multi-graph construction; graph convolution for spatial structure; BiGRU for time; TPE Bayesian tuning & On corn futures, RMSE about 20.2, MAPE about 0.55\%, $R^2$ about 0.97 \\ \hline
+\end{longtable}}
+
+\Needspace{12\baselineskip}
+{\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{|p{0.9cm}|p{5.8cm}|p{9.2cm}|}
+\caption{Techniques and results, S20--S25 (IEEE)}\label{tab:survey-t3}\\
+\hline \textbf{ID} & \textbf{Techniques} & \textbf{Principal results} \\ \hline \endfirsthead
+\hline \textbf{ID} & \textbf{Techniques} & \textbf{Principal results} \\ \hline \endhead
+\hline \endfoot
+S20 & PSO and WOA for feature selection; SVM, random forest, RNN, Bi-LSTM, CNN, MLP and ensembles (survey of methods) & Ensemble and optimisation approaches outperform traditional methods in crop prediction; Bi-LSTM and CNN strongest on climate and crop data \\ \hline
+S21 & LSTM deep-learning framework with temporal and seasonal features; compared with statistical and machine-learning models & Higher accuracy on ragi price trends, robust to non-linear fluctuations, better precision and recall than baselines \\ \hline
+S22 & Bi-LSTM on multivariate market indicators (price, volume, open interest); rolling-window volatility index; dropout; binary classification of high/low volatility & Improved accuracy of volatility forecasts for exchange-traded commodities; robust to sudden fluctuations; fewer false predictions \\ \hline
+S23 & Survey of IoT, AI and machine learning, blockchain, cloud and precision farming & Documents gains in resource efficiency (water, fertiliser, energy) and applications in precision farming, monitoring and yield prediction \\ \hline
+S24 & XGBoost, random forest, decision tree, SVM, KNN, naive Bayes, linear and logistic regression & Integrated crop recommendation and price prediction; ensembles most accurate; price models more reliable than traditional statistics \\ \hline
+S25 & Federated learning with explainable AI; CNN, LSTM, RF, SVM, gradient boosting; SHAP and LIME & Better crop-recommendation accuracy across distributed data while preserving privacy; transparent predictions; scales across regions \\ \hline
+\end{longtable}}
+
+\subsection{Research gaps and takeaways}
+Tables~\ref{tab:survey-g1} to~\ref{tab:survey-g3} record the gaps named for each study in the workbook and the lesson each gives for MandiSense AI.
+
+\Needspace{12\baselineskip}
+{\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{|p{0.9cm}|p{6.4cm}|p{8.6cm}|}
+\caption{Research gaps and takeaways, S1--S10}\label{tab:survey-g1}\\
+\hline \textbf{ID} & \textbf{Research gaps} & \textbf{Takeaways for this project} \\ \hline \endfirsthead
+\hline \textbf{ID} & \textbf{Research gaps} & \textbf{Takeaways for this project} \\ \hline \endhead
+\hline \endfoot
+S1 & Models used independently; no shock detection; volatility not in decision support; no explainable architecture & No single model wins in every regime, so a council of specialists is justified; risk-aware, adaptive systems are needed \\ \hline
+S2 & Centralised, not agent-based; no explicit risk quantification; limited decision-support integration & Joint forecasting and anomaly detection works; risk and explanation still need to be added \\ \hline
+S3 & Monthly data only; no ensemble extension; volatility handled indirectly & Hybrid statistical-plus-deep models beat single models; feature selection matters \\ \hline
+S4 & High computational cost; no volatility or anomaly module; one pipeline & Noise reduction is critical for agricultural series; decomposition plus deep learning is effective (and, here, audited for leakage) \\ \hline
+S5 & Volatility only, not price; not linked to forecasting or decisions & External uncertainty signals matter; volatility should be tied to price prediction \\ \hline
+S6 & Out-of-sample reliability weak; not linked to price models & Financial stress is a volatility driver; regimes change; adaptive models are needed \\ \hline
+S7 & Centralised; no explainability or volatility alerts; costly & Combination improves accuracy and stability; weight optimisation is crucial \\ \hline
+S8 & Not integrated with price forecasting; little agricultural use; intensive & Attention helps anomaly detection; anomaly detection should be coupled with forecasting \\ \hline
+S9 & Commodity- and region-specific; no ensemble or multi-agent design; limited explainability & Regime awareness improves forecasts; probabilistic-plus-deep hybrids suit volatile series \\ \hline
+S10 & China only; no forecasting framework & Policy uncertainty drives volatility; time-varying models are needed; policy effects belong in forecasting systems \\ \hline
+\end{longtable}}
+
+\Needspace{12\baselineskip}
+{\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{|p{0.9cm}|p{6.4cm}|p{8.6cm}|}
+\caption{Research gaps and takeaways, S11--S19}\label{tab:survey-g2}\\
+\hline \textbf{ID} & \textbf{Research gaps} & \textbf{Takeaways for this project} \\ \hline \endfirsthead
+\hline \textbf{ID} & \textbf{Research gaps} & \textbf{Takeaways for this project} \\ \hline \endhead
+\hline \endfoot
+S11 & Weather, supply and demand shocks and market events not used; centralised & Decomposition handles strong seasonality, as in mandi series; preprocessing to isolate components helps deep models \\ \hline
+S12 & History only, no weather or demand; centralised & Decomposition before prediction helps volatile prices; hybrids are more reliable than single models \\ \hline
+S13 & Only weather; no demand, festivals or exports; centralised & External factors improve accuracy; multi-input forecasting suits Indian markets \\ \hline
+S14 & Price history only; centralised & LSTM--GARCH suits abnormal-volatility detection and risk alerts; volatility should join multi-model forecasting \\ \hline
+S15 & One crop (corn); no deep learning or real-time data & Integrating supply and demand improves price forecasts; multi-factor beats price alone \\ \hline
+S16 & Few metrics reported; no exogenous drivers & Deep sequence models capture temporal trend; test several architectures; report detailed errors \\ \hline
+S17 & Price history only; computationally complex & Intervals support risk-aware decisions; ARIMA plus LSTM improves stability; ranges should accompany forecasts \\ \hline
+S18 & No external factors; centralised & Optimised hybrids are stable; 60-day forecasts are feasible; compare several models; add arrivals, season and festivals \\ \hline
+S19 & One commodity; no weather or demand cycles & Graph structure suits mandis linked by trade; Bayesian tuning automates configuration \\ \hline
+\end{longtable}}
+
+\Needspace{12\baselineskip}
+{\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{|p{0.9cm}|p{6.4cm}|p{8.6cm}|}
+\caption{Research gaps and takeaways, S20--S25}\label{tab:survey-g3}\\
+\hline \textbf{ID} & \textbf{Research gaps} & \textbf{Takeaways for this project} \\ \hline \endfirsthead
+\hline \textbf{ID} & \textbf{Research gaps} & \textbf{Takeaways for this project} \\ \hline \endhead
+\hline \endfoot
+S20 & Few multi-source datasets; no standard feature engineering; narrow metrics; little interpretability & Ensembles and optimisation help; precision, recall and F1 should be reported; false rates affect trust \\ \hline
+S21 & One crop; no socio-economic factors; no deployment study; interpretability & LSTM models suit price series; temporal features help; the framework supports farmers and policymakers \\ \hline
+S22 & Policy factors missing; no deployment or multi-commodity scale; interpretability; cross-market links & Volatility prediction can steady trading decisions; ensembles beat single models; external features help \\ \hline
+S23 & Little real-time deployment in developing regions; interoperability; privacy; farmer usability & Smart agriculture reduces waste and raises productivity; adoption depends on farmers; solutions must suit smallholders \\ \hline
+S24 & No real-time integrated deployment; socio-economic and policy factors; interpretability; scalability & Crop recommendation and price forecasting together support market decisions; multi-source data is crucial \\ \hline
+S25 & No real-time rural deployment; interoperability; efficiency against explainability; farmer usability; security & Federated learning avoids sharing raw farmer data; explanations build trust \\ \hline
+\end{longtable}}
+
+\subsection{Comparison matrix}
+Table~\ref{tab:survey-matrix} compares the studies on ten properties. A tick means the study uses or addresses the property. The last row shows MandiSense AI for reference.
+
+\begin{table}[!t]
+\centering
+\caption{Comparison of the surveyed studies on ten properties}
+\label{tab:survey-matrix}
+\footnotesize
+\setlength{\tabcolsep}{4.6pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{ID} & \textbf{Decomp.} & \textbf{RNN} & \textbf{Attn.} & \textbf{Volat.} & \textbf{Ensemble} & \textbf{Exog.} & \textbf{Interval} & \textbf{Anomaly} & \textbf{Graph} & \textbf{Decision} \\ \hline
+S1  & & $\checkmark$ & & $\checkmark$ & $\checkmark$ & & & & & \\ \hline
+S2  & & & $\checkmark$ & & & & & $\checkmark$ & & \\ \hline
+S3  & & $\checkmark$ & & $\checkmark$ & $\checkmark$ & & & & & \\ \hline
+S4  & $\checkmark$ & $\checkmark$ & & & & & & & & \\ \hline
+S5  & & & & $\checkmark$ & & $\checkmark$ & & & & \\ \hline
+S6  & & & & $\checkmark$ & & $\checkmark$ & & & & \\ \hline
+S7  & $\checkmark$ & & & & $\checkmark$ & & & & & \\ \hline
+S8  & & & $\checkmark$ & & & & & $\checkmark$ & & \\ \hline
+S9  & & $\checkmark$ & & $\checkmark$ & & & & & & \\ \hline
+S10 & & & & $\checkmark$ & & $\checkmark$ & & & & \\ \hline
+S11 & $\checkmark$ & $\checkmark$ & & & & & & & & \\ \hline
+S12 & $\checkmark$ & & & & & & & & & \\ \hline
+S13 & & & $\checkmark$ & & & $\checkmark$ & & & & \\ \hline
+S14 & & $\checkmark$ & & $\checkmark$ & & & & & & \\ \hline
+S15 & & & & & & $\checkmark$ & & & & \\ \hline
+S16 & & $\checkmark$ & & & & & & & & \\ \hline
+S17 & $\checkmark$ & $\checkmark$ & & & $\checkmark$ & & $\checkmark$ & & & \\ \hline
+S18 & & $\checkmark$ & & & $\checkmark$ & & & & & \\ \hline
+S19 & & $\checkmark$ & & & & & & & $\checkmark$ & \\ \hline
+S20 & & $\checkmark$ & & & $\checkmark$ & $\checkmark$ & & & & $\checkmark$ \\ \hline
+S21 & & $\checkmark$ & & & & & & & & \\ \hline
+S22 & & $\checkmark$ & & $\checkmark$ & & $\checkmark$ & & & & \\ \hline
+S23 & & & & & & & & & & \\ \hline
+S24 & & & & & $\checkmark$ & $\checkmark$ & & & & $\checkmark$ \\ \hline
+S25 & & $\checkmark$ & & & & & & & & $\checkmark$ \\ \hline
+\textbf{Total} & \textbf{5} & \textbf{14} & \textbf{3} & \textbf{8} & \textbf{7} & \textbf{8} & \textbf{1} & \textbf{2} & \textbf{1} & \textbf{3} \\ \hline
+\textbf{This work} & $\checkmark$ & & $\checkmark$ & $\checkmark$ & $\checkmark$ & & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
+\end{tabular}
+\par\smallskip{\footnotesize Decomp.: decomposition; Attn.: attention or transformer; Volat.: volatility or risk modelling; Exog.: external drivers; Interval: prediction intervals; Graph: spatial or graph structure; Decision: output tied to a farmer decision. \emph{This work}: leakage audit of decomposition, zero-shot transformer baseline, volatility desk, council, conformal floors, shock desk, spillover engine, market choice.}
+\end{table}
+
+\subsection{Gap analysis across the survey}
+The gaps recorded for the 25 studies fall into a small number of themes. Table~\ref{tab:survey-gaps} counts how many studies name each and states how the present work responds.
+
+\begin{table}[!t]
+\centering
+\caption{Recurring gaps in the surveyed studies and the response of this project}
+\label{tab:survey-gaps}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|p{4.0cm}|p{3.4cm}|c|p{6.4cm}|}
+\hline
+\textbf{Gap theme} & \textbf{Studies} & \textbf{n} & \textbf{Response in MandiSense AI} \\ \hline
+External drivers (weather, demand, policy, socio-economic) not used & S11--S19, S21, S22, S24 & 12 & Arrivals, season and calendar features in the panel; a decision-focused label; no weather feed (live data not available) \\ \hline
+Centralised design, no multi-agent or distributed structure & S2, S3, S7, S9, S11, S12, S14, S18 & 8 & Specialist council with learned weights and per-crop engines behind one API (Section~\ref{sec:architecture}) \\ \hline
+Weak interpretability or explainability & S1, S7, S9, S20--S22, S24, S25 & 8 & Why-this-mandi breakdown, what-if, track record and a checked brief (Section~\ref{sec:insight-method}) \\ \hline
+No real-time deployment or scalability study & S5, S6, S10, S21--S25 & 8 & A running service, a 60-check smoke test and a morning digest; no field trial yet \\ \hline
+Volatility, risk or anomaly not tied to price or decisions & S1, S2, S4, S5, S6, S8, S10 & 7 & Shock desk, volatility view and revenue floors in the same service as the advice \\ \hline
+Narrow data (one crop, market or region; monthly only) & S3, S9, S10, S15, S19, S21 & 6 & Four crops, 12 markets, daily data; one region (stated as a limit) \\ \hline
+High computational cost & S4, S7, S8, S17 & 4 & Gradient boosting served; heavy models used only as challengers \\ \hline
+Judged by forecast error, not by a decision & S1--S4, S7, S9, S11--S19, S21 & 16 & Regret and floor violation as the primary measures (Chapter~\ref{ch:results}) \\ \hline
+Decomposition leakage not audited (our reading) & S4, S7, S11, S12, S17 & 5 & Walk-forward re-decomposition audit (Section~\ref{sec:leakage}) \\ \hline
+\end{tabular}
+\end{table}
+
+Three conclusions follow. First, hybrid and decomposition-based models dominate recent work (14 of 25 use recurrent networks, 5 use decomposition) and are judged almost entirely by forecast error. Second, only one study (S17) provides an interval and none states a guarantee or a downside in rupees. Third, no study treats the farmer's own choice, of market and day, as the quantity to be optimised, and no study audits how much of the reported gain comes from fitting a decomposition on the whole series. These are the gaps that Section~\ref{sec:limitations} turns into objectives.

@@ -14,7 +14,7 @@ from typing import List, Optional, Sequence, Tuple
 import numpy as np
 import pandas as pd
 
-from gfmc.config import MIN_REPORTED_DAYS
+from gfmc.config import MIN_REPORTED_DAYS, SOURCE_CROP_NAME
 from gfmc.data import registry
 
 
@@ -74,7 +74,7 @@ def build_panel(
     Markets default to every market with at least `min_reported_days` reported
     days, ordered by coverage (densest first) so that results are reproducible.
     """
-    sub = long[long["commodity"] == crop]
+    sub = long[long["commodity"] == SOURCE_CROP_NAME.get(crop, crop)]
     if sub.empty:
         raise ValueError(f"No rows for crop '{crop}'")
     start_ts = pd.Timestamp(start) if start else sub["date"].min()

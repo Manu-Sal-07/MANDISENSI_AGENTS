@@ -1,0 +1,178 @@
+\chapter{Implementation}
+\label{ch:impl}
+
+This chapter describes how the method of Chapter~\ref{ch:method} was realised in code, how the parts were joined into one system, and how the system was tested. Source code excerpts are in Appendix~\ref{appendix:code}.
+
+\section{Algorithm Implementation}
+\label{sec:algorithm-implementation}
+
+\subsection{Panel construction and leakage control}
+
+The loader (\texttt{research/gfmc/data/loader.py}) parses the portal exports, drops the footer rows, rejects unexpected units, checks key uniqueness and records a load report of rows read, dropped and kept. The panel builder then forms one row per market and day with the arrivals-weighted modal price, a reported flag, and a staleness counter. Features at index $s$ use only data up to $s-1$: lags and spreads of the price, cross-market spreads, arrivals, own staleness and report rate, and calendar terms. Targets are strictly future prices. A unit test (Section~\ref{sec:testing-validation}) perturbs the future and checks that features do not move; it caught a defect during development, in which two features were centred on a whole-series mean.
+
+\subsection{Market-choice models}
+
+Revenue labels follow Equation~\ref{eq:revenue} for the 49 actions (12 markets $\times$ 4 holds, plus the farm gate), for five farmer origins. Gradient-boosted models are trained per action on the labels; the neural model is the DeepSets network of Section~\ref{sec:proposed} trained with Equation~\ref{eq:spo}. The served engines, one per crop, are the boosted models on realised-revenue labels, because they were statistically indistinguishable from the neural variant (Section~\ref{sec:effects}) and cheaper to run and explain.
+
+\subsection{Floors with delayed feedback}
+
+The floor procedure (\texttt{mandisense\_ai/market\_choice/conformal.py}) is an online loop over decision days. An outcome from a $k$-day hold is added to the score pool only when its sale date is strictly in the past; the conformal quantile of the pool sets $q$, and $\alpha_t$ is updated by Equation~\ref{eq:aci}. Below the minimum of 30 resolved scores a default multiplier is used and the floor is flagged as uncalibrated.
+
+\subsection{Forecasters and the specialist council}
+
+District price forecasters at 3, 5 and 7 days are served only when a horizon beats the no-change forecast on held-out folds; horizons that do not are marked not served. The council splits the feature set into four families, trains one agent per family, and combines their forecasts with non-negative weights constrained to sum to at most one, fitted fold by fold. The first version, without the constraint, produced weights summing to \CouncilUnconstrainedSum{} and was significantly worse than a single model; the constrained version is the one reported.
+
+\subsection{Decision-intelligence service}
+
+The service (\texttt{mandisense\_ai/intelligence/}) has four steps, each in its own module. \emph{Evidence} (\texttt{evidence.py}) gathers the facts for one crop and market into a flat map keyed by dotted paths, such as \texttt{forecast.h5.point}, \texttt{forecast.h5.net\_change\_after\_spoilage\_pct}, and the market-choice and spillover entries, and records what was unavailable and why. \emph{Providers} (\texttt{providers.py}) fill the brief schema of \texttt{schema.py}: a hosted language model through a tool definition (Claude or the Groq-hosted gpt-oss model, selected by configuration) or a deterministic provider that writes the same brief from rules. The schema is the contract: an action from \{BUY, SELL, HOLD, WAIT\}, a confidence level that may be INSUFFICIENT\_EVIDENCE, and factors that each cite an evidence key. \emph{Grounding} (\texttt{grounding.py}) parses every number in the brief and checks it against the evidence (Algorithm~\ref{alg:grounding}); ordinary small integers are ignored, and a brief may name only the markets that appear in its own evidence, which stops a model from quietly recommending a market the engine did not. \emph{Service} (\texttt{service.py}) ties these together and never raises into a request: a failing provider falls back to the deterministic one, and an ungrounded brief is still returned, marked \texttt{grounded: false} with its issues listed, because a visible failure is more useful to the operator than a silent one.
+
+\begin{algorithm}[!t]
+\caption{Grounding verification of a decision brief}
+\label{alg:grounding}
+\begin{algorithmic}[1]
+\Require Brief $B$, evidence bundle $E$ (key $\rightarrow$ value)
+\Ensure List of issues (empty if grounded)
+\State $\mathcal{I}\gets\emptyset$
+\For{each factor $f$ in $B$}
+    \If{$f.\text{evidence\_ref}\notin E$} \State add ``unknown evidence key'' to $\mathcal{I}$ \EndIf
+\EndFor
+\For{each number $x$ in the prose of $B$ (headline, rationale, factor details, risks, watch-next)}
+    \If{$|x|<32$ \textbf{or} $x$ is part of a market name} \State \textbf{continue} \EndIf
+    \If{no value $v\in E$ has $|x-v|\le 0.01\,|v|$} \State add ``figure not in evidence: $x$'' to $\mathcal{I}$ \EndIf
+\EndFor
+\For{each known mandi name $n$ that appears in the prose}
+    \If{$n$ does not appear in the evidence} \State add ``names $n$, which is not in the evidence'' to $\mathcal{I}$ \EndIf
+\EndFor
+\State \Return $\mathcal{I}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Explanation writer and judge}
+
+Separately from the brief, explanation sentences written by code (the best market, the floor, the reasons) may be rephrased in the farmer's language. The writer model (gpt-oss-120b) receives the sentence and the numbers it contains; a validator rejects any output whose numbers differ, that adds a digit, uses an overclaim word, is too long or is in the wrong script; an independent judge model (Qwen) then checks faithfulness. A rejected sentence falls back to the original text, so this layer cannot change a number.
+
+\subsection{Cross-commodity spillover engine}
+
+The engine (\texttt{mandisense\_ai/spillover/}) is a pure offline build whose output is a versioned artefact, \texttt{spillover\_matrix.json}, that records the data hash, the configuration and diagnostics with the edges. \texttt{panel.py} resamples the five crops to weekly series at their reference markets; \texttt{common\_factor.py} removes the first principal component (leave-one-out) and calendar-month means; \texttt{events.py} detects shock episodes from the supply-regime labels (squeeze or glut) and merges onsets less than four weeks apart; \texttt{estimator.py} computes Equation~\ref{eq:spill} at horizons of one to four weeks with an episode bootstrap of 2,000 draws; \texttt{matrix.py} applies the Benjamini--Hochberg correction across all edges and the publication gates; and \texttt{validate.py} performs the holdout sign-agreement check. The random seed and every threshold live in one configuration object that is stored in the artefact, so a rebuild on unchanged data reproduces the file exactly. At run time \texttt{SpilloverService} reads the artefact and fails safe: if it is missing or stale, the brief states that spillover evidence is unavailable.
+
+\subsection{Insight features}
+
+All five features live in one module (\texttt{mandisense\_ai/market\_choice/insights.py}) that reads the served engine and the ingested panel and fits nothing at request time. The breakdown re-expresses the served net revenue as its parts (Equation~\ref{eq:breakdown}) and \emph{asserts} that they add up within Rs~1, so it cannot drift from the advice it explains. The what-if function re-prices every action under new costs from the model's own predicted prices and sweeps transport and spoilage over a grid to find where the best action changes. The crowd function scales a yard's price with the quantity it receives (Equation~\ref{eq:crowd}) and splits the quantity greedily on marginal revenue. The silence tax is computed from the last year of the panel (Equation~\ref{eq:silence}). The track record is built offline by \texttt{scripts/build\_track\_record.py}, which replays the back-test with daily output and \emph{refuses to write} if its headline numbers disagree with the engine's own; it is a stage of the pipeline.
+
+On the farmer side the first three appear as collapsible panels inside the Best Place and Day to Sell tool, fetched only when opened, so the advice itself is never delayed (Figure~\ref{fig:ui-insight}); their words exist in English, Kannada and Hindi and are tested for completeness. On the trader side the silence tax and the crowd simulator are two tools of the desk. Code excerpts are in Appendix~\ref{appendix:code}.
+
+\begin{figure}[!t]
+\centering
+\begin{minipage}[t]{0.485\textwidth}\centering\fbox{\includegraphics[width=0.94\linewidth]{figures/ins_farmer_why.png}}\\[1mm]{\small (a) Why this mandi?}\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}\centering\fbox{\includegraphics[width=0.94\linewidth]{figures/ins_farmer_whatif.png}}\\[1mm]{\small (b) What if my costs differ?}\end{minipage}
+\medskip
+\begin{minipage}[t]{0.485\textwidth}\centering\fbox{\includegraphics[width=0.94\linewidth]{figures/ins_farmer_score.png}}\\[1mm]{\small (c) Has this advice worked?}\end{minipage}
+\caption{The three farmer panels inside the Best Place and Day to Sell tool, for tomato in Kolar, with real data. In (b) the advice changes when spoilage passes 5\% a day.}
+\label{fig:ui-insight}
+\end{figure}
+
+\subsection{Daily digest and Telegram bot}
+
+The digest builder (\texttt{mandisense\_ai/notify/digest.py}) turns the panel and the engines into one message (Section~\ref{sec:digest-method}). The bot (\texttt{mandisense\_ai/notify/telegram.py}) uses the Telegram Bot API over HTTPS with long polling, so it runs on a laptop with no public address. A farmer presses Start, chooses a language, a district and crops with buttons and receives the first digest at once; \texttt{/today} repeats it, \texttt{/stop} unsubscribes, and typing a crop and a place (``tomato kolar'', or the same in Kannada or Hindi) returns the digest for them. Subscribers and an append-only log of every attempt (sent, failed, with message identifiers) are kept in two files beside the other farmer stores, and a blocked bot marks the subscriber inactive. A script (\texttt{scripts/send\_daily\_digest.py}) sends the morning digest to every active subscriber and has a dry-run mode; scheduled for 07:00 it is the daily message. The bot's token is read from the environment, never logged or committed.
+
+\subsection{Use of AI assistance}
+\label{sec:ai-disclosure}
+The authors used Anthropic's Claude~\cite{claude3} through the Claude Code command-line assistant as a development and writing aid: for drafting and refactoring code, writing tests, generating the figures and tables from stored experiment results, searching and checking bibliographic records against public indices, and drafting and copy-editing text. The design decisions, experiments, numbers and conclusions are the authors' own; every number in the thesis is produced by scripts from stored artefacts, and every reference was checked against Crossref or arXiv before it was listed. The product itself does not call Claude: its explanation writer and judge are the open-weight models named in Section~\ref{sec:llm}.
+
+\section{System Integration}
+\label{sec:system-integration}
+
+\subsection{Pipeline}
+
+One script (\texttt{scripts/pipeline.py}) runs the stages in dependency order: building the farmer world, seeding and running forecasts, building the market-choice engines, the day-by-day track record of the advice, transmission, shock study, spillover, council evaluation, research evidence export, results document, and (optionally) the full research experiments and LLM evaluation, ending with the tests. Each stage is a command with declared outputs, so a stage can be run alone, skipped, or dry-run. Figure~\ref{fig:integration-flow} shows the flow.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[node distance=4mm and 5mm, every node/.style={font=\scriptsize}, s/.style={draw, rounded corners=2pt, fill=blue!6, minimum width=1.9cm, minimum height=7mm, align=center}]
+\node[s] (w) {world};
+\node[s, right=of w] (f) {forecasts};
+\node[s, right=of f] (m) {market\\choice};
+\node[s, right=of m] (tr) {track\\record};
+\node[s, right=of tr] (t) {transmission};
+\node[s, below=of w] (sh) {shock};
+\node[s, right=of sh] (sp) {spillover};
+\node[s, right=of sp] (c) {council};
+\node[s, right=of c] (r) {research\\evidence};
+\node[s, below=of sp] (res) {results\\document};
+\node[s, right=of res] (te) {tests};
+\draw[->] (w)--(f); \draw[->] (f)--(m); \draw[->] (m)--(tr); \draw[->] (tr)--(t);
+\draw[->] (t.south) -- ++(0,-0.35) -| (sh.north);
+\draw[->] (sh)--(sp); \draw[->] (sp)--(c); \draw[->] (c)--(r);
+\draw[->] (r.south) |- (res.east); \draw[->] (res)--(te);
+\end{tikzpicture}
+\caption{Stages of the reproducible pipeline, in the order they run.}
+\label{fig:integration-flow}
+\end{figure}
+
+\subsection{Service and application}
+\label{sec:service-app}
+
+The FastAPI application mounts routers for market choice (\texttt{/v1/market-choice}), farmer tools (\texttt{/v1/farmer}), trader tools (\texttt{/v1/trader}), supply shocks (\texttt{/v1/shock}), the council (\texttt{/v1/council}), cross-commodity spillover (\texttt{/v1/spillover}), forecasts, chat, decision intelligence (\texttt{/v1/intelligence}), the five insight endpoints under \texttt{/v1/market-choice}, and the notification routes (\texttt{/v1/notify}). Request and response models are typed with Pydantic, so a malformed request is rejected before it reaches a model. The Next.js application calls these endpoints; Figure~\ref{fig:ui-farmer} shows the farmer home in Kannada and the market-choice desk for traders.
+
+\begin{figure}[!t]
+\centering
+\begin{minipage}[c]{0.27\textwidth}\centering
+\includegraphics[height=10.4cm]{figures/ui_farmer_home.png}\\[1mm]{\small (a) Farmer home, Kannada}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.70\textwidth}\centering
+\includegraphics[width=\textwidth]{figures/ui_market_choice.png}\\[1mm]{\small (b) Market-choice desk}
+\end{minipage}
+\caption{(a) The farmer home screen in Kannada, showing today's best place to sell and the reasons for it. (b) The market-choice desk for traders: recommended market and holding period, the verified floor and the evidence level for the crop. Both are rendered from real data.}
+\label{fig:ui-farmer}
+\end{figure}
+
+\subsection{Challenges and solutions}
+Table~\ref{tab:challenges} lists the integration problems met while joining the parts and how each was resolved.
+
+\begin{table}[H]
+\centering
+\caption{Integration problems met and how they were resolved}
+\label{tab:challenges}
+\small
+\begin{tabular}{|p{4.6cm}|p{5.2cm}|p{4.6cm}|}
+\hline
+\textbf{Problem} & \textbf{Cause} & \textbf{Resolution} \\ \hline
+Pandas failed to import after installing a plotting library & The installer upgraded NumPy to 2.5, incompatible with pandas 2.1.4 & Pinned NumPy 1.26.4; regenerated the lock file; dependency check clean \\ \hline
+Ginger experiment found no rows & Export names the crop ``Ginger(Green)'' & Added a source-name alias in the configuration \\ \hline
+Fresh clone failed three tests and skipped four & The observation store was untracked & Tracked the store; pipeline seeds history; tests guarded \\ \hline
+Trader pages empty after a data refresh & Hard deletion of records broke references & Re-seeding and id aliasing \\ \hline
+Council weights summed to more than 1 & Unconstrained non-negative least squares & Constrained sum to at most one; unconstrained kept as a reported column \\ \hline
+Language-layer calls throttled & Provider limit of 8,000 tokens per minute & Request throttling; small evaluation set \\ \hline
+Silence tax read as zero for a cheap, unreliable mandi & Its usual price is below the fallback price, so silence costs no money on price & Added a surprise-silence column and a note that zero is not reliability \\ \hline
+New endpoints answered ``not found'' in testing & A server started before the change was still running old code & Restarted it; the smoke test lists every new endpoint and page \\ \hline
+\end{tabular}
+\end{table}
+
+\input{chapters/sec_screens}
+
+\section{Testing and Validation}
+\label{sec:testing-validation}
+
+\subsection{Strategy}
+
+Testing has four levels. Unit tests check individual functions, including the SPO+ properties (non-negative, zero at the truth, upper bound on regret, respects the offered set, matches brute force) and the conformal quantile. Leakage tests perturb future values and require features to be unchanged, and corrupt not-yet-known outcomes and require the floor to be unchanged. Integration tests exercise the API routers against the real data layer. A results-document test checks that every figure linked from the generated results exists, that no unfilled value leaked, and that headline numbers match the source tables. A continuous-integration workflow runs the Python and web tests on each push.
+
+\subsection{Coverage and outcome}
+
+\begin{table}[!t]
+\centering
+\caption{Test inventory}
+\label{tab:tests}
+\small
+\begin{tabular}{|l|p{6.4cm}|l|}
+\hline
+\textbf{Layer} & \textbf{Content} & \textbf{Tool} \\ \hline
+Application tests & 669 tests (all passing on 29 October 2026) across engines, API, trader and farmer features, council, shock, spillover, chat, results document, insight features and the digest & pytest \\ \hline
+Research tests & Core losses, models, pipeline, leakage; need the separate research environment with PyTorch & pytest \\ \hline
+Web tests & 11 copy and registry tests for the three languages and the tool registry & vitest \\ \hline
+UI smoke test & 60 checks: every API endpoint and page the application depends on, including the five insight endpoints and the two new trader tools (\texttt{scripts/smoke\_ui.py}) & headless Chrome \\ \hline
+Fresh-clone check & Clone, install, run pipeline subset, run tests & manual, repeated \\ \hline
+\end{tabular}
+\end{table}
+
+\noindent\textbf{Negative outcomes.} The fresh-clone check initially failed (Table~\ref{tab:challenges}); the three research-test modules cannot be collected in the application environment because PyTorch is installed only in the research environment, which is by design but means a single \texttt{pytest} call at the repository root reports three collection errors. The deployment configuration (Docker, Render) is provided but has not been verified end to end, and no claim about a live deployment is made in this thesis.

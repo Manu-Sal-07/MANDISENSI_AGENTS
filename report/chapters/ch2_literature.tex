@@ -1,0 +1,119 @@
+\chapter{Literature Review}
+\label{ch:lit}
+
+This chapter reviews the work on which MandiSense AI rests and states, from that work, the problem the thesis addresses. The review has two parts. The first is a systematic survey, carried out in the initial stage of the project, of \textbf{25 recent studies} on agricultural price prediction, volatility and anomaly analysis, hybrid and ensemble forecasting, and smart-farming decision support (Section~\ref{sec:survey}); each study is compared on its techniques, results, research gaps and takeaways. The second widens the view to the methods the system uses (decision-focused learning, conformal prediction, missing data, forecast evaluation and language-model grounding) and to the economics of Indian agricultural markets. Every reference in the Bibliography was looked up by title and author in a public bibliographic index (Crossref or arXiv) before it was listed.
+
+Section~\ref{sec:lit-markets} describes the setting and the evidence that information changes farmer outcomes. Sections~\ref{sec:related-forecast} to~\ref{sec:evaluation} cover forecasting, decomposition hybrids and evaluation. Section~\ref{sec:survey} presents the survey with comparison tables. Sections~\ref{sec:ml-decision} to~\ref{sec:llm} cover decisions, uncertainty, missing data, transmission and language models. Section~\ref{sec:limitations} gathers the gaps and Section~\ref{sec:problem} states the problem. Figure~\ref{fig:taxonomy} places the strands of work and the point at which this project joins them.
+
+\begin{figure}[!b]
+\centering
+\begin{tikzpicture}[node distance=6mm, every node/.style={font=\small}, box/.style={draw, rounded corners=3pt, align=center, minimum height=9mm, text width=3.6cm, fill=blue!6}, hi/.style={box, fill=orange!20, very thick}]
+\node[box] (a) {Price forecasting\\ ARIMA, LSTM, hybrids};
+\node[box, right=of a] (b) {Decomposition hybrids\\ STL, VMD, ICEEMDAN};
+\node[box, right=of b] (c) {Foundation models\\ Chronos, zero-shot};
+\node[box, below=of a] (d) {Decision-focused learning\\ SPO+, benchmarks};
+\node[box, below=of b] (e) {Conformal prediction\\ adaptive, delayed feedback};
+\node[box, below=of c] (f) {Missing data\\ not-at-random reporting};
+\node[hi, below=10mm of e] (g) {\textbf{MandiSense AI}\\ outcome-supervised market choice\\ with verified floors};
+\draw[->] (a) -- (d); \draw[->] (b) -- (e); \draw[->] (c) -- (e); \draw[->] (f) -- (g); \draw[->] (d) -- (g); \draw[->] (e) -- (g);
+\end{tikzpicture}
+\caption{Strands of related work and where this project joins them.}
+\label{fig:taxonomy}
+\end{figure}
+
+\section{Agricultural Markets and the Value of Information}
+\label{sec:lit-markets}
+
+Fruit and vegetable prices in India are volatile, and the volatility is not only a matter of weather: a study of onion prices traces large swings to supply shocks interacting with storage, trade policy and market structure~\cite{birthal2019}. The government publishes daily mandi quotations through AGMARKNET~\cite{agmarknet}, but a quotation is the price at one market on one day, not advice on where to sell.
+
+The effect of price information on producers has been studied in several countries. In the South Indian fisheries sector, the arrival of mobile phones reduced price dispersion and raised both producer profit and consumer surplus~\cite{jensen2007}. In Niger, phones reduced search costs and price dispersion across grain markets~\cite{aker2010}. For Indian agriculture, a randomised study of text-message price information found that it changed some marketing decisions but had a limited average effect~\cite{fafchamps2012}.
+
+\paragraph{What this means for the project.} The studies agree that a price quotation helps when it changes where or when a farmer sells, and that the effect is small when the information is generic or late. MandiSense AI therefore delivers a specific choice, in the farmer's language, with the date of every price shown (Chapter~\ref{ch:impl}), and not a price board. We do not claim any welfare effect: that would need a field trial, which is listed as future work (Chapter~\ref{ch:concl}).
+
+\section{Related Work on Agricultural Price Forecasting}
+\label{sec:related-forecast}
+
+\subsection*{Statistical and neural forecasters}
+Forecasting texts treat the random walk and seasonal methods as the benchmarks any new model must beat~\cite{hyndman2021}. Early work on Indian crops used time-delay neural networks for monthly wholesale prices of oilseeds~\cite{jha2014}. Later studies combined linear and recurrent models, for example an ARIMA--LSTM hybrid with random-forest feature selection for volatile series~\cite{ray2023}; applied deep models to ragi prices in Karnataka~\cite{meena2024}; guided networks with hidden Markov regimes for highly volatile commodities~\cite{avinash2024}; and, for multi-commodity settings, coupled attention models with anomaly detection~\cite{sediyono2025}. A modular machine-learning framework predicts crop yield, supply and demand before the price~\cite{mohanty2023}, and deep models with exogenous drivers such as weather and supply factors improved forecasts of tomato, onion and potato prices~\cite{exogenous2024}. A recent review catalogues this architectural variety and flags open challenges~\cite{wu2026}. Work on farmers' choices shows that crop insurance affects diversification, which links price information to planting decisions~\cite{crop_ins}.
+
+\subsection*{Volatility}
+Volatility is the quantity a farmer feels as risk. A hybrid LSTM--GARCH model, applied to 23 commodities across 165 Indian markets, captured both non-linear dynamics and volatility clustering and gave lower error than standalone econometric and deep models~\cite{manogna2025}. This is the model family behind the volatility view of the trader desk (Chapter~\ref{ch:impl}).
+
+\subsection*{Gradient boosting and foundation models}
+Gradient-boosted trees~\cite{chen2016,ke2017} remain strong on tabular data, where they often outperform deep networks~\cite{grinsztajn2022}. Pretrained time-series foundation models forecast new series without training~\cite{ansari2024}, and early evidence for commodity prices is cautiously positive~\cite{wang2026}. Both belong in a fair benchmark, so both are included in Chapter~\ref{ch:results}.
+
+\section{Decomposition Hybrids and the Leakage Problem}
+\label{sec:hybrids}
+
+A large strand of work splits the price into components and forecasts each part. The classical decomposition is STL, which separates trend, seasonal and remainder by loess~\cite{cleveland1990}; variational mode decomposition extracts intrinsic modes by constrained optimisation~\cite{dragomiretskiy2014}. Reported gains are large: an STL--LSTM hybrid for seasonal series~\cite{jaiswal2025}, CEEMDAN-based hybrids for non-linear prices~\cite{ceemdan2024}, ICEEMDAN--VMD--GRU~\cite{sathe2025}, ensembles of machine-learning, time-series and stochastic models~\cite{celik2025}, and a decomposition-ensemble with kernel density estimation for point and interval forecasts~\cite{kde2024}.
+
+The concern with this design is that a decomposition computed on the whole series before the split lets future values shape the components used to predict them. The evaluation literature warns about time-ordered validation in general~\cite{bergmeir2012,cerqueira2020}, but we found no agricultural study that measured the size of the leak. Section~\ref{sec:leakage} does.
+
+\section{Evaluation and Statistical Comparison}
+\label{sec:evaluation}
+
+Predictive accuracy is compared pairwise with the Diebold--Mariano test~\cite{diebold1995}, with a small-sample correction~\cite{harvey1997} and autocorrelation-robust variance~\cite{newey1987}. When many comparisons are made, familywise error is controlled by Holm's procedure~\cite{holm1979}, and a model confidence set identifies the models that cannot be separated from the best~\cite{hansen2011}. Dependence in the data is respected by resampling blocks rather than days~\cite{kunsch1989}. Hyper-parameters are tuned inside the training window by Bayesian optimisation~\cite{akiba2019}, and the test period is touched once.
+
+\input{chapters/sec_survey}
+
+\section{Decisions, Not Forecasts}
+\label{sec:ml-decision}
+
+When forecasts feed an optimisation, minimising forecast error is not the same as minimising decision loss. The smart ``predict, then optimise'' (SPO+) loss trains a model directly on the regret of the decision it induces~\cite{elmachtoub2022}, and a recent benchmark across many decision-focused methods found the benefit to depend heavily on the problem~\cite{mandi2024}. For market choice the question is open, and Section~\ref{sec:effects} answers it for this problem. The neural variant used here encodes the set of markets with a permutation-invariant network~\cite{zaheer2017}, and a robust loss limits the influence of outlying prices on training~\cite{huber1964}.
+
+\section{Calibrated Uncertainty}
+\label{sec:uncertainty}
+
+Conformal prediction gives intervals with finite-sample coverage under exchangeability~\cite{vovk2005,angelopoulos2023}, and conformalised quantile regression adapts the width to the input~\cite{romano2019}. Prices drift, so exchangeability fails; adaptive conformal inference tracks a long-run miscoverage rate under shift~\cite{gibbs2021}. A further complication, that the outcome of a sale is observed only days later, is handled in Section~\ref{sec:floors}.
+
+\section{Missing and Informatively Missing Data}
+\label{sec:missing}
+
+A price is observed only when a market reports. If reporting depends on conditions the model also cares about, the data are not missing at random~\cite{rubin1976}, and learning from observed values alone is biased. Neural models for multivariate series with missing values add the missingness pattern itself as an input~\cite{che2018}; the same idea appears here as a reporting head and as silence features (Section~\ref{sec:formulation}).
+
+\section{Transmission Between Commodities and the Effect of Followers}
+\label{sec:transmission}
+
+Prices of crops that share land, labour, storage or consumers move together, and some of that movement is the common market factor and the common season rather than transmission from one crop to another. Studies of transmission typically estimate it from whole series, which blends the three. The method used here removes the first common factor and each crop's calendar-month mean, defines shock episodes, and compares the response after an episode with the unconditional baseline, resampling over episodes rather than days (Section~\ref{sec:spill-method}) because days within an episode are strongly dependent~\cite{kunsch1989}; many pairs are tested, so multiplicity is controlled~\cite{holm1979}. Where the evidence is thin, the system withholds the claim.
+
+A recommendation served to many users also changes what it predicts: a mandi that receives more produce than usual pays less, so advice that is good for one farmer can be poor for a thousand. This thesis treats that effect as a simulation with a stated price flexibility, not as a measured law (Section~\ref{sec:insight-method}). We did not find prior work that evaluates it for mandi choice, and cite none.
+
+\section{Language Models for Explanation}
+\label{sec:llm}
+
+Language models can turn model output into readable advice in several languages, and tool-calling interfaces let a model fill a fixed schema instead of writing free text. The risk is that the text is fluent whether or not it is faithful: a model asked about prices will produce prices, some plausible and wrong. Work on foundation models for agricultural forecasting concerns the forecast itself~\cite{ansari2024,wang2026}; among the studies surveyed we found none that couples a language model to a price decision with a check that every stated figure appears in the evidence. This project treats the language model as a writer whose output is verified and may be discarded (Section~\ref{sec:intel-method}). The writer is an open-weight mixture-of-experts model~\cite{gptoss2025} and the judge is a different model family~\cite{qwen3}, so that the writer does not grade itself. Anthropic's Claude~\cite{claude3} was used by the authors as a development and writing assistant; Section~\ref{sec:ai-disclosure} describes that use.
+
+\section{Limitations of Existing Systems}
+\label{sec:limitations}
+
+Table~\ref{tab:gaps} lists the limitations found and how each is addressed here. The first eight are properties of the literature; the last two are properties of what farmers actually have today: a price portal without advice, and no message that reaches them.
+
+\begin{table}[!t]
+    \centering
+    \caption{Gaps in existing approaches and the objective that addresses each}
+    \label{tab:gaps}
+    \small
+    \begin{tabular}{|p{4.6cm}|p{6.6cm}|p{3cm}|}
+    \hline
+    \textbf{Limitation} & \textbf{Description and impact} & \textbf{Addressed by} \\ \hline
+    Judged on forecast error & Models are ranked by RMSE or MAPE; a model can win on error and still pick the wrong market~\cite{elmachtoub2022,mandi2024} & Objectives 2, 3 (Sec.~\ref{sec:effects}) \\ \hline
+    Reporting gaps ignored & Training on posted prices only teaches the model that every market is open~\cite{rubin1976,che2018} & Objective 2 (Sec.~\ref{sec:formulation}) \\ \hline
+    No statement of downside & Point forecasts, and intervals without guarantees, give a farmer nothing firm to set against the cost of a bad sale~\cite{kde2024,gibbs2021} & Objective 4 (Sec.~\ref{sec:floors}) \\ \hline
+    Leakage in hybrid evaluation & Decompositions fitted on the full series flatter the reported skill~\cite{jaiswal2025,sathe2025,bergmeir2012} & Objective 6 (Sec.~\ref{sec:leakage}) \\ \hline
+    Language-model advice is unchecked & A model can state a price that is nowhere in the evidence, and nothing in the text shows it & Objective 7 (Sec.~\ref{sec:intel-method}) \\ \hline
+    Cross-crop effects confounded & Common movement and season look like transmission when estimated on whole series & Objective 8 (Sec.~\ref{sec:spill-method}) \\ \hline
+    Advice cannot be inspected & A recommendation without its cost arithmetic, the cost at which it changes and its record cannot be checked by a farmer & Objective 9 (Sec.~\ref{sec:insight-method}) \\ \hline
+    Followers ignored & Advice built for one farmer is silent on what happens when many take it & Objective 9 (Sec.~\ref{sec:insight-method}) \\ \hline
+    Portal shows prices, not advice & Yesterday's quote at each market; no transport, shrinkage or timing~\cite{agmarknet} & Objective 5 (Ch.~\ref{ch:impl}) \\ \hline
+    No message reaches the farmer & Information sits on a portal; nothing arrives in the morning, in the farmer's language, with the date of every price~\cite{fafchamps2012} & Objective 10 (Sec.~\ref{sec:digest-method}) \\ \hline
+    \end{tabular}
+\end{table}
+
+\section{Problem Statement}
+\label{sec:problem}
+
+The literature supports the following reading. Agricultural price forecasting is mature and mostly judged by forecast error~\cite{wu2026}; decision-focused learning~\cite{elmachtoub2022,mandi2024} and calibrated uncertainty~\cite{gibbs2021,angelopoulos2023} are mature elsewhere; and information helps farmers when it changes a specific decision~\cite{jensen2007,aker2010,fafchamps2012}. These strands have not been joined on real mandi data with the missing-report problem, an audit of reported gains, a check on language-model advice, and a channel that reaches the farmer.
+
+\paragraph{Problem.} Given the daily, partly missing prices reported by the mandis around Bengaluru and Kolar, the cost of moving a crop and its perishability, recommend to a farmer \emph{where and when to sell}, state a revenue floor that holds at a stated rate on later days, explain the recommendation in checkable terms in the farmer's language, and report honestly where the method does not beat simple alternatives. Chapter~\ref{ch:method} defines this precisely, Chapter~\ref{ch:impl} builds it and Chapter~\ref{ch:results} measures it.
+
+\paragraph{Scope of the claim.} The evidence is offline, on archived data from one region, with no live deployment and no field trial. Where the literature reports larger effects, for example the welfare gains of information interventions~\cite{jensen2007,aker2010}, our results do not test them.

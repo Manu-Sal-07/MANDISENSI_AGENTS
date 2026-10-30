@@ -110,7 +110,7 @@ def learn_weights(train: pd.DataFrame, cols: Dict[str, List[str]], target: str, 
 
 def evaluate(frame: pd.DataFrame, features: List[str], horizon: int, config: ForecastConfig = DEFAULT_CONFIG) -> Dict[str, Any]:
     """Walk-forward comparison for one horizon: no change, single model, each agent, equal-weight and learned-weight councils."""
-    from mandisense_ai.forecasting.train import _apply_arrival_dropout, _make_estimator, _mask_arrivals
+    from mandisense_ai.forecasting.train import _apply_arrival_dropout, _fit_model, _make_estimator, _make_linear_estimator, _mask_arrivals
 
     cols = agent_columns(features)
     names = list(cols)
@@ -130,6 +130,7 @@ def evaluate(frame: pd.DataFrame, features: List[str], horizon: int, config: For
 
         single = _make_estimator(config)
         single.fit(train[features], train[target], verbose=False)
+        linear = _fit_model(_make_linear_estimator(config), train[features], train[target], None)      # a structurally different baseline
         agents = _fit_agents(train, cols, target, config)
         raw_weights = learn_weights(train, cols, target, config)
         weights = constrain(raw_weights)
@@ -139,6 +140,7 @@ def evaluate(frame: pd.DataFrame, features: List[str], horizon: int, config: For
         out = valid[["date", "commodity", "mandi_id"]].copy()
         out["fold"], out["actual"] = k, valid[target].to_numpy()
         out["single"] = single.predict(valid[features])
+        out["linear"] = linear.predict(valid[features])
         agent_pred = _predict(agents, valid, cols)
         for i, name in enumerate(names):
             out[name] = agent_pred[:, i]
@@ -165,7 +167,7 @@ def summarise(result: Dict[str, Any], seed: int = 20261029) -> Dict[str, Any]:
     dates = d["date"].astype(str).to_numpy()
     mae = lambda p: float(np.mean(np.abs(y - p)))                       # noqa: E731
     base = float(np.mean(np.abs(y)))                                    # no change: forecast return 0
-    methods = ["single", "equal", "council", "council_raw", *result["names"]]
+    methods = ["single", "linear", "equal", "council", "council_raw", *result["names"]]
     table = {m: {"mae": round(mae(d[m].to_numpy()), 5), "skill": round(1 - mae(d[m].to_numpy()) / base, 4)} for m in methods}
 
     def paired(a: str, b: str, ya: Optional[np.ndarray] = None) -> Dict[str, Any]:
@@ -174,11 +176,17 @@ def summarise(result: Dict[str, Any], seed: int = 20261029) -> Dict[str, Any]:
         return {"mean_abs_error_diff": round(float(diff.mean()), 5), "ci": [round(float(lo), 5), round(float(hi), 5)],
                 "a_better": bool(hi < 0), "b_better": bool(lo > 0)}
 
+    def vs_no_change(col: str) -> Dict[str, Any]:
+        diff = np.abs(y - d[col].to_numpy()) - np.abs(y)                  # negative: the model beats "no change"
+        lo, hi = _block_bootstrap_ci(diff, dates, BLOCK_WEEKS, 1000, seed)
+        return {"mean_abs_error_diff": round(float(diff.mean()), 5), "ci": [round(float(lo), 5), round(float(hi), 5)], "model_better": bool(hi < 0), "no_change_better": bool(lo > 0)}
+
     masked = {"single": round(1 - mae(d["single_masked"].to_numpy()) / base, 4), "council": round(1 - mae(d["council_masked"].to_numpy()) / base, 4)}
     folds_won = int(sum(np.mean(np.abs(g["actual"] - g["council"])) < np.mean(np.abs(g["actual"] - g["single"])) for _, g in d.groupby("fold")))
     return {"horizon": result["horizon"], "n": int(len(d)), "folds": int(d["fold"].nunique()), "no_change_mae": round(base, 5), "methods": table,
-            "council_vs_single": paired("council", "single"), "council_vs_no_change": {
-                "mean_abs_error_diff": round(float(np.mean(np.abs(y - d["council"].to_numpy())) - base), 5)},
+            "council_vs_single": paired("council", "single"), "council_vs_no_change": vs_no_change("council"), "single_vs_no_change": vs_no_change("single"),
+            "linear_vs_no_change": vs_no_change("linear"), "single_vs_linear": paired("single", "linear"),
+            "folds_single_beats_no_change": int(sum(np.mean(np.abs(g["actual"] - g["single"])) < np.mean(np.abs(g["actual"])) for _, g in d.groupby("fold"))),
             "equal_vs_single": paired("equal", "single"), "arrival_masked_skill": masked, "folds_council_beats_single": folds_won,
             "mean_weights": {n: round(float(w), 3) for n, w in zip(result["names"], result["weights"].mean(axis=0))},
             "weight_sum": round(float(result["weights"].sum(axis=1).mean()), 3),

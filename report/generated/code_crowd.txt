@@ -1,0 +1,37 @@
+    panel, e = ev["panel"], ev["econ"]
+    M, A_n = panel.M, E.n_actions(panel.M)
+    arr = _daily_arrivals(crop, list(panel.markets))
+    cap = np.array([max(arr.get(m, 0.0), MIN_YARD_QUINTALS) for m in panel.markets])
+    disc = E.hold_discount(e)
+    trip = E.trip_cost(ev["dist"], e)
+    price = ev["price"]
+
+    def net(a: int, load: float) -> float:
+        m, k = E.decode(a, M)
+        if m is None:
+            return float(e.farmgate_factor * ev["gate_price"])
+        return float(price[m, k] * (1.0 + load / cap[m]) ** (-flexibility) * disc[k] - trip[m])
+
+    total_q = farmers * quantity
+    allowed = [a for a in range(A_n) if ev["offered"][a]]
+
+    def revenue(loads: Dict[int, float]) -> float:
+        return sum(x * net(a, x) for a, x in loads.items() if x > 0)
+
+    acts = _baseline_actions(ev)
+    all_best = {acts["recommended"]: total_q}
+    all_near = {acts["nearest_today"]: total_q}
+    # coordinated split: hand out the quantity in steps, each to the action with the best marginal revenue
+    steps = int(min(2000, max(20, farmers)))
+    step = total_q / steps
+    loads: Dict[int, float] = {a: 0.0 for a in allowed}
+    for _ in range(steps):
+        gains = {a: (loads[a] + step) * net(a, loads[a] + step) - loads[a] * net(a, loads[a]) for a in allowed}
+        loads[max(gains, key=gains.get)] += step
+    shares = {a: x / total_q for a, x in loads.items() if x / total_q >= 0.005}
+    norm = sum(shares.values())
+
+    def per_farmer(loads_: Dict[int, float]) -> float:
+        return revenue(loads_) / total_q
+
+    single = float(ev["r_hat"][acts["recommended"]])

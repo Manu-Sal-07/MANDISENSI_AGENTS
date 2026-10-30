@@ -1,0 +1,5898 @@
+{
+ "shah2025": {
+  "src": "crossref",
+  "title": "Hybrid forecasting of agricultural commodity prices: Integrating machine learning, time series, and stochastic simulation models",
+  "year": 2025,
+  "authors": [
+   [
+    "Celik",
+    "Busra Agan"
+   ],
+   [
+    "Celik",
+    "Serdar"
+   ]
+  ],
+  "container": "Borsa Istanbul Review",
+  "volume": "25",
+  "issue": "6",
+  "pages": "1440-1462",
+  "doi": "10.1016/j.bir.2025.10.004",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2025
+ },
+ "annamalai2025": {
+  "src": "crossref",
+  "title": "An integrated framework for multi-commodity agricultural price forecasting and anomaly detection using attention-boosted models",
+  "year": 2025,
+  "authors": [
+   [
+    "Sediyono",
+    "Eko"
+   ],
+   [
+    "Hartomo",
+    "Kristoko Dwi"
+   ],
+   [
+    "Arthur",
+    "Christian"
+   ],
+   [
+    "Utami",
+    "Intiyas"
+   ],
+   [
+    "Prabowo",
+    "Ronny"
+   ],
+   [
+    "Chiong",
+    "Raymond"
+   ]
+  ],
+  "container": "Journal of Agriculture and Food Research",
+  "volume": "22",
+  "issue": "",
+  "pages": "102021",
+  "doi": "10.1016/j.jafr.2025.102021",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "102021",
+  "score": 1.0,
+  "wanted_year": 2025
+ },
+ "fiszeder2024": {
+  "src": "crossref",
+  "title": "Volatility dynamics of agricultural futures markets under uncertainties",
+  "year": 2024,
+  "authors": [
+   [
+    "Dutta",
+    "Anupam"
+   ],
+   [
+    "Uddin",
+    "Gazi Salah"
+   ],
+   [
+    "Sheng",
+    "Lin Wen"
+   ],
+   [
+    "Park",
+    "Donghyun"
+   ],
+   [
+    "Zhu",
+    "Xuening"
+   ]
+  ],
+  "container": "Energy Economics",
+  "volume": "136",
+  "issue": "",
+  "pages": "107754",
+  "doi": "10.1016/j.eneco.2024.107754",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "107754",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "algirdas2024": {
+  "src": "crossref",
+  "title": "Financial stress and realized volatility: The case of agricultural commodities",
+  "year": 2024,
+  "authors": [
+   [
+    "Bonato",
+    "Matteo"
+   ],
+   [
+    "Cepni",
+    "Oguzhan"
+   ],
+   [
+    "Gupta",
+    "Rangan"
+   ],
+   [
+    "Pierdzioch",
+    "Christian"
+   ]
+  ],
+  "container": "Research in International Business and Finance",
+  "volume": "71",
+  "issue": "",
+  "pages": "102442",
+  "doi": "10.1016/j.ribaf.2024.102442",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "102442",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "tranad2024": {
+  "src": "crossref",
+  "title": "Transformer-based multivariate time series anomaly detection using inter-variable attention mechanism",
+  "year": 2024,
+  "authors": [
+   [
+    "Kang",
+    "Hyeongwon"
+   ],
+   [
+    "Kang",
+    "Pilsung"
+   ]
+  ],
+  "container": "Knowledge-Based Systems",
+  "volume": "290",
+  "issue": "",
+  "pages": "111507",
+  "doi": "10.1016/j.knosys.2024.111507",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "111507",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "epu2024": {
+  "src": "crossref",
+  "title": "The impact of economic policy uncertainty on agricultural prices: Evidence from China",
+  "year": 2024,
+  "authors": [
+   [
+    "Hao",
+    "Li"
+   ],
+   [
+    "Ki-Seong",
+    "Lee"
+   ]
+  ],
+  "container": "Asia and the Global Economy",
+  "volume": "4",
+  "issue": "2",
+  "pages": "100100",
+  "doi": "10.1016/j.aglobe.2024.100100",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "100100",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "cropyield": {
+  "src": "crossref",
+  "title": "Survey for Agriculture Crop Yield Prediction and Recommendation Based on Deep Ensemble Learning Models",
+  "year": 2024,
+  "authors": [
+   [
+    "TK",
+    "Anjana"
+   ],
+   [
+    "Vanitha",
+    "K."
+   ],
+   [
+    "Ravi",
+    "Reshma S"
+   ]
+  ],
+  "container": "2024 International Conference on Emerging Research in Computational Science (ICERCS)",
+  "volume": "",
+  "issue": "",
+  "pages": "1-6",
+  "doi": "10.1109/icercs63125.2024.10894878",
+  "type": "proceedings-article",
+  "publisher": "IEEE",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "agtech2024": {
+  "src": "crossref",
+  "title": "AgTech: Volatility Prediction for Agricultural Commodity Exchange Trading Applied Deep Learning",
+  "year": 2024,
+  "authors": [
+   [
+    "Le",
+    "Ngoc-Bao-van"
+   ],
+   [
+    "Seo",
+    "Yeong-Seok"
+   ],
+   [
+    "Huh",
+    "Jun-Ho"
+   ]
+  ],
+  "container": "IEEE Access",
+  "volume": "12",
+  "issue": "",
+  "pages": "153898-153910",
+  "doi": "10.1109/access.2024.3479868",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "smartag2024": {
+  "src": "crossref",
+  "title": "Smart Agriculture: Current State, Opportunities, and Challenges",
+  "year": 2024,
+  "authors": [
+   [
+    "Ahmed",
+    "Bilal"
+   ],
+   [
+    "Shabbir",
+    "Hasnat"
+   ],
+   [
+    "Naqvi",
+    "Syed Rameez"
+   ],
+   [
+    "Peng",
+    "Lu"
+   ]
+  ],
+  "container": "IEEE Access",
+  "volume": "12",
+  "issue": "",
+  "pages": "144456-144478",
+  "doi": "10.1109/access.2024.3471647",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "smartfarm2025": {
+  "src": "crossref",
+  "title": "Smart Farming: Enhancing Crop Recommendation and Price Prediction with Advanced Machine Learning",
+  "year": 2025,
+  "authors": [
+   [
+    "Thakre",
+    "Lekha"
+   ],
+   [
+    "Daware",
+    "Maithily"
+   ],
+   [
+    "Mohite",
+    "Ashlesha"
+   ],
+   [
+    "Sakhare",
+    "Apeksha"
+   ],
+   [
+    "Khobragade",
+    "Prashant"
+   ]
+  ],
+  "container": "2025 6th International Conference for Emerging Technology (INCET)",
+  "volume": "",
+  "issue": "",
+  "pages": "1-6",
+  "doi": "10.1109/incet64471.2025.11140186",
+  "type": "proceedings-article",
+  "publisher": "IEEE",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2025
+ },
+ "fedxai2025": {
+  "src": "crossref",
+  "title": "A Federated Explainable AI Framework for Smart Agriculture: Enhancing Transparency, Efficiency, and Sustainability",
+  "year": 2025,
+  "authors": [
+   [
+    "Tahir",
+    "Hassam Ahmed"
+   ],
+   [
+    "Alayed",
+    "Walaa"
+   ],
+   [
+    "Hassan",
+    "Waqar Ul"
+   ]
+  ],
+  "container": "IEEE Access",
+  "volume": "13",
+  "issue": "",
+  "pages": "97567-97584",
+  "doi": "10.1109/access.2025.3571340",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2025
+ },
+ "jaiswal2025": {
+  "src": "crossref",
+  "title": "STL-LSTM Hybrid Model for Forecasting Seasonal Agricultural Price Series",
+  "year": 2025,
+  "authors": [
+   [
+    "Jaiswal",
+    "Ronit"
+   ],
+   [
+    "Jha",
+    "Girish K."
+   ],
+   [
+    "Kumar",
+    "Rajeev Ranjan"
+   ],
+   [
+    "Choudhary",
+    "Kapil"
+   ]
+  ],
+  "container": "Annals of Data Science",
+  "volume": "13",
+  "issue": "2",
+  "pages": "279-302",
+  "doi": "10.1007/s40745-025-00590-3",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2025
+ },
+ "ceemdan2024": {
+  "src": "crossref",
+  "title": "Hybrid modeling approaches for agricultural commodity prices using CEEMDAN and time delay neural networks",
+  "year": 2024,
+  "authors": [
+   [
+    "Pandit",
+    "Pramit"
+   ],
+   [
+    "Sagar",
+    "Atish"
+   ],
+   [
+    "Ghose",
+    "Bikramjeet"
+   ],
+   [
+    "Paul",
+    "Moumita"
+   ],
+   [
+    "Kisi",
+    "Ozgur"
+   ],
+   [
+    "Vishwakarma",
+    "Dinesh Kumar"
+   ],
+   [
+    "Mansour",
+    "Lamjed"
+   ],
+   [
+    "Yadav",
+    "Krishna Kumar"
+   ]
+  ],
+  "container": "Scientific Reports",
+  "volume": "14",
+  "issue": "1",
+  "pages": "",
+  "doi": "10.1038/s41598-024-74503-4",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "26639",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "exogenous2024": {
+  "src": "crossref",
+  "title": "Exogenous variable driven deep learning models for improved price forecasting of TOP crops in India",
+  "year": 2024,
+  "authors": [
+   [
+    "Nayak",
+    "G. H. Harish"
+   ],
+   [
+    "Alam",
+    "Md Wasi"
+   ],
+   [
+    "Singh",
+    "K. N."
+   ],
+   [
+    "Avinash",
+    "G."
+   ],
+   [
+    "Kumar",
+    "Rajeev Ranjan"
+   ],
+   [
+    "Ray",
+    "Mrinmoy"
+   ],
+   [
+    "Deb",
+    "Chandan Kumar"
+   ]
+  ],
+  "container": "Scientific Reports",
+  "volume": "14",
+  "issue": "1",
+  "pages": "",
+  "doi": "10.1038/s41598-024-68040-3",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "17203",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "manogna2025": {
+  "src": "crossref",
+  "title": "A novel hybrid neural network-based volatility forecasting of agricultural commodity prices: empirical evidence from India",
+  "year": 2025,
+  "authors": [
+   [
+    "Manogna",
+    "R. L."
+   ],
+   [
+    "Dharmaji",
+    "Vijay"
+   ],
+   [
+    "Sarang",
+    "S."
+   ]
+  ],
+  "container": "Journal of Big Data",
+  "volume": "12",
+  "issue": "1",
+  "pages": "",
+  "doi": "10.1186/s40537-025-01131-8",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "85",
+  "score": 1.0,
+  "wanted_year": 2025
+ },
+ "kde2024": {
+  "src": "crossref",
+  "title": "A hybrid model for point and interval forecasting of agricultural price based on the decomposition-ensemble and KDE",
+  "year": 2024,
+  "authors": [
+   [
+    "Zhang",
+    "Dabin"
+   ],
+   [
+    "Zhang",
+    "Xuejing"
+   ],
+   [
+    "Hu",
+    "Huanling"
+   ],
+   [
+    "Zhang",
+    "Boting"
+   ],
+   [
+    "Ling",
+    "Liwen"
+   ]
+  ],
+  "container": "Soft Computing",
+  "volume": "28",
+  "issue": "17-18",
+  "pages": "10153-10176",
+  "doi": "10.1007/s00500-024-09702-2",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "mohanty2023": {
+  "src": "crossref",
+  "title": "Agricultural commodity price prediction model: a machine learning framework",
+  "year": 2023,
+  "authors": [
+   [
+    "Mohanty",
+    "Manas Kumar"
+   ],
+   [
+    "Thakurta",
+    "Parag Kumar Guha"
+   ],
+   [
+    "Kar",
+    "Samarjit"
+   ]
+  ],
+  "container": "Neural Computing and Applications",
+  "volume": "35",
+  "issue": "20",
+  "pages": "15109-15128",
+  "doi": "10.1007/s00521-023-08528-7",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "optimized2023": {
+  "src": "crossref",
+  "title": "Various optimized machine learning techniques to predict agricultural commodity prices",
+  "year": 2024,
+  "authors": [
+   [
+    "Sari",
+    "Murat"
+   ],
+   [
+    "Duran",
+    "Serbay"
+   ],
+   [
+    "Kutlu",
+    "Huseyin"
+   ],
+   [
+    "Guloglu",
+    "Bulent"
+   ],
+   [
+    "Atik",
+    "Zehra"
+   ]
+  ],
+  "container": "Neural Computing and Applications",
+  "volume": "36",
+  "issue": "19",
+  "pages": "11439-11459",
+  "doi": "10.1007/s00521-024-09679-x",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "crop_ins": {
+  "src": "crossref",
+  "title": "Farmers’ preference for crop-diversification in India: does crop-insurance play a part?",
+  "year": 2025,
+  "authors": [
+   [
+    "Biswal",
+    "Dinamani"
+   ],
+   [
+    "Bahinipati",
+    "Chandra Sekhar"
+   ]
+  ],
+  "container": "Mitigation and Adaptation Strategies for Global Change",
+  "volume": "30",
+  "issue": "3",
+  "pages": "",
+  "doi": "10.1007/s11027-025-10205-0",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "17",
+  "score": 1.0,
+  "wanted_year": 2025
+ },
+ "xai2024": {
+  "src": "crossref",
+  "title": "XAI-Powered Smart Agriculture Framework for Enhancing Food Productivity and Sustainability",
+  "year": 2024,
+  "authors": [
+   [
+    "John Martin",
+    "R."
+   ],
+   [
+    "Mittal",
+    "Ruchi"
+   ],
+   [
+    "Malik",
+    "Varun"
+   ],
+   [
+    "Jeribi",
+    "Fathe"
+   ],
+   [
+    "Tabrez Siddiqui",
+    "Shams"
+   ],
+   [
+    "Alamgir Hossain",
+    "Mohammad"
+   ],
+   [
+    "Swapna",
+    "S. L."
+   ]
+  ],
+  "container": "IEEE Access",
+  "volume": "12",
+  "issue": "",
+  "pages": "168412-168427",
+  "doi": "10.1109/access.2024.3492973",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "engle1982": {
+  "src": "crossref",
+  "title": "Autoregressive Conditional Heteroscedasticity with Estimates of the Variance of United Kingdom Inflation",
+  "year": 1982,
+  "authors": [
+   [
+    "Engle",
+    "Robert F."
+   ]
+  ],
+  "container": "Econometrica",
+  "volume": "50",
+  "issue": "4",
+  "pages": "987",
+  "doi": "10.2307/1912773",
+  "type": "journal-article",
+  "publisher": "JSTOR",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1982
+ },
+ "bollerslev1986": {
+  "src": "crossref",
+  "title": "Generalized autoregressive conditional heteroskedasticity",
+  "year": 1986,
+  "authors": [
+   [
+    "Bollerslev",
+    "Tim"
+   ]
+  ],
+  "container": "Journal of Econometrics",
+  "volume": "31",
+  "issue": "3",
+  "pages": "307-327",
+  "doi": "10.1016/0304-4076(86)90063-1",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1986
+ },
+ "breiman2001": {
+  "src": "crossref",
+  "title": "Random forests",
+  "year": null,
+  "authors": [],
+  "container": "Physics Subject Headings (PhySH)",
+  "volume": "",
+  "issue": "",
+  "pages": "",
+  "doi": "10.29172/7c2a6982-6d72-4cd8-bba6-2fccb06a7011",
+  "type": "dataset",
+  "publisher": "American Physical Society (APS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2001
+ },
+ "friedman2001": {
+  "src": "crossref",
+  "title": "Greedy function approximation: A gradient boosting machine.",
+  "year": 2001,
+  "authors": [
+   [
+    "Friedman",
+    "Jerome H."
+   ]
+  ],
+  "container": "The Annals of Statistics",
+  "volume": "29",
+  "issue": "5",
+  "pages": "1189-1232",
+  "doi": "10.1214/aos/1013203451",
+  "type": "journal-article",
+  "publisher": "Institute of Mathematical Statistics",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2001
+ },
+ "cho2014": {
+  "src": "crossref",
+  "title": "Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation",
+  "year": 2014,
+  "authors": [
+   [
+    "Cho",
+    "Kyunghyun"
+   ],
+   [
+    "van Merrienboer",
+    "Bart"
+   ],
+   [
+    "Gulcehre",
+    "Caglar"
+   ],
+   [
+    "Bahdanau",
+    "Dzmitry"
+   ],
+   [
+    "Bougares",
+    "Fethi"
+   ],
+   [
+    "Schwenk",
+    "Holger"
+   ],
+   [
+    "Bengio",
+    "Yoshua"
+   ]
+  ],
+  "container": "Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing (EMNLP)",
+  "volume": "",
+  "issue": "",
+  "pages": "1724-1734",
+  "doi": "10.3115/v1/d14-1179",
+  "type": "proceedings-article",
+  "publisher": "Association for Computational Linguistics",
+  "article": "",
+  "score": 0.995,
+  "wanted_year": 2014
+ },
+ "makridakis2018": {
+  "src": "crossref",
+  "title": "Statistical and Machine Learning forecasting methods: Concerns and ways forward",
+  "year": 2018,
+  "authors": [
+   [
+    "Makridakis",
+    "Spyros"
+   ],
+   [
+    "Spiliotis",
+    "Evangelos"
+   ],
+   [
+    "Assimakopoulos",
+    "Vassilios"
+   ]
+  ],
+  "container": "PLOS ONE",
+  "volume": "13",
+  "issue": "3",
+  "pages": "e0194889",
+  "doi": "10.1371/journal.pone.0194889",
+  "type": "journal-article",
+  "publisher": "Public Library of Science (PLoS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2018
+ },
+ "makridakis2020": {
+  "src": "crossref",
+  "title": "The M4 Competition: 100,000 time series and 61 forecasting methods",
+  "year": 2020,
+  "authors": [
+   [
+    "Makridakis",
+    "Spyros"
+   ],
+   [
+    "Spiliotis",
+    "Evangelos"
+   ],
+   [
+    "Assimakopoulos",
+    "Vassilios"
+   ]
+  ],
+  "container": "International Journal of Forecasting",
+  "volume": "36",
+  "issue": "1",
+  "pages": "54-74",
+  "doi": "10.1016/j.ijforecast.2019.04.014",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2020
+ },
+ "hyndman2006": {
+  "src": "crossref",
+  "title": "Another look at measures of forecast accuracy",
+  "year": 2006,
+  "authors": [
+   [
+    "Hyndman",
+    "Rob J."
+   ],
+   [
+    "Koehler",
+    "Anne B."
+   ]
+  ],
+  "container": "International Journal of Forecasting",
+  "volume": "22",
+  "issue": "4",
+  "pages": "679-688",
+  "doi": "10.1016/j.ijforecast.2006.03.001",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2006
+ },
+ "huang1998": {
+  "src": "crossref",
+  "title": "The empirical mode decomposition and the Hilbert spectrum for nonlinear and non-stationary time series analysis",
+  "year": 1998,
+  "authors": [
+   [
+    "Huang",
+    "Norden E."
+   ],
+   [
+    "Shen",
+    "Zheng"
+   ],
+   [
+    "Long",
+    "Steven R."
+   ],
+   [
+    "Wu",
+    "Manli C."
+   ],
+   [
+    "Shih",
+    "Hsing H."
+   ],
+   [
+    "Zheng",
+    "Quanan"
+   ],
+   [
+    "Yen",
+    "Nai-Chyuan"
+   ],
+   [
+    "Tung",
+    "Chi Chao"
+   ],
+   [
+    "Liu",
+    "Henry H."
+   ]
+  ],
+  "container": "Proceedings of the Royal Society of London. Series A: Mathematical, Physical and Engineering Sciences",
+  "volume": "454",
+  "issue": "1971",
+  "pages": "903-995",
+  "doi": "10.1098/rspa.1998.0193",
+  "type": "journal-article",
+  "publisher": "The Royal Society",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1998
+ },
+ "wu2009": {
+  "src": "crossref",
+  "title": "ENSEMBLE EMPIRICAL MODE DECOMPOSITION: A NOISE-ASSISTED DATA ANALYSIS METHOD",
+  "year": 2009,
+  "authors": [
+   [
+    "WU",
+    "ZHAOHUA"
+   ],
+   [
+    "HUANG",
+    "NORDEN E."
+   ]
+  ],
+  "container": "Advances in Adaptive Data Analysis",
+  "volume": "01",
+  "issue": "01",
+  "pages": "1-41",
+  "doi": "10.1142/s1793536909000047",
+  "type": "journal-article",
+  "publisher": "World Scientific Pub Co Pte Ltd",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2009
+ },
+ "zhou2021": {
+  "src": "crossref",
+  "title": "Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting",
+  "year": 2021,
+  "authors": [
+   [
+    "Zhou",
+    "Haoyi"
+   ],
+   [
+    "Zhang",
+    "Shanghang"
+   ],
+   [
+    "Peng",
+    "Jieqi"
+   ],
+   [
+    "Zhang",
+    "Shuai"
+   ],
+   [
+    "Li",
+    "Jianxin"
+   ],
+   [
+    "Xiong",
+    "Hui"
+   ],
+   [
+    "Zhang",
+    "Wancai"
+   ]
+  ],
+  "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+  "volume": "35",
+  "issue": "12",
+  "pages": "11106-11115",
+  "doi": "10.1609/aaai.v35i12.17325",
+  "type": "journal-article",
+  "publisher": "Association for the Advancement of Artificial Intelligence (AAAI)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2021
+ },
+ "salinas2020": {
+  "src": "crossref",
+  "title": "DeepAR: Probabilistic forecasting with autoregressive recurrent networks",
+  "year": 2020,
+  "authors": [
+   [
+    "Salinas",
+    "David"
+   ],
+   [
+    "Flunkert",
+    "Valentin"
+   ],
+   [
+    "Gasthaus",
+    "Jan"
+   ],
+   [
+    "Januschowski",
+    "Tim"
+   ]
+  ],
+  "container": "International Journal of Forecasting",
+  "volume": "36",
+  "issue": "3",
+  "pages": "1181-1191",
+  "doi": "10.1016/j.ijforecast.2019.07.001",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2020
+ },
+ "lim2021": {
+  "src": "crossref",
+  "title": "Temporal Fusion Transformers for interpretable multi-horizon time series forecasting",
+  "year": 2021,
+  "authors": [
+   [
+    "Lim",
+    "Bryan"
+   ],
+   [
+    "Arık",
+    "Sercan Ö."
+   ],
+   [
+    "Loeff",
+    "Nicolas"
+   ],
+   [
+    "Pfister",
+    "Tomas"
+   ]
+  ],
+  "container": "International Journal of Forecasting",
+  "volume": "37",
+  "issue": "4",
+  "pages": "1748-1764",
+  "doi": "10.1016/j.ijforecast.2021.03.012",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2021
+ },
+ "zeng2023aaai": {
+  "src": "crossref",
+  "title": "Are Transformers Effective for Time Series Forecasting?",
+  "year": 2023,
+  "authors": [
+   [
+    "Zeng",
+    "Ailing"
+   ],
+   [
+    "Chen",
+    "Muxi"
+   ],
+   [
+    "Zhang",
+    "Lei"
+   ],
+   [
+    "Xu",
+    "Qiang"
+   ]
+  ],
+  "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+  "volume": "37",
+  "issue": "9",
+  "pages": "11121-11128",
+  "doi": "10.1609/aaai.v37i9.26317",
+  "type": "journal-article",
+  "publisher": "Association for the Advancement of Artificial Intelligence (AAAI)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "woo2024": {
+  "src": "arxiv",
+  "title": "Unified Training of Universal Time Series Forecasting Transformers",
+  "year": 2024,
+  "authors": [
+   [
+    "Woo",
+    "Gerald"
+   ],
+   [
+    "Liu",
+    "Chenghao"
+   ],
+   [
+    "Kumar",
+    "Akshat"
+   ],
+   [
+    "Xiong",
+    "Caiming"
+   ],
+   [
+    "Savarese",
+    "Silvio"
+   ],
+   [
+    "Sahoo",
+    "Doyen"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2402.02592",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "rasul2023": {
+  "src": "arxiv",
+  "title": "Lag-Llama: Towards Foundation Models for Probabilistic Time Series Forecasting",
+  "year": 2023,
+  "authors": [
+   [
+    "Rasul",
+    "Kashif"
+   ],
+   [
+    "Ashok",
+    "Arjun"
+   ],
+   [
+    "Williams",
+    "Andrew Robert"
+   ],
+   [
+    "Ghonia",
+    "Hena"
+   ],
+   [
+    "Bhagwatkar",
+    "Rishika"
+   ],
+   [
+    "Khorasani",
+    "Arian"
+   ],
+   [
+    "Bayazi",
+    "Mohammad Javad Darvishi"
+   ],
+   [
+    "Adamopoulos",
+    "George"
+   ],
+   [
+    "Riachi",
+    "Roland"
+   ],
+   [
+    "Hassen",
+    "Nadhir"
+   ],
+   [
+    "Biloš",
+    "Marin"
+   ],
+   [
+    "Garg",
+    "Sahil"
+   ],
+   [
+    "Schneider",
+    "Anderson"
+   ],
+   [
+    "Chapados",
+    "Nicolas"
+   ],
+   [
+    "Drouin",
+    "Alexandre"
+   ],
+   [
+    "Zantedeschi",
+    "Valentina"
+   ],
+   [
+    "Nevmyvaka",
+    "Yuriy"
+   ],
+   [
+    "Rish",
+    "Irina"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2310.08278",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "shwartz2022": {
+  "src": "crossref",
+  "title": "Tabular data: Deep learning is not all you need",
+  "year": 2022,
+  "authors": [
+   [
+    "Shwartz-Ziv",
+    "Ravid"
+   ],
+   [
+    "Armon",
+    "Amitai"
+   ]
+  ],
+  "container": "Information Fusion",
+  "volume": "81",
+  "issue": "",
+  "pages": "84-90",
+  "doi": "10.1016/j.inffus.2021.11.011",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2022
+ },
+ "borisov2022": {
+  "src": "crossref",
+  "title": "Deep Neural Networks and Tabular Data: A Survey",
+  "year": 2024,
+  "authors": [
+   [
+    "Borisov",
+    "Vadim"
+   ],
+   [
+    "Leemann",
+    "Tobias"
+   ],
+   [
+    "Seßler",
+    "Kathrin"
+   ],
+   [
+    "Haug",
+    "Johannes"
+   ],
+   [
+    "Pawelczyk",
+    "Martin"
+   ],
+   [
+    "Kasneci",
+    "Gjergji"
+   ]
+  ],
+  "container": "IEEE Transactions on Neural Networks and Learning Systems",
+  "volume": "35",
+  "issue": "6",
+  "pages": "7499-7519",
+  "doi": "10.1109/tnnls.2022.3229161",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2022
+ },
+ "lundberg2017": {
+  "src": "arxiv",
+  "title": "A Unified Approach to Interpreting Model Predictions",
+  "year": 2017,
+  "authors": [
+   [
+    "Lundberg",
+    "Scott"
+   ],
+   [
+    "Lee",
+    "Su-In"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1705.07874",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2017
+ },
+ "ribeiro2016": {
+  "src": "crossref",
+  "title": "“Why Should I Trust You?”: Explaining the Predictions of Any Classifier",
+  "year": 2016,
+  "authors": [
+   [
+    "Ribeiro",
+    "Marco"
+   ],
+   [
+    "Singh",
+    "Sameer"
+   ],
+   [
+    "Guestrin",
+    "Carlos"
+   ]
+  ],
+  "container": "Proceedings of the 2016 Conference of the North American Chapter of the Association for Computational Linguistics: Demonstrations",
+  "volume": "",
+  "issue": "",
+  "pages": "97-101",
+  "doi": "10.18653/v1/n16-3020",
+  "type": "proceedings-article",
+  "publisher": "Association for Computational Linguistics",
+  "article": "",
+  "score": 0.993,
+  "wanted_year": 2016
+ },
+ "doshivelez2017": {
+  "src": "arxiv",
+  "title": "Towards A Rigorous Science of Interpretable Machine Learning",
+  "year": 2017,
+  "authors": [
+   [
+    "Doshi-Velez",
+    "Finale"
+   ],
+   [
+    "Kim",
+    "Been"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1702.08608",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2017
+ },
+ "rudin2019": {
+  "src": "crossref",
+  "title": "Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead",
+  "year": 2019,
+  "authors": [
+   [
+    "Rudin",
+    "Cynthia"
+   ]
+  ],
+  "container": "Nature Machine Intelligence",
+  "volume": "1",
+  "issue": "5",
+  "pages": "206-215",
+  "doi": "10.1038/s42256-019-0048-x",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2019
+ },
+ "kamilaris2018": {
+  "src": "crossref",
+  "title": "Deep learning in agriculture: A survey",
+  "year": 2018,
+  "authors": [
+   [
+    "Kamilaris",
+    "Andreas"
+   ],
+   [
+    "Prenafeta-Boldú",
+    "Francesc X."
+   ]
+  ],
+  "container": "Computers and Electronics in Agriculture",
+  "volume": "147",
+  "issue": "",
+  "pages": "70-90",
+  "doi": "10.1016/j.compag.2018.02.016",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2018
+ },
+ "wilder2019": {
+  "src": "crossref",
+  "title": "Melding the Data-Decisions Pipeline: Decision-Focused Learning for Combinatorial Optimization",
+  "year": 2019,
+  "authors": [
+   [
+    "Wilder",
+    "Bryan"
+   ],
+   [
+    "Dilkina",
+    "Bistra"
+   ],
+   [
+    "Tambe",
+    "Milind"
+   ]
+  ],
+  "container": "Proceedings of the AAAI Conference on Artificial Intelligence",
+  "volume": "33",
+  "issue": "01",
+  "pages": "1658-1665",
+  "doi": "10.1609/aaai.v33i01.33011658",
+  "type": "journal-article",
+  "publisher": "Association for the Advancement of Artificial Intelligence (AAAI)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2019
+ },
+ "donti2017": {
+  "src": "arxiv",
+  "title": "Task-based End-to-end Model Learning in Stochastic Optimization",
+  "year": 2017,
+  "authors": [
+   [
+    "Donti",
+    "Priya L."
+   ],
+   [
+    "Amos",
+    "Brandon"
+   ],
+   [
+    "Kolter",
+    "J. Zico"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1703.04529",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2017
+ },
+ "amos2017": {
+  "src": "arxiv",
+  "title": "OptNet: Differentiable Optimization as a Layer in Neural Networks",
+  "year": 2017,
+  "authors": [
+   [
+    "Amos",
+    "Brandon"
+   ],
+   [
+    "Kolter",
+    "J. Zico"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1703.00443",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2017
+ },
+ "berthet2020": {
+  "src": "arxiv",
+  "title": "Learning with Differentiable Perturbed Optimizers",
+  "year": 2020,
+  "authors": [
+   [
+    "Berthet",
+    "Quentin"
+   ],
+   [
+    "Blondel",
+    "Mathieu"
+   ],
+   [
+    "Teboul",
+    "Olivier"
+   ],
+   [
+    "Cuturi",
+    "Marco"
+   ],
+   [
+    "Vert",
+    "Jean-Philippe"
+   ],
+   [
+    "Bach",
+    "Francis"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2002.08676",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2020
+ },
+ "sadana2025": {
+  "src": "crossref",
+  "title": "A survey of contextual optimization methods for decision-making under uncertainty",
+  "year": 2025,
+  "authors": [
+   [
+    "Sadana",
+    "Utsav"
+   ],
+   [
+    "Chenreddy",
+    "Abhilash"
+   ],
+   [
+    "Delage",
+    "Erick"
+   ],
+   [
+    "Forel",
+    "Alexandre"
+   ],
+   [
+    "Frejinger",
+    "Emma"
+   ],
+   [
+    "Vidal",
+    "Thibaut"
+   ]
+  ],
+  "container": "European Journal of Operational Research",
+  "volume": "320",
+  "issue": "2",
+  "pages": "271-289",
+  "doi": "10.1016/j.ejor.2024.03.020",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2025
+ },
+ "kotary2021": {
+  "src": "crossref",
+  "title": "End-to-End Constrained Optimization Learning: A Survey",
+  "year": 2021,
+  "authors": [
+   [
+    "Kotary",
+    "James"
+   ],
+   [
+    "Fioretto",
+    "Ferdinando"
+   ],
+   [
+    "Van Hentenryck",
+    "Pascal"
+   ],
+   [
+    "Wilder",
+    "Bryan"
+   ]
+  ],
+  "container": "Proceedings of the Thirtieth International Joint Conference on Artificial Intelligence",
+  "volume": "",
+  "issue": "",
+  "pages": "4475-4482",
+  "doi": "10.24963/ijcai.2021/610",
+  "type": "proceedings-article",
+  "publisher": "International Joint Conferences on Artificial Intelligence Organization",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2021
+ },
+ "ban2019": {
+  "src": "crossref",
+  "title": "The Big Data Newsvendor: Practical Insights from Machine Learning",
+  "year": 2019,
+  "authors": [
+   [
+    "Ban",
+    "Gah-Yi"
+   ],
+   [
+    "Rudin",
+    "Cynthia"
+   ]
+  ],
+  "container": "Operations Research",
+  "volume": "67",
+  "issue": "1",
+  "pages": "90-108",
+  "doi": "10.1287/opre.2018.1757",
+  "type": "journal-article",
+  "publisher": "Institute for Operations Research and the Management Sciences (INFORMS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2019
+ },
+ "barber2021": {
+  "src": "crossref",
+  "title": "Predictive inference with the jackknife+",
+  "year": 2021,
+  "authors": [
+   [
+    "Barber",
+    "Rina Foygel"
+   ],
+   [
+    "Candès",
+    "Emmanuel J."
+   ],
+   [
+    "Ramdas",
+    "Aaditya"
+   ],
+   [
+    "Tibshirani",
+    "Ryan J."
+   ]
+  ],
+  "container": "The Annals of Statistics",
+  "volume": "49",
+  "issue": "1",
+  "pages": "486-507",
+  "doi": "10.1214/20-aos1965",
+  "type": "journal-article",
+  "publisher": "Institute of Mathematical Statistics",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2021
+ },
+ "barber2023": {
+  "src": "crossref",
+  "title": "Conformal prediction beyond exchangeability",
+  "year": 2023,
+  "authors": [
+   [
+    "Barber",
+    "Rina Foygel"
+   ],
+   [
+    "Candès",
+    "Emmanuel J."
+   ],
+   [
+    "Ramdas",
+    "Aaditya"
+   ],
+   [
+    "Tibshirani",
+    "Ryan J."
+   ]
+  ],
+  "container": "The Annals of Statistics",
+  "volume": "51",
+  "issue": "2",
+  "pages": "816-845",
+  "doi": "10.1214/23-aos2276",
+  "type": "journal-article",
+  "publisher": "Institute of Mathematical Statistics",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "zaffran2022": {
+  "src": "arxiv",
+  "title": "Adaptive Conformal Predictions for Time Series",
+  "year": 2022,
+  "authors": [
+   [
+    "Zaffran",
+    "Margaux"
+   ],
+   [
+    "Dieuleveut",
+    "Aymeric"
+   ],
+   [
+    "Féron",
+    "Olivier"
+   ],
+   [
+    "Goude",
+    "Yannig"
+   ],
+   [
+    "Josse",
+    "Julie"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2202.07282",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2022
+ },
+ "angelopoulos2023pid": {
+  "src": "crossref",
+  "title": "Conformal PID Control for Time Series Prediction",
+  "year": 2023,
+  "authors": [
+   [
+    "Angelopoulos",
+    "Anastasios"
+   ],
+   [
+    "Candes",
+    "Emmanuel"
+   ],
+   [
+    "Tibshirani",
+    "Ryan"
+   ]
+  ],
+  "container": "Advances in Neural Information Processing Systems 36",
+  "volume": "",
+  "issue": "",
+  "pages": "23047-23074",
+  "doi": "10.52202/075280-1000",
+  "type": "proceedings-article",
+  "publisher": "Neural Information Processing Systems Foundation, Inc. (NeurIPS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "gneiting2007": {
+  "src": "crossref",
+  "title": "Strictly Proper Scoring Rules, Prediction, and Estimation",
+  "year": 2005,
+  "authors": [
+   [
+    "Gneiting",
+    "Tilmann"
+   ],
+   [
+    "Raftery",
+    "Adrian E."
+   ]
+  ],
+  "container": "",
+  "volume": "",
+  "issue": "",
+  "pages": "",
+  "doi": "10.21236/ada454828",
+  "type": "report",
+  "publisher": "Defense Technical Information Center",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2007
+ },
+ "cao2018": {
+  "src": "arxiv",
+  "title": "BRITS: Bidirectional Recurrent Imputation for Time Series",
+  "year": 2018,
+  "authors": [
+   [
+    "Cao",
+    "Wei"
+   ],
+   [
+    "Wang",
+    "Dong"
+   ],
+   [
+    "Li",
+    "Jian"
+   ],
+   [
+    "Zhou",
+    "Hao"
+   ],
+   [
+    "Li",
+    "Lei"
+   ],
+   [
+    "Li",
+    "Yitan"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1805.10572",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2018
+ },
+ "yoon2018": {
+  "src": "arxiv",
+  "title": "GAIN: Missing Data Imputation using Generative Adversarial Nets",
+  "year": 2018,
+  "authors": [
+   [
+    "Yoon",
+    "Jinsung"
+   ],
+   [
+    "Jordon",
+    "James"
+   ],
+   [
+    "Schaar",
+    "Mihaela van der"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1806.02920",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2018
+ },
+ "tashiro2021": {
+  "src": "arxiv",
+  "title": "CSDI: Conditional Score-based Diffusion Models for Probabilistic Time Series Imputation",
+  "year": 2021,
+  "authors": [
+   [
+    "Tashiro",
+    "Yusuke"
+   ],
+   [
+    "Song",
+    "Jiaming"
+   ],
+   [
+    "Song",
+    "Yang"
+   ],
+   [
+    "Ermon",
+    "Stefano"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2107.03502",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2021
+ },
+ "schafer2002": {
+  "src": "crossref",
+  "title": "Missing data: Our view of the state of the art.",
+  "year": 2002,
+  "authors": [
+   [
+    "Schafer",
+    "Joseph L."
+   ],
+   [
+    "Graham",
+    "John W."
+   ]
+  ],
+  "container": "Psychological Methods",
+  "volume": "7",
+  "issue": "2",
+  "pages": "147-177",
+  "doi": "10.1037/1082-989x.7.2.147",
+  "type": "journal-article",
+  "publisher": "American Psychological Association (APA)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2002
+ },
+ "benjamini1995": {
+  "src": "crossref",
+  "title": "Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing",
+  "year": 1995,
+  "authors": [
+   [
+    "Benjamini",
+    "Yoav"
+   ],
+   [
+    "Hochberg",
+    "Yosef"
+   ]
+  ],
+  "container": "Journal of the Royal Statistical Society Series B: Statistical Methodology",
+  "volume": "57",
+  "issue": "1",
+  "pages": "289-300",
+  "doi": "10.1111/j.2517-6161.1995.tb02031.x",
+  "type": "journal-article",
+  "publisher": "Oxford University Press (OUP)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1995
+ },
+ "efron1979": {
+  "src": "crossref",
+  "title": "Bootstrap Methods: Another Look at the Jackknife",
+  "year": 1979,
+  "authors": [
+   [
+    "Efron",
+    "B."
+   ]
+  ],
+  "container": "The Annals of Statistics",
+  "volume": "7",
+  "issue": "1",
+  "pages": "1-26",
+  "doi": "10.1214/aos/1176344552",
+  "type": "journal-article",
+  "publisher": "Institute of Mathematical Statistics",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1979
+ },
+ "giacomini2006": {
+  "src": "crossref",
+  "title": "Tests of Conditional Predictive Ability",
+  "year": 2006,
+  "authors": [
+   [
+    "Giacomini",
+    "Raffaella"
+   ],
+   [
+    "White",
+    "Halbert"
+   ]
+  ],
+  "container": "Econometrica",
+  "volume": "74",
+  "issue": "6",
+  "pages": "1545-1578",
+  "doi": "10.1111/j.1468-0262.2006.00718.x",
+  "type": "journal-article",
+  "publisher": "The Econometric Society",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2006
+ },
+ "tashman2000": {
+  "src": "crossref",
+  "title": "Out-of-sample tests of forecasting accuracy: an analysis and review",
+  "year": 2000,
+  "authors": [
+   [
+    "Tashman",
+    "Leonard J."
+   ]
+  ],
+  "container": "International Journal of Forecasting",
+  "volume": "16",
+  "issue": "4",
+  "pages": "437-450",
+  "doi": "10.1016/s0169-2070(00)00065-0",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2000
+ },
+ "hewamalage2023": {
+  "src": "crossref",
+  "title": "Forecast evaluation for data scientists: common pitfalls and best practices",
+  "year": 2022,
+  "authors": [
+   [
+    "Hewamalage",
+    "Hansika"
+   ],
+   [
+    "Ackermann",
+    "Klaus"
+   ],
+   [
+    "Bergmeir",
+    "Christoph"
+   ]
+  ],
+  "container": "Data Mining and Knowledge Discovery",
+  "volume": "37",
+  "issue": "2",
+  "pages": "788-832",
+  "doi": "10.1007/s10618-022-00894-5",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "arlot2010": {
+  "src": "crossref",
+  "title": "A survey of cross-validation procedures for model selection",
+  "year": 2010,
+  "authors": [
+   [
+    "Arlot",
+    "Sylvain"
+   ],
+   [
+    "Celisse",
+    "Alain"
+   ]
+  ],
+  "container": "Statistics Surveys",
+  "volume": "4",
+  "issue": "none",
+  "pages": "40-79",
+  "doi": "10.1214/09-ss054",
+  "type": "journal-article",
+  "publisher": "Institute of Mathematical Statistics",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2010
+ },
+ "bailey2014": {
+  "src": "crossref",
+  "title": "Pseudo-Mathematics and Financial Charlatanism: The Effects of Backtest Overfitting on Out-of-Sample Performance",
+  "year": 2014,
+  "authors": [
+   [
+    "Bailey",
+    "David H."
+   ],
+   [
+    "Borwein",
+    "Jonathan M."
+   ],
+   [
+    "López de Prado",
+    "Marcos"
+   ],
+   [
+    "Zhu",
+    "Qiji Jim"
+   ]
+  ],
+  "container": "Notices of the American Mathematical Society",
+  "volume": "61",
+  "issue": "5",
+  "pages": "458",
+  "doi": "10.1090/noti1105",
+  "type": "journal-article",
+  "publisher": "American Mathematical Society (AMS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2014
+ },
+ "claeskens2016": {
+  "src": "crossref",
+  "title": "The Forecast Combination Puzzle: A Simple Theoretical Explanation",
+  "year": 2014,
+  "authors": [
+   [
+    "Claeskens",
+    "Gerda"
+   ],
+   [
+    "Magnus",
+    "Jan R."
+   ],
+   [
+    "Vasnev",
+    "Andrey L."
+   ],
+   [
+    "Wang",
+    "Wendun"
+   ]
+  ],
+  "container": "",
+  "volume": "",
+  "issue": "",
+  "pages": "",
+  "doi": "10.2139/ssrn.2498475",
+  "type": "posted-content",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2016
+ },
+ "wolpert1992": {
+  "src": "crossref",
+  "title": "Stacked Generalization",
+  "year": 2011,
+  "authors": [],
+  "container": "Encyclopedia of Machine Learning",
+  "volume": "",
+  "issue": "",
+  "pages": "912-912",
+  "doi": "10.1007/978-0-387-30164-8_778",
+  "type": "book-chapter",
+  "publisher": "Springer US",
+  "article": "",
+  "score": 0.9,
+  "wanted_year": 1992
+ },
+ "breiman1996": {
+  "src": "crossref",
+  "title": "Stacked Regressions",
+  "year": 1996,
+  "authors": [
+   [
+    "Breiman",
+    "Leo"
+   ]
+  ],
+  "container": "Machine Learning",
+  "volume": "24",
+  "issue": "1",
+  "pages": "49-64",
+  "doi": "10.1023/a:1018046112532",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1996
+ },
+ "wang2023combo": {
+  "src": "crossref",
+  "title": "Forecast combinations: An over 50-year review",
+  "year": 2023,
+  "authors": [
+   [
+    "Wang",
+    "Xiaoqian"
+   ],
+   [
+    "Hyndman",
+    "Rob J."
+   ],
+   [
+    "Li",
+    "Feng"
+   ],
+   [
+    "Kang",
+    "Yanfei"
+   ]
+  ],
+  "container": "International Journal of Forecasting",
+  "volume": "39",
+  "issue": "4",
+  "pages": "1518-1547",
+  "doi": "10.1016/j.ijforecast.2022.11.005",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "barrett2002": {
+  "src": "crossref",
+  "title": "Distinguishing between Equilibrium and Integration in Spatial Price Analysis",
+  "year": 2002,
+  "authors": [
+   [
+    "Barrett",
+    "Christopher B."
+   ],
+   [
+    "Li",
+    "Jau Rong"
+   ]
+  ],
+  "container": "American Journal of Agricultural Economics",
+  "volume": "84",
+  "issue": "2",
+  "pages": "292-307",
+  "doi": "10.1111/1467-8276.00298",
+  "type": "journal-article",
+  "publisher": "Wiley",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2002
+ },
+ "goodwin2001": {
+  "src": "crossref",
+  "title": "Spatial Market Integration in the Presence of Threshold Effects",
+  "year": 2001,
+  "authors": [
+   [
+    "Goodwin",
+    "Barry K."
+   ],
+   [
+    "Piggott",
+    "Nicholas E."
+   ]
+  ],
+  "container": "American Journal of Agricultural Economics",
+  "volume": "83",
+  "issue": "2",
+  "pages": "302-317",
+  "doi": "10.1111/0002-9092.00157",
+  "type": "journal-article",
+  "publisher": "Wiley",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2001
+ },
+ "johansen1988": {
+  "src": "crossref",
+  "title": "Statistical analysis of cointegration vectors",
+  "year": 1988,
+  "authors": [
+   [
+    "Johansen",
+    "Søren"
+   ]
+  ],
+  "container": "Journal of Economic Dynamics and Control",
+  "volume": "12",
+  "issue": "2-3",
+  "pages": "231-254",
+  "doi": "10.1016/0165-1889(88)90041-3",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1988
+ },
+ "granger1969": {
+  "src": "crossref",
+  "title": "Investigating Causal Relations by Econometric Models and Cross-spectral Methods",
+  "year": 1969,
+  "authors": [
+   [
+    "Granger",
+    "C. W. J."
+   ]
+  ],
+  "container": "Econometrica",
+  "volume": "37",
+  "issue": "3",
+  "pages": "424",
+  "doi": "10.2307/1912791",
+  "type": "journal-article",
+  "publisher": "JSTOR",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1969
+ },
+ "diebold2012": {
+  "src": "crossref",
+  "title": "Better to give than to receive: Predictive directional measurement of volatility spillovers",
+  "year": 2012,
+  "authors": [
+   [
+    "Diebold",
+    "Francis X."
+   ],
+   [
+    "Yilmaz",
+    "Kamil"
+   ]
+  ],
+  "container": "International Journal of Forecasting",
+  "volume": "28",
+  "issue": "1",
+  "pages": "57-66",
+  "doi": "10.1016/j.ijforecast.2011.02.006",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2012
+ },
+ "stock2002": {
+  "src": "crossref",
+  "title": "Forecasting Using Principal Components From a Large Number of Predictors",
+  "year": 2002,
+  "authors": [
+   [
+    "Stock",
+    "James H"
+   ],
+   [
+    "Watson",
+    "Mark W"
+   ]
+  ],
+  "container": "Journal of the American Statistical Association",
+  "volume": "97",
+  "issue": "460",
+  "pages": "1167-1179",
+  "doi": "10.1198/016214502388618960",
+  "type": "journal-article",
+  "publisher": "Informa UK Limited",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2002
+ },
+ "bai2002": {
+  "src": "crossref",
+  "title": "Determining the Number of Factors in Approximate Factor Models",
+  "year": 2002,
+  "authors": [
+   [
+    "Bai",
+    "Jushan"
+   ],
+   [
+    "Ng",
+    "Serena"
+   ]
+  ],
+  "container": "Econometrica",
+  "volume": "70",
+  "issue": "1",
+  "pages": "191-221",
+  "doi": "10.1111/1468-0262.00273",
+  "type": "journal-article",
+  "publisher": "The Econometric Society",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2002
+ },
+ "goyal2010": {
+  "src": "crossref",
+  "title": "Information, Direct Access To Farmers, And Rural Market Performance In Central India",
+  "year": 2010,
+  "authors": [
+   [
+    "Goyal",
+    "Aparajita"
+   ]
+  ],
+  "container": "",
+  "volume": "",
+  "issue": "",
+  "pages": "",
+  "doi": "10.1596/1813-9450-5315",
+  "type": "book",
+  "publisher": "World Bank",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2010
+ },
+ "fafchamps2012": {
+  "src": "crossref",
+  "title": "Impact of SMS-Based Agricultural Information on Indian Farmers",
+  "year": 2012,
+  "authors": [
+   [
+    "Fafchamps",
+    "Marcel"
+   ],
+   [
+    "Minten",
+    "Bart"
+   ]
+  ],
+  "container": "",
+  "volume": "",
+  "issue": "",
+  "pages": "",
+  "doi": "10.1596/19077",
+  "type": "book",
+  "publisher": "Oxford University Press on behalf of the World Bank",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2012
+ },
+ "svensson2009": {
+  "src": "crossref",
+  "title": "Getting Prices Right: The Impact of the Market Information Service in Uganda",
+  "year": 2009,
+  "authors": [
+   [
+    "Svensson",
+    "Jakob"
+   ],
+   [
+    "Yanagizawa",
+    "David"
+   ]
+  ],
+  "container": "Journal of the European Economic Association",
+  "volume": "7",
+  "issue": "2-3",
+  "pages": "435-445",
+  "doi": "10.1162/jeea.2009.7.2-3.435",
+  "type": "journal-article",
+  "publisher": "Oxford University Press (OUP)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2009
+ },
+ "aker2010jep": {
+  "src": "crossref",
+  "title": "Mobile Phones and Economic Development in Africa",
+  "year": 2010,
+  "authors": [
+   [
+    "Aker",
+    "Jenny C."
+   ],
+   [
+    "Mbiti",
+    "Isaac M."
+   ]
+  ],
+  "container": "",
+  "volume": "",
+  "issue": "",
+  "pages": "",
+  "doi": "10.2139/ssrn.1693963",
+  "type": "posted-content",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2010
+ },
+ "mitra2018": {
+  "src": "crossref",
+  "title": "Asymmetric Information and Middleman Margins: An Experiment with Indian Potato Farmers",
+  "year": 2018,
+  "authors": [
+   [
+    "Mitra",
+    "Sandip"
+   ],
+   [
+    "Mookherjee",
+    "Dilip"
+   ],
+   [
+    "Torero",
+    "Maximo"
+   ],
+   [
+    "Visaria",
+    "Sujata"
+   ]
+  ],
+  "container": "",
+  "volume": "",
+  "issue": "",
+  "pages": "",
+  "doi": "10.1596/29657",
+  "type": "book",
+  "publisher": "The MIT Press",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2018
+ },
+ "courtois2015": {
+  "src": "crossref",
+  "title": "Farmer Bargaining Power and Market Information Services",
+  "year": 2014,
+  "authors": [
+   [
+    "Courtois",
+    "Pierre"
+   ],
+   [
+    "Subervie",
+    "Julie"
+   ]
+  ],
+  "container": "American Journal of Agricultural Economics",
+  "volume": "97",
+  "issue": "3",
+  "pages": "953-977",
+  "doi": "10.1093/ajae/aau051",
+  "type": "journal-article",
+  "publisher": "Wiley",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2015
+ },
+ "allen2014": {
+  "src": "crossref",
+  "title": "Information Frictions in Trade",
+  "year": 2014,
+  "authors": [
+   [
+    "Allen",
+    "Treb"
+   ]
+  ],
+  "container": "Econometrica",
+  "volume": "82",
+  "issue": "6",
+  "pages": "2041-2083",
+  "doi": "10.3982/ecta10984",
+  "type": "journal-article",
+  "publisher": "The Econometric Society",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2014
+ },
+ "aker2011": {
+  "src": "crossref",
+  "title": "Dial 'A' for Agriculture: A Review of Information and Communication Technologies for Agricultural Extension in Developing Countries",
+  "year": 2011,
+  "authors": [
+   [
+    "Aker",
+    "Jenny C."
+   ]
+  ],
+  "container": "",
+  "volume": "",
+  "issue": "",
+  "pages": "",
+  "doi": "10.2139/ssrn.1942954",
+  "type": "posted-content",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2011
+ },
+ "nakasone2014": {
+  "src": "crossref",
+  "title": "The Power of Information: The ICT Revolution in Agricultural Development",
+  "year": 2014,
+  "authors": [
+   [
+    "Nakasone",
+    "Eduardo"
+   ],
+   [
+    "Torero",
+    "Maximo"
+   ],
+   [
+    "Minten",
+    "Bart"
+   ]
+  ],
+  "container": "Annual Review of Resource Economics",
+  "volume": "6",
+  "issue": "1",
+  "pages": "533-550",
+  "doi": "10.1146/annurev-resource-100913-012714",
+  "type": "journal-article",
+  "publisher": "Annual Reviews",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2014
+ },
+ "chatterjee2023": {
+  "src": "crossref",
+  "title": "Market Power and Spatial Competition in Rural India",
+  "year": 2023,
+  "authors": [
+   [
+    "Chatterjee",
+    "Shoumitro"
+   ]
+  ],
+  "container": "The Quarterly Journal of Economics",
+  "volume": "138",
+  "issue": "3",
+  "pages": "1649-1711",
+  "doi": "10.1093/qje/qjad004",
+  "type": "journal-article",
+  "publisher": "Oxford University Press (OUP)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "reardon2019": {
+  "src": "crossref",
+  "title": "Rapid transformation of food systems in developing regions: Highlighting the role of agricultural research &amp; innovations",
+  "year": 2019,
+  "authors": [
+   [
+    "Reardon",
+    "Thomas"
+   ],
+   [
+    "Echeverria",
+    "Ruben"
+   ],
+   [
+    "Berdegué",
+    "Julio"
+   ],
+   [
+    "Minten",
+    "Bart"
+   ],
+   [
+    "Liverpool-Tasie",
+    "Saweda"
+   ],
+   [
+    "Tschirley",
+    "David"
+   ],
+   [
+    "Zilberman",
+    "David"
+   ]
+  ],
+  "container": "Agricultural Systems",
+  "volume": "172",
+  "issue": "",
+  "pages": "47-59",
+  "doi": "10.1016/j.agsy.2018.01.022",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 0.984,
+  "wanted_year": 2019
+ },
+ "nerlove1958": {
+  "src": "crossref",
+  "title": "Adaptive Expectations and Cobweb Phenomena",
+  "year": 1958,
+  "authors": [
+   [
+    "Nerlove",
+    "Marc"
+   ]
+  ],
+  "container": "The Quarterly Journal of Economics",
+  "volume": "72",
+  "issue": "2",
+  "pages": "227",
+  "doi": "10.2307/1880597",
+  "type": "journal-article",
+  "publisher": "Oxford University Press (OUP)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1958
+ },
+ "houck1965": {
+  "src": "crossref",
+  "title": "The Relationship of Direct Price Flexibilities to Direct Price Elasticities",
+  "year": 1965,
+  "authors": [
+   [
+    "Houck",
+    "James P."
+   ]
+  ],
+  "container": "Journal of Farm Economics",
+  "volume": "47",
+  "issue": "3",
+  "pages": "789",
+  "doi": "10.2307/1236288",
+  "type": "journal-article",
+  "publisher": "Oxford University Press (OUP)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1965
+ },
+ "kyle1985": {
+  "src": "crossref",
+  "title": "Continuous Auctions and Insider Trading",
+  "year": 1985,
+  "authors": [
+   [
+    "Kyle",
+    "Albert S."
+   ]
+  ],
+  "container": "Econometrica",
+  "volume": "53",
+  "issue": "6",
+  "pages": "1315",
+  "doi": "10.2307/1913210",
+  "type": "journal-article",
+  "publisher": "JSTOR",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1985
+ },
+ "almgren2001": {
+  "src": "crossref",
+  "title": "Optimal execution of portfolio transactions",
+  "year": 2001,
+  "authors": [
+   [
+    "Almgren",
+    "Robert"
+   ],
+   [
+    "Chriss",
+    "Neil"
+   ]
+  ],
+  "container": "The Journal of Risk",
+  "volume": "3",
+  "issue": "2",
+  "pages": "5-39",
+  "doi": "10.21314/jor.2001.041",
+  "type": "journal-article",
+  "publisher": "Infopro Digital Services Limited",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2001
+ },
+ "parfitt2010": {
+  "src": "crossref",
+  "title": "Food waste within food supply chains: quantification and potential for change to 2050",
+  "year": 2010,
+  "authors": [
+   [
+    "Parfitt",
+    "Julian"
+   ],
+   [
+    "Barthel",
+    "Mark"
+   ],
+   [
+    "Macnaughton",
+    "Sarah"
+   ]
+  ],
+  "container": "Philosophical Transactions of the Royal Society B: Biological Sciences",
+  "volume": "365",
+  "issue": "1554",
+  "pages": "3065-3081",
+  "doi": "10.1098/rstb.2010.0126",
+  "type": "journal-article",
+  "publisher": "The Royal Society",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2010
+ },
+ "hodges2011": {
+  "src": "crossref",
+  "title": "Postharvest losses and waste in developed and less developed countries: opportunities to improve resource use",
+  "year": 2010,
+  "authors": [
+   [
+    "HODGES",
+    "R. J."
+   ],
+   [
+    "BUZBY",
+    "J. C."
+   ],
+   [
+    "BENNETT",
+    "B."
+   ]
+  ],
+  "container": "The Journal of Agricultural Science",
+  "volume": "149",
+  "issue": "S1",
+  "pages": "37-45",
+  "doi": "10.1017/s0021859610000936",
+  "type": "journal-article",
+  "publisher": "Cambridge University Press (CUP)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2011
+ },
+ "nahmias1982": {
+  "src": "crossref",
+  "title": "Perishable Inventory Theory: A Review",
+  "year": 1982,
+  "authors": [
+   [
+    "Nahmias",
+    "Steven"
+   ]
+  ],
+  "container": "Operations Research",
+  "volume": "30",
+  "issue": "4",
+  "pages": "680-708",
+  "doi": "10.1287/opre.30.4.680",
+  "type": "journal-article",
+  "publisher": "Institute for Operations Research and the Management Sciences (INFORMS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1982
+ },
+ "ahumada2009": {
+  "src": "crossref",
+  "title": "Application of planning models in the agri-food supply chain: A review",
+  "year": 2009,
+  "authors": [
+   [
+    "Ahumada",
+    "Omar"
+   ],
+   [
+    "Villalobos",
+    "J. Rene"
+   ]
+  ],
+  "container": "European Journal of Operational Research",
+  "volume": "196",
+  "issue": "1",
+  "pages": "1-20",
+  "doi": "10.1016/j.ejor.2008.02.014",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2009
+ },
+ "shukla2013": {
+  "src": "crossref",
+  "title": "Agri‐fresh produce supply chain management: a state‐of‐the‐art literature review",
+  "year": 2013,
+  "authors": [
+   [
+    "Shukla",
+    "Manish"
+   ],
+   [
+    "Jharkharia",
+    "Sanjay"
+   ]
+  ],
+  "container": "International Journal of Operations &amp; Production Management",
+  "volume": "33",
+  "issue": "2",
+  "pages": "114-158",
+  "doi": "10.1108/01443571311295608",
+  "type": "journal-article",
+  "publisher": "Emerald",
+  "article": "",
+  "score": 0.974,
+  "wanted_year": 2013
+ },
+ "lee2004": {
+  "src": "crossref",
+  "title": "Trust in Automation: Designing for Appropriate Reliance",
+  "year": 2004,
+  "authors": [
+   [
+    "Lee",
+    "John D."
+   ],
+   [
+    "See",
+    "Katrina A."
+   ]
+  ],
+  "container": "Human Factors: The Journal of the Human Factors and Ergonomics Society",
+  "volume": "46",
+  "issue": "1",
+  "pages": "50-80",
+  "doi": "10.1518/hfes.46.1.50.30392",
+  "type": "journal-article",
+  "publisher": "SAGE Publications",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2004
+ },
+ "brown2020": {
+  "src": "arxiv",
+  "title": "Language Models are Few-Shot Learners",
+  "year": 2020,
+  "authors": [
+   [
+    "Brown",
+    "Tom B."
+   ],
+   [
+    "Mann",
+    "Benjamin"
+   ],
+   [
+    "Ryder",
+    "Nick"
+   ],
+   [
+    "Subbiah",
+    "Melanie"
+   ],
+   [
+    "Kaplan",
+    "Jared"
+   ],
+   [
+    "Dhariwal",
+    "Prafulla"
+   ],
+   [
+    "Neelakantan",
+    "Arvind"
+   ],
+   [
+    "Shyam",
+    "Pranav"
+   ],
+   [
+    "Sastry",
+    "Girish"
+   ],
+   [
+    "Askell",
+    "Amanda"
+   ],
+   [
+    "Agarwal",
+    "Sandhini"
+   ],
+   [
+    "Herbert-Voss",
+    "Ariel"
+   ],
+   [
+    "Krueger",
+    "Gretchen"
+   ],
+   [
+    "Henighan",
+    "Tom"
+   ],
+   [
+    "Child",
+    "Rewon"
+   ],
+   [
+    "Ramesh",
+    "Aditya"
+   ],
+   [
+    "Ziegler",
+    "Daniel M."
+   ],
+   [
+    "Wu",
+    "Jeffrey"
+   ],
+   [
+    "Winter",
+    "Clemens"
+   ],
+   [
+    "Hesse",
+    "Christopher"
+   ],
+   [
+    "Chen",
+    "Mark"
+   ],
+   [
+    "Sigler",
+    "Eric"
+   ],
+   [
+    "Litwin",
+    "Mateusz"
+   ],
+   [
+    "Gray",
+    "Scott"
+   ],
+   [
+    "Chess",
+    "Benjamin"
+   ],
+   [
+    "Clark",
+    "Jack"
+   ],
+   [
+    "Berner",
+    "Christopher"
+   ],
+   [
+    "McCandlish",
+    "Sam"
+   ],
+   [
+    "Radford",
+    "Alec"
+   ],
+   [
+    "Sutskever",
+    "Ilya"
+   ],
+   [
+    "Amodei",
+    "Dario"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2005.14165",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2020
+ },
+ "ouyang2022": {
+  "src": "crossref",
+  "title": "Training Language Models to Follow Instructions with Human Feedback",
+  "year": 2022,
+  "authors": [
+   [
+    "Ouyang",
+    "Long"
+   ],
+   [
+    "Wu",
+    "Jeffrey"
+   ],
+   [
+    "Jiang",
+    "Xu"
+   ],
+   [
+    "Almeida",
+    "Diogo"
+   ],
+   [
+    "Wainwright",
+    "Carroll"
+   ],
+   [
+    "Mishkin",
+    "Pamela"
+   ],
+   [
+    "Zhang",
+    "Chong"
+   ],
+   [
+    "Agarwal",
+    "Sandhini"
+   ],
+   [
+    "Slama",
+    "Katarina"
+   ],
+   [
+    "Ray",
+    "Alex"
+   ],
+   [
+    "Schulman",
+    "John"
+   ],
+   [
+    "Hilton",
+    "Jacob"
+   ],
+   [
+    "Kelton",
+    "Fraser"
+   ],
+   [
+    "Miller",
+    "Luke"
+   ],
+   [
+    "Simens",
+    "Maddie"
+   ],
+   [
+    "Askell",
+    "Amanda"
+   ],
+   [
+    "Welinder",
+    "Peter"
+   ],
+   [
+    "Christiano",
+    "Paul"
+   ],
+   [
+    "Leike",
+    "Jan"
+   ],
+   [
+    "Lowe",
+    "Ryan"
+   ]
+  ],
+  "container": "Advances in Neural Information Processing Systems 35",
+  "volume": "",
+  "issue": "",
+  "pages": "27730-27744",
+  "doi": "10.52202/068431-2011",
+  "type": "proceedings-article",
+  "publisher": "Neural Information Processing Systems Foundation, Inc. (NeurIPS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2022
+ },
+ "ji2023": {
+  "src": "crossref",
+  "title": "Survey of Hallucination in Natural Language Generation",
+  "year": 2023,
+  "authors": [
+   [
+    "Ji",
+    "Ziwei"
+   ],
+   [
+    "Lee",
+    "Nayeon"
+   ],
+   [
+    "Frieske",
+    "Rita"
+   ],
+   [
+    "Yu",
+    "Tiezheng"
+   ],
+   [
+    "Su",
+    "Dan"
+   ],
+   [
+    "Xu",
+    "Yan"
+   ],
+   [
+    "Ishii",
+    "Etsuko"
+   ],
+   [
+    "Bang",
+    "Ye Jin"
+   ],
+   [
+    "Madotto",
+    "Andrea"
+   ],
+   [
+    "Fung",
+    "Pascale"
+   ]
+  ],
+  "container": "ACM Computing Surveys",
+  "volume": "55",
+  "issue": "12",
+  "pages": "1-38",
+  "doi": "10.1145/3571730",
+  "type": "journal-article",
+  "publisher": "Association for Computing Machinery (ACM)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "lewis2020": {
+  "src": "arxiv",
+  "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+  "year": 2020,
+  "authors": [
+   [
+    "Lewis",
+    "Patrick"
+   ],
+   [
+    "Perez",
+    "Ethan"
+   ],
+   [
+    "Piktus",
+    "Aleksandra"
+   ],
+   [
+    "Petroni",
+    "Fabio"
+   ],
+   [
+    "Karpukhin",
+    "Vladimir"
+   ],
+   [
+    "Goyal",
+    "Naman"
+   ],
+   [
+    "Küttler",
+    "Heinrich"
+   ],
+   [
+    "Lewis",
+    "Mike"
+   ],
+   [
+    "Yih",
+    "Wen-tau"
+   ],
+   [
+    "Rocktäschel",
+    "Tim"
+   ],
+   [
+    "Riedel",
+    "Sebastian"
+   ],
+   [
+    "Kiela",
+    "Douwe"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2005.11401",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2020
+ },
+ "zheng2023": {
+  "src": "crossref",
+  "title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+  "year": 2023,
+  "authors": [
+   [
+    "Zheng",
+    "Lianmin"
+   ],
+   [
+    "Chiang",
+    "Wei-Lin"
+   ],
+   [
+    "Sheng",
+    "Ying"
+   ],
+   [
+    "Zhuang",
+    "Siyuan"
+   ],
+   [
+    "Wu",
+    "Zhanghao"
+   ],
+   [
+    "Zhuang",
+    "Yonghao"
+   ],
+   [
+    "Lin",
+    "Zi"
+   ],
+   [
+    "Li",
+    "Zhuohan"
+   ],
+   [
+    "Li",
+    "Dacheng"
+   ],
+   [
+    "Xing",
+    "Eric"
+   ],
+   [
+    "Zhang",
+    "Hao"
+   ],
+   [
+    "Gonzalez",
+    "Joseph"
+   ],
+   [
+    "Stoica",
+    "Ion"
+   ]
+  ],
+  "container": "Advances in Neural Information Processing Systems 36",
+  "volume": "",
+  "issue": "",
+  "pages": "46595-46623",
+  "doi": "10.52202/075280-2020",
+  "type": "proceedings-article",
+  "publisher": "Neural Information Processing Systems Foundation, Inc. (NeurIPS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "bai2022cai": {
+  "src": "arxiv",
+  "title": "Constitutional AI: Harmlessness from AI Feedback",
+  "year": 2022,
+  "authors": [
+   [
+    "Bai",
+    "Yuntao"
+   ],
+   [
+    "Kadavath",
+    "Saurav"
+   ],
+   [
+    "Kundu",
+    "Sandipan"
+   ],
+   [
+    "Askell",
+    "Amanda"
+   ],
+   [
+    "Kernion",
+    "Jackson"
+   ],
+   [
+    "Jones",
+    "Andy"
+   ],
+   [
+    "Chen",
+    "Anna"
+   ],
+   [
+    "Goldie",
+    "Anna"
+   ],
+   [
+    "Mirhoseini",
+    "Azalia"
+   ],
+   [
+    "McKinnon",
+    "Cameron"
+   ],
+   [
+    "Chen",
+    "Carol"
+   ],
+   [
+    "Olsson",
+    "Catherine"
+   ],
+   [
+    "Olah",
+    "Christopher"
+   ],
+   [
+    "Hernandez",
+    "Danny"
+   ],
+   [
+    "Drain",
+    "Dawn"
+   ],
+   [
+    "Ganguli",
+    "Deep"
+   ],
+   [
+    "Li",
+    "Dustin"
+   ],
+   [
+    "Tran-Johnson",
+    "Eli"
+   ],
+   [
+    "Perez",
+    "Ethan"
+   ],
+   [
+    "Kerr",
+    "Jamie"
+   ],
+   [
+    "Mueller",
+    "Jared"
+   ],
+   [
+    "Ladish",
+    "Jeffrey"
+   ],
+   [
+    "Landau",
+    "Joshua"
+   ],
+   [
+    "Ndousse",
+    "Kamal"
+   ],
+   [
+    "Lukosuite",
+    "Kamile"
+   ],
+   [
+    "Lovitt",
+    "Liane"
+   ],
+   [
+    "Sellitto",
+    "Michael"
+   ],
+   [
+    "Elhage",
+    "Nelson"
+   ],
+   [
+    "Schiefer",
+    "Nicholas"
+   ],
+   [
+    "Mercado",
+    "Noemi"
+   ],
+   [
+    "DasSarma",
+    "Nova"
+   ],
+   [
+    "Lasenby",
+    "Robert"
+   ],
+   [
+    "Larson",
+    "Robin"
+   ],
+   [
+    "Ringer",
+    "Sam"
+   ],
+   [
+    "Johnston",
+    "Scott"
+   ],
+   [
+    "Kravec",
+    "Shauna"
+   ],
+   [
+    "Showk",
+    "Sheer El"
+   ],
+   [
+    "Fort",
+    "Stanislav"
+   ],
+   [
+    "Lanham",
+    "Tamera"
+   ],
+   [
+    "Telleen-Lawton",
+    "Timothy"
+   ],
+   [
+    "Conerly",
+    "Tom"
+   ],
+   [
+    "Henighan",
+    "Tom"
+   ],
+   [
+    "Hume",
+    "Tristan"
+   ],
+   [
+    "Bowman",
+    "Samuel R."
+   ],
+   [
+    "Hatfield-Dodds",
+    "Zac"
+   ],
+   [
+    "Mann",
+    "Ben"
+   ],
+   [
+    "Amodei",
+    "Dario"
+   ],
+   [
+    "Joseph",
+    "Nicholas"
+   ],
+   [
+    "McCandlish",
+    "Sam"
+   ],
+   [
+    "Brown",
+    "Tom"
+   ],
+   [
+    "Kaplan",
+    "Jared"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2212.08073",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2022
+ },
+ "qwen3": {
+  "src": "arxiv",
+  "title": "Qwen3 Technical Report",
+  "year": 2025,
+  "authors": [
+   [
+    "Yang",
+    "An"
+   ],
+   [
+    "Li",
+    "Anfeng"
+   ],
+   [
+    "Yang",
+    "Baosong"
+   ],
+   [
+    "Zhang",
+    "Beichen"
+   ],
+   [
+    "Hui",
+    "Binyuan"
+   ],
+   [
+    "Zheng",
+    "Bo"
+   ],
+   [
+    "Yu",
+    "Bowen"
+   ],
+   [
+    "Gao",
+    "Chang"
+   ],
+   [
+    "Huang",
+    "Chengen"
+   ],
+   [
+    "Lv",
+    "Chenxu"
+   ],
+   [
+    "Zheng",
+    "Chujie"
+   ],
+   [
+    "Liu",
+    "Dayiheng"
+   ],
+   [
+    "Zhou",
+    "Fan"
+   ],
+   [
+    "Huang",
+    "Fei"
+   ],
+   [
+    "Hu",
+    "Feng"
+   ],
+   [
+    "Ge",
+    "Hao"
+   ],
+   [
+    "Wei",
+    "Haoran"
+   ],
+   [
+    "Lin",
+    "Huan"
+   ],
+   [
+    "Tang",
+    "Jialong"
+   ],
+   [
+    "Yang",
+    "Jian"
+   ],
+   [
+    "Tu",
+    "Jianhong"
+   ],
+   [
+    "Zhang",
+    "Jianwei"
+   ],
+   [
+    "Yang",
+    "Jianxin"
+   ],
+   [
+    "Yang",
+    "Jiaxi"
+   ],
+   [
+    "Zhou",
+    "Jing"
+   ],
+   [
+    "Zhou",
+    "Jingren"
+   ],
+   [
+    "Lin",
+    "Junyang"
+   ],
+   [
+    "Dang",
+    "Kai"
+   ],
+   [
+    "Bao",
+    "Keqin"
+   ],
+   [
+    "Yang",
+    "Kexin"
+   ],
+   [
+    "Yu",
+    "Le"
+   ],
+   [
+    "Deng",
+    "Lianghao"
+   ],
+   [
+    "Li",
+    "Mei"
+   ],
+   [
+    "Xue",
+    "Mingfeng"
+   ],
+   [
+    "Li",
+    "Mingze"
+   ],
+   [
+    "Zhang",
+    "Pei"
+   ],
+   [
+    "Wang",
+    "Peng"
+   ],
+   [
+    "Zhu",
+    "Qin"
+   ],
+   [
+    "Men",
+    "Rui"
+   ],
+   [
+    "Gao",
+    "Ruize"
+   ],
+   [
+    "Liu",
+    "Shixuan"
+   ],
+   [
+    "Luo",
+    "Shuang"
+   ],
+   [
+    "Li",
+    "Tianhao"
+   ],
+   [
+    "Tang",
+    "Tianyi"
+   ],
+   [
+    "Yin",
+    "Wenbiao"
+   ],
+   [
+    "Ren",
+    "Xingzhang"
+   ],
+   [
+    "Wang",
+    "Xinyu"
+   ],
+   [
+    "Zhang",
+    "Xinyu"
+   ],
+   [
+    "Ren",
+    "Xuancheng"
+   ],
+   [
+    "Fan",
+    "Yang"
+   ],
+   [
+    "Su",
+    "Yang"
+   ],
+   [
+    "Zhang",
+    "Yichang"
+   ],
+   [
+    "Zhang",
+    "Yinger"
+   ],
+   [
+    "Wan",
+    "Yu"
+   ],
+   [
+    "Liu",
+    "Yuqiong"
+   ],
+   [
+    "Wang",
+    "Zekun"
+   ],
+   [
+    "Cui",
+    "Zeyu"
+   ],
+   [
+    "Zhang",
+    "Zhenru"
+   ],
+   [
+    "Zhou",
+    "Zhipeng"
+   ],
+   [
+    "Qiu",
+    "Zihan"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2505.09388",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2025
+ },
+ "min2023": {
+  "src": "crossref",
+  "title": "FActScore: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation",
+  "year": 2023,
+  "authors": [
+   [
+    "Min",
+    "Sewon"
+   ],
+   [
+    "Krishna",
+    "Kalpesh"
+   ],
+   [
+    "Lyu",
+    "Xinxi"
+   ],
+   [
+    "Lewis",
+    "Mike"
+   ],
+   [
+    "Yih",
+    "Wen-tau"
+   ],
+   [
+    "Koh",
+    "Pang"
+   ],
+   [
+    "Iyyer",
+    "Mohit"
+   ],
+   [
+    "Zettlemoyer",
+    "Luke"
+   ],
+   [
+    "Hajishirzi",
+    "Hannaneh"
+   ]
+  ],
+  "container": "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+  "volume": "",
+  "issue": "",
+  "pages": "12076-12100",
+  "doi": "10.18653/v1/2023.emnlp-main.741",
+  "type": "proceedings-article",
+  "publisher": "Association for Computational Linguistics",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "manakul2023": {
+  "src": "crossref",
+  "title": "SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models",
+  "year": 2023,
+  "authors": [
+   [
+    "Manakul",
+    "Potsawee"
+   ],
+   [
+    "Liusie",
+    "Adian"
+   ],
+   [
+    "Gales",
+    "Mark"
+   ]
+  ],
+  "container": "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+  "volume": "",
+  "issue": "",
+  "pages": "9004-9017",
+  "doi": "10.18653/v1/2023.emnlp-main.557",
+  "type": "proceedings-article",
+  "publisher": "Association for Computational Linguistics",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "yao2023react": {
+  "src": "arxiv",
+  "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+  "year": 2022,
+  "authors": [
+   [
+    "Yao",
+    "Shunyu"
+   ],
+   [
+    "Zhao",
+    "Jeffrey"
+   ],
+   [
+    "Yu",
+    "Dian"
+   ],
+   [
+    "Du",
+    "Nan"
+   ],
+   [
+    "Shafran",
+    "Izhak"
+   ],
+   [
+    "Narasimhan",
+    "Karthik"
+   ],
+   [
+    "Cao",
+    "Yuan"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2210.03629",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "schick2023": {
+  "src": "crossref",
+  "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+  "year": 2023,
+  "authors": [
+   [
+    "Schick",
+    "Timo"
+   ],
+   [
+    "Dwivedi-Yu",
+    "Jane"
+   ],
+   [
+    "Dessi",
+    "Roberto"
+   ],
+   [
+    "Raileanu",
+    "Roberta"
+   ],
+   [
+    "Lomeli",
+    "Maria"
+   ],
+   [
+    "Hambro",
+    "Eric"
+   ],
+   [
+    "Zettlemoyer",
+    "Luke"
+   ],
+   [
+    "Cancedda",
+    "Nicola"
+   ],
+   [
+    "Scialom",
+    "Thomas"
+   ]
+  ],
+  "container": "Advances in Neural Information Processing Systems 36",
+  "volume": "",
+  "issue": "",
+  "pages": "68539-68551",
+  "doi": "10.52202/075280-2997",
+  "type": "proceedings-article",
+  "publisher": "Neural Information Processing Systems Foundation, Inc. (NeurIPS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "wei2022": {
+  "src": "crossref",
+  "title": "Chain-Of-Thought Prompting Elicits Reasoning in Large Language Models",
+  "year": 2022,
+  "authors": [
+   [
+    "Wei",
+    "Jason"
+   ],
+   [
+    "Wang",
+    "Xuezhi"
+   ],
+   [
+    "Schuurmans",
+    "Dale"
+   ],
+   [
+    "Bosma",
+    "Maarten"
+   ],
+   [
+    "Ichter",
+    "Brian"
+   ],
+   [
+    "Xia",
+    "Fei"
+   ],
+   [
+    "Chi",
+    "Ed"
+   ],
+   [
+    "Le",
+    "Quoc V"
+   ],
+   [
+    "Zhou",
+    "Denny"
+   ]
+  ],
+  "container": "Advances in Neural Information Processing Systems 35",
+  "volume": "",
+  "issue": "",
+  "pages": "24824-24837",
+  "doi": "10.52202/068431-1800",
+  "type": "proceedings-article",
+  "publisher": "Neural Information Processing Systems Foundation, Inc. (NeurIPS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2022
+ },
+ "gala2023": {
+  "src": "arxiv",
+  "title": "IndicTrans2: Towards High-Quality and Accessible Machine Translation Models for all 22 Scheduled Indian Languages",
+  "year": 2023,
+  "authors": [
+   [
+    "Gala",
+    "Jay"
+   ],
+   [
+    "Chitale",
+    "Pranjal A."
+   ],
+   [
+    "AK",
+    "Raghavan"
+   ],
+   [
+    "Gumma",
+    "Varun"
+   ],
+   [
+    "Doddapaneni",
+    "Sumanth"
+   ],
+   [
+    "Kumar",
+    "Aswanth"
+   ],
+   [
+    "Nawale",
+    "Janki"
+   ],
+   [
+    "Sujatha",
+    "Anupama"
+   ],
+   [
+    "Puduppully",
+    "Ratish"
+   ],
+   [
+    "Raghavan",
+    "Vivek"
+   ],
+   [
+    "Kumar",
+    "Pratyush"
+   ],
+   [
+    "Khapra",
+    "Mitesh M."
+   ],
+   [
+    "Dabre",
+    "Raj"
+   ],
+   [
+    "Kunchukuttan",
+    "Anoop"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2305.16307",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "paszke2019": {
+  "src": "arxiv",
+  "title": "PyTorch: An Imperative Style, High-Performance Deep Learning Library",
+  "year": 2019,
+  "authors": [
+   [
+    "Paszke",
+    "Adam"
+   ],
+   [
+    "Gross",
+    "Sam"
+   ],
+   [
+    "Massa",
+    "Francisco"
+   ],
+   [
+    "Lerer",
+    "Adam"
+   ],
+   [
+    "Bradbury",
+    "James"
+   ],
+   [
+    "Chanan",
+    "Gregory"
+   ],
+   [
+    "Killeen",
+    "Trevor"
+   ],
+   [
+    "Lin",
+    "Zeming"
+   ],
+   [
+    "Gimelshein",
+    "Natalia"
+   ],
+   [
+    "Antiga",
+    "Luca"
+   ],
+   [
+    "Desmaison",
+    "Alban"
+   ],
+   [
+    "Köpf",
+    "Andreas"
+   ],
+   [
+    "Yang",
+    "Edward"
+   ],
+   [
+    "DeVito",
+    "Zach"
+   ],
+   [
+    "Raison",
+    "Martin"
+   ],
+   [
+    "Tejani",
+    "Alykhan"
+   ],
+   [
+    "Chilamkurthy",
+    "Sasank"
+   ],
+   [
+    "Steiner",
+    "Benoit"
+   ],
+   [
+    "Fang",
+    "Lu"
+   ],
+   [
+    "Bai",
+    "Junjie"
+   ],
+   [
+    "Chintala",
+    "Soumith"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1912.01703",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2019
+ },
+ "hunter2007": {
+  "src": "crossref",
+  "title": "Matplotlib: A 2D Graphics Environment",
+  "year": 2007,
+  "authors": [
+   [
+    "Hunter",
+    "John D."
+   ]
+  ],
+  "container": "Computing in Science &amp; Engineering",
+  "volume": "9",
+  "issue": "3",
+  "pages": "90-95",
+  "doi": "10.1109/mcse.2007.55",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2007
+ },
+ "onion2023": {
+  "src": "crossref",
+  "title": "Study on forecasting of Indian onion export price using machine learning techniques-based hybrid models",
+  "year": 2026,
+  "authors": [
+   [
+    "Sunil",
+    "Jhade"
+   ],
+   [
+    "Singh",
+    "Abhishek"
+   ],
+   [
+    "M",
+    "Manjubala"
+   ],
+   [
+    "D",
+    "Abinayarajam"
+   ]
+  ],
+  "container": "International Journal of Advanced Biochemistry Research",
+  "volume": "10",
+  "issue": "1S",
+  "pages": "181-190",
+  "doi": "10.33545/26174693.2026.v10.i1sc.6908",
+  "type": "journal-article",
+  "publisher": "Comprehensive Publications",
+  "article": "",
+  "score": 0.933,
+  "wanted_year": 2023
+ },
+ "hochreiter1997": {
+  "src": "crossref",
+  "title": "Long Short-Term Memory",
+  "year": 1997,
+  "authors": [
+   [
+    "Hochreiter",
+    "Sepp"
+   ],
+   [
+    "Schmidhuber",
+    "Jürgen"
+   ]
+  ],
+  "container": "Neural Computation",
+  "volume": "9",
+  "issue": "8",
+  "pages": "1735-1780",
+  "doi": "10.1162/neco.1997.9.8.1735",
+  "type": "journal-article",
+  "publisher": "MIT Press",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1997
+ },
+ "vaswani2017": {
+  "src": "arxiv",
+  "title": "Attention Is All You Need",
+  "year": 2017,
+  "authors": [
+   [
+    "Vaswani",
+    "Ashish"
+   ],
+   [
+    "Shazeer",
+    "Noam"
+   ],
+   [
+    "Parmar",
+    "Niki"
+   ],
+   [
+    "Uszkoreit",
+    "Jakob"
+   ],
+   [
+    "Jones",
+    "Llion"
+   ],
+   [
+    "Gomez",
+    "Aidan N."
+   ],
+   [
+    "Kaiser",
+    "Lukasz"
+   ],
+   [
+    "Polosukhin",
+    "Illia"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1706.03762",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2017
+ },
+ "torres2011": {
+  "src": "crossref",
+  "title": "A complete ensemble empirical mode decomposition with adaptive noise",
+  "year": 2011,
+  "authors": [
+   [
+    "Torres",
+    "Maria E."
+   ],
+   [
+    "Colominas",
+    "Marcelo A."
+   ],
+   [
+    "Schlotthauer",
+    "Gaston"
+   ],
+   [
+    "Flandrin",
+    "Patrick"
+   ]
+  ],
+  "container": "2011 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)",
+  "volume": "",
+  "issue": "",
+  "pages": "4144-4147",
+  "doi": "10.1109/icassp.2011.5947265",
+  "type": "proceedings-article",
+  "publisher": "IEEE",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2011
+ },
+ "wu2021autoformer": {
+  "src": "arxiv",
+  "title": "Autoformer: Decomposition Transformers with Auto-Correlation for Long-Term Series Forecasting",
+  "year": 2021,
+  "authors": [
+   [
+    "Wu",
+    "Haixu"
+   ],
+   [
+    "Xu",
+    "Jiehui"
+   ],
+   [
+    "Wang",
+    "Jianmin"
+   ],
+   [
+    "Long",
+    "Mingsheng"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2106.13008",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2021
+ },
+ "nie2023": {
+  "src": "arxiv",
+  "title": "A Time Series is Worth 64 Words: Long-term Forecasting with Transformers",
+  "year": 2022,
+  "authors": [
+   [
+    "Nie",
+    "Yuqi"
+   ],
+   [
+    "Nguyen",
+    "Nam H."
+   ],
+   [
+    "Sinthong",
+    "Phanwadee"
+   ],
+   [
+    "Kalagnanam",
+    "Jayant"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2211.14730",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2023
+ },
+ "oreshkin2020": {
+  "src": "arxiv",
+  "title": "N-BEATS: Neural basis expansion analysis for interpretable time series forecasting",
+  "year": 2019,
+  "authors": [
+   [
+    "Oreshkin",
+    "Boris N."
+   ],
+   [
+    "Carpov",
+    "Dmitri"
+   ],
+   [
+    "Chapados",
+    "Nicolas"
+   ],
+   [
+    "Bengio",
+    "Yoshua"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1905.10437",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2020
+ },
+ "das2024": {
+  "src": "arxiv",
+  "title": "A decoder-only foundation model for time-series forecasting",
+  "year": 2023,
+  "authors": [
+   [
+    "Das",
+    "Abhimanyu"
+   ],
+   [
+    "Kong",
+    "Weihao"
+   ],
+   [
+    "Sen",
+    "Rajat"
+   ],
+   [
+    "Zhou",
+    "Yichen"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2310.10688",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2024
+ },
+ "bai2018": {
+  "src": "arxiv",
+  "title": "An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling",
+  "year": 2018,
+  "authors": [
+   [
+    "Bai",
+    "Shaojie"
+   ],
+   [
+    "Kolter",
+    "J. Zico"
+   ],
+   [
+    "Koltun",
+    "Vladlen"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1803.01271",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2018
+ },
+ "prokhorenkova2018": {
+  "src": "arxiv",
+  "title": "CatBoost: unbiased boosting with categorical features",
+  "year": 2017,
+  "authors": [
+   [
+    "Prokhorenkova",
+    "Liudmila"
+   ],
+   [
+    "Gusev",
+    "Gleb"
+   ],
+   [
+    "Vorobev",
+    "Aleksandr"
+   ],
+   [
+    "Dorogush",
+    "Anna Veronika"
+   ],
+   [
+    "Gulin",
+    "Andrey"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "1706.09516",
+  "type": "preprint",
+  "score": 1.0,
+  "wanted_year": 2018
+ },
+ "liakos2018": {
+  "src": "crossref",
+  "title": "Machine Learning in Agriculture: A Review",
+  "year": 2018,
+  "authors": [
+   [
+    "Liakos",
+    "Konstantinos"
+   ],
+   [
+    "Busato",
+    "Patrizia"
+   ],
+   [
+    "Moshou",
+    "Dimitrios"
+   ],
+   [
+    "Pearson",
+    "Simon"
+   ],
+   [
+    "Bochtis",
+    "Dionysis"
+   ]
+  ],
+  "container": "Sensors",
+  "volume": "18",
+  "issue": "8",
+  "pages": "2674",
+  "doi": "10.3390/s18082674",
+  "type": "journal-article",
+  "publisher": "MDPI AG",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2018
+ },
+ "wolfert2017": {
+  "src": "crossref",
+  "title": "Big Data in Smart Farming – A review",
+  "year": 2017,
+  "authors": [
+   [
+    "Wolfert",
+    "Sjaak"
+   ],
+   [
+    "Ge",
+    "Lan"
+   ],
+   [
+    "Verdouw",
+    "Cor"
+   ],
+   [
+    "Bogaardt",
+    "Marc-Jeroen"
+   ]
+  ],
+  "container": "Agricultural Systems",
+  "volume": "153",
+  "issue": "",
+  "pages": "69-80",
+  "doi": "10.1016/j.agsy.2017.01.023",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2017
+ },
+ "bertsimas2020": {
+  "src": "crossref",
+  "title": "From Predictive to Prescriptive Analytics",
+  "year": 2020,
+  "authors": [
+   [
+    "Bertsimas",
+    "Dimitris"
+   ],
+   [
+    "Kallus",
+    "Nathan"
+   ]
+  ],
+  "container": "Management Science",
+  "volume": "66",
+  "issue": "3",
+  "pages": "1025-1044",
+  "doi": "10.1287/mnsc.2018.3253",
+  "type": "journal-article",
+  "publisher": "Institute for Operations Research and the Management Sciences (INFORMS)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2020
+ },
+ "lei2018": {
+  "src": "crossref",
+  "title": "Distribution-Free Predictive Inference for Regression",
+  "year": 2018,
+  "authors": [
+   [
+    "Lei",
+    "Jing"
+   ],
+   [
+    "G’Sell",
+    "Max"
+   ],
+   [
+    "Rinaldo",
+    "Alessandro"
+   ],
+   [
+    "Tibshirani",
+    "Ryan J."
+   ],
+   [
+    "Wasserman",
+    "Larry"
+   ]
+  ],
+  "container": "Journal of the American Statistical Association",
+  "volume": "113",
+  "issue": "523",
+  "pages": "1094-1111",
+  "doi": "10.1080/01621459.2017.1307116",
+  "type": "journal-article",
+  "publisher": "Informa UK Limited",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2018
+ },
+ "xu2021": {
+  "src": "arxiv",
+  "title": "Conformal prediction for time series",
+  "year": 2020,
+  "authors": [
+   [
+    "Xu",
+    "Chen"
+   ],
+   [
+    "Xie",
+    "Yao"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2010.09107",
+  "type": "preprint",
+  "score": 0.809,
+  "wanted_year": 2021
+ },
+ "koenker1978": {
+  "src": "crossref",
+  "title": "Regression Quantiles",
+  "year": 1978,
+  "authors": [
+   [
+    "Koenker",
+    "Roger"
+   ],
+   [
+    "Bassett",
+    "Gilbert"
+   ]
+  ],
+  "container": "Econometrica",
+  "volume": "46",
+  "issue": "1",
+  "pages": "33",
+  "doi": "10.2307/1913643",
+  "type": "journal-article",
+  "publisher": "JSTOR",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1978
+ },
+ "rockafellar2000": {
+  "src": "crossref",
+  "title": "Optimization of conditional value-at-risk",
+  "year": 2000,
+  "authors": [
+   [
+    "Rockafellar",
+    "R. Tyrrell"
+   ],
+   [
+    "Uryasev",
+    "Stanislav"
+   ]
+  ],
+  "container": "The Journal of Risk",
+  "volume": "2",
+  "issue": "3",
+  "pages": "21-41",
+  "doi": "10.21314/jor.2000.038",
+  "type": "journal-article",
+  "publisher": "Infopro Digital Services Limited",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2000
+ },
+ "politis1994": {
+  "src": "crossref",
+  "title": "The Stationary Bootstrap",
+  "year": 1994,
+  "authors": [
+   [
+    "Politis",
+    "Dimitris N."
+   ],
+   [
+    "Romano",
+    "Joseph P."
+   ]
+  ],
+  "container": "Journal of the American Statistical Association",
+  "volume": "89",
+  "issue": "428",
+  "pages": "1303-1313",
+  "doi": "10.1080/01621459.1994.10476870",
+  "type": "journal-article",
+  "publisher": "Informa UK Limited",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1994
+ },
+ "bates1969": {
+  "src": "crossref",
+  "title": "The Combination of Forecasts",
+  "year": 1969,
+  "authors": [
+   [
+    "Bates",
+    "J. M."
+   ],
+   [
+    "Granger",
+    "C. W. J."
+   ]
+  ],
+  "container": "OR",
+  "volume": "20",
+  "issue": "4",
+  "pages": "451",
+  "doi": "10.2307/3008764",
+  "type": "journal-article",
+  "publisher": "JSTOR",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1969
+ },
+ "ezekiel1938": {
+  "src": "crossref",
+  "title": "The Cobweb Theorem",
+  "year": 1938,
+  "authors": [
+   [
+    "Ezekiel",
+    "Mordecai"
+   ]
+  ],
+  "container": "The Quarterly Journal of Economics",
+  "volume": "52",
+  "issue": "2",
+  "pages": "255",
+  "doi": "10.2307/1881734",
+  "type": "journal-article",
+  "publisher": "Oxford University Press (OUP)",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 1938
+ },
+ "griggs2013": {
+  "src": "crossref",
+  "title": "Sustainable development goals for people and planet",
+  "year": 2013,
+  "authors": [
+   [
+    "Griggs",
+    "David"
+   ],
+   [
+    "Stafford-Smith",
+    "Mark"
+   ],
+   [
+    "Gaffney",
+    "Owen"
+   ],
+   [
+    "Rockström",
+    "Johan"
+   ],
+   [
+    "Öhman",
+    "Marcus C."
+   ],
+   [
+    "Shyamsundar",
+    "Priya"
+   ],
+   [
+    "Steffen",
+    "Will"
+   ],
+   [
+    "Glaser",
+    "Gisbert"
+   ],
+   [
+    "Kanie",
+    "Norichika"
+   ],
+   [
+    "Noble",
+    "Ian"
+   ]
+  ],
+  "container": "Nature",
+  "volume": "495",
+  "issue": "7441",
+  "pages": "305-307",
+  "doi": "10.1038/495305a",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2013
+ },
+ "gptoss2025": {
+  "src": "arxiv",
+  "title": "gpt-oss-120b & gpt-oss-20b Model Card",
+  "year": 2025,
+  "authors": [
+   [
+    "OpenAI",
+    ""
+   ],
+   [
+    ":",
+    ""
+   ],
+   [
+    "Agarwal",
+    "Sandhini"
+   ],
+   [
+    "Ahmad",
+    "Lama"
+   ],
+   [
+    "Ai",
+    "Jason"
+   ],
+   [
+    "Altman",
+    "Sam"
+   ],
+   [
+    "Applebaum",
+    "Andy"
+   ],
+   [
+    "Arbus",
+    "Edwin"
+   ],
+   [
+    "Arora",
+    "Rahul K."
+   ],
+   [
+    "Bai",
+    "Yu"
+   ],
+   [
+    "Baker",
+    "Bowen"
+   ],
+   [
+    "Bao",
+    "Haiming"
+   ],
+   [
+    "Barak",
+    "Boaz"
+   ],
+   [
+    "Bennett",
+    "Ally"
+   ],
+   [
+    "Bertao",
+    "Tyler"
+   ],
+   [
+    "Brett",
+    "Nivedita"
+   ],
+   [
+    "Brevdo",
+    "Eugene"
+   ],
+   [
+    "Brockman",
+    "Greg"
+   ],
+   [
+    "Bubeck",
+    "Sebastien"
+   ],
+   [
+    "Chang",
+    "Che"
+   ],
+   [
+    "Chen",
+    "Kai"
+   ],
+   [
+    "Chen",
+    "Mark"
+   ],
+   [
+    "Cheung",
+    "Enoch"
+   ],
+   [
+    "Clark",
+    "Aidan"
+   ],
+   [
+    "Cook",
+    "Dan"
+   ],
+   [
+    "Dukhan",
+    "Marat"
+   ],
+   [
+    "Dvorak",
+    "Casey"
+   ],
+   [
+    "Fives",
+    "Kevin"
+   ],
+   [
+    "Fomenko",
+    "Vlad"
+   ],
+   [
+    "Garipov",
+    "Timur"
+   ],
+   [
+    "Georgiev",
+    "Kristian"
+   ],
+   [
+    "Glaese",
+    "Mia"
+   ],
+   [
+    "Gogineni",
+    "Tarun"
+   ],
+   [
+    "Goucher",
+    "Adam"
+   ],
+   [
+    "Gross",
+    "Lukas"
+   ],
+   [
+    "Guzman",
+    "Katia Gil"
+   ],
+   [
+    "Hallman",
+    "John"
+   ],
+   [
+    "Hehir",
+    "Jackie"
+   ],
+   [
+    "Heidecke",
+    "Johannes"
+   ],
+   [
+    "Helyar",
+    "Alec"
+   ],
+   [
+    "Hu",
+    "Haitang"
+   ],
+   [
+    "Huet",
+    "Romain"
+   ],
+   [
+    "Huh",
+    "Jacob"
+   ],
+   [
+    "Jain",
+    "Saachi"
+   ],
+   [
+    "Johnson",
+    "Zach"
+   ],
+   [
+    "Koch",
+    "Chris"
+   ],
+   [
+    "Kofman",
+    "Irina"
+   ],
+   [
+    "Kundel",
+    "Dominik"
+   ],
+   [
+    "Kwon",
+    "Jason"
+   ],
+   [
+    "Kyrylov",
+    "Volodymyr"
+   ],
+   [
+    "Le",
+    "Elaine Ya"
+   ],
+   [
+    "Leclerc",
+    "Guillaume"
+   ],
+   [
+    "Lennon",
+    "James Park"
+   ],
+   [
+    "Lessans",
+    "Scott"
+   ],
+   [
+    "Lezcano-Casado",
+    "Mario"
+   ],
+   [
+    "Li",
+    "Yuanzhi"
+   ],
+   [
+    "Li",
+    "Zhuohan"
+   ],
+   [
+    "Lin",
+    "Ji"
+   ],
+   [
+    "Liss",
+    "Jordan"
+   ],
+   [
+    "Lily",
+    ""
+   ],
+   [
+    "Liu",
+    ""
+   ],
+   [
+    "Liu",
+    "Jiancheng"
+   ],
+   [
+    "Lu",
+    "Kevin"
+   ],
+   [
+    "Lu",
+    "Chris"
+   ],
+   [
+    "Martinovic",
+    "Zoran"
+   ],
+   [
+    "McCallum",
+    "Lindsay"
+   ],
+   [
+    "McGrath",
+    "Josh"
+   ],
+   [
+    "McKinney",
+    "Scott"
+   ],
+   [
+    "McLaughlin",
+    "Aidan"
+   ],
+   [
+    "Mei",
+    "Song"
+   ],
+   [
+    "Mostovoy",
+    "Steve"
+   ],
+   [
+    "Mu",
+    "Tong"
+   ],
+   [
+    "Myles",
+    "Gideon"
+   ],
+   [
+    "Neitz",
+    "Alexander"
+   ],
+   [
+    "Nichol",
+    "Alex"
+   ],
+   [
+    "Pachocki",
+    "Jakub"
+   ],
+   [
+    "Paino",
+    "Alex"
+   ],
+   [
+    "Palmie",
+    "Dana"
+   ],
+   [
+    "Pantuliano",
+    "Ashley"
+   ],
+   [
+    "Parascandolo",
+    "Giambattista"
+   ],
+   [
+    "Park",
+    "Jongsoo"
+   ],
+   [
+    "Pathak",
+    "Leher"
+   ],
+   [
+    "Paz",
+    "Carolina"
+   ],
+   [
+    "Peran",
+    "Ludovic"
+   ],
+   [
+    "Pimenov",
+    "Dmitry"
+   ],
+   [
+    "Pokrass",
+    "Michelle"
+   ],
+   [
+    "Proehl",
+    "Elizabeth"
+   ],
+   [
+    "Qiu",
+    "Huida"
+   ],
+   [
+    "Raila",
+    "Gaby"
+   ],
+   [
+    "Raso",
+    "Filippo"
+   ],
+   [
+    "Ren",
+    "Hongyu"
+   ],
+   [
+    "Richardson",
+    "Kimmy"
+   ],
+   [
+    "Robinson",
+    "David"
+   ],
+   [
+    "Rotsted",
+    "Bob"
+   ],
+   [
+    "Salman",
+    "Hadi"
+   ],
+   [
+    "Sanjeev",
+    "Suvansh"
+   ],
+   [
+    "Schwarzer",
+    "Max"
+   ],
+   [
+    "Sculley",
+    "D."
+   ],
+   [
+    "Sikchi",
+    "Harshit"
+   ],
+   [
+    "Simon",
+    "Kendal"
+   ],
+   [
+    "Singhal",
+    "Karan"
+   ],
+   [
+    "Song",
+    "Yang"
+   ],
+   [
+    "Stuckey",
+    "Dane"
+   ],
+   [
+    "Sun",
+    "Zhiqing"
+   ],
+   [
+    "Tillet",
+    "Philippe"
+   ],
+   [
+    "Toizer",
+    "Sam"
+   ],
+   [
+    "Tsimpourlas",
+    "Foivos"
+   ],
+   [
+    "Vyas",
+    "Nikhil"
+   ],
+   [
+    "Wallace",
+    "Eric"
+   ],
+   [
+    "Wang",
+    "Xin"
+   ],
+   [
+    "Wang",
+    "Miles"
+   ],
+   [
+    "Watkins",
+    "Olivia"
+   ],
+   [
+    "Weil",
+    "Kevin"
+   ],
+   [
+    "Wendling",
+    "Amy"
+   ],
+   [
+    "Whinnery",
+    "Kevin"
+   ],
+   [
+    "Whitney",
+    "Cedric"
+   ],
+   [
+    "Wong",
+    "Hannah"
+   ],
+   [
+    "Yang",
+    "Lin"
+   ],
+   [
+    "Yang",
+    "Yu"
+   ],
+   [
+    "Yasunaga",
+    "Michihiro"
+   ],
+   [
+    "Ying",
+    "Kristen"
+   ],
+   [
+    "Zaremba",
+    "Wojciech"
+   ],
+   [
+    "Zhan",
+    "Wenting"
+   ],
+   [
+    "Zhang",
+    "Cyril"
+   ],
+   [
+    "Zhang",
+    "Brian"
+   ],
+   [
+    "Zhang",
+    "Eddie"
+   ],
+   [
+    "Zhao",
+    "Shengjia"
+   ]
+  ],
+  "container": "arXiv",
+  "arxiv": "2508.10925",
+  "type": "preprint",
+  "score": 0.96,
+  "wanted_year": 2025
+ },
+ "harris2020": {
+  "src": "crossref",
+  "title": "Array programming with NumPy",
+  "year": 2020,
+  "authors": [
+   [
+    "Harris",
+    "Charles R."
+   ],
+   [
+    "Millman",
+    "K. Jarrod"
+   ],
+   [
+    "van der Walt",
+    "Stéfan J."
+   ],
+   [
+    "Gommers",
+    "Ralf"
+   ],
+   [
+    "Virtanen",
+    "Pauli"
+   ],
+   [
+    "Cournapeau",
+    "David"
+   ],
+   [
+    "Wieser",
+    "Eric"
+   ],
+   [
+    "Taylor",
+    "Julian"
+   ],
+   [
+    "Berg",
+    "Sebastian"
+   ],
+   [
+    "Smith",
+    "Nathaniel J."
+   ],
+   [
+    "Kern",
+    "Robert"
+   ],
+   [
+    "Picus",
+    "Matti"
+   ],
+   [
+    "Hoyer",
+    "Stephan"
+   ],
+   [
+    "van Kerkwijk",
+    "Marten H."
+   ],
+   [
+    "Brett",
+    "Matthew"
+   ],
+   [
+    "Haldane",
+    "Allan"
+   ],
+   [
+    "del Río",
+    "Jaime Fernández"
+   ],
+   [
+    "Wiebe",
+    "Mark"
+   ],
+   [
+    "Peterson",
+    "Pearu"
+   ],
+   [
+    "Gérard-Marchant",
+    "Pierre"
+   ],
+   [
+    "Sheppard",
+    "Kevin"
+   ],
+   [
+    "Reddy",
+    "Tyler"
+   ],
+   [
+    "Weckesser",
+    "Warren"
+   ],
+   [
+    "Abbasi",
+    "Hameer"
+   ],
+   [
+    "Gohlke",
+    "Christoph"
+   ],
+   [
+    "Oliphant",
+    "Travis E."
+   ]
+  ],
+  "container": "Nature",
+  "volume": "585",
+  "issue": "7825",
+  "pages": "357-362",
+  "doi": "10.1038/s41586-020-2649-2",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2020
+ },
+ "virtanen2020": {
+  "src": "crossref",
+  "title": "SciPy 1.0: fundamental algorithms for scientific computing in Python",
+  "year": 2020,
+  "authors": [
+   [
+    "Virtanen",
+    "Pauli"
+   ],
+   [
+    "Gommers",
+    "Ralf"
+   ],
+   [
+    "Oliphant",
+    "Travis E."
+   ],
+   [
+    "Haberland",
+    "Matt"
+   ],
+   [
+    "Reddy",
+    "Tyler"
+   ],
+   [
+    "Cournapeau",
+    "David"
+   ],
+   [
+    "Burovski",
+    "Evgeni"
+   ],
+   [
+    "Peterson",
+    "Pearu"
+   ],
+   [
+    "Weckesser",
+    "Warren"
+   ],
+   [
+    "Bright",
+    "Jonathan"
+   ],
+   [
+    "van der Walt",
+    "Stéfan J."
+   ],
+   [
+    "Brett",
+    "Matthew"
+   ],
+   [
+    "Wilson",
+    "Joshua"
+   ],
+   [
+    "Millman",
+    "K. Jarrod"
+   ],
+   [
+    "Mayorov",
+    "Nikolay"
+   ],
+   [
+    "Nelson",
+    "Andrew R. J."
+   ],
+   [
+    "Jones",
+    "Eric"
+   ],
+   [
+    "Kern",
+    "Robert"
+   ],
+   [
+    "Larson",
+    "Eric"
+   ],
+   [
+    "Carey",
+    "C J"
+   ],
+   [
+    "Polat",
+    "İlhan"
+   ],
+   [
+    "Feng",
+    "Yu"
+   ],
+   [
+    "Moore",
+    "Eric W."
+   ],
+   [
+    "VanderPlas",
+    "Jake"
+   ],
+   [
+    "Laxalde",
+    "Denis"
+   ],
+   [
+    "Perktold",
+    "Josef"
+   ],
+   [
+    "Cimrman",
+    "Robert"
+   ],
+   [
+    "Henriksen",
+    "Ian"
+   ],
+   [
+    "Quintero",
+    "E. A."
+   ],
+   [
+    "Harris",
+    "Charles R."
+   ],
+   [
+    "Archibald",
+    "Anne M."
+   ],
+   [
+    "Ribeiro",
+    "Antônio H."
+   ],
+   [
+    "Pedregosa",
+    "Fabian"
+   ],
+   [
+    "van Mulbregt",
+    "Paul"
+   ],
+   [
+    "",
+    ""
+   ],
+   [
+    "Vijaykumar",
+    "Aditya"
+   ],
+   [
+    "Bardelli",
+    "Alessandro Pietro"
+   ],
+   [
+    "Rothberg",
+    "Alex"
+   ],
+   [
+    "Hilboll",
+    "Andreas"
+   ],
+   [
+    "Kloeckner",
+    "Andreas"
+   ],
+   [
+    "Scopatz",
+    "Anthony"
+   ],
+   [
+    "Lee",
+    "Antony"
+   ],
+   [
+    "Rokem",
+    "Ariel"
+   ],
+   [
+    "Woods",
+    "C. Nathan"
+   ],
+   [
+    "Fulton",
+    "Chad"
+   ],
+   [
+    "Masson",
+    "Charles"
+   ],
+   [
+    "Häggström",
+    "Christian"
+   ],
+   [
+    "Fitzgerald",
+    "Clark"
+   ],
+   [
+    "Nicholson",
+    "David A."
+   ],
+   [
+    "Hagen",
+    "David R."
+   ],
+   [
+    "Pasechnik",
+    "Dmitrii V."
+   ],
+   [
+    "Olivetti",
+    "Emanuele"
+   ],
+   [
+    "Martin",
+    "Eric"
+   ],
+   [
+    "Wieser",
+    "Eric"
+   ],
+   [
+    "Silva",
+    "Fabrice"
+   ],
+   [
+    "Lenders",
+    "Felix"
+   ],
+   [
+    "Wilhelm",
+    "Florian"
+   ],
+   [
+    "Young",
+    "G."
+   ],
+   [
+    "Price",
+    "Gavin A."
+   ],
+   [
+    "Ingold",
+    "Gert-Ludwig"
+   ],
+   [
+    "Allen",
+    "Gregory E."
+   ],
+   [
+    "Lee",
+    "Gregory R."
+   ],
+   [
+    "Audren",
+    "Hervé"
+   ],
+   [
+    "Probst",
+    "Irvin"
+   ],
+   [
+    "Dietrich",
+    "Jörg P."
+   ],
+   [
+    "Silterra",
+    "Jacob"
+   ],
+   [
+    "Webber",
+    "James T"
+   ],
+   [
+    "Slavič",
+    "Janko"
+   ],
+   [
+    "Nothman",
+    "Joel"
+   ],
+   [
+    "Buchner",
+    "Johannes"
+   ],
+   [
+    "Kulick",
+    "Johannes"
+   ],
+   [
+    "Schönberger",
+    "Johannes L."
+   ],
+   [
+    "de Miranda Cardoso",
+    "José Vinícius"
+   ],
+   [
+    "Reimer",
+    "Joscha"
+   ],
+   [
+    "Harrington",
+    "Joseph"
+   ],
+   [
+    "Rodríguez",
+    "Juan Luis Cano"
+   ],
+   [
+    "Nunez-Iglesias",
+    "Juan"
+   ],
+   [
+    "Kuczynski",
+    "Justin"
+   ],
+   [
+    "Tritz",
+    "Kevin"
+   ],
+   [
+    "Thoma",
+    "Martin"
+   ],
+   [
+    "Newville",
+    "Matthew"
+   ],
+   [
+    "Kümmerer",
+    "Matthias"
+   ],
+   [
+    "Bolingbroke",
+    "Maximilian"
+   ],
+   [
+    "Tartre",
+    "Michael"
+   ],
+   [
+    "Pak",
+    "Mikhail"
+   ],
+   [
+    "Smith",
+    "Nathaniel J."
+   ],
+   [
+    "Nowaczyk",
+    "Nikolai"
+   ],
+   [
+    "Shebanov",
+    "Nikolay"
+   ],
+   [
+    "Pavlyk",
+    "Oleksandr"
+   ],
+   [
+    "Brodtkorb",
+    "Per A."
+   ],
+   [
+    "Lee",
+    "Perry"
+   ],
+   [
+    "McGibbon",
+    "Robert T."
+   ],
+   [
+    "Feldbauer",
+    "Roman"
+   ],
+   [
+    "Lewis",
+    "Sam"
+   ],
+   [
+    "Tygier",
+    "Sam"
+   ],
+   [
+    "Sievert",
+    "Scott"
+   ],
+   [
+    "Vigna",
+    "Sebastiano"
+   ],
+   [
+    "Peterson",
+    "Stefan"
+   ],
+   [
+    "More",
+    "Surhud"
+   ],
+   [
+    "Pudlik",
+    "Tadeusz"
+   ],
+   [
+    "Oshima",
+    "Takuya"
+   ],
+   [
+    "Pingel",
+    "Thomas J."
+   ],
+   [
+    "Robitaille",
+    "Thomas P."
+   ],
+   [
+    "Spura",
+    "Thomas"
+   ],
+   [
+    "Jones",
+    "Thouis R."
+   ],
+   [
+    "Cera",
+    "Tim"
+   ],
+   [
+    "Leslie",
+    "Tim"
+   ],
+   [
+    "Zito",
+    "Tiziano"
+   ],
+   [
+    "Krauss",
+    "Tom"
+   ],
+   [
+    "Upadhyay",
+    "Utkarsh"
+   ],
+   [
+    "Halchenko",
+    "Yaroslav O."
+   ],
+   [
+    "Vázquez-Baeza",
+    "Yoshiki"
+   ]
+  ],
+  "container": "Nature Methods",
+  "volume": "17",
+  "issue": "3",
+  "pages": "261-272",
+  "doi": "10.1038/s41592-019-0686-2",
+  "type": "journal-article",
+  "publisher": "Springer Science and Business Media LLC",
+  "article": "",
+  "score": 1.0,
+  "wanted_year": 2020
+ }
+}

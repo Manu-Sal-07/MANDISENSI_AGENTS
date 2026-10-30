@@ -1,0 +1,19 @@
+\renewcommand{\arraystretch}{1.25}
+\footnotesize
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Method} & \textbf{Tomato} & \textbf{Onion} & \textbf{Potato} & \textbf{Ginger} \\
+\hline
+Nearest mandi, sell today & 0.00 / 33.7\% & 0.00 / 33.6\% & 0.00 / 34.2\% & 0.00 / 23.5\% \\
+\hline
+Highest price yesterday & 0.43 / 27.8\% & 0.26 / 42.9\% & 0.17 / 34.8\% & 0.69 / 11.3\% \\
+\hline
+Random walk (cost-aware) & 0.42 / 29.7\% & 0.26 / 43.2\% & 0.16 / 35.2\% & 0.69 / 12.3\% \\
+\hline
+LightGBM, observed prices & 0.43 / 28.7\% & 0.24 / 42.5\% & 0.12 / 34.0\% & 0.69 / 12.2\% \\
+\hline
+LightGBM, realised outcomes & 0.57 / 12.4\% & 0.48 / 18.4\% & 0.31 / 21.2\% & 0.76 / 5.4\% \\
+\hline
+Neural SPO+, realised outcomes & 0.58 / 12.5\% & 0.50 / 19.6\% & 0.28 / 16.6\% & 0.76 / 5.2\% \\
+\hline
+\end{tabular}

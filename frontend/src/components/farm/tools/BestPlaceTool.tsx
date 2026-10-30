@@ -8,6 +8,9 @@ import { AlertTriangle, ArrowRight, BadgeCheck, CalendarDays, Crown, Loader2, Na
 
 import ToolSheet from './ToolSheet';
 import AdviceInsight from './AdviceInsight';
+import WhyThisMandi from './WhyThisMandi';
+import WhatIfPanel from './WhatIfPanel';
+import AdviceScoreboard from './AdviceScoreboard';
 import { QuantityPicker } from './ContextPicker';
 import ProduceIcon, { resolveProduce, produceScript } from '../ProduceIcon';
 import { useToolSelection } from '@/context/ToolContext';
@@ -324,6 +327,10 @@ export default function BestPlaceTool({ open, onClose }: { open: boolean; onClos
             )}
 
             <AdviceInsight crop={crop} origin={origin} quantity={data.quantity_quintals ?? quantityQuintals} alpha={alpha} rate={rate} lang={lang} />
+
+            <WhyThisMandi crop={crop} origin={origin} quantity={data.quantity_quintals ?? quantityQuintals} alpha={alpha} rate={rate} lang={lang} />
+            <WhatIfPanel crop={crop} origin={origin} quantity={data.quantity_quintals ?? quantityQuintals} alpha={alpha} rate={rate} lang={lang} />
+            <AdviceScoreboard crop={crop} lang={lang} />
 
             {/* track record, stated honestly */}
             {ev?.status === 'OK' && ev.mean_net_revenue && (
