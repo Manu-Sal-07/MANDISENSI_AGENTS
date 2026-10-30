@@ -64,8 +64,9 @@ export default function AdviceScoreboard({ crop, lang }: { crop: string; lang: L
   const ok = data?.status === 'OK' ? data : undefined;
   const all = ok?.all;
   const cum = useMemo(() => {
-    let run = 0;
-    return (ok?.days ?? []).map((d) => (run += d.recommended - d.nearest));
+    const out: number[] = [];
+    for (const d of ok?.days ?? []) out.push((out[out.length - 1] ?? 0) + d.recommended - d.nearest);
+    return out;
   }, [ok]);
 
   return (
