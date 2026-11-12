@@ -1,31 +1,24 @@
+# Render blueprint for the API. The frontend is deployed separately on Vercel.
+#
+# No database or cache is provisioned: every answer is served from the forecast store, panels and models that ship in the image, and
+# /v1/health reports Postgres/Redis as "not_configured" rather than as a fault. (A free Render Postgres is suspended after ~30 days,
+# which once crash-looped this service; see docs/DEPLOYMENT_AND_OPERATIONS.md.) To add one, set DATABASE_URL (and DB_REQUIRED=1 if
+# the service must not start without it).
 services:
   - type: web
     name: mandisense-api
     runtime: docker
     plan: free
-    region: ohio
+    region: singapore
     branch: main
     autoDeploy: true
     envVars:
       - key: APP__ENVIRONMENT
         value: production
-      - key: DATABASE_URL
-        fromDatabase:
-          name: mandisense-db
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: mandisense-redis
-          type: redis
-          property: connectionString
-
-
-databases:
-  - name: mandisense-db
-    plan: free
-    postgresMajorVersion: 15
-
-redis:
-  - name: mandisense-redis
-    plan: free
-    ipAllowList: [] # Only allow internal access
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://mandisensi-agents.vercel.app
+      # Optional secrets: set in the Render dashboard (sync: false), never in this file.
+      - key: NEWS_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false

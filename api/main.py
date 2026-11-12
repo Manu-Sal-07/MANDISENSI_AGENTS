@@ -335,7 +335,21 @@ async def add_process_time_header(request: Request, call_next):
     return response
 
 # ── Startup Validation ────────────────────────────────────────────────
+def _db_configured() -> bool:
+    return bool(os.getenv("DATABASE_URL") or os.getenv("POSTGRES_HOST"))
+
+
+def _db_required() -> bool:
+    return os.getenv("DB_REQUIRED", "").strip().lower() in {"1", "true", "yes"}
+
+
 async def verify_and_initialize_db():
+    # The database is an optional accelerator (see /v1/health): every answer is served from local artefacts. With none configured
+    # there is nothing to verify, and a configured-but-unreachable one degrades the service instead of killing it, unless a
+    # deployment sets DB_REQUIRED=1.
+    if not _db_configured():
+        logger.info("[INIT] No database configured: skipping startup database checks (running from local artefacts).")
+        return
     logger.info("[INIT] Performing database startup safety checks...")
     try:
         # Check if database is reachable
@@ -372,13 +386,11 @@ async def verify_and_initialize_db():
             logger.info("[INIT] Database verification succeeded. All required tables are present.")
     except Exception as e:
         logger.critical(f"[INIT] CRITICAL DATABASE STARTUP CHECK FAILED: {e}", exc_info=True)
-        env = os.getenv("APP__ENVIRONMENT", "development").lower()
-        if env == "production":
-            logger.critical("[INIT] Production environment active. Terminating process immediately to fail-fast.")
+        if _db_required():
+            logger.critical("[INIT] DB_REQUIRED is set. Terminating process immediately to fail-fast.")
             import sys
             sys.exit(1)
-        else:
-            logger.warning("[INIT] Development environment. Continuing server initialization without database verification.")
+        logger.warning("[INIT] Database unavailable: continuing in degraded mode (forecasts and answers do not need it).")
 
 @app.on_event("startup")
 async def startup_event():
