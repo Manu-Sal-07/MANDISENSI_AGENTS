@@ -52,6 +52,7 @@ MAX_PAGES = 25
 REQUEST_TIMEOUT = 30
 MAX_RETRIES = 3
 RETRY_BACKOFF_SECONDS = 2
+FAIL_FAST_AFTER = 3
 
 SOURCE_NAME = "datagov_agmarknet"
 
@@ -200,6 +201,12 @@ def fetch_daily_prices(
             except DataGovFetchError as exc:
                 failed += 1
                 logger.error("Fetch failed for %s/%s: %s", state, upstream_commodity, exc)
+                # Fail fast when nothing has ever worked: with 30 slices x 3 retries x 30 s an unreachable feed would otherwise keep a
+                # scheduled job busy for ~48 minutes before reporting the same thing. One success anywhere keeps the partial tolerance.
+                if failed >= FAIL_FAST_AFTER and failed == attempted:
+                    raise DataGovFetchError(
+                        f"data.gov.in unreachable: the first {failed} slices all failed and none succeeded; aborting early"
+                    ) from exc
 
     if attempted and failed == attempted:
         raise DataGovFetchError("All upstream slices failed; treating feed as unavailable")

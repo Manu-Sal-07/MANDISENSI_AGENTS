@@ -36,7 +36,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.lock
 
+      - name: Probe data.gov.in from this runner
+        # Reports reachability and latency as an annotation (readable without log access) and never fails the job by itself.
+        env:
+          DATAGOV_API_KEY: ${{ secrets.DATAGOV_API_KEY }}
+        run: |
+          key="${DATAGOV_API_KEY:-579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b}"
+          set +e
+          result=$(curl -sS -m 25 -o /dev/null -w "HTTP %{http_code} in %{time_total}s" \
+            "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=${key}&format=json&limit=1&filters%5Bstate.keyword%5D=Karnataka" 2>&1)
+          code=$?
+          if [ $code -eq 0 ]; then echo "::notice title=data.gov.in probe::${result}"; else echo "::warning title=data.gov.in probe::curl exit ${code}: ${result}"; fi
+          exit 0
+
       - name: Ingest, retrain on cadence, forecast, publish
+        timeout-minutes: 12
         env:
           # Optional: a registered key avoids the shared sample key's rate limit. Add it under Settings > Secrets > Actions.
           DATAGOV_API_KEY: ${{ secrets.DATAGOV_API_KEY }}
