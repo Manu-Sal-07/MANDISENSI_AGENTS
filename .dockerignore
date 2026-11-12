@@ -33,7 +33,12 @@ ms_env/
 
 # Project Specific
 logs/
-data/
+# data/ is runtime scratch EXCEPT the observation store the trader tools read (spreads, volatility, analogs, forward price).
+# Without it the deployed image had no prices for those tools: they answered UNAVAILABLE / "0 prints on record".
+data/*
+!data/observations
+data/observations/*
+!data/observations/market_observations.parquet
 # mandisense_ai/data/
 # models/
 # mandisense_ai/models/

@@ -18,6 +18,8 @@ COPY mandisense_ai /app/mandisense_ai
 COPY api /app/api
 COPY backend /app/backend
 COPY scripts /app/scripts
+# The observation store read by the trader tools (see .dockerignore): tracked in git and refreshed daily by the workflow.
+COPY data/observations/market_observations.parquet /app/data/observations/market_observations.parquet
 
 RUN pip install --no-cache-dir .
 

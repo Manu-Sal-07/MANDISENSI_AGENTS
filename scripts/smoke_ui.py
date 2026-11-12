@@ -77,7 +77,9 @@ def check_endpoint(base: str, path: str) -> Tuple[bool, str]:
     except ValueError:
         return False, "not JSON"
     status = data.get("status") if isinstance(data, dict) else None
-    if isinstance(status, str) and status.lower() in {"error", "failed"}:
+    # UNAVAILABLE / INSUFFICIENT_HISTORY on the tomato-Kolar probes below mean the deployment is missing data (it once shipped without
+    # the observation store and these still "passed"), so they fail the check.
+    if isinstance(status, str) and status.lower() in {"error", "failed", "unavailable", "insufficient_history"}:
         return False, f"status={status}: {str(data.get('message') or data.get('reason') or '')[:80]}"
     return True, f"status={status}" if status else "ok"
 
