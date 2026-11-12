@@ -1,10 +1,10 @@
 {
   "version": "1.1.0",
-  "trained_at": "2026-10-28T16:52:04.128018+00:00",
-  "training_rows": 36821,
+  "trained_at": "2026-11-12T17:53:08.551283+00:00",
+  "training_rows": 36840,
   "training_span": {
     "start": "2021-01-01",
-    "end": "2026-10-26"
+    "end": "2026-11-12"
   },
   "features": [
     "modal_price",
@@ -468,8 +468,8 @@
     }
   },
   "backtest": {
-    "generated_at": "2026-10-28T16:53:01.626583+00:00",
-    "rows": 36821,
+    "generated_at": "2026-11-12T17:54:01.830491+00:00",
+    "rows": 36840,
     "nominal_coverage": {
       "band_90": 0.9,
       "band_50": 0.5
@@ -714,19 +714,19 @@
     "blend_improvement_margin": 0.002,
     "fresh_max_age_hours": 30
   },
-  "lineage_hash": "61379c5589f5db44",
+  "lineage_hash": "a191aa5297b859a8",
   "quality_summary": {
-    "mean": 1.0,
+    "mean": 0.9999,
     "p05": 1.0,
-    "min": 1.0,
+    "min": 0.5153,
     "below_training_threshold": 0
   },
   "absence_summary": {
-    "no_trade_30_mean": 2.311,
-    "mandi_silent_30_mean": 2.488,
+    "no_trade_30_mean": 2.31,
+    "mandi_silent_30_mean": 2.4876,
     "report_rate_90_mean": 0.6761
   },
-  "seasonal_climatology_table_size": 1189,
+  "seasonal_climatology_table_size": 1510,
   "quantile_backtest": {
     "nominal_coverage": {
       "band_90": 0.9,
