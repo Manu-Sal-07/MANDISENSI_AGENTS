@@ -69,3 +69,13 @@ def test_api_startup_check_survives_a_dead_database_unless_required(monkeypatch)
     monkeypatch.setenv("DB_REQUIRED", "1")
     with pytest.raises(SystemExit):
         asyncio.run(main.verify_and_initialize_db())
+
+
+def test_forecast_scheduler_can_be_switched_off(monkeypatch):
+    from mandisense_ai.forecasting.scheduler import forecast_scheduler_enabled
+
+    monkeypatch.delenv("FORECAST_SCHEDULER", raising=False)
+    assert forecast_scheduler_enabled() is True
+    for value in ("off", "OFF", "0", "false"):
+        monkeypatch.setenv("FORECAST_SCHEDULER", value)
+        assert forecast_scheduler_enabled() is False

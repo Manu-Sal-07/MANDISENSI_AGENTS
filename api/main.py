@@ -471,9 +471,12 @@ async def background_activation():
     # from becoming READY, and a failure inside one cycle must not stop the
     # next one (see `forecast_scheduler_loop`'s own exception handling).
     try:
-        from mandisense_ai.forecasting.scheduler import forecast_scheduler_loop
-        app.state.forecast_scheduler_task = asyncio.create_task(forecast_scheduler_loop())
-        logger.info("[ACTIVATE] Forecast Scheduler: STARTED")
+        from mandisense_ai.forecasting.scheduler import forecast_scheduler_enabled, forecast_scheduler_loop
+        if forecast_scheduler_enabled():
+            app.state.forecast_scheduler_task = asyncio.create_task(forecast_scheduler_loop())
+            logger.info("[ACTIVATE] Forecast Scheduler: STARTED")
+        else:
+            logger.info("[ACTIVATE] Forecast Scheduler: OFF (FORECAST_SCHEDULER=off); data is refreshed by the daily GitHub Actions job")
     except Exception as e:
         logger.error(f"[ACTIVATE] Forecast Scheduler failed to start: {e}", exc_info=True)
 

@@ -25,6 +25,7 @@ that could drift from what the store actually reflects.
 from __future__ import annotations
 
 import asyncio
+import os
 from typing import Any, Dict
 
 from mandisense_ai.utils.logger import get_logger
@@ -41,6 +42,16 @@ POLL_INTERVAL_SECONDS = 60 * 30
 # tries again — set a little tighter so a fresh run is usually already
 # published before anything downstream would report degraded.
 DUE_AFTER_HOURS = 20.0
+
+
+def forecast_scheduler_enabled() -> bool:
+    """On by default (local use); a deployment turns it off with FORECAST_SCHEDULER=off.
+
+    Production does: a free-tier instance sleeps when idle and loses its disk on restart, so a refresh made inside the process is lost
+    and, without a registered data.gov.in key, fails every cycle. The durable refresh is `.github/workflows/daily-refresh.yml`, which
+    commits the new store and redeploys.
+    """
+    return os.getenv("FORECAST_SCHEDULER", "on").strip().lower() not in {"off", "0", "false", "no"}
 
 
 def _is_due() -> bool:
