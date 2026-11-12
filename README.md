@@ -74,7 +74,7 @@ python scripts/pipeline.py --with-research # also re-run the full research exper
 ### Check that it works
 
 ```bash
-python -m pytest mandisense_ai -q          # 675 application tests (2026-11-12), no network or API key needed
+python -m pytest mandisense_ai -q          # 678 application tests (2026-11-13), no network or API key needed
 cd frontend && npm test && npx tsc --noEmit && npx eslint . --quiet
 python scripts/smoke_ui.py                 # with both servers running: 25 endpoints and 27 pages, in headless Chrome
 cd research && python -m pytest            # 57 tests for the research package (its own requirements)

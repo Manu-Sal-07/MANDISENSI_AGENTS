@@ -36,18 +36,40 @@ Live: frontend <https://mandisensi-agents.vercel.app>, API <https://mandisense-a
 **Measured on 2026-11-12:** the API process holds **313 MB** (peak 317 MB) after the heaviest endpoints are warmed, about 60% of the free
 plan's 512 MB. That is enough for one worker and not enough to run a second.
 
-**Scaling assumptions (not measured under load):** a request is small arithmetic over in-memory tables (0.1–1 s warm, measured), so one
-small instance should serve tens of concurrent farmers. The first thing to break is memory, not CPU: moving to a paid instance with
-1–2 GB is the first step, and it is a plan change, not a code change. The hosted language model is the real ceiling: the free tier of the
-provider rate-limits tokens per minute, so explanations degrade to rule-based wording under load (by design, see section 4).
+**Measured under load (`scripts/load_test.py`, 2026-11-13).** A mix of the endpoints a farmer and a trader use, from concurrent clients:
+
+| Target | Clients | Throughput | p50 / p95 latency | Failures |
+|---|---|---|---|---|
+| **Live, free Render plan** | 1 | 1.6 req/s | 0.66 s / 1.50 s | 0 of 100 |
+| | 5 | 1.5 req/s | 3.6 s / 4.7 s | 0 of 100 |
+| | 10 | no gain; p50 about 6.8 s on the requests that succeeded | | 13 of 40 (503 and 429) |
+| | 25 | | | all rejected within 0.4 s (429) |
+| Same code on a laptop | 1 / 5 / 10 / 25 | 22 to 28 req/s at every level | 0.01 s to 0.9 s | 0 of 400 |
+
+How to read it:
+
+* **One free instance sustains about 1.5 heavy requests per second**, however many clients are waiting: more clients only add latency.
+  That is roughly **five simultaneous users at acceptable speed**. My earlier estimate of "tens of concurrent farmers" was wrong and is
+  withdrawn.
+* **The limit is the plan's CPU, not the code.** The same code on an ordinary machine handles about 25 req/s (about 15 times more), and
+  adding an in-process response cache changed nothing measurable there, so it was not shipped. A plan with a full CPU is the first and
+  cheapest remedy; that is a plan change, not a code change. I have not tested a paid plan, so the improvement there is unmeasured.
+* **The failures above 5 clients are partly a property of the test.** The 429 responses were a Cloudflare "Just a moment" challenge
+  returned by the host's edge to a single IP sending a burst, and the 503 responses carried `x-render-routing: hibernate-wake-error`.
+  Whether the instance restarted under load (for example out of memory at 512 MB) is **not confirmed**; the host's logs would settle it.
+  The edge throttle cleared within about a minute. Real farmers come from many addresses, but a single FPO office or a shared mobile
+  gateway could look like one.
+* The application's own rate limiter (60 requests per second per client, health checks exempt) was never the cause.
+* The hosted language model is a second ceiling: its free tier rate-limits tokens per minute, so explanations degrade to rule-based wording
+  under load (by design, section 4).
 
 ## 3. Measured behaviour (live, 2026-11-12)
 
 | Request | Latency |
 |---|---|
-| `/v1/health` (warm) | 0.19 s |
-| `/v1/market-choice/recommend/tomato` (warm) | 1.0 s |
-| `/v1/trader/spreads/tomato`, `/v1/council/evaluation` (warm) | 0.12 s |
+| `/v1/health` (warm) | 0.07 to 0.19 s |
+| `/v1/market-choice/recommend/tomato` (warm, one client) | 0.5 to 1.0 s |
+| `/v1/trader/spreads/tomato` (warm) | 0.1 to 1.4 s |
 | first `/v1/market-choice/crops` after deploy | 14.6 s |
 | first `/v1/shock/radar` after deploy | 7.2 s |
 | push to `main` until the new version answers | about 2.5 minutes |
@@ -64,10 +86,22 @@ demonstration, or put an uptime monitor on `/v1/health`.
 | A mandi does not report | no row, never an invented price; its chance of being open is shown | by design: absence is data | none needed; 62% of mandi-days in the panel are silent (section 6) |
 | Forecast skill is close to nil | direction and risk bands, not price promises | published in [RESULTS](RESULTS.md) | the decision layer, not the forecast, carries the value |
 | Free instance sleeps | first request takes longer | uptime monitor | wake-up pinger or a paid plan |
+| Burst of traffic from one address | Cloudflare challenge page (429) or a 503 while the instance wakes; clears within about a minute | load test, 2026-11-13 | spread load; a paid plan with a full CPU; not yet tested |
+| Image missing a data file | a tool answers `UNAVAILABLE` / "0 prints on record" while local tests pass | strict smoke test and `test_deployment_contract.py` | fixed 2026-11-13 (see below) |
 | Out of memory on the 512 MB plan | restart loop | Render events and logs | move up one plan |
 | Database configured but unreachable | none: degraded mode, answers unchanged | `/v1/health` `postgres: down` | fix or remove `DATABASE_URL`; `DB_REQUIRED=1` makes it fatal on purpose |
 | Bad nightly run | previous store stays published | job exits 1; the smoke tests in the workflow fail before commit | revert the data commit with `git revert` |
 | Source format changes (Agmarknet / data.gov.in) | stale banner | rows rejected into `rejected_observations`; job fails if every slice fails | adapt `sources/datagov.py`; schema is validated at ingest |
+
+### Second defect found by the live smoke test, 2026-11-13
+
+The first full smoke test against the public site passed, yet four trader endpoints returned `UNAVAILABLE` or `INSUFFICIENT_HISTORY`: the
+Docker image had never contained `data/observations/market_observations.parquet` (`.dockerignore` excluded `data/` and the Dockerfile did
+not copy it), so spreads, volatility, analogs and forward price had no prices on the live site, although everything passed locally. The
+smoke test had counted those statuses as a pass. Fixed in commit `1bd9852`: the image now carries that one file, the smoke test treats those
+statuses as failures, and `test_deployment_contract.py` pins the contract without needing Docker. After the redeploy all 29 endpoints
+answered `OK` and all 29 pages rendered on the live URLs. Lesson: test the deployed artefact, not only the source tree, and never let a
+degraded status count as success.
 
 ### Incident, 2026-10 to 2026-11 (kept as evidence, not hidden)
 
@@ -111,8 +145,9 @@ little history are refused rather than served (garlic is refused by the decision
   The subscriber file is runtime state and must not be committed; deleting a subscriber (`/stop`) removes them from sending.
 * Secrets only in the host secret store; rotate any key that has been pasted anywhere. A rate limiter (60 requests per second per client,
   configurable) is on the API; CORS allows only the frontend origin and local development.
-* Dependencies are pinned in `requirements.lock`; CI runs the backend tests (675 passing on 2026-11-12), the frontend type-check, lint,
-  unit tests and production build.
+* Dependencies are pinned in `requirements.lock`; CI runs the backend tests (678 passing), the frontend type-check, lint,
+  unit tests and production build. The live site was smoke-tested end to end on 2026-11-13: 29 of 29 API endpoints `OK` and 29 of 29
+  pages rendered in headless Chrome (`scripts/smoke_ui.py --web … --api …`).
 
 ## 8. Integration and maintenance
 
