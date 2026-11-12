@@ -1,5 +1,10 @@
 # MandiSense AI
 
+[![CI](https://github.com/Manu-Sal-07/MANDISENSI_AGENTS/actions/workflows/ci.yml/badge.svg)](https://github.com/Manu-Sal-07/MANDISENSI_AGENTS/actions/workflows/ci.yml)
+
+**Live:** app <https://mandisensi-agents.vercel.app> · API <https://mandisense-api.onrender.com/docs> · health <https://mandisense-api.onrender.com/v1/health>
+(free hosting: the first request after idle can take a minute while the instance wakes).
+
 Decision support for small farmers and traders in the Bengaluru–Kolar belt of Karnataka, built on real Agmarknet mandi prices
 and arrivals (January 2021 – October 2026). It answers two questions with evidence attached:
 
@@ -69,7 +74,7 @@ python scripts/pipeline.py --with-research # also re-run the full research exper
 ### Check that it works
 
 ```bash
-python -m pytest mandisense_ai -q          # 640+ application tests, no network or API key needed
+python -m pytest mandisense_ai -q          # 675 application tests (2026-11-12), no network or API key needed
 cd frontend && npm test && npx tsc --noEmit && npx eslint . --quiet
 python scripts/smoke_ui.py                 # with both servers running: 25 endpoints and 27 pages, in headless Chrome
 cd research && python -m pytest            # 57 tests for the research package (its own requirements)
@@ -109,6 +114,10 @@ Kolar districts: a district-level history from January 2021 and per-mandi daily 
 report on a day has no row, and the models are trained on that fact. Synthetic data was removed from the project; the history of this
 is in the commit log. Raw exports are in `datasets/year_data/` and `mandisense_ai/data/farmer/source/`.
 
+Freshness: the forecast store is refreshed daily from the data.gov.in Agmarknet feed by `.github/workflows/daily-refresh.yml` (commit,
+then redeploy). The farmer market panels are rebuilt from Agmarknet exports by `scripts/pipeline.py` and are **not yet** fed daily; the
+data date is shown on every chart. Details and the failure modes are in [`docs/DEPLOYMENT_AND_OPERATIONS.md`](docs/DEPLOYMENT_AND_OPERATIONS.md).
+
 ## Documentation
 
 | Document | What it covers |
@@ -119,6 +128,9 @@ is in the commit log. Raw exports are in `datasets/year_data/` and `mandisense_a
 | [`docs/SHOCK_STUDY.md`](docs/SHOCK_STUDY.md) | Every supply-shock test, with intervals, placebo and Holm p-values, and detectable effect sizes |
 | [`docs/AGENT_COUNCIL.md`](docs/AGENT_COUNCIL.md) | The specialist-agent ensemble and why it is not promoted |
 | [`docs/LLM_EVALUATION.md`](docs/LLM_EVALUATION.md) | Measured faithfulness of the language-model explanations |
+| [`docs/PROBLEM_COMPLEXITY.md`](docs/PROBLEM_COMPLEXITY.md) | Why the problem is hard: six difficulties, the requirements that compete, the decision taken and its measurement |
+| [`docs/DEPLOYMENT_AND_OPERATIONS.md`](docs/DEPLOYMENT_AND_OPERATIONS.md) | How it is deployed, what it costs, measured latency and memory, failure modes, data refresh, the 2026 outage |
+| [`docs/PRODUCT_AND_IP.md`](docs/PRODUCT_AND_IP.md) | Adopters, existing products and prior art, what is novel, protection options and disclosure timing |
 | [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) | Workflow, conventions, and the contribution record |
 | [`docs/LANGUAGE_REVIEW.md`](docs/LANGUAGE_REVIEW.md) | The Kannada and Hindi strings awaiting native-speaker review |
 | [`research/README.md`](research/README.md) | The research package |
