@@ -11,7 +11,7 @@ and arrivals (January 2021 – October 2026). It answers two questions with evid
 * **Farmers:** *Where and on which day should I sell this load, and what is the least I can count on?* The answer is the
   market and holding period with the best expected **net** revenue after transport, fees and spoilage, with a revenue floor that
   held in past tests, the chance each mandi is open that day, and plain-language reasons in English, Kannada and Hindi.
-* **Traders:** *Where is supply unusual, which links between crops have evidence, and how far can this forecast be trusted?* Thirteen
+* **Traders:** *Where is supply unusual, which links between crops have evidence, and how far can this forecast be trusted?* Fifteen
   desk tools show spreads, the full market-choice grid, supply shocks, volatility regimes, historical analogues, scenarios,
   forward pricing, position risk and an audit of the forecasting methods, each with its evidence tier and limits.
 
@@ -26,7 +26,7 @@ All figures are out of sample (nested walk-forward blocks); full tables, interva
 | Question | Finding |
 |---|---|
 | Does training on what a farmer **actually received** (including a wasted trip to a silent mandi) beat training on observed prices? | **Yes.** About Rs 123 per quintal less regret on the same network (95% CI −165 to −87, Holm p < 0.0001); the gain appears in every outer fold and for every farmer origin. |
-| Is the revenue floor honest? | **Yes.** The adaptive conformal floor was violated 4.6 / 10.6 / 23.3% of the time at stated levels of 5 / 10 / 20%; a naive Gaussian floor was violated 27–35% against a 10% target. |
+| Is the revenue floor honest? | **Mostly.** In the research study (tomato, research predictor) the adaptive conformal floor was violated 4.6 / 10.6 / 23.3% of the time at stated levels of 5 / 10 / 20%. The served engine's own backtest at a stated 10%: tomato 10.6%, onion 13.1%, potato 9.3%, ginger 13.1%. A naive Gaussian floor on a standard model, aimed at 10%, was violated 27.4% (tomato), 34.5% (onion), 25.8% (potato) and 11.9% (ginger). |
 | Do published decompose-then-forecast hybrids (STL, VMD) hold up? | **No.** They show +17 to +70% skill over a random walk under the published protocol and −15 to 0% once the decomposition may not see the future, a gap of 30–72 points. |
 | How accurate are price forecasts? | **Barely better than "no change"**: +0.6 to +0.8% mean-absolute-error skill on mandi-level series at 3–7 days and +3 to 4% on district-level series. They are used for risk bands and direction, not as price promises. |
 
@@ -139,6 +139,6 @@ Agmarknet exports by `scripts/pipeline.py` and are **not** fed by that refresh; 
 
 * Forecast skill is small; price forecasts are intervals and directions, not promises.
 * The revenue floor is a statement about past tests of the method, not a guarantee on any single sale.
-* The data covers five crops in one region; results are not claimed elsewhere.
+* The data covers five crops in one region, and advice is served on four (garlic is refused); results are not claimed elsewhere.
 * The model-written wording of explanations is checked for meaning by a second model; Kannada and Hindi copy has not yet had a native-speaker review.
 * The language-model layer is optional. With no key every explanation is written by rules from the same facts.

@@ -24,8 +24,8 @@ baked into the trained model.
 
 **Track record.** `scripts/build_track_record.py` replays the walk-forward back-test with day-level output. Only the second half
 of the scored period is listed, because the floor multiplier is fitted on the first half. The script checks that its headline
-numbers reproduce `meta.json` and refuses to write otherwise. The floor is reported as it came out: 84% (tomato), 89% (onion),
-92% (potato), 86% (ginger) of days against the 90% aimed for. Most days the advice ties with "highest price yesterday" because it
+numbers reproduce `meta.json` and refuses to write otherwise. The floor is reported as it came out: 85% (tomato), 88% (onion),
+91% (potato), 85% (ginger) of days against the 90% aimed for. Most days the advice ties with "highest price yesterday" because it
 chooses the same action; the scoreboard shows ties explicitly.
 
 **Silence tax.** `P(silent on an open day) x (mean price when it reports - silent fraction x mean day price)`, from the last 365 days of

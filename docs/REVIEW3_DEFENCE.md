@@ -46,11 +46,11 @@ each member own a component they can walk through (see [CONTRIBUTIONS](CONTRIBUT
 
 **Your forecasts barely beat "no change". Why is this useful?**
 You are right, skill is +0.7% at five days. We therefore do not sell forecasts. The value is the decision: which mandi, which day,
-net of transport, fees and spoilage, with a floor. That beats "highest price yesterday" by ₹170 per quintal in tomato (interval +104 to
-+255) and ₹202 in ginger; in potato we cannot tell it apart (+15, interval -38 to +60), and we say so.
+net of transport, fees and spoilage, with a floor. That beats "highest price yesterday" by ₹173 per quintal in tomato (interval +93 to
++272) and ₹252 in ginger; in potato we cannot tell it apart (+12, interval -54 to +60), and we say so.
 
 **What does it cost to run, and what breaks first?**
-₹0 today (free tiers). It uses 313 MB of the 512 MB on the free plan. Memory breaks first, then the language-model rate limit, which only
+₹0 today (free tiers). It uses 313 MB of the 512 MB on the free plan. The plan's CPU limits throughput first (about 1.5 heavy requests a second, measured 2026-11-13), memory stops a second worker, then the language-model rate limit, which only
 degrades explanations to rule-based wording, never the numbers. A small paid instance is the first step.
 
 **What if Agmarknet changes format or the feed goes down?**
@@ -77,8 +77,8 @@ validator rejects any added digit. With and without the model, the recommendatio
 the judge caught 9 of 9 corrupted rewrites. Kannada and Hindi wording still needs a native speaker.
 
 **Is the revenue floor a guarantee?**
-No. It describes how often a method's floor held in past tests: violations of 4.6 / 10.6 / 23.3% at stated risks of 5 / 10 / 20%. It is not
-a promise on any one sale.
+No. It describes how often a method's floor held in past tests: in the research study, violations of 4.6 / 10.6 / 23.3% at stated risks of
+5 / 10 / 20%; in the served engine's own backtest, 9.3% (potato) to 13.1% (onion, ginger) at a stated 10%. It is not a promise on any one sale.
 
 **Why not a bigger or more modern model?**
 We ran neural networks and SPO+ losses on the same realised labels. They matched LightGBM (+₹14 per quintal, interval -8 to +39), so we kept

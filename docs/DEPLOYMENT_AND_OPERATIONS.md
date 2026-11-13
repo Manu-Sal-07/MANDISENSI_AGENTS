@@ -12,7 +12,8 @@ Live: frontend <https://mandisensi-agents.vercel.app>, API <https://mandisense-a
         │
  Vercel (Next.js frontend, free tier)  ── NEXT_PUBLIC_API_URL ──►  Render web service (Docker, free tier, Singapore)
                                                                      FastAPI + forecast store, panels and trained models in the image
- GitHub Actions (daily, 19:00 IST) ── pulls data.gov.in prices, re-scores forecasts, commits to main ──► Render auto-redeploys
+ Developer machine, by hand: scripts/refresh_and_publish.py --push ── pulls data.gov.in prices, re-scores forecasts, commits to main ──► Render auto-redeploys
+ (a GitHub Actions workflow exists but is manual only: its runners cannot reach data.gov.in, section 5)
 ```
 
 * **No database or cache is needed.** Every answer is computed from artefacts that ship in the image (forecast store, price panels,
@@ -124,8 +125,9 @@ Lesson: an optional dependency must be optional at every layer, and a deployment
 | Data | Source | Refresh | Status |
 |---|---|---|---|
 | Forecast store and market observations | data.gov.in "current daily price" feed (prices, no arrivals), Karnataka | **`python scripts/refresh_and_publish.py --push`** from a machine that can reach the feed: ingest, re-score, test, commit, push, Render redeploys | **manual, one command**; refreshed to 2026-11-12 on 2026-11-12 and not since |
-| Farmer panels (price and arrivals per mandi, 2021 to 2026-10-26) used by market choice, the shock radar and the insight panels | Agmarknet exports in `datasets/year_data/`, built by `scripts/build_farmer_world.py` | **manual re-export, then `scripts/pipeline.py`** | **not automated**; the farmer advice is trained through 2026-10-26 |
-| Model retraining | forecasting models | weekly cadence inside the nightly job; `--force-retrain` on demand | automated |
+| Farmer district series (arrivals-weighted price per district, crop and day) used by the district forecaster, hold-or-sell, seasonal memory, supply signal, transmission and the shock radar | Agmarknet "All Type of Report" exports in `datasets/year_data/historical_data/`, built by `scripts/build_farmer_world.py` | **manual re-export; a newer, shorter export is layered on with `--add-history <file>`, then `scripts/pipeline.py --only transmission,shock`** | **not automated**; 2021-01-01 to **2026-11-11** (district-level export of 2026-11-13 layered on 2026-11-13; the later export wins on overlapping days) |
+| Farmer market panel (price and arrivals per mandi, 2021 to 2026-10-26) used by market choice, the track record, spillover and the council | the same exports, **market-level layout only** (with a Market column) | as above; a district-level export cannot extend it, because a district has 2 to 5 mandis | **not automated**; through 2026-10-26 until a market-level export for 27 Oct onward is added |
+| Model retraining | forecasting models | weekly cadence inside the nightly job; `--force-retrain` on demand | automatic **when the job runs**; the job itself is run by hand (above) |
 
 Why a git commit and not an in-process scheduler: a free instance sleeps and its disk is wiped on restart, so anything it ingested was
 lost, and in production the scheduler refuses the shared sample key, so it failed every cycle. A commit is durable, reviewable and
@@ -153,7 +155,9 @@ it reports `INSUFFICIENT_EVIDENCE` instead of a hit rate, which is the honest st
 
 **Known gap, stated plainly:** the farmer-facing market-choice panels are not fed by this refresh at all, because the free feed carries no
 arrivals. The honest next step is to append the daily price snapshots to the panel and treat arrivals as missing for those days, then
-re-validate; until then the app states the data date ("to 2026-10-26") on its charts.
+re-validate; until then the app states the data date ("to 2026-10-26") on its charts. The district series are fresher (to 2026-11-11)
+because a district-level export was layered on; the research loader (`research/gfmc/data/loader.py`) skips district-level exports and
+reads the newest market-level one by its export time.
 
 ## 6. Data quality
 
@@ -180,6 +184,6 @@ little history are refused rather than served (garlic is refused by the decision
   not survive a free-tier restart, so a hosted bot needs a persistent store first.
 * **Path to existing systems:** the same recommendations can feed an FPO's WhatsApp or SMS broadcast, or an e-NAM-adjacent dashboard,
   because the API returns plain JSON with its evidence attached. None of these integrations is built.
-* **Maintenance load:** one daily automated job; a manual Agmarknet export for the farmer panels; Kannada and Hindi copy awaiting
+* **Maintenance load:** one data-refresh command run by hand (no scheduled job; section 5); a manual Agmarknet export for the farmer panels; Kannada and Hindi copy awaiting
   native-speaker review ([LANGUAGE_REVIEW](LANGUAGE_REVIEW.md)); dependency updates against `requirements.lock`.
 * **Rollback:** every deployment is a git commit; Render redeploys on push to `main`.

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "built_at": "2026-10-29T12:31:01.209109+00:00",
-  "panel_hash": "9903df8354d67387",
+  "built_at": "2026-11-13T13:37:21.840448+00:00",
+  "panel_hash": "8c53f66bb3b8468d",
   "frequency": "W",
   "commodities": [
     "garlic",
@@ -55,20 +55,20 @@
         "potato": "bengaluru_apmc",
         "tomato": "ramanagara_apmc"
       },
-      "n_periods": 232,
+      "n_periods": 234,
       "start": "2021-01-03",
-      "end": "2026-11-01",
-      "data_hash": "9903df8354d67387"
+      "end": "2026-11-15",
+      "data_hash": "8c53f66bb3b8468d"
     },
     "common_factor": {
       "loadings": {
-        "garlic": -0.005003,
-        "ginger": 0.006067,
-        "onion": -0.010143,
-        "potato": 0.003656,
-        "tomato": -0.018353
+        "garlic": -0.003738,
+        "ginger": 0.005528,
+        "onion": -0.008749,
+        "potato": 0.003948,
+        "tomato": -0.01902
       },
-      "variance_explained": 0.245333,
+      "variance_explained": 0.243719,
       "seasonality_removed": true,
       "factor_removed": true,
       "leave_one_out": true,
@@ -88,8 +88,8 @@
     },
     "holdout": {
       "status": "OK",
-      "train_periods": 162,
-      "test_periods": 70,
+      "train_periods": 163,
+      "test_periods": 71,
       "raw_pairs_compared": 0,
       "raw_sign_agreement": null,
       "powered_pairs_compared": 0,
@@ -126,7 +126,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 4.2e-05,
+          "baseline": 4.4e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -136,7 +136,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000364,
+          "baseline": 0.000351,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -146,7 +146,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001156,
+          "baseline": 0.001411,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -156,7 +156,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001344,
+          "baseline": 0.00185,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -178,7 +178,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000824,
+          "baseline": -0.000819,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -188,7 +188,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001563,
+          "baseline": -0.002547,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -198,7 +198,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.00276,
+          "baseline": -0.003536,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -208,7 +208,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.003204,
+          "baseline": -0.004321,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -230,7 +230,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000202,
+          "baseline": -0.000199,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -240,7 +240,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000159,
+          "baseline": 0.001324,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -250,7 +250,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001479,
+          "baseline": 0.003509,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -260,7 +260,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002407,
+          "baseline": 0.003838,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -282,7 +282,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001382,
+          "baseline": -0.001372,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -292,7 +292,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.002106,
+          "baseline": -0.003358,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -302,7 +302,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.004091,
+          "baseline": -0.003665,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -312,7 +312,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.005093,
+          "baseline": -0.006984,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -334,7 +334,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -7.8e-05,
+          "baseline": -8.3e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -344,7 +344,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000475,
+          "baseline": 0.000393,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -354,7 +354,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000923,
+          "baseline": 0.001103,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -364,7 +364,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002526,
+          "baseline": 0.003693,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -386,7 +386,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000824,
+          "baseline": -0.000819,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -396,7 +396,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001563,
+          "baseline": -0.002547,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -406,7 +406,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.00276,
+          "baseline": -0.003536,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -416,7 +416,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.003204,
+          "baseline": -0.004321,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -438,7 +438,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000202,
+          "baseline": -0.000199,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -448,7 +448,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000159,
+          "baseline": 0.001324,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -458,7 +458,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001479,
+          "baseline": 0.003509,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -468,7 +468,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002407,
+          "baseline": 0.003838,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -490,7 +490,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001382,
+          "baseline": -0.001372,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -500,7 +500,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.002106,
+          "baseline": -0.003358,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -510,7 +510,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.004091,
+          "baseline": -0.003665,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -520,7 +520,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.005093,
+          "baseline": -0.006984,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -542,7 +542,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -7.8e-05,
+          "baseline": -8.3e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -552,7 +552,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000475,
+          "baseline": 0.000393,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -562,7 +562,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000923,
+          "baseline": 0.001103,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -572,7 +572,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002526,
+          "baseline": 0.003693,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -594,7 +594,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 4.2e-05,
+          "baseline": 4.4e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -604,7 +604,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000364,
+          "baseline": 0.000351,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -614,7 +614,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001156,
+          "baseline": 0.001411,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -624,7 +624,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001344,
+          "baseline": 0.00185,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -646,7 +646,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000202,
+          "baseline": -0.000199,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -656,7 +656,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000159,
+          "baseline": 0.001324,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -666,7 +666,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001479,
+          "baseline": 0.003509,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -676,7 +676,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002407,
+          "baseline": 0.003838,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -698,7 +698,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001382,
+          "baseline": -0.001372,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -708,7 +708,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.002106,
+          "baseline": -0.003358,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -718,7 +718,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.004091,
+          "baseline": -0.003665,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -728,7 +728,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.005093,
+          "baseline": -0.006984,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -750,7 +750,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -7.8e-05,
+          "baseline": -8.3e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -760,7 +760,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000475,
+          "baseline": 0.000393,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -770,7 +770,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000923,
+          "baseline": 0.001103,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -780,7 +780,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002526,
+          "baseline": 0.003693,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -802,7 +802,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 4.2e-05,
+          "baseline": 4.4e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -812,7 +812,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000364,
+          "baseline": 0.000351,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -822,7 +822,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001156,
+          "baseline": 0.001411,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -832,7 +832,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001344,
+          "baseline": 0.00185,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -854,7 +854,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000824,
+          "baseline": -0.000819,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -864,7 +864,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001563,
+          "baseline": -0.002547,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -874,7 +874,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.00276,
+          "baseline": -0.003536,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -884,7 +884,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.003204,
+          "baseline": -0.004321,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -906,7 +906,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001382,
+          "baseline": -0.001372,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -916,7 +916,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.002106,
+          "baseline": -0.003358,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -926,7 +926,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.004091,
+          "baseline": -0.003665,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -936,7 +936,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.005093,
+          "baseline": -0.006984,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -958,7 +958,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -7.8e-05,
+          "baseline": -8.3e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -968,7 +968,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000475,
+          "baseline": 0.000393,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -978,7 +978,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000923,
+          "baseline": 0.001103,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -988,7 +988,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002526,
+          "baseline": 0.003693,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1010,7 +1010,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 4.2e-05,
+          "baseline": 4.4e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1020,7 +1020,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000364,
+          "baseline": 0.000351,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1030,7 +1030,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001156,
+          "baseline": 0.001411,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1040,7 +1040,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001344,
+          "baseline": 0.00185,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1062,7 +1062,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000824,
+          "baseline": -0.000819,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1072,7 +1072,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001563,
+          "baseline": -0.002547,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1082,7 +1082,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.00276,
+          "baseline": -0.003536,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1092,7 +1092,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.003204,
+          "baseline": -0.004321,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1114,7 +1114,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000202,
+          "baseline": -0.000199,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1124,7 +1124,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000159,
+          "baseline": 0.001324,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1134,7 +1134,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001479,
+          "baseline": 0.003509,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1144,7 +1144,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002407,
+          "baseline": 0.003838,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1166,7 +1166,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 4.2e-05,
+          "baseline": 4.4e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1176,7 +1176,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000364,
+          "baseline": 0.000351,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1186,7 +1186,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001156,
+          "baseline": 0.001411,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1196,7 +1196,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001344,
+          "baseline": 0.00185,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1218,7 +1218,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000824,
+          "baseline": -0.000819,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1228,7 +1228,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001563,
+          "baseline": -0.002547,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1238,7 +1238,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.00276,
+          "baseline": -0.003536,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1248,7 +1248,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.003204,
+          "baseline": -0.004321,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1270,7 +1270,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000202,
+          "baseline": -0.000199,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1280,7 +1280,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000159,
+          "baseline": 0.001324,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1290,7 +1290,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001479,
+          "baseline": 0.003509,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1300,7 +1300,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002407,
+          "baseline": 0.003838,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1322,7 +1322,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001382,
+          "baseline": -0.001372,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1332,7 +1332,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.002106,
+          "baseline": -0.003358,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1342,7 +1342,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.004091,
+          "baseline": -0.003665,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1352,7 +1352,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.005093,
+          "baseline": -0.006984,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1374,7 +1374,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -7.8e-05,
+          "baseline": -8.3e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1384,7 +1384,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000475,
+          "baseline": 0.000393,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1394,7 +1394,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000923,
+          "baseline": 0.001103,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1404,7 +1404,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002526,
+          "baseline": 0.003693,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1426,7 +1426,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000824,
+          "baseline": -0.000819,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1436,7 +1436,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001563,
+          "baseline": -0.002547,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1446,7 +1446,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.00276,
+          "baseline": -0.003536,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1456,7 +1456,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.003204,
+          "baseline": -0.004321,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1478,7 +1478,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000202,
+          "baseline": -0.000199,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1488,7 +1488,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000159,
+          "baseline": 0.001324,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1498,7 +1498,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001479,
+          "baseline": 0.003509,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1508,7 +1508,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002407,
+          "baseline": 0.003838,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1530,7 +1530,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001382,
+          "baseline": -0.001372,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1540,7 +1540,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.002106,
+          "baseline": -0.003358,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1550,7 +1550,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.004091,
+          "baseline": -0.003665,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1560,7 +1560,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.005093,
+          "baseline": -0.006984,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1582,7 +1582,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -7.8e-05,
+          "baseline": -8.3e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1592,7 +1592,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000475,
+          "baseline": 0.000393,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1602,7 +1602,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000923,
+          "baseline": 0.001103,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1612,7 +1612,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002526,
+          "baseline": 0.003693,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1634,7 +1634,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 4.2e-05,
+          "baseline": 4.4e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1644,7 +1644,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000364,
+          "baseline": 0.000351,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1654,7 +1654,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001156,
+          "baseline": 0.001411,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1664,7 +1664,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001344,
+          "baseline": 0.00185,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1686,7 +1686,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000202,
+          "baseline": -0.000199,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1696,7 +1696,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000159,
+          "baseline": 0.001324,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1706,7 +1706,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001479,
+          "baseline": 0.003509,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1716,7 +1716,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002407,
+          "baseline": 0.003838,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1738,7 +1738,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001382,
+          "baseline": -0.001372,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1748,7 +1748,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.002106,
+          "baseline": -0.003358,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1758,7 +1758,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.004091,
+          "baseline": -0.003665,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1768,7 +1768,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.005093,
+          "baseline": -0.006984,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1790,7 +1790,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -7.8e-05,
+          "baseline": -8.3e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1800,7 +1800,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000475,
+          "baseline": 0.000393,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1810,7 +1810,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000923,
+          "baseline": 0.001103,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1820,7 +1820,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002526,
+          "baseline": 0.003693,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1842,7 +1842,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 4.2e-05,
+          "baseline": 4.4e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1852,7 +1852,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000364,
+          "baseline": 0.000351,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1862,7 +1862,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001156,
+          "baseline": 0.001411,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1872,7 +1872,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001344,
+          "baseline": 0.00185,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1894,7 +1894,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000824,
+          "baseline": -0.000819,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1904,7 +1904,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001563,
+          "baseline": -0.002547,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1914,7 +1914,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.00276,
+          "baseline": -0.003536,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1924,7 +1924,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.003204,
+          "baseline": -0.004321,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1946,7 +1946,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001382,
+          "baseline": -0.001372,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1956,7 +1956,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.002106,
+          "baseline": -0.003358,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1966,7 +1966,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.004091,
+          "baseline": -0.003665,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1976,7 +1976,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.005093,
+          "baseline": -0.006984,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -1998,7 +1998,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -7.8e-05,
+          "baseline": -8.3e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2008,7 +2008,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000475,
+          "baseline": 0.000393,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2018,7 +2018,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000923,
+          "baseline": 0.001103,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2028,7 +2028,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002526,
+          "baseline": 0.003693,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2050,7 +2050,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 4.2e-05,
+          "baseline": 4.4e-05,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2060,7 +2060,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000364,
+          "baseline": 0.000351,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2070,7 +2070,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001156,
+          "baseline": 0.001411,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2080,7 +2080,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001344,
+          "baseline": 0.00185,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2102,7 +2102,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000824,
+          "baseline": -0.000819,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2112,7 +2112,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.001563,
+          "baseline": -0.002547,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2122,7 +2122,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.00276,
+          "baseline": -0.003536,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2132,7 +2132,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.003204,
+          "baseline": -0.004321,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2154,7 +2154,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": -0.000202,
+          "baseline": -0.000199,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2164,7 +2164,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.000159,
+          "baseline": 0.001324,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2174,7 +2174,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.001479,
+          "baseline": 0.003509,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null
@@ -2184,7 +2184,7 @@
           "elasticity": NaN,
           "ci_low": NaN,
           "ci_high": NaN,
-          "baseline": 0.002407,
+          "baseline": 0.003838,
           "n_episodes": 0,
           "status": "INSUFFICIENT_EVIDENCE",
           "p_value": null

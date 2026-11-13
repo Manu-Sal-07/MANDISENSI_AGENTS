@@ -1,125 +1,17 @@
 {
  "crop": "onion",
  "window": [
-  "2026-05-12",
-  "2026-10-23"
+  "2026-05-24",
+  "2026-11-08"
  ],
  "days": [
-  {
-   "date": "2026-05-12",
-   "recommended": 1849.6,
-   "nearest": 1370.2,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1102.3,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-13",
-   "recommended": 1834.3,
-   "nearest": 1370.2,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1101.8,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-14",
-   "recommended": 1864.9,
-   "nearest": 1290.3,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1125.5,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-15",
-   "recommended": 1864.9,
-   "nearest": 1370.2,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1156.9,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-16",
-   "recommended": 1834.3,
-   "nearest": 1379.8,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1120.5,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-17",
-   "recommended": 1834.3,
-   "nearest": 1411.5,
-   "highest_yesterday": 1352.5,
-   "oracle": 1849.6,
-   "floor": 1120.2,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-18",
-   "recommended": 1864.9,
-   "nearest": 1339.0,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1141.1,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-19",
-   "recommended": 1849.6,
-   "nearest": 1360.6,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1110.1,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-20",
-   "recommended": 1834.3,
-   "nearest": 1324.1,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1133.6,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-21",
-   "recommended": 1849.6,
-   "nearest": 1256.0,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1109.3,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-22",
-   "recommended": 1864.9,
-   "nearest": 1232.0,
-   "highest_yesterday": 1864.9,
-   "oracle": 1864.9,
-   "floor": 1142.6,
-   "floor_held": 1.0
-  },
-  {
-   "date": "2026-05-23",
-   "recommended": 1834.3,
-   "nearest": 1075.0,
-   "highest_yesterday": 1117.2,
-   "oracle": 1834.3,
-   "floor": 1114.5,
-   "floor_held": 1.0
-  },
   {
    "date": "2026-05-24",
    "recommended": 1849.6,
    "nearest": 1411.5,
    "highest_yesterday": 1352.5,
    "oracle": 1849.6,
-   "floor": 1113.8,
+   "floor": 993.7,
    "floor_held": 1.0
   },
   {
@@ -128,34 +20,34 @@
    "nearest": 1278.1,
    "highest_yesterday": 1864.9,
    "oracle": 1864.9,
-   "floor": 1169.3,
+   "floor": 1066.5,
    "floor_held": 1.0
   },
   {
    "date": "2026-05-26",
-   "recommended": 1576.9,
+   "recommended": 1018.3,
    "nearest": 1220.5,
    "highest_yesterday": 1576.9,
    "oracle": 1636.3,
-   "floor": 1134.7,
-   "floor_held": 1.0
+   "floor": 1025.3,
+   "floor_held": 0.0
   },
   {
    "date": "2026-05-27",
-   "recommended": 1576.9,
+   "recommended": 1553.1,
    "nearest": 1210.9,
    "highest_yesterday": 1650.1,
    "oracle": 1650.1,
-   "floor": 1029.2,
+   "floor": 902.5,
    "floor_held": 1.0
   },
   {
    "date": "2026-05-28",
-   "recommended": 1035.6,
+   "recommended": 1156.8,
    "nearest": 1042.3,
    "highest_yesterday": 1362.1,
    "oracle": 1796.4,
-   "floor": 1018.0,
+   "floor": 919.1,
    "floor_held": 1.0
   },
   {
@@ -164,16 +56,16 @@
    "nearest": 1166.3,
    "highest_yesterday": 1576.9,
    "oracle": 1983.8,
-   "floor": 1007.4,
+   "floor": 894.8,
    "floor_held": 1.0
   },
   {
    "date": "2026-05-30",
-   "recommended": 1552.3,
+   "recommended": 1604.8,
    "nearest": 1220.5,
    "highest_yesterday": 1650.1,
    "oracle": 2000.4,
-   "floor": 1009.9,
+   "floor": 1027.6,
    "floor_held": 1.0
   },
   {
@@ -182,7 +74,7 @@
    "nearest": 1502.7,
    "highest_yesterday": 1842.1,
    "oracle": 2017.2,
-   "floor": 1131.5,
+   "floor": 1053.2,
    "floor_held": 1.0
   },
   {
@@ -191,7 +83,7 @@
    "nearest": 1356.8,
    "highest_yesterday": 2034.1,
    "oracle": 2034.1,
-   "floor": 1184.2,
+   "floor": 1087.3,
    "floor_held": 1.0
   },
   {
@@ -200,7 +92,7 @@
    "nearest": 1343.1,
    "highest_yesterday": 1197.8,
    "oracle": 1727.1,
-   "floor": 898.4,
+   "floor": 1187.3,
    "floor_held": 1.0
   },
   {
@@ -209,25 +101,25 @@
    "nearest": 1366.4,
    "highest_yesterday": 1362.1,
    "oracle": 2094.7,
-   "floor": 943.4,
-   "floor_held": 1.0
+   "floor": 1238.0,
+   "floor_held": 0.0
   },
   {
    "date": "2026-06-04",
-   "recommended": 1748.7,
+   "recommended": 2112.1,
    "nearest": 1360.3,
    "highest_yesterday": 1253.1,
    "oracle": 2112.1,
-   "floor": 1038.0,
+   "floor": 952.3,
    "floor_held": 1.0
   },
   {
    "date": "2026-06-05",
-   "recommended": 1763.3,
+   "recommended": 2129.7,
    "nearest": 1462.4,
    "highest_yesterday": 1269.4,
    "oracle": 2129.7,
-   "floor": 1067.7,
+   "floor": 970.2,
    "floor_held": 1.0
   },
   {
@@ -236,7 +128,7 @@
    "nearest": 1481.6,
    "highest_yesterday": 2147.3,
    "oracle": 2147.3,
-   "floor": 1185.4,
+   "floor": 1091.6,
    "floor_held": 1.0
   },
   {
@@ -245,7 +137,7 @@
    "nearest": 1813.7,
    "highest_yesterday": 2147.3,
    "oracle": 2147.3,
-   "floor": 1294.2,
+   "floor": 1206.3,
    "floor_held": 1.0
   },
   {
@@ -254,7 +146,7 @@
    "nearest": 1539.2,
    "highest_yesterday": 2147.3,
    "oracle": 2147.3,
-   "floor": 1351.8,
+   "floor": 1254.0,
    "floor_held": 1.0
   },
   {
@@ -263,25 +155,25 @@
    "nearest": 1481.6,
    "highest_yesterday": 2051.3,
    "oracle": 2129.7,
-   "floor": 1305.4,
+   "floor": 1252.9,
    "floor_held": 1.0
   },
   {
    "date": "2026-06-10",
-   "recommended": 2001.0,
+   "recommended": 2017.7,
    "nearest": 1542.5,
    "highest_yesterday": 2147.3,
    "oracle": 2147.3,
-   "floor": 1283.0,
+   "floor": 1168.1,
    "floor_held": 1.0
   },
   {
    "date": "2026-06-11",
-   "recommended": 2034.4,
+   "recommended": 2017.7,
    "nearest": 1421.3,
    "highest_yesterday": 1365.7,
    "oracle": 2094.7,
-   "floor": 1291.5,
+   "floor": 1203.3,
    "floor_held": 1.0
   },
   {
@@ -290,7 +182,7 @@
    "nearest": 1558.4,
    "highest_yesterday": 2051.3,
    "oracle": 2112.1,
-   "floor": 1327.2,
+   "floor": 1270.9,
    "floor_held": 1.0
   },
   {
@@ -299,7 +191,7 @@
    "nearest": 1472.7,
    "highest_yesterday": 2051.3,
    "oracle": 2129.7,
-   "floor": 1401.6,
+   "floor": 1322.1,
    "floor_held": 1.0
   },
   {
@@ -308,7 +200,7 @@
    "nearest": 1813.7,
    "highest_yesterday": 2147.3,
    "oracle": 2147.3,
-   "floor": 1300.9,
+   "floor": 1234.5,
    "floor_held": 1.0
   },
   {
@@ -317,16 +209,16 @@
    "nearest": 1520.0,
    "highest_yesterday": 2051.3,
    "oracle": 2051.3,
-   "floor": 1396.2,
+   "floor": 1287.1,
    "floor_held": 1.0
   },
   {
    "date": "2026-06-16",
-   "recommended": 1355.8,
+   "recommended": 1939.2,
    "nearest": 1531.5,
    "highest_yesterday": 2051.3,
    "oracle": 2094.7,
-   "floor": 1340.5,
+   "floor": 1268.0,
    "floor_held": 1.0
   },
   {
@@ -335,7 +227,7 @@
    "nearest": 1513.4,
    "highest_yesterday": 1955.3,
    "oracle": 2112.1,
-   "floor": 1311.8,
+   "floor": 1222.9,
    "floor_held": 1.0
   },
   {
@@ -344,16 +236,16 @@
    "nearest": 1406.6,
    "highest_yesterday": 1842.1,
    "oracle": 2129.7,
-   "floor": 1334.0,
+   "floor": 1223.7,
    "floor_held": 1.0
   },
   {
    "date": "2026-06-19",
-   "recommended": 2034.4,
+   "recommended": 2147.3,
    "nearest": 1598.7,
    "highest_yesterday": 1380.4,
    "oracle": 2147.3,
-   "floor": 1329.5,
+   "floor": 1289.4,
    "floor_held": 1.0
   },
   {
@@ -362,7 +254,7 @@
    "nearest": 1650.5,
    "highest_yesterday": 2051.3,
    "oracle": 2129.7,
-   "floor": 1470.5,
+   "floor": 1383.7,
    "floor_held": 1.0
   },
   {
@@ -371,7 +263,7 @@
    "nearest": 1813.7,
    "highest_yesterday": 2147.3,
    "oracle": 2147.3,
-   "floor": 1384.8,
+   "floor": 1301.6,
    "floor_held": 1.0
   },
   {
@@ -380,7 +272,7 @@
    "nearest": 1650.5,
    "highest_yesterday": 2051.3,
    "oracle": 2173.8,
-   "floor": 1503.5,
+   "floor": 1388.4,
    "floor_held": 1.0
   },
   {
@@ -389,16 +281,16 @@
    "nearest": 1650.6,
    "highest_yesterday": 2051.3,
    "oracle": 2375.9,
-   "floor": 1411.4,
+   "floor": 1314.8,
    "floor_held": 1.0
   },
   {
    "date": "2026-06-24",
-   "recommended": 2395.5,
+   "recommended": 2051.3,
    "nearest": 1617.1,
    "highest_yesterday": 2051.3,
    "oracle": 2395.5,
-   "floor": 1403.7,
+   "floor": 1319.4,
    "floor_held": 1.0
   },
   {
@@ -407,7 +299,7 @@
    "nearest": 1524.5,
    "highest_yesterday": 1421.2,
    "oracle": 2415.3,
-   "floor": 1376.2,
+   "floor": 1287.1,
    "floor_held": 1.0
   },
   {
@@ -416,7 +308,7 @@
    "nearest": 1718.4,
    "highest_yesterday": 1511.8,
    "oracle": 2469.6,
-   "floor": 1411.9,
+   "floor": 1307.5,
    "floor_held": 1.0
   },
   {
@@ -425,7 +317,7 @@
    "nearest": 1718.4,
    "highest_yesterday": 2435.3,
    "oracle": 2490.0,
-   "floor": 1619.5,
+   "floor": 1488.9,
    "floor_held": 1.0
   },
   {
@@ -434,7 +326,7 @@
    "nearest": 2067.2,
    "highest_yesterday": 2435.3,
    "oracle": 2510.6,
-   "floor": 1585.3,
+   "floor": 1521.6,
    "floor_held": 1.0
   },
   {
@@ -443,7 +335,7 @@
    "nearest": 1902.4,
    "highest_yesterday": 2531.3,
    "oracle": 2531.3,
-   "floor": 1683.8,
+   "floor": 1566.5,
    "floor_held": 1.0
   },
   {
@@ -452,16 +344,16 @@
    "nearest": 1732.0,
    "highest_yesterday": 2190.0,
    "oracle": 2285.5,
-   "floor": 1702.8,
+   "floor": 1621.9,
    "floor_held": 1.0
   },
   {
    "date": "2026-07-01",
-   "recommended": 2304.4,
+   "recommended": 2190.9,
    "nearest": 1796.7,
    "highest_yesterday": 1573.7,
    "oracle": 2458.6,
-   "floor": 1509.6,
+   "floor": 1375.8,
    "floor_held": 1.0
   },
   {
@@ -470,7 +362,7 @@
    "nearest": 1817.3,
    "highest_yesterday": 1656.2,
    "oracle": 2657.0,
-   "floor": 1555.1,
+   "floor": 1469.7,
    "floor_held": 1.0
   },
   {
@@ -479,7 +371,7 @@
    "nearest": 1931.5,
    "highest_yesterday": 2227.3,
    "oracle": 2679.0,
-   "floor": 1614.6,
+   "floor": 1537.0,
    "floor_held": 1.0
   },
   {
@@ -488,7 +380,7 @@
    "nearest": 1844.1,
    "highest_yesterday": 2322.1,
    "oracle": 2701.0,
-   "floor": 1675.0,
+   "floor": 1586.2,
    "floor_held": 1.0
   },
   {
@@ -497,7 +389,7 @@
    "nearest": 2288.0,
    "highest_yesterday": 2723.3,
    "oracle": 2723.3,
-   "floor": 1672.2,
+   "floor": 1596.4,
    "floor_held": 1.0
   },
   {
@@ -506,7 +398,7 @@
    "nearest": 2092.2,
    "highest_yesterday": 2377.7,
    "oracle": 2701.0,
-   "floor": 1864.2,
+   "floor": 1747.2,
    "floor_held": 1.0
   },
   {
@@ -515,7 +407,7 @@
    "nearest": 2257.3,
    "highest_yesterday": 2723.3,
    "oracle": 2723.3,
-   "floor": 1695.3,
+   "floor": 1569.8,
    "floor_held": 1.0
   },
   {
@@ -524,7 +416,7 @@
    "nearest": 2238.1,
    "highest_yesterday": 2723.3,
    "oracle": 2726.2,
-   "floor": 1867.1,
+   "floor": 1778.4,
    "floor_held": 1.0
   },
   {
@@ -533,7 +425,7 @@
    "nearest": 2069.5,
    "highest_yesterday": 1785.1,
    "oracle": 3202.1,
-   "floor": 1878.7,
+   "floor": 1766.2,
    "floor_held": 1.0
   },
   {
@@ -542,7 +434,7 @@
    "nearest": 2266.9,
    "highest_yesterday": 2771.3,
    "oracle": 3228.6,
-   "floor": 1943.9,
+   "floor": 1828.9,
    "floor_held": 1.0
   },
   {
@@ -551,7 +443,7 @@
    "nearest": 2266.6,
    "highest_yesterday": 2723.3,
    "oracle": 3255.2,
-   "floor": 2056.2,
+   "floor": 1959.3,
    "floor_held": 1.0
   },
   {
@@ -560,7 +452,7 @@
    "nearest": 2614.4,
    "highest_yesterday": 2723.3,
    "oracle": 3282.1,
-   "floor": 1921.1,
+   "floor": 1833.2,
    "floor_held": 1.0
   },
   {
@@ -569,7 +461,7 @@
    "nearest": 2314.9,
    "highest_yesterday": 3282.1,
    "oracle": 3282.1,
-   "floor": 2263.1,
+   "floor": 2150.8,
    "floor_held": 1.0
   },
   {
@@ -578,7 +470,7 @@
    "nearest": 2295.7,
    "highest_yesterday": 1943.7,
    "oracle": 2891.5,
-   "floor": 2284.7,
+   "floor": 2224.1,
    "floor_held": 0.0
   },
   {
@@ -587,7 +479,7 @@
    "nearest": 2353.3,
    "highest_yesterday": 2322.1,
    "oracle": 2915.3,
-   "floor": 1998.0,
+   "floor": 2163.0,
    "floor_held": 1.0
   },
   {
@@ -596,7 +488,7 @@
    "nearest": 2081.4,
    "highest_yesterday": 1899.8,
    "oracle": 2891.5,
-   "floor": 2016.2,
+   "floor": 1912.8,
    "floor_held": 1.0
   },
   {
@@ -605,7 +497,7 @@
    "nearest": 2334.1,
    "highest_yesterday": 2915.3,
    "oracle": 3031.9,
-   "floor": 2071.9,
+   "floor": 1970.6,
    "floor_held": 1.0
   },
   {
@@ -614,7 +506,7 @@
    "nearest": 2391.7,
    "highest_yesterday": 2915.3,
    "oracle": 3056.8,
-   "floor": 2070.1,
+   "floor": 1970.6,
    "floor_held": 1.0
   },
   {
@@ -623,7 +515,7 @@
    "nearest": 2391.7,
    "highest_yesterday": 2915.3,
    "oracle": 3082.0,
-   "floor": 2039.8,
+   "floor": 1952.7,
    "floor_held": 1.0
   },
   {
@@ -632,7 +524,7 @@
    "nearest": 2410.9,
    "highest_yesterday": 3107.3,
    "oracle": 3107.3,
-   "floor": 2150.2,
+   "floor": 2020.5,
    "floor_held": 1.0
   },
   {
@@ -641,16 +533,16 @@
    "nearest": 2441.6,
    "highest_yesterday": 2915.3,
    "oracle": 2986.7,
-   "floor": 2100.1,
+   "floor": 2063.5,
    "floor_held": 1.0
   },
   {
    "date": "2026-07-22",
-   "recommended": 3011.3,
+   "recommended": 2844.5,
    "nearest": 2441.6,
    "highest_yesterday": 3011.3,
    "oracle": 3011.3,
-   "floor": 2114.9,
+   "floor": 1908.0,
    "floor_held": 1.0
   },
   {
@@ -659,7 +551,7 @@
    "nearest": 2292.5,
    "highest_yesterday": 1977.7,
    "oracle": 2891.5,
-   "floor": 2105.6,
+   "floor": 2036.4,
    "floor_held": 1.0
   },
   {
@@ -668,7 +560,7 @@
    "nearest": 2441.6,
    "highest_yesterday": 2915.3,
    "oracle": 2915.3,
-   "floor": 2216.5,
+   "floor": 2105.8,
    "floor_held": 1.0
   },
   {
@@ -677,16 +569,16 @@
    "nearest": 2365.7,
    "highest_yesterday": 2915.3,
    "oracle": 2915.3,
-   "floor": 2248.6,
+   "floor": 2169.9,
    "floor_held": 1.0
   },
   {
    "date": "2026-07-26",
-   "recommended": 2605.8,
+   "recommended": 2915.3,
    "nearest": 2391.7,
    "highest_yesterday": 2915.3,
    "oracle": 2915.3,
-   "floor": 2148.9,
+   "floor": 2080.3,
    "floor_held": 1.0
   },
   {
@@ -695,17 +587,17 @@
    "nearest": 2403.2,
    "highest_yesterday": 2627.3,
    "oracle": 2773.4,
-   "floor": 2215.4,
+   "floor": 2121.3,
    "floor_held": 1.0
   },
   {
    "date": "2026-07-28",
-   "recommended": 1897.0,
+   "recommended": 2627.3,
    "nearest": 2384.0,
    "highest_yesterday": 2627.3,
    "oracle": 2796.3,
-   "floor": 1930.0,
-   "floor_held": 0.0
+   "floor": 1886.8,
+   "floor_held": 1.0
   },
   {
    "date": "2026-07-29",
@@ -713,7 +605,7 @@
    "nearest": 2361.5,
    "highest_yesterday": 2819.3,
    "oracle": 2819.3,
-   "floor": 1924.5,
+   "floor": 1829.5,
    "floor_held": 1.0
   },
   {
@@ -722,16 +614,16 @@
    "nearest": 2263.5,
    "highest_yesterday": 1928.7,
    "oracle": 2796.3,
-   "floor": 2072.6,
+   "floor": 2019.4,
    "floor_held": 1.0
   },
   {
    "date": "2026-07-31",
-   "recommended": 2605.8,
+   "recommended": 2819.3,
    "nearest": 2441.6,
    "highest_yesterday": 2819.3,
    "oracle": 2819.3,
-   "floor": 2117.5,
+   "floor": 2018.7,
    "floor_held": 1.0
   },
   {
@@ -740,7 +632,7 @@
    "nearest": 2403.2,
    "highest_yesterday": 2627.3,
    "oracle": 2627.3,
-   "floor": 2171.9,
+   "floor": 2106.0,
    "floor_held": 1.0
   },
   {
@@ -749,7 +641,7 @@
    "nearest": 2236.1,
    "highest_yesterday": 2627.3,
    "oracle": 2627.3,
-   "floor": 2003.0,
+   "floor": 1962.8,
    "floor_held": 1.0
   },
   {
@@ -758,7 +650,7 @@
    "nearest": 2366.5,
    "highest_yesterday": 2627.3,
    "oracle": 3204.6,
-   "floor": 2008.5,
+   "floor": 1941.8,
    "floor_held": 1.0
   },
   {
@@ -767,16 +659,16 @@
    "nearest": 2426.3,
    "highest_yesterday": 2627.3,
    "oracle": 3231.1,
-   "floor": 1928.2,
+   "floor": 1884.3,
    "floor_held": 1.0
   },
   {
    "date": "2026-08-05",
-   "recommended": 2479.5,
+   "recommended": 2627.3,
    "nearest": 2426.3,
    "highest_yesterday": 2627.3,
    "oracle": 3257.7,
-   "floor": 1958.3,
+   "floor": 1915.7,
    "floor_held": 1.0
   },
   {
@@ -785,16 +677,16 @@
    "nearest": 2273.1,
    "highest_yesterday": 2101.7,
    "oracle": 3284.6,
-   "floor": 2053.2,
+   "floor": 1939.5,
    "floor_held": 1.0
   },
   {
    "date": "2026-08-07",
-   "recommended": 2584.5,
+   "recommended": 2520.6,
    "nearest": 2322.6,
    "highest_yesterday": 1925.5,
    "oracle": 2584.5,
-   "floor": 2018.5,
+   "floor": 1936.2,
    "floor_held": 1.0
   },
   {
@@ -803,7 +695,7 @@
    "nearest": 2345.6,
    "highest_yesterday": 2007.6,
    "oracle": 2605.8,
-   "floor": 2132.4,
+   "floor": 2109.7,
    "floor_held": 0.0
   },
   {
@@ -812,7 +704,7 @@
    "nearest": 2236.1,
    "highest_yesterday": 2087.0,
    "oracle": 2733.5,
-   "floor": 1937.0,
+   "floor": 1877.0,
    "floor_held": 1.0
   },
   {
@@ -821,26 +713,26 @@
    "nearest": 2302.9,
    "highest_yesterday": 1926.7,
    "oracle": 2756.2,
-   "floor": 2007.0,
+   "floor": 1928.7,
    "floor_held": 1.0
   },
   {
    "date": "2026-08-11",
-   "recommended": 2326.5,
+   "recommended": 2246.8,
    "nearest": 2267.1,
    "highest_yesterday": 1879.1,
    "oracle": 2779.1,
-   "floor": 1838.8,
+   "floor": 1769.4,
    "floor_held": 1.0
   },
   {
    "date": "2026-08-12",
-   "recommended": 2101.4,
+   "recommended": 2111.9,
    "nearest": 2288.0,
    "highest_yesterday": 1995.6,
    "oracle": 2802.1,
-   "floor": 1906.6,
-   "floor_held": 0.6
+   "floor": 1833.2,
+   "floor_held": 1.0
   },
   {
    "date": "2026-08-13",
@@ -848,7 +740,7 @@
    "nearest": 2196.3,
    "highest_yesterday": 2005.4,
    "oracle": 3406.7,
-   "floor": 2071.0,
+   "floor": 2014.2,
    "floor_held": 0.0
   },
   {
@@ -857,7 +749,7 @@
    "nearest": 2260.1,
    "highest_yesterday": 1890.3,
    "oracle": 3434.7,
-   "floor": 2188.6,
+   "floor": 2123.0,
    "floor_held": 1.0
   },
   {
@@ -866,16 +758,16 @@
    "nearest": 2085.5,
    "highest_yesterday": 1913.2,
    "oracle": 3462.9,
-   "floor": 1908.8,
+   "floor": 1858.1,
    "floor_held": 1.0
   },
   {
    "date": "2026-08-16",
-   "recommended": 2678.5,
+   "recommended": 2421.0,
    "nearest": 2865.9,
    "highest_yesterday": 2658.2,
    "oracle": 3491.3,
-   "floor": 1941.1,
+   "floor": 1866.3,
    "floor_held": 1.0
   },
   {
@@ -884,7 +776,7 @@
    "nearest": 2434.4,
    "highest_yesterday": 2975.3,
    "oracle": 3370.3,
-   "floor": 2405.8,
+   "floor": 2285.3,
    "floor_held": 1.0
   },
   {
@@ -893,7 +785,7 @@
    "nearest": 2890.9,
    "highest_yesterday": 2346.1,
    "oracle": 3398.0,
-   "floor": 2200.1,
+   "floor": 2106.6,
    "floor_held": 1.0
   },
   {
@@ -902,7 +794,7 @@
    "nearest": 2969.9,
    "highest_yesterday": 2337.0,
    "oracle": 3823.8,
-   "floor": 2543.1,
+   "floor": 2536.9,
    "floor_held": 1.0
   },
   {
@@ -911,16 +803,16 @@
    "nearest": 2718.8,
    "highest_yesterday": 2278.6,
    "oracle": 3855.1,
-   "floor": 2399.8,
+   "floor": 2282.9,
    "floor_held": 1.0
   },
   {
    "date": "2026-08-21",
-   "recommended": 3278.7,
+   "recommended": 3886.7,
    "nearest": 2902.1,
    "highest_yesterday": 3278.7,
    "oracle": 3922.2,
-   "floor": 2456.1,
+   "floor": 2354.6,
    "floor_held": 1.0
   },
   {
@@ -929,16 +821,16 @@
    "nearest": 3061.1,
    "highest_yesterday": 3918.5,
    "oracle": 3954.3,
-   "floor": 2546.6,
+   "floor": 2405.0,
    "floor_held": 1.0
   },
   {
    "date": "2026-08-23",
-   "recommended": 3880.7,
+   "recommended": 3986.7,
    "nearest": 2912.9,
    "highest_yesterday": 3880.7,
    "oracle": 4072.6,
-   "floor": 2673.5,
+   "floor": 2554.1,
    "floor_held": 1.0
   },
   {
@@ -947,7 +839,7 @@
    "nearest": 3088.6,
    "highest_yesterday": 4019.3,
    "oracle": 4106.0,
-   "floor": 2749.0,
+   "floor": 2614.8,
    "floor_held": 1.0
   },
   {
@@ -956,7 +848,7 @@
    "nearest": 3282.8,
    "highest_yesterday": 3166.0,
    "oracle": 4139.6,
-   "floor": 2828.6,
+   "floor": 2719.2,
    "floor_held": 1.0
   },
   {
@@ -965,7 +857,7 @@
    "nearest": 3071.0,
    "highest_yesterday": 2765.2,
    "oracle": 4173.4,
-   "floor": 2847.7,
+   "floor": 2857.6,
    "floor_held": 0.0
   },
   {
@@ -974,7 +866,7 @@
    "nearest": 2955.1,
    "highest_yesterday": 2295.5,
    "oracle": 4158.1,
-   "floor": 2789.0,
+   "floor": 2724.8,
    "floor_held": 1.0
   },
   {
@@ -983,17 +875,17 @@
    "nearest": 3814.4,
    "highest_yesterday": 4192.1,
    "oracle": 4192.1,
-   "floor": 2961.5,
+   "floor": 2857.0,
    "floor_held": 1.0
   },
   {
    "date": "2026-08-29",
-   "recommended": 2828.0,
+   "recommended": 3659.3,
    "nearest": 3515.8,
    "highest_yesterday": 3659.3,
    "oracle": 3833.8,
-   "floor": 3228.5,
-   "floor_held": 0.0
+   "floor": 3159.6,
+   "floor_held": 1.0
   },
   {
    "date": "2026-08-30",
@@ -1001,7 +893,7 @@
    "nearest": 2683.5,
    "highest_yesterday": 2611.3,
    "oracle": 3928.9,
-   "floor": 2979.9,
+   "floor": 2921.8,
    "floor_held": 1.0
   },
   {
@@ -1010,7 +902,7 @@
    "nearest": 3404.6,
    "highest_yesterday": 3747.3,
    "oracle": 3961.0,
-   "floor": 3134.6,
+   "floor": 3063.3,
    "floor_held": 1.0
   },
   {
@@ -1019,16 +911,16 @@
    "nearest": 3603.4,
    "highest_yesterday": 3747.3,
    "oracle": 4906.2,
-   "floor": 3015.9,
+   "floor": 3018.9,
    "floor_held": 1.0
   },
   {
    "date": "2026-09-02",
-   "recommended": 3760.1,
+   "recommended": 3790.7,
    "nearest": 3785.0,
    "highest_yesterday": 3784.9,
    "oracle": 4946.2,
-   "floor": 3129.1,
+   "floor": 2978.1,
    "floor_held": 1.0
   },
   {
@@ -1037,7 +929,7 @@
    "nearest": 3551.5,
    "highest_yesterday": 2839.4,
    "oracle": 4986.6,
-   "floor": 3179.4,
+   "floor": 3020.6,
    "floor_held": 1.0
   },
   {
@@ -1046,7 +938,7 @@
    "nearest": 3989.1,
    "highest_yesterday": 5027.3,
    "oracle": 5027.3,
-   "floor": 3195.0,
+   "floor": 3021.0,
    "floor_held": 1.0
   },
   {
@@ -1055,7 +947,7 @@
    "nearest": 3962.2,
    "highest_yesterday": 4931.3,
    "oracle": 4931.3,
-   "floor": 3674.6,
+   "floor": 3461.6,
    "floor_held": 1.0
   },
   {
@@ -1064,25 +956,25 @@
    "nearest": 3334.4,
    "highest_yesterday": 4056.7,
    "oracle": 5093.6,
-   "floor": 3549.7,
+   "floor": 3415.0,
    "floor_held": 1.0
   },
   {
    "date": "2026-09-07",
-   "recommended": 4835.3,
+   "recommended": 4526.7,
    "nearest": 4135.0,
    "highest_yesterday": 4835.3,
    "oracle": 5135.2,
-   "floor": 3141.0,
+   "floor": 3094.9,
    "floor_held": 1.0
   },
   {
    "date": "2026-09-08",
-   "recommended": 5374.8,
+   "recommended": 5177.1,
    "nearest": 4231.0,
    "highest_yesterday": 4931.3,
    "oracle": 5374.8,
-   "floor": 3300.4,
+   "floor": 3361.2,
    "floor_held": 1.0
   },
   {
@@ -1091,7 +983,7 @@
    "nearest": 4192.7,
    "highest_yesterday": 5219.3,
    "oracle": 5418.6,
-   "floor": 3698.0,
+   "floor": 3497.1,
    "floor_held": 1.0
   },
   {
@@ -1100,7 +992,7 @@
    "nearest": 3779.2,
    "highest_yesterday": 3152.3,
    "oracle": 5462.8,
-   "floor": 3799.8,
+   "floor": 3683.8,
    "floor_held": 1.0
   },
   {
@@ -1109,7 +1001,7 @@
    "nearest": 4346.2,
    "highest_yesterday": 5507.3,
    "oracle": 5507.3,
-   "floor": 3837.5,
+   "floor": 3769.4,
    "floor_held": 1.0
   },
   {
@@ -1118,7 +1010,7 @@
    "nearest": 4324.0,
    "highest_yesterday": 5146.4,
    "oracle": 5418.6,
-   "floor": 3885.4,
+   "floor": 3725.3,
    "floor_held": 1.0
   },
   {
@@ -1127,7 +1019,7 @@
    "nearest": 3645.0,
    "highest_yesterday": 4329.7,
    "oracle": 5462.8,
-   "floor": 3728.4,
+   "floor": 3610.9,
    "floor_held": 1.0
   },
   {
@@ -1136,7 +1028,7 @@
    "nearest": 4102.4,
    "highest_yesterday": 3759.4,
    "oracle": 5507.3,
-   "floor": 3601.4,
+   "floor": 3458.2,
    "floor_held": 1.0
   },
   {
@@ -1145,25 +1037,25 @@
    "nearest": 4022.7,
    "highest_yesterday": 3467.2,
    "oracle": 5187.3,
-   "floor": 3890.9,
+   "floor": 3676.7,
    "floor_held": 0.0
   },
   {
    "date": "2026-09-16",
-   "recommended": 5056.1,
+   "recommended": 3922.2,
    "nearest": 4340.5,
    "highest_yesterday": 5056.1,
    "oracle": 5229.6,
-   "floor": 3770.6,
+   "floor": 3448.6,
    "floor_held": 1.0
   },
   {
    "date": "2026-09-17",
-   "recommended": 5272.3,
+   "recommended": 3954.3,
    "nearest": 3975.2,
    "highest_yesterday": 3421.6,
    "oracle": 5272.3,
-   "floor": 3877.0,
+   "floor": 3586.3,
    "floor_held": 1.0
   },
   {
@@ -1172,8 +1064,8 @@
    "nearest": 4261.7,
    "highest_yesterday": 5315.3,
    "oracle": 5315.3,
-   "floor": 4087.8,
-   "floor_held": 0.0
+   "floor": 3844.4,
+   "floor_held": 1.0
   },
   {
    "date": "2026-09-19",
@@ -1181,8 +1073,8 @@
    "nearest": 3945.0,
    "highest_yesterday": 4019.3,
    "oracle": 4668.4,
-   "floor": 4105.5,
-   "floor_held": 0.0
+   "floor": 3993.4,
+   "floor_held": 1.0
   },
   {
    "date": "2026-09-20",
@@ -1190,7 +1082,7 @@
    "nearest": 3582.1,
    "highest_yesterday": 3317.7,
    "oracle": 4802.4,
-   "floor": 3615.3,
+   "floor": 3556.1,
    "floor_held": 0.0
   },
   {
@@ -1199,16 +1091,16 @@
    "nearest": 4112.0,
    "highest_yesterday": 4374.5,
    "oracle": 4841.6,
-   "floor": 3408.3,
+   "floor": 3208.7,
    "floor_held": 1.0
   },
   {
    "date": "2026-09-22",
-   "recommended": 4264.9,
+   "recommended": 5094.8,
    "nearest": 4146.6,
    "highest_yesterday": 4264.9,
    "oracle": 5187.3,
-   "floor": 3726.2,
+   "floor": 3230.4,
    "floor_held": 1.0
   },
   {
@@ -1217,7 +1109,7 @@
    "nearest": 4298.1,
    "highest_yesterday": 4921.0,
    "oracle": 5229.6,
-   "floor": 3447.9,
+   "floor": 3188.3,
    "floor_held": 1.0
   },
   {
@@ -1226,7 +1118,7 @@
    "nearest": 3988.4,
    "highest_yesterday": 3372.6,
    "oracle": 5272.3,
-   "floor": 3754.1,
+   "floor": 3556.6,
    "floor_held": 1.0
   },
   {
@@ -1235,26 +1127,26 @@
    "nearest": 4376.9,
    "highest_yesterday": 5315.3,
    "oracle": 5315.3,
-   "floor": 3721.3,
+   "floor": 3531.8,
    "floor_held": 1.0
   },
   {
    "date": "2026-09-26",
-   "recommended": 4457.6,
+   "recommended": 3885.3,
    "nearest": 3850.2,
    "highest_yesterday": 4457.6,
    "oracle": 5099.2,
-   "floor": 3937.4,
+   "floor": 3689.9,
    "floor_held": 1.0
   },
   {
    "date": "2026-09-27",
-   "recommended": 3854.9,
+   "recommended": 3206.5,
    "nearest": 3225.4,
    "highest_yesterday": 3037.0,
    "oracle": 5140.8,
-   "floor": 3544.2,
-   "floor_held": 1.0
+   "floor": 3721.6,
+   "floor_held": 0.2
   },
   {
    "date": "2026-09-28",
@@ -1262,26 +1154,26 @@
    "nearest": 3871.4,
    "highest_yesterday": 4744.9,
    "oracle": 5567.8,
-   "floor": 3976.3,
+   "floor": 3912.7,
    "floor_held": 1.0
   },
   {
    "date": "2026-09-29",
-   "recommended": 5613.1,
+   "recommended": 3054.5,
    "nearest": 4063.4,
    "highest_yesterday": 5224.9,
    "oracle": 5613.1,
-   "floor": 3653.8,
-   "floor_held": 1.0
+   "floor": 3612.1,
+   "floor_held": 0.0
   },
   {
    "date": "2026-09-30",
-   "recommended": 3114.6,
+   "recommended": 5658.8,
    "nearest": 3608.2,
    "highest_yesterday": 3079.6,
    "oracle": 5658.8,
-   "floor": 3830.6,
-   "floor_held": 0.0
+   "floor": 3744.0,
+   "floor_held": 1.0
   },
   {
    "date": "2026-10-01",
@@ -1289,7 +1181,7 @@
    "nearest": 4134.1,
    "highest_yesterday": 5704.9,
    "oracle": 5704.9,
-   "floor": 4022.0,
+   "floor": 3940.2,
    "floor_held": 0.0
   },
   {
@@ -1298,7 +1190,7 @@
    "nearest": 3502.9,
    "highest_yesterday": 3166.0,
    "oracle": 5658.8,
-   "floor": 4248.5,
+   "floor": 4119.4,
    "floor_held": 0.0
   },
   {
@@ -1307,7 +1199,7 @@
    "nearest": 4355.8,
    "highest_yesterday": 5704.9,
    "oracle": 5704.9,
-   "floor": 4122.1,
+   "floor": 3985.4,
    "floor_held": 1.0
   },
   {
@@ -1316,7 +1208,7 @@
    "nearest": 3806.7,
    "highest_yesterday": 3494.5,
    "oracle": 5182.7,
-   "floor": 4081.6,
+   "floor": 3970.7,
    "floor_held": 1.0
   },
   {
@@ -1325,7 +1217,7 @@
    "nearest": 4216.6,
    "highest_yesterday": 5224.9,
    "oracle": 5224.9,
-   "floor": 4259.4,
+   "floor": 4175.6,
    "floor_held": 1.0
   },
   {
@@ -1334,7 +1226,7 @@
    "nearest": 3793.3,
    "highest_yesterday": 4264.9,
    "oracle": 4271.9,
-   "floor": 3918.1,
+   "floor": 3795.0,
    "floor_held": 1.0
   },
   {
@@ -1343,7 +1235,7 @@
    "nearest": 3677.2,
    "highest_yesterday": 4264.9,
    "oracle": 4264.9,
-   "floor": 3456.8,
+   "floor": 3315.4,
    "floor_held": 1.0
   },
   {
@@ -1352,7 +1244,7 @@
    "nearest": 3600.8,
    "highest_yesterday": 4264.9,
    "oracle": 4264.9,
-   "floor": 3492.9,
+   "floor": 3341.0,
    "floor_held": 0.0
   },
   {
@@ -1361,26 +1253,26 @@
    "nearest": 3616.0,
    "highest_yesterday": 4264.9,
    "oracle": 4264.9,
-   "floor": 3569.5,
+   "floor": 3407.4,
    "floor_held": 1.0
   },
   {
    "date": "2026-10-10",
-   "recommended": 3166.6,
+   "recommended": 2928.6,
    "nearest": 3212.3,
    "highest_yesterday": 2928.6,
    "oracle": 4196.1,
-   "floor": 3481.3,
+   "floor": 3327.4,
    "floor_held": 0.0
   },
   {
    "date": "2026-10-11",
-   "recommended": 4230.4,
+   "recommended": 3192.6,
    "nearest": 3269.5,
    "highest_yesterday": 3192.6,
    "oracle": 4230.4,
-   "floor": 3370.3,
-   "floor_held": 1.0
+   "floor": 3206.4,
+   "floor_held": 0.0
   },
   {
    "date": "2026-10-12",
@@ -1388,7 +1280,7 @@
    "nearest": 3270.2,
    "highest_yesterday": 4264.9,
    "oracle": 4264.9,
-   "floor": 3366.0,
+   "floor": 3144.4,
    "floor_held": 1.0
   },
   {
@@ -1397,7 +1289,7 @@
    "nearest": 3415.3,
    "highest_yesterday": 4264.9,
    "oracle": 4264.9,
-   "floor": 3275.5,
+   "floor": 3114.6,
    "floor_held": 1.0
   },
   {
@@ -1406,7 +1298,7 @@
    "nearest": 3366.4,
    "highest_yesterday": 4264.9,
    "oracle": 4264.9,
-   "floor": 3240.9,
+   "floor": 3080.0,
    "floor_held": 1.0
   },
   {
@@ -1415,26 +1307,26 @@
    "nearest": 3403.7,
    "highest_yesterday": 4168.9,
    "oracle": 4196.1,
-   "floor": 3320.1,
+   "floor": 3136.5,
    "floor_held": 1.0
   },
   {
    "date": "2026-10-16",
-   "recommended": 4230.4,
+   "recommended": 4168.9,
    "nearest": 3473.9,
    "highest_yesterday": 4168.9,
    "oracle": 4230.4,
-   "floor": 3318.6,
+   "floor": 3218.1,
    "floor_held": 1.0
   },
   {
    "date": "2026-10-17",
-   "recommended": 3247.6,
+   "recommended": 4264.9,
    "nearest": 3314.4,
    "highest_yesterday": 4264.9,
    "oracle": 4264.9,
-   "floor": 3376.2,
-   "floor_held": 0.0
+   "floor": 3247.9,
+   "floor_held": 1.0
   },
   {
    "date": "2026-10-18",
@@ -1442,7 +1334,7 @@
    "nearest": 3334.8,
    "highest_yesterday": 3274.2,
    "oracle": 4242.1,
-   "floor": 3241.1,
+   "floor": 3116.9,
    "floor_held": 1.0
   },
   {
@@ -1451,80 +1343,188 @@
    "nearest": 3612.3,
    "highest_yesterday": 4168.9,
    "oracle": 4242.1,
-   "floor": 3296.5,
+   "floor": 3135.6,
    "floor_held": 1.0
   },
   {
    "date": "2026-10-20",
-   "recommended": 3395.3,
+   "recommended": 4196.1,
    "nearest": 3335.3,
    "highest_yesterday": 2907.3,
    "oracle": 4205.1,
-   "floor": 3234.4,
+   "floor": 3097.7,
    "floor_held": 1.0
   },
   {
    "date": "2026-10-21",
-   "recommended": 3150.1,
+   "recommended": 4101.6,
    "nearest": 3524.9,
    "highest_yesterday": 3954.1,
    "oracle": 4239.4,
-   "floor": 3293.0,
-   "floor_held": 0.0
+   "floor": 3162.0,
+   "floor_held": 1.0
   },
   {
    "date": "2026-10-22",
-   "recommended": 4079.8,
+   "recommended": 3984.3,
    "nearest": 3704.8,
    "highest_yesterday": 4264.9,
    "oracle": 4273.9,
-   "floor": 3381.2,
+   "floor": 3452.2,
    "floor_held": 1.0
   },
   {
    "date": "2026-10-23",
-   "recommended": 3202.0,
+   "recommended": 3423.6,
    "nearest": 3777.6,
    "highest_yesterday": 4168.9,
    "oracle": 4239.4,
-   "floor": 3377.9,
+   "floor": 3231.7,
+   "floor_held": 1.0
+  },
+  {
+   "date": "2026-10-24",
+   "recommended": 3657.7,
+   "nearest": 3552.3,
+   "highest_yesterday": 3759.4,
+   "oracle": 4207.5,
+   "floor": 3387.2,
+   "floor_held": 1.0
+  },
+  {
+   "date": "2026-10-25",
+   "recommended": 3544.7,
+   "nearest": 2813.8,
+   "highest_yesterday": 2864.2,
+   "oracle": 4242.1,
+   "floor": 3292.9,
+   "floor_held": 0.6
+  },
+  {
+   "date": "2026-10-26",
+   "recommended": 2572.0,
+   "nearest": 3548.8,
+   "highest_yesterday": 4242.1,
+   "oracle": 4242.1,
+   "floor": 3319.8,
    "floor_held": 0.0
+  },
+  {
+   "date": "2026-10-27",
+   "recommended": 2572.0,
+   "nearest": 3206.5,
+   "highest_yesterday": 2913.5,
+   "oracle": 3810.0,
+   "floor": 3375.4,
+   "floor_held": 0.0
+  },
+  {
+   "date": "2026-10-28",
+   "recommended": 2550.8,
+   "nearest": 2851.5,
+   "highest_yesterday": 2614.9,
+   "oracle": 3113.7,
+   "floor": 3423.7,
+   "floor_held": 0.0
+  },
+  {
+   "date": "2026-11-02",
+   "recommended": 2033.0,
+   "nearest": 2676.8,
+   "highest_yesterday": 2451.7,
+   "oracle": 4139.9,
+   "floor": 2477.4,
+   "floor_held": 0.0
+  },
+  {
+   "date": "2026-11-03",
+   "recommended": 3507.5,
+   "nearest": 3227.1,
+   "highest_yesterday": 3069.5,
+   "oracle": 4173.7,
+   "floor": 2223.8,
+   "floor_held": 1.0
+  },
+  {
+   "date": "2026-11-04",
+   "recommended": 2763.0,
+   "nearest": 3244.3,
+   "highest_yesterday": 3001.0,
+   "oracle": 4207.9,
+   "floor": 2531.6,
+   "floor_held": 1.0
+  },
+  {
+   "date": "2026-11-05",
+   "recommended": 4174.0,
+   "nearest": 2283.7,
+   "highest_yesterday": 2084.5,
+   "oracle": 4531.3,
+   "floor": 2653.8,
+   "floor_held": 1.0
+  },
+  {
+   "date": "2026-11-06",
+   "recommended": 4208.2,
+   "nearest": 2756.6,
+   "highest_yesterday": 2540.1,
+   "oracle": 4568.4,
+   "floor": 2647.5,
+   "floor_held": 1.0
+  },
+  {
+   "date": "2026-11-07",
+   "recommended": 4605.7,
+   "nearest": 3011.0,
+   "highest_yesterday": 2832.2,
+   "oracle": 4605.7,
+   "floor": 2250.0,
+   "floor_held": 1.0
+  },
+  {
+   "date": "2026-11-08",
+   "recommended": 4605.7,
+   "nearest": 4244.5,
+   "highest_yesterday": 3920.5,
+   "oracle": 4643.3,
+   "floor": 2466.3,
+   "floor_held": 1.0
   }
  ],
  "alpha": 0.1,
- "alpha_effective": 0.058,
- "floor_multiplier": 1.5769,
+ "alpha_effective": 0.014,
+ "floor_multiplier": 1.8877,
  "last60": {
   "days": 60,
   "vs_nearest": {
-   "win": 0.717,
+   "win": 0.683,
    "tie": 0.0,
-   "loss": 0.283,
-   "mean": 428.8
+   "loss": 0.317,
+   "mean": 389.1
   },
   "vs_highest_yesterday": {
-   "win": 0.3,
-   "tie": 0.4,
-   "loss": 0.3,
-   "mean": 68.6
+   "win": 0.317,
+   "tie": 0.317,
+   "loss": 0.367,
+   "mean": 66.7
   },
-  "floor_held_share": 0.767
+  "floor_held_share": 0.78
  },
  "all": {
   "days": 165,
   "vs_nearest": {
-   "win": 0.818,
+   "win": 0.794,
    "tie": 0.0,
-   "loss": 0.182,
-   "mean": 403.9
+   "loss": 0.206,
+   "mean": 392.7
   },
   "vs_highest_yesterday": {
-   "win": 0.339,
-   "tie": 0.388,
-   "loss": 0.273,
-   "mean": 108.4
+   "win": 0.358,
+   "tie": 0.376,
+   "loss": 0.267,
+   "mean": 136.3
   },
-  "floor_held_share": 0.888
+  "floor_held_share": 0.884
  },
  "note": "Out-of-sample days only: the floor multiplier was fitted on earlier days. Revenue is Rs per quintal after transport, fees and spoilage, averaged over five farmer origins."
 }

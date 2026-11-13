@@ -56,7 +56,7 @@ has **not** been done and is required before any novelty claim is made.
 1. Training the sell-where-and-when decision on what the farmer **actually received**, including the discounted outcome of a trip to a
    silent mandi, instead of observed prices. Measured: ₹87 to ₹157 per quintal less regret across four crops, significant after Holm
    correction.
-2. A revenue floor validated out of sample (4.6 / 10.6 / 23.3% violations at 5 / 10 / 20%), against a Gaussian floor that fails 27 to 35%.
+2. A revenue floor validated out of sample (research: 4.6 / 10.6 / 23.3% violations at 5 / 10 / 20%; served engine 9.6 to 12.3% at 10%), against a naive Gaussian floor that fails 25.8 to 34.5% at 10% in tomato, onion and potato (11.9% in ginger).
 3. A reproducible audit showing decompose-then-forecast hybrids lose their skill without look-ahead, on this data.
 4. A negative-results record (SPO+, shock radar, agent council) that bounds what the data supports.
 
