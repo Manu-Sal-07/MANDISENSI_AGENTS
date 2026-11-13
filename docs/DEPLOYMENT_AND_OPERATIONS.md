@@ -29,7 +29,7 @@ Live: frontend <https://mandisensi-agents.vercel.app>, API <https://mandisense-a
 |---|---|---|
 | Render web service | ₹0 (free plan, 512 MB) | sleeps when idle; see section 4 |
 | Vercel | ₹0 (free tier) | |
-| GitHub Actions daily refresh | ₹0 | public repository; the job takes about 4 minutes |
+| Data refresh | ₹0 | run from a developer machine with `scripts/refresh_and_publish.py` (about 4 minutes); GitHub Actions cannot reach the feed, see section 5 |
 | Data (data.gov.in, Agmarknet) | ₹0 | public feeds |
 | Language model (explanations only) | ₹0 with no key | with a key: one writer call and one judge call per explanation, median 6.7 s ([LLM_EVALUATION](LLM_EVALUATION.md)) |
 
@@ -123,19 +123,35 @@ Lesson: an optional dependency must be optional at every layer, and a deployment
 
 | Data | Source | Refresh | Status |
 |---|---|---|---|
-| Forecast store and market observations | data.gov.in "current daily price" feed (prices, no arrivals), Karnataka | **daily GitHub Actions job**, then commit and redeploy | automated; was stale since 2026-10-26 before this, refreshed to 2026-11-12 |
+| Forecast store and market observations | data.gov.in "current daily price" feed (prices, no arrivals), Karnataka | **`python scripts/refresh_and_publish.py --push`** from a machine that can reach the feed: ingest, re-score, test, commit, push, Render redeploys | **manual, one command**; refreshed to 2026-11-12 on 2026-11-12 and not since |
 | Farmer panels (price and arrivals per mandi, 2021 to 2026-10-26) used by market choice, the shock radar and the insight panels | Agmarknet exports in `datasets/year_data/`, built by `scripts/build_farmer_world.py` | **manual re-export, then `scripts/pipeline.py`** | **not automated**; the farmer advice is trained through 2026-10-26 |
 | Model retraining | forecasting models | weekly cadence inside the nightly job; `--force-retrain` on demand | automated |
 
-Why the daily job is a git commit and not an in-process scheduler: a free instance sleeps and its disk is wiped on restart, so anything it
-ingested was lost, and in production the scheduler refuses the shared sample key, so it failed every cycle. A commit is durable, reviewable
-and reversible. The in-process scheduler is switched off in production (`FORECAST_SCHEDULER=off`) and remains the default for local use.
+Why a git commit and not an in-process scheduler: a free instance sleeps and its disk is wiped on restart, so anything it ingested was
+lost, and in production the scheduler refuses the shared sample key, so it failed every cycle. A commit is durable, reviewable and
+reversible. The in-process scheduler is switched off in production (`FORECAST_SCHEDULER=off`) and remains the default for local use.
+
+**What did not work, and what it taught (2026-11-12 and 13).** The intended design was a scheduled GitHub Actions job. Two runs showed that
+GitHub's runners cannot reach `api.data.gov.in`: the first sat in the ingest step for 27 minutes on connection timeouts until the job
+limit cancelled it, and the second, with a connectivity probe, reported `curl: (7) Failed to connect to api.data.gov.in port 443`. The
+same feed is reachable from a normal connection (from where this was developed), so the likely cause is that the feed's host refuses
+cloud addresses; that is an inference, not something the host confirmed. Three defects surfaced and were fixed:
+
+* an unreachable feed made the ingest step crawl for up to ~48 minutes (30 slices x 3 retries x 30 s); it now aborts after the first 3
+  slices if none has ever succeeded;
+* worse, the job then **exited 0** and the workflow committed a store whose only change was a fresh `generated_at` timestamp. Freshness is
+  judged from that timestamp, so ageing data would have read as fresh. The job now exits 2 when the feed is unavailable, and the workflow
+  commits only when the observation file actually changed (`test_nightly_job_exit.py`);
+* the schedule was removed, since it could only fail daily. The workflow remains as a manual option for if the feed ever becomes reachable.
+
+One no-op commit of that kind (`generated_at` only, 2026-11-13) reached `main` before this was caught. It changed no data. The freshness
+the health endpoint reports therefore means "when the forecasts were generated"; read `as_of_date` for the date of the newest data.
 
 **Drift monitoring that exists:** the nightly run scores interval coverage (90% interval coverage 0.899 to 0.906 at horizons 1 to 7 on the
 latest calibration), tracks live forecast outcomes in a ledger, and flags drifted horizons for demotion. With under 30 scored live outcomes
 it reports `INSUFFICIENT_EVIDENCE` instead of a hit rate, which is the honest state of a system a few weeks into live scoring.
 
-**Known gap, stated plainly:** the farmer-facing market-choice panels are not yet fed by the daily job, because the free feed carries no
+**Known gap, stated plainly:** the farmer-facing market-choice panels are not fed by this refresh at all, because the free feed carries no
 arrivals. The honest next step is to append the daily price snapshots to the panel and treat arrivals as missing for those days, then
 re-validate; until then the app states the data date ("to 2026-10-26") on its charts.
 
@@ -153,7 +169,7 @@ little history are refused rather than served (garlic is refused by the decision
   The subscriber file is runtime state and must not be committed; deleting a subscriber (`/stop`) removes them from sending.
 * Secrets only in the host secret store; rotate any key that has been pasted anywhere. A rate limiter (60 requests per second per client,
   configurable) is on the API; CORS allows only the frontend origin and local development.
-* Dependencies are pinned in `requirements.lock`; CI runs the backend tests (678 passing), the frontend type-check, lint,
+* Dependencies are pinned in `requirements.lock`; CI runs the backend tests (686 passing), the frontend type-check, lint,
   unit tests and production build. The live site was smoke-tested end to end on 2026-11-13: 29 of 29 API endpoints `OK` and 29 of 29
   pages rendered in headless Chrome (`scripts/smoke_ui.py --web … --api …`).
 

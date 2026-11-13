@@ -35,7 +35,7 @@ Before you start: the free API sleeps when idle and **takes about five minutes t
 |---|---|---|
 | Problem, users and why it is hard | ______ | silence as information; the six difficulties; who adopts it |
 | Data, models and results | ______ | realised-outcome training; the floor; the weak forecasts; negative results |
-| Engineering, deployment and cost | ______ | architecture, tests and CI, the outage and its fix, daily refresh, cost and scale limits |
+| Engineering, deployment and cost | ______ | architecture, tests and CI, the outage and its fix, how data is refreshed and why it is manual, cost and scale limits |
 | Demo | rotate | all three can run it |
 
 Evaluators may mark members differently. Each of you should have **written or changed something real** in the repository and be able to
@@ -54,7 +54,7 @@ net of transport, fees and spoilage, with a floor. That beats "highest price yes
 degrades explanations to rule-based wording, never the numbers. A small paid instance is the first step.
 
 **What if Agmarknet changes format or the feed goes down?**
-Rows that fail validation are rejected and counted; the daily job fails loudly if every slice fails; the app keeps the last good store and
+Rows that fail validation are rejected and counted; the refresh script fails loudly (and publishes nothing) if the feed is unreachable; the app keeps the last good store and
 flags it stale after 30 hours. The farmer panels are still refreshed by a manual export, and we have not automated that yet.
 
 **Your service was down. What happened?**

@@ -74,7 +74,7 @@ python scripts/pipeline.py --with-research # also re-run the full research exper
 ### Check that it works
 
 ```bash
-python -m pytest mandisense_ai -q          # 678 application tests (2026-11-13), no network or API key needed
+python -m pytest mandisense_ai -q          # 686 application tests (2026-11-13), no network or API key needed
 cd frontend && npm test && npx tsc --noEmit && npx eslint . --quiet
 python scripts/smoke_ui.py                 # with both servers running: 25 endpoints and 27 pages, in headless Chrome
 cd research && python -m pytest            # 57 tests for the research package (its own requirements)
@@ -114,9 +114,9 @@ Kolar districts: a district-level history from January 2021 and per-mandi daily 
 report on a day has no row, and the models are trained on that fact. Synthetic data was removed from the project; the history of this
 is in the commit log. Raw exports are in `datasets/year_data/` and `mandisense_ai/data/farmer/source/`.
 
-Freshness: the forecast store is refreshed daily from the data.gov.in Agmarknet feed by `.github/workflows/daily-refresh.yml` (commit,
-then redeploy). The farmer market panels are rebuilt from Agmarknet exports by `scripts/pipeline.py` and are **not yet** fed daily; the
-data date is shown on every chart. Details and the failure modes are in [`docs/DEPLOYMENT_AND_OPERATIONS.md`](docs/DEPLOYMENT_AND_OPERATIONS.md).
+Freshness: the forecast store is refreshed **on demand**, not on a schedule, with `python scripts/refresh_and_publish.py --push` from a
+machine that can reach the data.gov.in Agmarknet feed (GitHub's runners cannot, measured). The farmer market panels are rebuilt from
+Agmarknet exports by `scripts/pipeline.py` and are **not** fed by that refresh; the data date is shown on every chart. Details and the failure modes are in [`docs/DEPLOYMENT_AND_OPERATIONS.md`](docs/DEPLOYMENT_AND_OPERATIONS.md).
 
 ## Documentation
 

@@ -7,7 +7,7 @@ advice.
 ## 1. What exists and what remains
 
 **Demonstrable today:** a live farmer app and trader desk (<https://mandisensi-agents.vercel.app>), a public API, a Telegram digest bot,
-five crops across 16 mandis in the Bengaluru–Kolar belt, an automated daily data refresh, 678 passing backend tests, and every claim
+five crops across 16 mandis in the Bengaluru–Kolar belt, a one-command data refresh, 686 passing backend tests, and every claim
 traced to a held-out test ([RESULTS](RESULTS.md)). Operations, cost and failure modes: [DEPLOYMENT_AND_OPERATIONS](DEPLOYMENT_AND_OPERATIONS.md).
 
 **Before a real release (not built):**

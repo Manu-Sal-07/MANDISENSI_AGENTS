@@ -17,7 +17,7 @@ services:
         value: production
       - key: CORS_ALLOWED_ORIGINS
         value: https://mandisensi-agents.vercel.app
-      # Data is refreshed by .github/workflows/daily-refresh.yml (commit -> redeploy), not inside this sleeping, disk-wiped instance.
+      # Data is refreshed with scripts/refresh_and_publish.py (commit -> redeploy), not inside this sleeping, disk-wiped instance.
       - key: FORECAST_SCHEDULER
         value: "off"
       # Optional secrets: set in the Render dashboard (sync: false), never in this file.

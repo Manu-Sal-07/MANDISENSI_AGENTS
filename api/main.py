@@ -476,7 +476,7 @@ async def background_activation():
             app.state.forecast_scheduler_task = asyncio.create_task(forecast_scheduler_loop())
             logger.info("[ACTIVATE] Forecast Scheduler: STARTED")
         else:
-            logger.info("[ACTIVATE] Forecast Scheduler: OFF (FORECAST_SCHEDULER=off); data is refreshed by the daily GitHub Actions job")
+            logger.info("[ACTIVATE] Forecast Scheduler: OFF (FORECAST_SCHEDULER=off); data is refreshed on demand by scripts/refresh_and_publish.py")
     except Exception as e:
         logger.error(f"[ACTIVATE] Forecast Scheduler failed to start: {e}", exc_info=True)
 

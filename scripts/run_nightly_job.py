@@ -109,6 +109,13 @@ def main() -> int:
 
     print(json.dumps(record, indent=2, default=str))
 
+    # An unreachable feed must not look like a healthy night: the forecast stage still re-scores the stored data and stamps a new
+    # `generated_at`, which would make an ageing store read as fresh. Exit 2 so a scheduler or workflow does not commit it.
+    ingestion = record.get("stages", {}).get("ingestion", {}).get("status")
+    if ingestion in {"FEED_UNAVAILABLE", "ERROR"}:
+        print(f"Ingestion {ingestion}: no new observations; do not publish this run as a refresh.", file=sys.stderr)
+        return 2
+
     forecast_stage = record.get("stages", {}).get("forecast", {})
     if forecast_stage.get("status") != "OK":
         print(
