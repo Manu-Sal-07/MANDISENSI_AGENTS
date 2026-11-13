@@ -122,6 +122,8 @@ export interface McCalibration {
     floor_violation_static_out_of_sample: Record<string, number>;
     alpha_effective: Record<string, number>;
     safest_gain_vs_highest_yesterday: { mean: number; ci_lo: number; ci_hi: number };
+    /** The calibration endpoint returns the raw backtest, which names the evidence level `evidence_level` (not `level`). */
+    evidence_level?: 'strong' | 'limited';
   };
 }
 

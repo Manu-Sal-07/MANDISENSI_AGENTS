@@ -54,6 +54,7 @@ export default function FloorMonitor() {
   const { data: info } = useQuery({ queryKey: ['mc-crops'], queryFn: () => marketChoiceApi.crops(), staleTime: 10 * 60 * 1000 });
   const { data, isFetching } = useQuery({ queryKey: ['mc-calibration', crop], queryFn: () => marketChoiceApi.calibration(crop) });
   const bt = data?.backtest;
+  const strong = (bt?.evidence_level ?? bt?.level) === 'strong';
   const rev = bt?.mean_net_revenue;
   const maxRev = rev ? Math.max(...Object.values(rev)) : 1;
 
@@ -74,11 +75,11 @@ export default function FloorMonitor() {
           <span
             className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide"
             style={{
-              background: bt.level === 'strong' ? 'color-mix(in oklch, var(--bullish) 18%, transparent)' : 'rgba(245,158,11,.15)',
-              color: bt.level === 'strong' ? 'var(--bullish)' : '#f59e0b',
+              background: strong ? 'color-mix(in oklch, var(--bullish) 18%, transparent)' : 'rgba(245,158,11,.15)',
+              color: strong ? 'var(--bullish)' : '#f59e0b',
             }}
           >
-            {bt.level === 'strong' ? 'Evidence: strong' : 'Evidence: limited'}
+            {strong ? 'Evidence: strong' : 'Evidence: limited'}
           </span>
         )}
       </div>
