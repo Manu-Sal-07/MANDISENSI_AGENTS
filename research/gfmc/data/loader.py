@@ -65,10 +65,29 @@ def _check_units(frame: pd.DataFrame, price_col: str, arrival_col: str) -> None:
 
 
 def find_history_file(data_dir: Path = DATA_DIR) -> Path:
-    hits = sorted(Path(p) for p in glob.glob(str(data_dir / HISTORY_GLOB)))
+    hits = [Path(p) for p in glob.glob(str(data_dir / HISTORY_GLOB))]
     if not hits:
         raise FileNotFoundError(f"No history export matching {HISTORY_GLOB} in {data_dir}")
-    return hits[-1]  # latest download wins
+    # Only a market-level export (it has a Market column) can feed the study;
+    # a district-level download in the same folder is skipped, not loaded.
+    market_level = [p for p in hits if _header_width(p) == len(HISTORY_COLUMNS)]
+    if not market_level:
+        raise DataError(f"No market-level history export (with a Market column) among {[p.name for p in hits]}")
+    return max(market_level, key=_export_time)  # latest download wins, by export time not by name
+
+
+def _header_width(path: Path) -> int:
+    with open(path, encoding="utf-8-sig", errors="replace") as fh:
+        fh.readline()
+        return len(fh.readline().rstrip("\r\n").split(","))
+
+
+def _export_time(path: Path):
+    from datetime import datetime
+    try:
+        return datetime.strptime("_".join(path.stem.split("_")[-3:]), "%d-%m-%Y_%I-%M-%S_%p")
+    except ValueError:
+        return datetime.fromtimestamp(path.stat().st_mtime)
 
 
 def load_history(path: Optional[Path] = None) -> tuple[pd.DataFrame, LoadReport]:

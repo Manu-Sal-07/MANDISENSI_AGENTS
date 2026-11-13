@@ -5,6 +5,8 @@ forecasts.
     python scripts/build_farmer_world.py            # ingest + train + publish
     python scripts/build_farmer_world.py --ingest   # data only
     python scripts/build_farmer_world.py --train    # model only (data already built)
+    python scripts/build_farmer_world.py --add-history <newer All_Type_of_Report.csv>
+                                                    # layer a later export on the history, then rebuild
 
 Inputs (copied into mandisense_ai/data/farmer/source/ so a build is
 reproducible from the repository alone):
@@ -62,10 +64,27 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def stage_sources(district_csv: Path | None, mandi_dir: Path | None) -> None:
+HISTORY_UPDATE_GLOB = "district_report_update_*.csv"
+
+
+def _export_stamp(path: Path) -> str:
+    """Sortable export time from the portal's file name (..._DD-MM-YYYY_HH-MM-SS_AM|PM.csv)."""
+    try:
+        stamp = "_".join(path.stem.split("_")[-3:])
+        return datetime.strptime(stamp, "%d-%m-%Y_%I-%M-%S_%p").strftime("%Y%m%dT%H%M%S")
+    except ValueError:
+        return datetime.fromtimestamp(path.stat().st_mtime).strftime("%Y%m%dT%H%M%S")
+
+
+def stage_sources(district_csv: Path | None, mandi_dir: Path | None, history_updates: list[Path] | None = None) -> None:
     world.SOURCE_DIR.mkdir(parents=True, exist_ok=True)
     if district_csv:
         shutil.copy2(district_csv, world.SOURCE_DIR / "district_report.csv")
+    # A later, shorter export (district- or market-level) is layered on top of the
+    # base history instead of replacing it; it is named by its export time so
+    # that, where two exports cover the same day, the later download wins.
+    for path in history_updates or []:
+        shutil.copy2(path, world.SOURCE_DIR / f"district_report_update_{_export_stamp(Path(path))}.csv")
     if mandi_dir:
         seen: set[str] = set()
         for path in sorted(glob.glob(str(mandi_dir / MANDI_FILE_GLOB))):
@@ -134,11 +153,37 @@ def build_market_panel(raw: pd.DataFrame) -> dict:
     return {"rows": int(len(out)), "series": int(len(per)), "date_range": [str(out["date"].min().date()), str(out["date"].max().date())]}
 
 
+def _read_all_history() -> tuple[pd.DataFrame, pd.DataFrame | None, list[str]]:
+    """The base history plus every staged update, oldest export first.
+
+    Returns the district-level frame (later exports win on a shared
+    district, crop and day), the market-level rows if any export carries
+    them (later exports win on a shared market, crop and day), and the
+    files read.
+    """
+    paths = [world.SOURCE_DIR / "district_report.csv"] + sorted(world.SOURCE_DIR.glob(HISTORY_UPDATE_GLOB))
+    districts, markets = [], []
+    for order, path in enumerate(paths):
+        raw, market_level = _read_history_report(path)
+        if market_level:
+            markets.append(raw.assign(_order=order))
+            raw = _district_from_markets(raw)
+        districts.append(raw[DISTRICT_COLUMNS_9].assign(_order=order, _direct=not market_level))
+    # A district total read directly from a district-level export beats one
+    # rebuilt from market rows: a market export may list only some of a
+    # district's mandis, and summing those would misstate the district.
+    district = (pd.concat(districts, ignore_index=True).sort_values(["_direct", "_order"], kind="mergesort")
+                .drop_duplicates(["state", "district", "commodity", "date"], keep="last").drop(columns=["_order", "_direct"]))
+    market = None
+    if markets:
+        market = (pd.concat(markets, ignore_index=True).sort_values("_order", kind="mergesort")
+                  .drop_duplicates(["market", "commodity", "date"], keep="last").drop(columns="_order"))
+    return district.reset_index(drop=True), market, [p.name for p in paths]
+
+
 def build_district_observations() -> dict:
-    raw, market_level = _read_history_report(world.SOURCE_DIR / "district_report.csv")
-    panel_summary = build_market_panel(raw) if market_level else None
-    if market_level:
-        raw = _district_from_markets(raw)
+    raw, market_raw, files = _read_all_history()
+    panel_summary = build_market_panel(market_raw) if market_raw is not None else None
 
     raw["district_id"] = raw["district"].map(registry.AGMARKNET_DISTRICT_TO_ID)
     raw["crop"] = raw["commodity"].map(registry.AGMARKNET_TO_CROP)
@@ -182,6 +227,7 @@ def build_district_observations() -> dict:
 
     dropped = stats.drop(index=list(kept_keys))
     return {
+        "history_files": files,
         "market_panel": panel_summary,
         "rows_read": int(len(raw)),
         "rows_rejected_by_bounds_gate": int(rejected),
@@ -411,11 +457,13 @@ def main() -> None:
     parser.add_argument("--report", action="store_true", help="rebuild only the accuracy report from the saved bundle")
     parser.add_argument("--district-csv", type=Path)
     parser.add_argument("--mandi-dir", type=Path)
+    parser.add_argument("--add-history", type=Path, action="append",
+                        help="a later All Type of Report export to layer on top of the base history (repeatable)")
     args = parser.parse_args()
     do_all = not (args.ingest or args.train or args.report)
 
-    if args.district_csv or args.mandi_dir:
-        stage_sources(args.district_csv, args.mandi_dir)
+    if args.district_csv or args.mandi_dir or args.add_history:
+        stage_sources(args.district_csv, args.mandi_dir, args.add_history)
     if do_all or args.ingest:
         print(json.dumps({"district": build_district_observations(), "mandi": build_mandi_prices()}, indent=2, default=str))
     if do_all or args.train:
