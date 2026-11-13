@@ -20,9 +20,11 @@ interface Props {
   lang: Lang;
 }
 
-const place = (p: McPlace, lang: Lang) => {
+// `asOf` is the newest price date; the decision day is the day after it, and the sale day `hold_days` later.
+const place = (p: McPlace, lang: Lang, asOf?: string) => {
   const name = lang === 'kn' ? p.name_kn : lang === 'hi' ? p.name_hi : p.name;
-  return p.mandi_id ? `${name} (${dayLabel(p.hold_days, lang)})` : name;
+  const sale = asOf ? new Date(Date.parse(asOf) + (1 + p.hold_days) * 86_400_000).toISOString().slice(0, 10) : undefined;
+  return p.mandi_id ? `${name} (${dayLabel(p.hold_days, lang, sale)})` : name;
 };
 
 function useDebounced<T>(value: T, ms = 220): T {
@@ -124,14 +126,14 @@ export default function WhatIfPanel({ crop, origin, quantity, alpha, rate, lang 
                   </p>
                   <p className="mt-0.5 text-lg font-black text-[var(--farm-ink)]">
                     {rec.kind === 'farm_gate' ? mc('sell_farm_gate', lang) : mandiLabel(rec, lang)}
-                    {rec.kind === 'mandi' && <span className="text-sm font-semibold text-[var(--farm-ink-soft)]"> · {dayLabel(rec.hold_days, lang)}</span>}
+                    {rec.kind === 'mandi' && <span className="text-sm font-semibold text-[var(--farm-ink-soft)]"> · {dayLabel(rec.hold_days, lang, rec.sale_date)}</span>}
                   </p>
                   <p className="mt-0.5 font-mono text-sm text-[var(--farm-ink)]">
                     {formatRupees(rec.expected_net_per_q)} {mc('per_q', lang)} · {mc('floor', lang)} {formatRupees(rec.floor_per_q)}
                   </p>
                   {changedFromStandard && was && (
                     <p className="mt-1 text-[11px] text-[var(--farm-ink-soft)]">
-                      {mc('whatif.was', lang)}: {was.kind === 'farm_gate' ? mc('sell_farm_gate', lang) : mandiLabel(was, lang)}, {dayLabel(was.hold_days, lang)}
+                      {mc('whatif.was', lang)}: {was.kind === 'farm_gate' ? mc('sell_farm_gate', lang) : mandiLabel(was, lang)}, {dayLabel(was.hold_days, lang, was.sale_date)}
                     </p>
                   )}
                 </div>
@@ -139,11 +141,11 @@ export default function WhatIfPanel({ crop, origin, quantity, alpha, rate, lang 
 
               <ul className="space-y-1 text-xs leading-relaxed text-[var(--farm-ink-soft)]">
                 {tFlip ? (
-                  <li>{mc('whatif.flip.transport', lang, { a: place(tFlip.from, lang), b: place(tFlip.to, lang), x: tFlip.at.toFixed(2) })}</li>
+                  <li>{mc('whatif.flip.transport', lang, { a: place(tFlip.from, lang, d?.as_of), b: place(tFlip.to, lang, d?.as_of), x: tFlip.at.toFixed(2) })}</li>
                 ) : (
                   <li>{mc('whatif.stable.transport', lang)}</li>
                 )}
-                {sFlip && <li>{mc('whatif.flip.spoilage', lang, { a: place(sFlip.from, lang), b: place(sFlip.to, lang), x: (sFlip.at * 100).toFixed(1) })}</li>}
+                {sFlip && <li>{mc('whatif.flip.spoilage', lang, { a: place(sFlip.from, lang, d?.as_of), b: place(sFlip.to, lang, d?.as_of), x: (sFlip.at * 100).toFixed(1) })}</li>}
                 <li className="text-[var(--farm-ink-faint)]">{mc('whatif.indicative', lang)}</li>
               </ul>
 

@@ -43,7 +43,7 @@ const chip = (active: boolean): React.CSSProperties => ({
 
 function whenText(o: McOption, lang: Lang): string {
   const date = new Date(o.sale_date).toLocaleDateString(lang === 'en' ? 'en-IN' : lang === 'kn' ? 'kn-IN' : 'hi-IN', { weekday: 'long', day: 'numeric', month: 'short' });
-  return `${date} · ${dayLabel(o.hold_days, lang)}`;
+  return `${date} · ${dayLabel(o.hold_days, lang, o.sale_date)}`;
 }
 
 export default function BestPlaceTool({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -312,7 +312,7 @@ export default function BestPlaceTool({ open, onClose }: { open: boolean; onClos
                       <div className="min-w-0">
                         <p className="truncate text-sm font-bold text-[var(--farm-ink)]">{o.kind === 'farm_gate' ? mc('sell_farm_gate', lang) : mandiLabel(o, lang)}</p>
                         <p className="text-[11px] text-[var(--farm-ink-faint)]">
-                          {dayLabel(o.hold_days, lang)}
+                          {dayLabel(o.hold_days, lang, o.sale_date)}
                           {o.kind === 'mandi' && <> · {Math.round(o.chance_open * 100)}% {mc('chance_open', lang).toLowerCase()}</>}
                         </p>
                       </div>

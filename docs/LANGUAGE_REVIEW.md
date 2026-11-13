@@ -1,6 +1,6 @@
 # Language review: Kannada and Hindi
 
-77 strings a farmer can read. English is the reference; Kannada and Hindi were written by the team and checked mechanically (script, slots, no digits where none belong) but **not yet reviewed by a native speaker**. Please mark each row: `OK`, `Fix` (with wording), or `Unclear in English`.
+118 strings a farmer can read. English is the reference; Kannada and Hindi were written by the team and checked mechanically (script, slots, no digits where none belong) but **not yet reviewed by a native speaker**. Please mark each row: `OK`, `Fix` (with wording), or `Unclear in English`.
 
 What to look for: natural, respectful register for a farmer; case endings after place names (this project writes 'Kolar *mandi*' forms so endings attach to a common noun); units and months in everyday forms; and that **uncertainty is not lost**: words like *about*, *at least*, *not a promise* must survive translation, because a reviewer who smooths them away changes what the farmer is told.
 
@@ -26,6 +26,8 @@ What to look for: natural, respectful register for a farmer; case endings after 
 | `sell_farm_gate` | Sell at your farm gate | ನಿಮ್ಮ ಜಮೀನಿನಲ್ಲೇ ಮಾರಿ | अपने खेत पर ही बेचें | | |
 | `day.today` | today | ಇಂದು | आज | | |
 | `day.hold` | in {n} day(s) | {n} ದಿನದ ನಂತರ | {n} दिन बाद | | |
+| `day.no_wait` | sell without waiting | ಕಾಯದೆ ಮಾರಿ | बिना रुके बेचें | | |
+| `day.hold_for` | hold {n} day(s) | {n} ದಿನ ಇಟ್ಟುಕೊಳ್ಳಿ | {n} दिन रखें | | |
 | `expected` | Expected, after transport and spoilage | ಸಾಗಣೆ ಮತ್ತು ಹಾಳಾಗುವಿಕೆ ನಂತರ ನಿರೀಕ್ಷೆ | ढुलाई और खराबी के बाद अपेक्षित | | |
 | `per_q` | per quintal | ಕ್ವಿಂಟಾಲ್‌ಗೆ | प्रति क्विंटल | | |
 | `floor` | You can count on at least | ಕನಿಷ್ಠ ಸಿಗುವ ಮೊತ್ತ | कम से कम मिलेगा | | |
@@ -54,6 +56,45 @@ What to look for: natural, respectful register for a farmer; case endings after 
 | `caveat.stale_data` | The latest prices are a few days old. | ಇತ್ತೀಚಿನ ಬೆಲೆಗಳು ಕೆಲವು ದಿನ ಹಳೆಯವು. | ताज़ा भाव कुछ दिन पुराने हैं। | | |
 | `unavailable` | We cannot advise on this crop yet | ಈ ಬೆಳೆಗೆ ಇನ್ನೂ ಸಲಹೆ ನೀಡಲಾಗದು | इस फसल पर अभी सलाह नहीं दे सकते | | |
 | `farm_gate.note` | Selling at the farm gate beats every mandi today. | ಇಂದು ಜಮೀನಿನಲ್ಲೇ ಮಾರುವುದು ಎಲ್ಲಾ ಮಂಡಿಗಳಿಗಿಂತ ಉತ್ತಮ. | आज खेत पर बेचना हर मंडी से बेहतर है। | | |
+| `why.title` | Why this mandi? | ಈ ಮಂಡಿ ಯಾಕೆ? | यह मंडी क्यों? | | |
+| `why.sub` | Where the rupees go, per quintal | ಕ್ವಿಂಟಾಲ್‌ಗೆ ಹಣ ಎಲ್ಲಿ ಹೋಗುತ್ತದೆ | प्रति क्विंटल पैसा कहाँ जाता है | | |
+| `why.price` | Price you can expect | ನಿರೀಕ್ಷಿತ ಬೆಲೆ | अपेक्षित भाव | | |
+| `why.fee` | Mandi fee | ಮಂಡಿ ಶುಲ್ಕ | मंडी शुल्क | | |
+| `why.spoilage` | Spoilage while waiting | ಕಾಯುವಾಗ ಹಾಳು | रुकने में खराबी | | |
+| `why.transport` | Transport | ಸಾಗಣೆ | ढुलाई | | |
+| `why.handling` | Loading and handling | ಹೇರುವಿಕೆ ಮತ್ತು ನಿರ್ವಹಣೆ | लदाई और संभाल | | |
+| `why.farm_gate_discount` | Trader’s farm-gate discount | ಜಮೀನಿನಲ್ಲಿ ವ್ಯಾಪಾರಿ ಕಡಿತ | खेत पर व्यापारी की कटौती | | |
+| `why.net` | You keep | ನಿಮ್ಮ ಕೈಗೆ | आपके हाथ में | | |
+| `why.row.recommended` | Our advice | ನಮ್ಮ ಸಲಹೆ | हमारी सलाह | | |
+| `why.row.nearest_today` | Nearest mandi, today | ಹತ್ತಿರದ ಮಂಡಿ, ಇಂದು | नज़दीकी मंडी, आज | | |
+| `why.row.highest_yesterday` | Highest price yesterday | ನಿನ್ನೆ ಅತಿ ಹೆಚ್ಚು ಬೆಲೆ | कल सबसे ऊँचा भाव | | |
+| `why.row.farm_gate` | Farm gate | ಜಮೀನಿನಲ್ಲೇ | खेत पर | | |
+| `why.note` | The price already allows for the chance that the mandi reports no price. | ಮಂಡಿ ಬೆಲೆ ವರದಿ ಮಾಡದಿರುವ ಸಾಧ್ಯತೆಯನ್ನು ಬೆಲೆಯಲ್ಲಿ ಈಗಾಗಲೇ ಪರಿಗಣಿಸಲಾಗಿದೆ. | भाव में पहले से यह गुंजाइश है कि मंडी भाव दर्ज न करे। | | |
+| `whatif.title` | What if my costs are different? | ನನ್ನ ವೆಚ್ಚ ಬೇರೆ ಆದರೆ? | मेरी लागत अलग हो तो? | | |
+| `whatif.sub` | Move the sliders; the advice updates | ಸ್ಲೈಡರ್ ಸರಿಸಿ; ಸಲಹೆ ಬದಲಾಗುತ್ತದೆ | स्लाइडर हिलाइए; सलाह बदलेगी | | |
+| `whatif.transport` | Transport, ₹ per quintal per km | ಸಾಗಣೆ, ಕ್ವಿಂಟಾಲ್‌ಗೆ ಕಿ.ಮೀ.ಗೆ ₹ | ढुलाई, ₹ प्रति क्विंटल प्रति किमी | | |
+| `whatif.spoilage` | Spoilage per day of waiting | ಕಾಯುವ ದಿನಕ್ಕೆ ಹಾಳು | रुकने के हर दिन खराबी | | |
+| `whatif.maxhold` | Most days I can wait | ಗರಿಷ್ಠ ಕಾಯಬಹುದಾದ ದಿನ | ज़्यादा से ज़्यादा रुक सकता हूँ | | |
+| `whatif.reset` | Back to standard costs | ಸಾಮಾನ್ಯ ವೆಚ್ಚಕ್ಕೆ ಹಿಂತಿರುಗಿ | सामान्य लागत पर लौटें | | |
+| `whatif.same` | Same advice as before | ಮೊದಲಿನ ಸಲಹೆಯೇ | पहले जैसी ही सलाह | | |
+| `whatif.changed` | The advice changes | ಸಲಹೆ ಬದಲಾಗುತ್ತದೆ | सलाह बदल जाती है | | |
+| `whatif.was` | Standard costs said | ಸಾಮಾನ್ಯ ವೆಚ್ಚದಲ್ಲಿ | सामान्य लागत में | | |
+| `whatif.flip.transport` | The advice changes from {a} to {b} when transport passes ₹{x} per quintal per km. | ಸಾಗಣೆ ಕ್ವಿಂಟಾಲ್‌ಗೆ ಕಿ.ಮೀ.ಗೆ ₹{x} ದಾಟಿದಾಗ ಸಲಹೆ {a}ರಿಂದ {b}ಗೆ ಬದಲಾಗುತ್ತದೆ. | ढुलाई ₹{x} प्रति क्विंटल प्रति किमी से ऊपर जाने पर सलाह {a} से {b} हो जाती है। | | |
+| `whatif.flip.spoilage` | The advice changes from {a} to {b} when spoilage passes {x}% a day. | ಹಾಳು ದಿನಕ್ಕೆ {x}% ದಾಟಿದಾಗ ಸಲಹೆ {a}ರಿಂದ {b}ಗೆ ಬದಲಾಗುತ್ತದೆ. | खराबी {x}% प्रति दिन से ऊपर जाने पर सलाह {a} से {b} हो जाती है। | | |
+| `whatif.stable.transport` | Whatever the transport cost, up to ₹3 per quintal per km, this stays the best choice. | ಸಾಗಣೆ ವೆಚ್ಚ ಕ್ವಿಂಟಾಲ್‌ಗೆ ಕಿ.ಮೀ.ಗೆ ₹3ರವರೆಗೆ ಎಷ್ಟೇ ಇದ್ದರೂ ಇದೇ ಉತ್ತಮ. | ढुलाई ₹3 प्रति क्विंटल प्रति किमी तक कुछ भी हो, यही सबसे अच्छा रहता है। | | |
+| `whatif.indicative` | The minimum is indicative when your costs are far from the standard ones. | ನಿಮ್ಮ ವೆಚ್ಚ ಸಾಮಾನ್ಯಕ್ಕಿಂತ ತುಂಬಾ ಬೇರೆಯಾದರೆ ಕನಿಷ್ಠ ಮೊತ್ತ ಅಂದಾಜು ಮಾತ್ರ. | आपकी लागत सामान्य से बहुत अलग हो तो न्यूनतम राशि केवल अंदाज़ा है। | | |
+| `score.title` | Has this advice worked? | ಈ ಸಲಹೆ ಕೆಲಸ ಮಾಡಿದೆಯೇ? | क्या यह सलाह कारगर रही? | | |
+| `score.sub` | Days we had not seen when the advice was made | ಸಲಹೆ ನೀಡುವಾಗ ನಾವು ನೋಡಿರದ ದಿನಗಳು | ऐसे दिन जो सलाह देते समय हमने नहीं देखे थे | | |
+| `score.vs_nearest` | Beat going to the nearest mandi | ಹತ್ತಿರದ ಮಂಡಿಗೆ ಹೋಗುವುದಕ್ಕಿಂತ ಉತ್ತಮ | नज़दीकी मंडी जाने से बेहतर | | |
+| `score.vs_highest` | Beat yesterday’s highest-priced mandi | ನಿನ್ನೆಯ ಅತಿ ಹೆಚ್ಚು ಬೆಲೆಯ ಮಂಡಿಗಿಂತ ಉತ್ತಮ | कल के सबसे ऊँचे भाव वाली मंडी से बेहतर | | |
+| `score.win` | better | ಉತ್ತಮ | बेहतर | | |
+| `score.tie` | same | ಸಮ | बराबर | | |
+| `score.loss` | worse | ಕೆಟ್ಟ | कमतर | | |
+| `score.floor` | Days the minimum held | ಕನಿಷ್ಠ ಮೊತ್ತ ಉಳಿದ ದಿನಗಳು | न्यूनतम राशि बनी रहने वाले दिन | | |
+| `score.floor.note` | We aim for 9 days in 10. This is the actual score, not a promise. | ನಮ್ಮ ಗುರಿ 10ರಲ್ಲಿ 9 ದಿನ. ಇದು ನಿಜವಾದ ಫಲಿತಾಂಶ, ಭರವಸೆ ಅಲ್ಲ. | हमारा लक्ष्य 10 में 9 दिन है। यह असली नतीजा है, वादा नहीं। | | |
+| `score.gain` | Average gain over the nearest mandi: {g} per quintal | ಹತ್ತಿರದ ಮಂಡಿಗಿಂತ ಸರಾಸರಿ ಲಾಭ: ಕ್ವಿಂಟಾಲ್‌ಗೆ {g} | नज़दीकी मंडी से औसत लाभ: प्रति क्विंटल {g} | | |
+| `score.cum` | Running total gain over the nearest mandi, per quintal | ಹತ್ತಿರದ ಮಂಡಿಗಿಂತ ಒಟ್ಟು ಲಾಭ, ಕ್ವಿಂಟಾಲ್‌ಗೆ | नज़दीकी मंडी से कुल लाभ, प्रति क्विंटल | | |
+| `score.days` | over {d} days | {d} ದಿನಗಳಲ್ಲಿ | {d} दिनों में | | |
 
 ## Supply watch and reasons panel
 

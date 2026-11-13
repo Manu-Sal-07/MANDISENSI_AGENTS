@@ -32,6 +32,8 @@ const COPY: Record<string, Entry> = {
   'sell_farm_gate': { en: 'Sell at your farm gate', kn: 'ನಿಮ್ಮ ಜಮೀನಿನಲ್ಲೇ ಮಾರಿ', hi: 'अपने खेत पर ही बेचें' },
   'day.today': { en: 'today', kn: 'ಇಂದು', hi: 'आज' },
   'day.hold': { en: 'in {n} day(s)', kn: '{n} ದಿನದ ನಂತರ', hi: '{n} दिन बाद' },
+  'day.no_wait': { en: 'sell without waiting', kn: 'ಕಾಯದೆ ಮಾರಿ', hi: 'बिना रुके बेचें' },
+  'day.hold_for': { en: 'hold {n} day(s)', kn: '{n} ದಿನ ಇಟ್ಟುಕೊಳ್ಳಿ', hi: '{n} दिन रखें' },
   'expected': { en: 'Expected, after transport and spoilage', kn: 'ಸಾಗಣೆ ಮತ್ತು ಹಾಳಾಗುವಿಕೆ ನಂತರ ನಿರೀಕ್ಷೆ', hi: 'ढुलाई और खराबी के बाद अपेक्षित' },
   'per_q': { en: 'per quintal', kn: 'ಕ್ವಿಂಟಾಲ್‌ಗೆ', hi: 'प्रति क्विंटल' },
   'floor': { en: 'You can count on at least', kn: 'ಕನಿಷ್ಠ ಸಿಗುವ ಮೊತ್ತ', hi: 'कम से कम मिलेगा' },
@@ -171,4 +173,18 @@ export function mc(key: string, lang: Lang, vars: Record<string, string | number
 export const mandiLabel = (o: { mandi_name: string; mandi_name_kn: string; mandi_name_hi: string }, lang: Lang): string =>
   lang === 'kn' ? o.mandi_name_kn : lang === 'hi' ? o.mandi_name_hi : o.mandi_name;
 
-export const dayLabel = (hold: number, lang: Lang): string => (hold === 0 ? mc('day.today', lang) : mc('day.hold', lang, { n: hold }));
+/** Today's date in India as YYYY-MM-DD (the sale dates the API returns are Indian calendar dates). */
+const todayInIndia = (): string => new Date(Date.now() + 330 * 60 * 1000).toISOString().slice(0, 10);
+
+/**
+ * "today" / "in 2 days", counted from the decision day. When the newest prices are older than that, the decision day is already in the
+ * past, so a relative word would be false; pass the option's `sale_date` and the label falls back to how long to hold, which stays true.
+ * Staleness is judged on the decision day (sale date minus the hold), so "in 2 days" is not shown when it is counted from a past day.
+ */
+export const dayLabel = (hold: number, lang: Lang, saleDate?: string): string => {
+  const decisionDay = saleDate ? new Date(Date.parse(saleDate.slice(0, 10)) - hold * 86_400_000).toISOString().slice(0, 10) : null;
+  if (decisionDay && decisionDay < todayInIndia()) {
+    return hold === 0 ? mc('day.no_wait', lang) : mc('day.hold_for', lang, { n: hold });
+  }
+  return hold === 0 ? mc('day.today', lang) : mc('day.hold', lang, { n: hold });
+};

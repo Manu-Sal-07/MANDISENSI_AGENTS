@@ -42,7 +42,7 @@ function Row({ name, opt, lang, scale, label }: { name: string; opt: McBreakdown
       <div className="flex items-baseline justify-between gap-3">
         <p className="min-w-0 truncate text-sm font-bold text-[var(--farm-ink)]">
           {label}
-          {o.kind === 'mandi' && <span className="font-semibold text-[var(--farm-ink-soft)]"> · {place}, {dayLabel(o.hold_days, lang)}</span>}
+          {o.kind === 'mandi' && <span className="font-semibold text-[var(--farm-ink-soft)]"> · {place}, {dayLabel(o.hold_days, lang, o.sale_date)}</span>}
         </p>
         <p className="shrink-0 font-mono text-base font-black" style={{ color: name === 'recommended' ? 'var(--leaf-deep)' : 'var(--farm-ink)' }}>
           {formatRupees(opt.net)}

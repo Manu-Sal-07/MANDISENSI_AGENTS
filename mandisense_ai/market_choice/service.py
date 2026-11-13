@@ -9,7 +9,7 @@ speak. The frontend composes the wording in English, Kannada and Hindi.
 from __future__ import annotations
 
 import json
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
@@ -146,9 +146,16 @@ def _caveats(meta: Dict[str, Any], rec: Dict[str, Any], ev: Dict[str, Any]) -> L
         out.append("sale_on_sunday")
     if rec.get("kind") == "mandi" and rec.get("chance_open", 1) < 0.6:
         out.append("mandi_may_be_closed")
-    if (ev["as_of"].date() + timedelta(days=1)) < (ev["decision_day"].date()):
+    # The decision day is always the day after the newest panel date, so it can only be compared with the real calendar.
+    # (The old check compared it with as_of + 1 day, which is the same date, and never fired.)
+    if ev["decision_day"].date() < _today_in_india():
         out.append("stale_data")
     return out
+
+
+def _today_in_india():
+    """Today's date in IST (fixed +05:30, so it needs no time-zone database in the slim Docker image)."""
+    return datetime.now(timezone(timedelta(hours=5, minutes=30))).date()
 
 
 def matrix(crop: str, origin: Dict[str, Any], alpha: float = DEFAULT_ALPHA, transport_per_q_km: Optional[float] = None) -> Dict[str, Any]:

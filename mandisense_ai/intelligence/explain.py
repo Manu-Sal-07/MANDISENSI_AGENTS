@@ -91,8 +91,13 @@ def build_facts(rec: Dict[str, Any], shock_item: Optional[Dict[str, Any]], lang:
     d0 = datetime.fromisoformat(best["sale_date"])
     day = f"{d0.day} {MONTHS[lang][d0.month - 1]}"
     hold = best["hold_days"]
-    when = {"en": ("today" if hold == 0 else f"in {hold} day{'s' if hold > 1 else ''}"),
-            "kn": ("ಇಂದು" if hold == 0 else f"{hold} ದಿನದ ನಂತರ"), "hi": ("आज" if hold == 0 else f"{hold} दिन बाद")}[lang]
+    if "stale_data" in (rec.get("caveats") or []):
+        # The decision day has already passed, so "today" / "in 2 days" would be false; say how long to hold and give the date.
+        when = {"en": ("without waiting" if hold == 0 else f"after holding {hold} day{'s' if hold > 1 else ''}"),
+                "kn": ("ಕಾಯದೆ" if hold == 0 else f"{hold} ದಿನ ಇಟ್ಟು"), "hi": ("बिना रुके" if hold == 0 else f"{hold} दिन रखकर")}[lang]
+    else:
+        when = {"en": ("today" if hold == 0 else f"in {hold} day{'s' if hold > 1 else ''}"),
+                "kn": ("ಇಂದು" if hold == 0 else f"{hold} ದಿನದ ನಂತರ"), "hi": ("आज" if hold == 0 else f"{hold} दिन बाद")}[lang]
     facts = {
         "crop": CROP_NAMES.get(rec["crop"], {}).get(lang, rec["crop"]),
         "best.mandi": {"en": "your farm gate", "kn": "ನಿಮ್ಮ ಜಮೀನಿನಲ್ಲೇ", "hi": "अपने खेत पर"}[lang] if is_gate else best[name_key],

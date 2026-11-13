@@ -31,6 +31,15 @@ describe('farmer copy', () => {
     }
   });
 
+  it('never says "today" or "in n days" when the decision day has already passed', () => {
+    for (const l of LANGS) {
+      expect(dayLabel(0, l, '2020-01-02')).toBe(mc('day.no_wait', l));
+      expect(dayLabel(2, l, '2020-01-04')).toBe(mc('day.hold_for', l, { n: 2 }));
+      expect(dayLabel(0, l, '2999-01-01')).toBe(mc('day.today', l));
+      for (const k of ['day.no_wait', 'day.hold_for']) if (l !== 'en') expect(mc(k, l)).not.toBe(mc(k, 'en'));
+    }
+  });
+
   it('has the explain, what-if and scoreboard strings in Kannada and Hindi, with no placeholder left unfilled', () => {
     const keys = ['why.title', 'why.sub', 'why.note', 'whatif.title', 'whatif.changed', 'whatif.indicative', 'score.title', 'score.floor.note', 'score.win', 'score.loss'];
     for (const k of keys) for (const l of ['kn', 'hi'] as const) expect(mc(k, l), `${k} (${l})`).not.toBe(mc(k, 'en'));
