@@ -7,6 +7,7 @@ import BottomNav from "@/components/BottomNav";
 import FarmBackdrop from "@/components/farm/FarmBackdrop";
 import TraderBackdrop from "@/components/trader/TraderBackdrop";
 import ChatDock from "@/components/chat/ChatDock";
+import ApiWakeBanner from "@/components/ApiWakeBanner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -100,6 +101,7 @@ export default function RootLayout({
           <TraderBackdrop />
           <div className="relative z-10 flex min-h-screen flex-col">
             <TopBar />
+            <ApiWakeBanner />
             <main className="flex-1">{children}</main>
             <BottomNav />
             <ChatDock />

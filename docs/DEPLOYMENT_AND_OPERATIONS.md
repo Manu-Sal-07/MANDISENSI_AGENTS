@@ -74,8 +74,16 @@ How to read it:
 | first `/v1/shock/radar` after deploy | 7.2 s |
 | push to `main` until the new version answers | about 2.5 minutes |
 
-Cold-start from sleep on the free plan has **not** been measured separately; expect tens of seconds. Open the site a few minutes before a
-demonstration, or put an uptime monitor on `/v1/health`.
+**Cold start from sleep, measured 2026-11-13: about five minutes.** After several idle hours the API did not answer for roughly five minutes
+(health went from no response to `healthy` at the first successful request), then served normally (first heavy request 12 s, then about
+1 s). My earlier estimate of "tens of seconds" was wrong. Until it wakes, every page of the frontend is empty, which looks like a broken
+site. Two mitigations are in place or needed:
+
+* **In the app:** a banner (`frontend/src/components/ApiWakeBanner.tsx`) says the server is waking, keeps retrying, and reloads the page when the
+  server answers; it stays hidden when the API responds within a few seconds (both cases checked in headless Chrome).
+* **Operationally (needed):** an external monitor that requests `/v1/health` every 5 minutes keeps the free instance awake, and doubles as the
+  alert that would have caught the two-week outage. A paid plan removes sleeping altogether. Before any demonstration, request
+  `/v1/health` and wait for HTTP 200; do not rely on the banner on stage.
 
 ## 4. Failure modes
 
@@ -85,7 +93,7 @@ demonstration, or put an uptime monitor on `/v1/health`.
 | data.gov.in unreachable or rate-limited | prices and forecasts keep their last date, flagged "stale" past 30 hours | daily job exits 1; `/v1/health` shows `freshness` | rerun the workflow; register `DATAGOV_API_KEY` to avoid the shared sample key's limit |
 | A mandi does not report | no row, never an invented price; its chance of being open is shown | by design: absence is data | none needed; 62% of mandi-days in the panel are silent (section 6) |
 | Forecast skill is close to nil | direction and risk bands, not price promises | published in [RESULTS](RESULTS.md) | the decision layer, not the forecast, carries the value |
-| Free instance sleeps | first request takes longer | uptime monitor | wake-up pinger or a paid plan |
+| Free instance sleeps | **empty pages for about five minutes** (measured), now explained by a banner | uptime monitor | keep-alive pings every 5 minutes, or a paid plan |
 | Burst of traffic from one address | Cloudflare challenge page (429) or a 503 while the instance wakes; clears within about a minute | load test, 2026-11-13 | spread load; a paid plan with a full CPU; not yet tested |
 | Image missing a data file | a tool answers `UNAVAILABLE` / "0 prints on record" while local tests pass | strict smoke test and `test_deployment_contract.py` | fixed 2026-11-13 (see below) |
 | Out of memory on the 512 MB plan | restart loop | Render events and logs | move up one plan |

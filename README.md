@@ -3,7 +3,7 @@
 [![CI](https://github.com/Manu-Sal-07/MANDISENSI_AGENTS/actions/workflows/ci.yml/badge.svg)](https://github.com/Manu-Sal-07/MANDISENSI_AGENTS/actions/workflows/ci.yml)
 
 **Live:** app <https://mandisensi-agents.vercel.app> · API <https://mandisense-api.onrender.com/docs> · health <https://mandisense-api.onrender.com/v1/health>
-(free hosting: the first request after idle can take a minute while the instance wakes).
+(free hosting: after idle the API can take up to about five minutes to wake, and the page says so while it waits).
 
 Decision support for small farmers and traders in the Bengaluru–Kolar belt of Karnataka, built on real Agmarknet mandi prices
 and arrivals (January 2021 – October 2026). It answers two questions with evidence attached:

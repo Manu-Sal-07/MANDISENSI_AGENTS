@@ -27,7 +27,7 @@ to read out. Every figure below is in [RESULTS](RESULTS.md), [DEPLOYMENT_AND_OPE
 | 5 | Trader desk: one spread or the forecast audit page, and the "what did not work" evidence | |
 | 6 | Telegram digest message (screenshot is acceptable here: it runs as a script, not on the host) | |
 
-Before you start: open the site five minutes earlier so the free instance is awake; keep a local copy running; have the health URL ready.
+Before you start: the free API sleeps when idle and **takes about five minutes to wake** (measured), so request `https://mandisense-api.onrender.com/v1/health` at least ten minutes earlier and wait for HTTP 200, then keep it warm with a pinger; keep a local copy running as the real fallback.
 
 ## 3. Who says what (every member speaks; fill in names)
 
@@ -89,7 +89,7 @@ It is what public Agmarknet reports cover for the Bengaluru–Kolar belt with en
 
 ## 5. Checklist for the day
 
-- [ ] Open the live site and health URL; confirm the data date is current (refresh job green in GitHub Actions)
+- [ ] Request the health URL ten minutes before and wait for HTTP 200 (cold start is about five minutes); confirm the data date is current
 - [ ] Local copy of both servers running as a backup
 - [ ] Phone with mobile data and the QR code slide
 - [ ] Every member has run the demo once
