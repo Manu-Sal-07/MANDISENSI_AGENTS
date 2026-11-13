@@ -47,4 +47,13 @@ jobs:
       - name: Lint (errors fail the build; warnings are tracked but allowed)
         run: npx eslint . --quiet
       - name: Production build
-        run: npm run build
+        # Retried up to three times: three runs (two on feature/farmer-real-data, one on main) failed here while the identical commit passed
+        # in the sibling run, and the build passes locally every time. The layout downloads five Google font families at build time, the
+        # likely culprit (a network flake), but the runner log was not readable, so the cause is unconfirmed. A real build error fails all 3.
+        run: |
+          for attempt in 1 2 3; do
+            if npm run build; then exit 0; fi
+            echo "::warning title=Production build::attempt ${attempt} failed"
+            sleep 10
+          done
+          exit 1
