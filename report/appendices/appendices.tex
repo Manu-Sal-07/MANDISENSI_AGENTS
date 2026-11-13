@@ -92,10 +92,10 @@ Table~\ref{tab:c-crowdb} gives the crowd simulation under five values of the pri
 \chapter{Dataset Description}
 \label{appendix:dataset}
 
-\section{D.1 Source and access}
+\section{Source and access}
 Daily price and arrival records of the Agricultural Marketing Information Network (Agmarknet) of the Government of India~\cite{agmarknet}, exported from the public portal by the project team: the ``All Type of Report (All Grades)'' history export (2021-01-01 to \DataTo) for Karnataka, and the ``Daily Price Arrival Report'' from 2025-11-07. The data are public; no personal data are involved.
 
-\section{D.2 Files and volumes}
+\section{Files and volumes}
 \begin{table}[!t]
 \centering
 \caption{Dataset volumes}
@@ -111,7 +111,7 @@ Mandi prices & Daily report records with minimum and maximum & \NmandiRows \\ \h
 \end{tabular}
 \end{table}
 
-\section{D.3 Schema}
+\section{Schema}
 \begin{table}[!t]
 \centering
 \caption{Fields of the market panel and the observation store}
@@ -129,50 +129,120 @@ Observations & quality\_score, quality\_flags & Result of the quality checks \\ 
 \end{tabular}
 \end{table}
 
-\section{D.4 Cleaning and exclusions}
+\section{Cleaning and exclusions}
 The loader drops footer rows, rejects unexpected units, checks key uniqueness, and records rows read, dropped and kept. Where both exports cover a market-day they agree (Pearson $r=0.99996$ over 3,307 tomato market-days). Nothing is imputed into the panel. A market is offered for a decision only if it reported within the previous 14 days; days on which no market reported (27 of 2,125 for tomato) are excluded from training and scoring. A market enters the market-choice study only with at least 700 reported days. Garlic has one such market and is excluded from the study and refused by the application. Synthetic data found in the initial repository were removed.
 
-\section{D.5 Splits}
+\section{Splits}
 Five outer walk-forward test blocks (2024-H1, 2024-H2, 2025-H1, 2025-H2, 2026-01 to 2026-10), each trained on earlier data only, with a gap of $K{+}2$ days before every validation or test block. The five blocks give 963 scored days for tomato, 511 for onion, 569 for potato and 776 for ginger.
 
-\section{D.6 Limitations of the data}
+\section{Limitations of the data}
 One state and one source; modal prices only, not transaction-level data; a silent market day may be a reporting failure and not a closed market (the sensitivity sweep includes a setting that makes silence free); and the history does not include weather, transport costs or farm-gate prices, which are therefore assumptions (Section~\ref{sec:formulation}).
 
 \chapter{Outcome and Goal Mapping}
 \label{appendix:mapping}
 
-\noindent\textbf{Note.} The course-outcome statements and the CO--PO matrix are those of the departmental course file for 23DS7PWPP2; they are reproduced here unchanged and are not restated by the authors. What follows is the project's justification of each programme outcome with the section that demonstrates it.
+\noindent\textbf{Note.} The correlation levels between course outcomes (CO) and programme outcomes (PO) are set by the department and are reproduced unchanged in Table~\ref{tab:copo}; the work of this appendix is to justify the attainment, not to change the mapping. The programme outcomes are those defined by the NBA (revised, effective July 2024): PO1 Engineering Knowledge; PO2 Problem Analysis; PO3 Design and Development of Solutions; PO4 Conduct Investigations of Complex Problems; PO5 Engineering Tool Usage; PO6 The Engineer and the World; PO7 Ethics; PO8 Individual and Collaborative Team Work; PO9 Communication; PO10 Project Management and Finance; PO11 Life-Long Learning.
 
-\section{E.1 Programme outcomes demonstrated}
+\section{Programme outcomes demonstrated}
 
-\begin{table}[!t]
-\centering
-\caption{Programme outcome (PO) justification with evidence in this thesis}
-\label{tab:po}
-\small
-\begin{tabular}{|c|p{5.2cm}|p{7cm}|}
+{\small
+\begin{longtable}{|c|p{4.6cm}|p{7.6cm}|}
+\caption{Programme outcome (PO) justification with evidence in this thesis}\label{tab:po}\\
 \hline
 \textbf{PO} & \textbf{Outcome} & \textbf{Evidence and section} \\ \hline
+\endfirsthead
+\hline
+\textbf{PO} & \textbf{Outcome} & \textbf{Evidence and section} \\ \hline
+\endhead
 PO1 & Engineering knowledge & Statistics, optimisation and conformal inference applied to a pricing decision (Sec.~\ref{sec:proposed}) \\ \hline
-PO2 & Problem analysis & Reporting gaps, delayed feedback and decision loss identified as the structure of the problem (Sec.~\ref{sec:problem-statement}) \\ \hline
-PO3 & Design of solutions & Engines, floors, service and trilingual interface (Sec.~\ref{sec:architecture}, Ch.~\ref{ch:impl}) \\ \hline
-PO4 & Investigation & Pre-specified experiments, paired tests and a leakage audit (Sec.~\ref{sec:setup}, Sec.~\ref{sec:validation}) \\ \hline
-PO5 & Modern tool usage & Optuna, LightGBM, PyTorch, FastAPI, Next.js, Telegram Bot API, CI (Table~\ref{tab:software-req}) \\ \hline
-PO6 & Engineer and society & Advice for smallholders; evidence tiers shown to users (Sec.~\ref{sec:sdgs-achieved}) \\ \hline
-PO7 & Environment and sustainability & Spoilage built into advice (SDG 12.3) \\ \hline
-PO8 & Ethics & No synthetic data in results; negative results reported; language layer cannot change numbers (Ch.~\ref{ch:results}) \\ \hline
-PO9 & Individual and team work & Work-package ownership (Sec.~\ref{sec:ram}) \\ \hline
-PO10 & Communication & This thesis; documentation in the repository \\ \hline
-PO11 & Project management and finance & WBS, critical path, risk register, cost (Ch.~\ref{ch:plan}) \\ \hline
-PO12 & Life-long learning & New methods learned during the project (Sec.~\ref{sec:key-learnings}) \\ \hline
-\end{tabular}
-\end{table}
+PO2 & Problem analysis & Reporting gaps, delayed feedback and decision loss identified as the structure of the problem (Sec.~\ref{sec:problem-statement}, Ch.~\ref{ch:lit}) \\ \hline
+PO3 & Design and development of solutions & Engines, floors, service and trilingual interface (Sec.~\ref{sec:architecture}, Ch.~\ref{ch:impl}) \\ \hline
+PO4 & Investigation of complex problems & Pre-specified experiments, paired tests and a leakage audit (Sec.~\ref{sec:setup}, Sec.~\ref{sec:validation}) \\ \hline
+PO5 & Engineering tool usage & Optuna, LightGBM, PyTorch, FastAPI, Next.js, Telegram Bot API, CI (Table~\ref{tab:software-req}) \\ \hline
+PO6 & The engineer and the world & Advice for smallholders, evidence tiers shown to users, spoilage built into advice, and the goals of Section~\ref{sec:sdgs-achieved} \\ \hline
+PO7 & Ethics & No synthetic data in results; negative results reported; language layer cannot change numbers; disclosure of AI assistance (Ch.~\ref{ch:results}, Sec.~\ref{sec:ai-disclosure}) \\ \hline
+PO8 & Individual and collaborative team work & Work-package ownership in a team of three under a guide (Sec.~\ref{sec:ram}) \\ \hline
+PO9 & Communication & This thesis, documentation in the repository, and the research paper of Appendix~\ref{appendix:paper} \\ \hline
+PO10 & Project management and finance & WBS, critical path, risk register, cost (Ch.~\ref{ch:plan}) \\ \hline
+PO11 & Life-long learning & New methods learned during the project (Sec.~\ref{sec:key-learnings}) \\ \hline
+\end{longtable}
+}
 
 \noindent\textbf{Complex-engineering-problem attributes} exhibited: depth of knowledge, conflicting requirements, depth of analysis, familiarity of issues, extent of codes and standards, stakeholder involvement and interdependence (Table~\ref{tab:cep}).
 
-\section{E.2 Sustainable Development Goals}
+\section{CO--PO mapping}
 
-\begin{table}[!t]
+\noindent The mapping of Table~\ref{tab:copo} is the departmental one for course 23DS7PWPP2. A dash means that the outcome is not addressed.
+
+\begin{table}[H]
+\centering
+\caption{CO--PO mapping (3 = substantial, 2 = moderate, 1 = slight, -- = not addressed)}
+\label{tab:copo}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{CO} & \textbf{PO1} & \textbf{PO2} & \textbf{PO3} & \textbf{PO4} & \textbf{PO5} & \textbf{PO6} & \textbf{PO7} & \textbf{PO8} & \textbf{PO9} & \textbf{PO10} & \textbf{PO11} \\ \hline
+CO1 & 3 & 3 & 3 & 2 & 1 & -- & -- & -- & -- & -- & 1 \\ \hline
+CO2 & 2 & -- & 2 & -- & 3 & -- & -- & -- & -- & -- & 2 \\ \hline
+CO3 & -- & 1 & 1 & -- & -- & 3 & 2 & -- & -- & -- & -- \\ \hline
+CO4 & -- & -- & -- & 1 & -- & -- & 1 & -- & 3 & 3 & -- \\ \hline
+CO5 & -- & -- & -- & -- & -- & 1 & -- & 3 & 3 & 1 & -- \\ \hline
+\end{tabular}
+\end{table}
+
+\section{Justification of attainment}
+
+\noindent Table~\ref{tab:attain} takes every non-empty cell of Table~\ref{tab:copo} and names the part of this thesis that supports it. The statements of the course outcomes are in the course file and are not restated here, so each row is identified by its CO number and the programme outcome it addresses. Cells at level 3 are supported by the main body of the work, cells at level 2 by a substantial part of it and cells at level 1 by a smaller contribution.
+
+\Needspace{12\baselineskip}
+{\small
+\begin{longtable}{|l|l|c|p{8.2cm}|}
+\caption{Evidence supporting each CO--PO correlation}\label{tab:attain}\\
+\hline
+\textbf{CO} & \textbf{PO} & \textbf{Level} & \textbf{Evidence in this thesis} \\ \hline
+\endfirsthead
+\hline
+\textbf{CO} & \textbf{PO} & \textbf{Level} & \textbf{Evidence in this thesis} \\ \hline
+\endhead
+CO1 & PO1 & 3 & Statistics, optimisation and conformal inference are the core of the method (Sec.~\ref{sec:proposed}) \\ \hline
+CO1 & PO2 & 3 & The farmer's question is analysed as a decision with missing data and delayed feedback, and the gaps in published work are stated (Sec.~\ref{sec:problem-statement}, Ch.~\ref{ch:lit}) \\ \hline
+CO1 & PO3 & 3 & Market-choice engine, adaptive floors, service and trilingual application (Sec.~\ref{sec:architecture}, Ch.~\ref{ch:impl}) \\ \hline
+CO1 & PO4 & 2 & Hypotheses fixed in advance, paired tests and a leakage audit; several hypotheses are reported as not supported (Sec.~\ref{sec:setup}, Sec.~\ref{sec:validation}) \\ \hline
+CO1 & PO5 & 1 & Software chosen for the pipeline (Table~\ref{tab:software-req}) \\ \hline
+CO1 & PO11 & 1 & New methods were learned to carry out the design (Sec.~\ref{sec:key-learnings}) \\ \hline
+CO2 & PO5 & 3 & Optuna, LightGBM, PyTorch, FastAPI, Next.js, Telegram Bot API and continuous integration used throughout the build (Table~\ref{tab:software-req}, Ch.~\ref{ch:impl}) \\ \hline
+CO2 & PO1 & 2 & The tools implement the statistical and optimisation methods of the design (Sec.~\ref{sec:proposed}) \\ \hline
+CO2 & PO3 & 2 & Implementation of the engines as a tested service and application (Ch.~\ref{ch:impl}) \\ \hline
+CO2 & PO11 & 2 & Frameworks and services not used before had to be learned and applied (Sec.~\ref{sec:key-learnings}) \\ \hline
+CO3 & PO6 & 3 & Advice for smallholders with evidence tiers shown to users, spoilage built into the advice, and the goals of Section~\ref{sec:sdgs-achieved} \\ \hline
+CO3 & PO7 & 2 & No synthetic data in results, negative results reported, language layer unable to change numbers, AI assistance disclosed (Ch.~\ref{ch:results}, Sec.~\ref{sec:ai-disclosure}) \\ \hline
+CO3 & PO2 & 1 & The needs of farmers and traders shape the problem statement (Sec.~\ref{sec:problem-statement}) \\ \hline
+CO3 & PO3 & 1 & A trilingual interface and a free messaging digest were designed for low-barrier use (Ch.~\ref{ch:impl}) \\ \hline
+CO4 & PO9 & 3 & This thesis, the repository documentation and the research paper of Appendix~\ref{appendix:paper} \\ \hline
+CO4 & PO10 & 3 & Work breakdown, critical path, risk register and cost (Ch.~\ref{ch:plan}) \\ \hline
+CO4 & PO4 & 1 & Evaluation protocol and reporting of outcomes (Sec.~\ref{sec:setup}) \\ \hline
+CO4 & PO7 & 1 & Honest reporting of results and disclosure of tool assistance (Sec.~\ref{sec:ai-disclosure}) \\ \hline
+CO5 & PO8 & 3 & Work packages owned by each of the three members, with review by the guide (Sec.~\ref{sec:ram}) \\ \hline
+CO5 & PO9 & 3 & Team reports, review presentations and the research paper (Appendix~\ref{appendix:paper}) \\ \hline
+CO5 & PO6 & 1 & Stakeholders and societal effects considered in the design (Sec.~\ref{sec:sdgs-achieved}) \\ \hline
+CO5 & PO10 & 1 & Schedule and responsibilities followed by the team (Ch.~\ref{ch:plan}) \\ \hline
+\end{longtable}
+}
+
+\section{Sustainable Development Goals}
+
+\noindent The project connects to four of the United Nations Sustainable Development Goals. The connection to each goal is stated together with what the evidence supports, because the thesis is an offline study: no farmer used the advice, so no effect on income, poverty or food loss was measured. Table~\ref{tab:sdg} summarises the mapping and the paragraphs below explain it. Section~\ref{sec:sdgs-achieved} discusses the goals in the conclusion.
+
+\noindent\textbf{SDG 2, Zero Hunger (target 2.3).} The target aims to raise the incomes of small-scale food producers through secure and equal access to markets and information. The system gives a smallholder the market comparison that traders already have: which mandi to sell at and whether to sell today or wait. In the daily back-test the advice earned Rs~60 to 202 per quintal more than the strongest simple rule in three of the four crops. This is the only link supported by held-out numbers, and it is an offline figure.
+
+\noindent\textbf{SDG 1, No Poverty (target 1.4).} The target concerns equal access to economic resources and basic services. Volatile prices and the lack of market information keep small sellers poor. The tool is free, available in Kannada, Hindi and English, and works for small lots, and the morning digest reaches a phone on a free messaging channel. Whether farmers adopt it was not tested, so the status is not measured.
+
+\noindent\textbf{SDG 12, Responsible Consumption and Production (target 12.3).} The target calls for reducing food loss along production and supply chains. Spoilage and shrinkage are part of the revenue model (Eq.~\ref{eq:revenue}), so the advice does not recommend waiting where the expected loss exceeds the expected price gain. Perishable crops such as tomato benefit most. The loss avoided was not measured in kilograms, so this is a potential and not a result.
+
+\noindent\textbf{SDG 9, Industry, Innovation and Infrastructure (target 9.c).} The target is to widen access to information and communication technology. The pipeline is built on a public price feed, with open code, tests and documentation that other districts or crops can reuse. This is an engineering contribution, not a measured impact.
+
+\begin{table}[H]
 \centering
 \caption{SDG targets, evidence, and whether the effect was measured}
 \label{tab:sdg}
@@ -215,3 +285,30 @@ Report & Attached on the following pages \\ \hline
 \end{table}
 
 \IfFileExists{turnitin_report.pdf}{\includepdf[pages=-]{turnitin_report.pdf}}{}
+
+\chapter{Research Paper}
+\label{appendix:paper}
+
+\noindent A research paper on this work has been submitted to a conference. The record of the submission is in Table~\ref{tab:paper} and the paper as submitted follows on the next pages. The paper reports the forecasting, calibrated-range and advice study of the system on five markets from 2016 to 2025, together with the audit of the earlier synthetic backfill. This thesis extends the work to the market-choice decision on a Karnataka panel of 2021 to 2026, the adaptive floors, the insight features and the morning digest, so the figures of the two documents come from different data and are not meant to be compared line by line.
+
+\begin{table}[H]
+\centering
+\caption{Record of the conference submission}
+\label{tab:paper}
+\small
+\begin{tabular}{|l|p{9.2cm}|}
+\hline
+\textbf{Item} & \textbf{Entry} \\ \hline
+Title & MandiSense AI: Multi-Agent Agricultural Price Forecasting with Calibrated Uncertainty and Abstaining Decisions \\ \hline
+Authors & Manohara Salmani, Srijan C. Vachadmath, Shreejit Shah and Kalyan Nagaraj \\ \hline
+Conference & 2027 3rd International Conference on Computing for Sustainability and Intelligent Future (COMPSIF) \\ \hline
+Track & Track 2: AI for a Sustainable Future \\ \hline
+Paper ID & 485 \\ \hline
+Category & Research paper (maximum 6 pages) \\ \hline
+Submission system & Microsoft CMT \\ \hline
+Date of submission & 29 October 2026 \\ \hline
+Status & Submitted; no decision yet \\ \hline
+\end{tabular}
+\end{table}
+
+\IfFileExists{Srijan_Team_Conference.pdf}{\includepdf[pages=-]{Srijan_Team_Conference.pdf}}{}
