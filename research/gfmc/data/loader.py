@@ -64,16 +64,24 @@ def _check_units(frame: pd.DataFrame, price_col: str, arrival_col: str) -> None:
         raise DataError(f"Unexpected units: price {sorted(bad_p)}, arrivals {sorted(bad_a)}")
 
 
-def find_history_file(data_dir: Path = DATA_DIR) -> Path:
+def find_history_files(data_dir: Path = DATA_DIR) -> List[Path]:
+    """Every market-level history export in the folder, oldest download first.
+
+    A later, shorter export is an update, not a replacement, so all of them are read and layered
+    (see `load_history`). A district-level download (no Market column) cannot feed the study and is skipped.
+    """
     hits = [Path(p) for p in glob.glob(str(data_dir / HISTORY_GLOB))]
     if not hits:
         raise FileNotFoundError(f"No history export matching {HISTORY_GLOB} in {data_dir}")
-    # Only a market-level export (it has a Market column) can feed the study;
-    # a district-level download in the same folder is skipped, not loaded.
     market_level = [p for p in hits if _header_width(p) == len(HISTORY_COLUMNS)]
     if not market_level:
         raise DataError(f"No market-level history export (with a Market column) among {[p.name for p in hits]}")
-    return max(market_level, key=_export_time)  # latest download wins, by export time not by name
+    return sorted(market_level, key=_export_time)  # by export time, not by name
+
+
+def find_history_file(data_dir: Path = DATA_DIR) -> Path:
+    """The newest market-level export (kept for callers that want a single file)."""
+    return find_history_files(data_dir)[-1]
 
 
 def _header_width(path: Path) -> int:
@@ -90,21 +98,18 @@ def _export_time(path: Path):
         return datetime.fromtimestamp(path.stat().st_mtime)
 
 
-def load_history(path: Optional[Path] = None) -> tuple[pd.DataFrame, LoadReport]:
-    """Read the market-level history export into a clean long frame."""
-    path = Path(path) if path else find_history_file()
-    rep = LoadReport(source="agmarknet_all_type_report", files=[path.name])
-
+def _read_history_file(path: Path, rep: LoadReport) -> pd.DataFrame:
+    """One export, cleaned; the counts are added to `rep`."""
     raw = pd.read_csv(path, skiprows=1, thousands=",", dtype=str, keep_default_na=False)
     if raw.shape[1] != len(HISTORY_COLUMNS):
         raise DataError(f"History export has {raw.shape[1]} columns, expected {len(HISTORY_COLUMNS)}")
     raw.columns = HISTORY_COLUMNS
-    rep.rows_read = len(raw)
+    rep.rows_read += len(raw)
 
     dates = pd.to_datetime(raw["date"], format=DATE_FORMAT, errors="coerce")
     footer = dates.isna() & (raw["market"].str.strip() == "")
-    rep.footer_rows_dropped = int(footer.sum())
-    rep.unparseable_dates = int((dates.isna() & ~footer).sum())
+    rep.footer_rows_dropped += int(footer.sum())
+    rep.unparseable_dates += int((dates.isna() & ~footer).sum())
     raw, dates = raw[dates.notna()].copy(), dates[dates.notna()]
     raw["date"] = dates.dt.normalize()
 
@@ -115,16 +120,29 @@ def load_history(path: Optional[Path] = None) -> tuple[pd.DataFrame, LoadReport]
     for col in ("state", "district", "market", "commodity"):
         raw[col] = raw[col].str.strip()
 
-    rep.nonpositive_price = int((raw["price"] <= 0).sum())
-    rep.nonpositive_arrivals = int((raw["arrivals"] <= 0).sum())
+    rep.nonpositive_price += int((raw["price"] <= 0).sum())
+    rep.nonpositive_arrivals += int((raw["arrivals"] <= 0).sum())
     raw = raw[(raw["price"] > 0) & raw["price"].notna()].copy()
     raw["arrivals"] = raw["arrivals"].where(raw["arrivals"] > 0)  # keep the price, drop the bad volume
+    return raw[["date", "state", "district", "market", "commodity", "price", "arrivals"]]
+
+
+def load_history(path: Optional[Path] = None, data_dir: Path = DATA_DIR) -> tuple[pd.DataFrame, LoadReport]:
+    """Read the market-level history export(s) into a clean long frame.
+
+    With no `path`, every market-level export in the data folder is read, oldest download first, and layered: where two
+    exports hold the same market, crop and day the later download wins. `duplicate_keys` counts the keys resolved that way
+    (within one file or across files).
+    """
+    paths = [Path(path)] if path else find_history_files(data_dir)
+    rep = LoadReport(source="agmarknet_all_type_report", files=[p.name for p in paths])
+    raw = pd.concat([_read_history_file(p, rep) for p in paths], ignore_index=True)
 
     rep.duplicate_keys = int(raw.duplicated(["date", "market", "commodity"]).sum())
     if rep.duplicate_keys:
-        raw = raw.drop_duplicates(["date", "market", "commodity"], keep="last")
+        raw = raw.drop_duplicates(["date", "market", "commodity"], keep="last")  # later export wins
 
-    out = raw[["date", "state", "district", "market", "commodity", "price", "arrivals"]].copy()
+    out = raw.copy()
     out["source"] = rep.source
     out = out.sort_values(["commodity", "market", "date"]).reset_index(drop=True)
     rep.rows_kept = len(out)

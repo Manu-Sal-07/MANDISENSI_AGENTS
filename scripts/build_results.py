@@ -411,15 +411,19 @@ def build() -> None:
     rows = []
     for c, b in engine.items():
         if b.get("status") != "OK":
-            rows.append([c.capitalize(), "not served", "-", "-", "-", "-", "-", b.get("reason", b.get("status", ""))])
+            rows.append([c.capitalize(), "not served", "-", "-", "-", "-", "-", "-", b.get("reason", b.get("status", ""))])
             continue
         mr = b["mean_net_revenue"]
         rows.append([c.capitalize(), f"{b['window'][0]} to {b['window'][1]} ({b['scored_days']} days)", f"{rs(mr['recommended'])} vs {rs(mr['highest_yesterday'])} vs {rs(mr['nearest'])}",
                      f"{b['gain_vs_highest_yesterday']['mean']:+.0f} [{b['gain_vs_highest_yesterday']['ci_lo']:+.0f}, {b['gain_vs_highest_yesterday']['ci_hi']:+.0f}]",
                      f"{b['gain_vs_nearest']['mean']:+.0f} [{b['gain_vs_nearest']['ci_lo']:+.0f}, {b['gain_vs_nearest']['ci_hi']:+.0f}]", f"{100 * b['share_of_oracle_gap_closed']:.0f}%",
+                     f"{100 * b['floor_violation_adaptive'].get('0.10', float('nan')):.1f}%" if "floor_violation_adaptive" in b else "-",
                      f"{100 * b['floor_violation_static_out_of_sample'].get('0.10', float('nan')):.1f}%" if "floor_violation_static_out_of_sample" in b else "-", b.get("evidence_level", "")])
     L += [md(pd.DataFrame(rows, columns=["Crop", "Window", "Advice vs highest-yesterday vs nearest (₹/q)", "Gain vs highest-yesterday [95% CI]", "Gain vs nearest [95% CI]", "Oracle gap closed",
-                                         "Floor broken at α=10%", "Note"])), "",
+                                         "Floor broken at α=10%, adaptive (served)", "Floor broken at α=10%, static (not served)", "Note"])), "",
+          "The application states the **adaptive** rate to the farmer (`meta.json` → `backtest.floor_violation_adaptive`, served by `market_choice/service.py` as `guarantee.backtest_violation`). "
+          "The static column is a single conformal quantile fitted on the first half of the scored period and tested on the second half (`floor_violation_static_out_of_sample`); it is shown for comparison and is not what the app uses. "
+          "At the other stated levels the adaptive rates are: " + ", ".join(f"{c} {100 * b['floor_violation_adaptive']['0.05']:.1f}% / {100 * b['floor_violation_adaptive']['0.20']:.1f}%" for c, b in engine.items() if b.get("status") == "OK" and "floor_violation_adaptive" in b) + " (α = 5% / 20%).", "",
           "Garlic: only one mandi in the belt has enough reported days to be a candidate, so there is no choice between markets to learn; the engine refuses to advise and the research package does not study it (`research/gfmc/config.py`).", ""]
 
     # ---- 5 forecast
@@ -457,6 +461,13 @@ def build() -> None:
                            "Look-ahead gap [95% CI]": [f"{100 * g:+.1f} [{100 * a:+.1f}, {100 * b:+.1f}] pts" for g, a, b in zip(leak["leak_gap_skill"], leak["leak_gap_ci_lo"], leak["leak_gap_ci_hi"])]})
         L += ["Tomato, five densest mandis, skill against the random walk. *Published protocol* decomposes the whole series once and then splits it, as the literature does; *causal* decomposes using only data available at each forecast date. "
               "Learner, features and folds are identical; the only difference is whether the decomposition may see the future.", "", md(t6), ""]
+    if leak is not None:
+        pj, cj, pu = leak["skill_published_joint"], leak["skill_causal_joint"], leak["skill_published"]
+        L += ["**Reading the gap column.** The look-ahead gap is *published-joint − causal-joint*, the matched pair whose only difference is whether a component may see the future "
+              "(`research/results/tomato/leakage/summary.csv`, `leak_gap_skill`). "
+              f"Published-joint skill is {100 * pj.min():+.1f}% to {100 * pj.max():+.1f}%, so the gap is not \"Published protocol − Causal\" from the columns above. "
+              f"Wherever this project says \"+{100 * pj.min():.0f} to +{100 * pj.max():.0f}%\" it means published-joint; \"+{100 * pu.min():.0f} to +{100 * pu.max():.0f}%\" means the published column. "
+              f"Both lose all skill causally ({100 * cj.min():+.1f}% to {100 * cj.max():+.1f}%).", ""]
     L += ["What the published works report, as recorded in the team's literature survey (`reports/capstone_report/Literature_Survey.xlsx`; the figures are the survey's wording and were not re-checked against the papers):", "",
           md(pd.DataFrame(PUBLISHED, columns=["Work", "Venue", "Reported result", "How this study relates"])), "",
           "**Comparability.** Those papers use different markets, periods, horizons and units, so their RMSE or MAPE cannot be set against ours. What can be compared is the *method*: this study reproduces "
@@ -513,7 +524,7 @@ def build() -> None:
           "1. **Counterfactual outcomes.** Revenue of an unchosen mandi is computed from its reported price on that day, with assumed transport, fee and spoilage. No farmer actually sold under this advice; the claim is about what the advice would have earned on past data, not a field result.",
           "2. **Reported prices, not transaction prices.** Agmarknet reports one modal price per mandi and day, which changes in steps; short-horizon changes are lumpy and often exactly zero.",
           "3. **One region, five crops.** Nothing here is claimed for other states or crops. Garlic cannot be studied because one mandi has enough history.",
-          "4. **Few mandis for some crops.** Onion has 4 eligible mandis, potato 3 and ginger 3, so choice sets are small and the gain over rules is correspondingly limited; tomato (12) carries the strongest results.",
+          "4. **Few mandis for some crops.** In the research study (≥ 700 reported days) onion has 4 eligible mandis, potato 3 and ginger 3; the served engine (≥ 400 days) uses 6, 5 and 4. Either way choice sets are small and the gain over rules is correspondingly limited; tomato (12) carries the strongest results.",
           "5. **Small forecast skill.** Intervals in §5 are close to zero at some horizons. The advice does not rely on forecasts being accurate, and says so.",
           "6. **Multiplicity.** Many comparisons are made; Holm correction is applied within each crop's family, and the families were fixed before the tuned results (twelve) with two added afterwards for the secondary crops, which is disclosed in `research/docs/RESULTS.md`.",
           "7. **Assumed costs.** §8 varies them over wide ranges and the conclusion holds, but real costs vary by vehicle, season and load.",
