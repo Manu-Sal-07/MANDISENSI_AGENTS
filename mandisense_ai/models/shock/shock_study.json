@@ -1,8 +1,8 @@
 {
- "generated_at": "2026-11-13T13:37:20.749864+00:00",
+ "generated_at": "2026-11-14T01:21:41.789145+00:00",
  "data": {
   "from": "2021-01-01",
-  "to": "2026-11-11",
+  "to": "2026-11-12",
   "crops": [
    "garlic",
    "ginger",
@@ -26,7 +26,7 @@
     "horizon": 3,
     "status": "OK",
     "n": 119,
-    "effect": 0.01521230804840669,
+    "effect": 0.01664476771447007,
     "ci": [
      -0.034766252549352554,
      0.08282442122172595
@@ -36,13 +36,13 @@
     "p10": -0.16705408466316563,
     "p90": 0.19810424596168305,
     "share_down": 0.29411764705882354,
-    "mde": 0.09568076944225853,
-    "raw_p": 0.6570105639835189,
-    "placebo_p": 0.7281795511221946,
+    "mde": 0.09573844475414592,
+    "raw_p": 0.6273039874481183,
+    "placebo_p": 0.6783042394014963,
     "districts": {
      "n": 2,
      "effects": {
-      "bengaluru": -0.025754648331955673,
+      "bengaluru": -0.023091168640369076,
       "chikkaballapur": 0.06288294820010108
      },
      "stable": false
@@ -68,7 +68,7 @@
     "share_down": 0.336283185840708,
     "mde": 0.11482688772666853,
     "raw_p": 0.8029904859527623,
-    "placebo_p": 0.8354114713216958,
+    "placebo_p": 0.85785536159601,
     "districts": {
      "n": 2,
      "effects": {
@@ -98,7 +98,7 @@
     "share_down": 0.4017857142857143,
     "mde": 0.13206911421905354,
     "raw_p": 0.8681311220658015,
-    "placebo_p": 0.8827930174563591,
+    "placebo_p": 0.8703241895261845,
     "districts": {
      "n": 2,
      "effects": {
@@ -128,7 +128,7 @@
     "share_down": 0.19736842105263158,
     "mde": 0.17124849433213432,
     "raw_p": 0.32001154280641764,
-    "placebo_p": 0.22443890274314215,
+    "placebo_p": 0.2194513715710723,
     "districts": {
      "n": 2,
      "effects": {
@@ -158,7 +158,7 @@
     "share_down": 0.3013698630136986,
     "mde": 0.22403666256405766,
     "raw_p": 0.5856407934867975,
-    "placebo_p": 0.4837905236907731,
+    "placebo_p": 0.4937655860349127,
     "districts": {
      "n": 2,
      "effects": {
@@ -188,7 +188,7 @@
     "share_down": 0.3835616438356164,
     "mde": 0.20592171458637684,
     "raw_p": 0.24083550894028938,
-    "placebo_p": 0.20947630922693267,
+    "placebo_p": 0.22942643391521197,
     "districts": {
      "n": 2,
      "effects": {
@@ -206,23 +206,23 @@
     "horizon": 3,
     "status": "OK",
     "n": 213,
-    "effect": 0.033128380204604006,
+    "effect": 0.03161566440617909,
     "ci": [
      -0.017050835267149882,
      0.08698338746377135
     ],
-    "raw_mean": 0.05265584952801023,
+    "raw_mean": 0.050805441395330234,
     "raw_median": 0.009533495142513004,
     "p10": -0.182321556793954,
-    "p90": 0.3055945398805701,
+    "p90": 0.30185805241028124,
     "share_down": 0.24882629107981222,
-    "mde": 0.06086654123432553,
-    "raw_p": 0.12900373133202025,
-    "placebo_p": 0.10723192019950124,
+    "mde": 0.06053138377985991,
+    "raw_p": 0.14509996965067362,
+    "placebo_p": 0.13216957605985039,
     "districts": {
      "n": 4,
      "effects": {
-      "bengaluru": 0.05037605950771039,
+      "bengaluru": 0.045494113067339075,
       "bengaluru_south": -0.012326837589518443,
       "chikkaballapur": 0.05705957998382276,
       "kolar": 0.058469652561936925
@@ -270,26 +270,26 @@
     "horizon": 14,
     "status": "OK",
     "n": 207,
-    "effect": 0.05241713541841149,
+    "effect": 0.050180475297661925,
     "ci": [
      -0.011112764101118857,
      0.11331439461146248
     ],
-    "raw_mean": 0.05518856153728424,
+    "raw_mean": 0.052477493822675525,
     "raw_median": 0.009670917202630136,
     "p10": -0.2254227597600657,
-    "p90": 0.3720683568637262,
+    "p90": 0.351554386760449,
     "share_down": 0.33816425120772947,
-    "mde": 0.08441136377158842,
-    "raw_p": 0.08357750022700561,
-    "placebo_p": 0.11471321695760599,
+    "mde": 0.08411590804984766,
+    "raw_p": 0.09636332801823388,
+    "placebo_p": 0.12468827930174564,
     "districts": {
      "n": 4,
      "effects": {
-      "bengaluru": 0.06420268064606262,
+      "bengaluru": 0.059245627337377905,
       "bengaluru_south": -0.03287792756623489,
       "chikkaballapur": 0.07763720133889783,
-      "kolar": 0.1530590814589607
+      "kolar": 0.14970717241299272
      },
      "stable": true
     },
@@ -334,30 +334,30 @@
     "horizon": 7,
     "status": "OK",
     "n": 132,
-    "effect": -0.06781719417894887,
+    "effect": -0.07025816739913451,
     "ci": [
      -0.14134372146397617,
      -0.003193363823910973
     ],
-    "raw_mean": -0.05134732021334899,
+    "raw_mean": -0.05433320606380989,
     "raw_median": -0.003354844174420002,
-    "p10": -0.4625732806566483,
+    "p10": -0.46391866090435957,
     "p90": 0.2637284182000087,
     "share_down": 0.5,
-    "mde": 0.08275726109224507,
-    "raw_p": 0.023351347202097417,
-    "placebo_p": 0.034912718204488775,
+    "mde": 0.08317043689879376,
+    "raw_p": 0.019482631399927453,
+    "placebo_p": 0.032418952618453865,
     "districts": {
      "n": 4,
      "effects": {
-      "bengaluru": -0.12163485395321594,
+      "bengaluru": -0.12604866854314067,
       "bengaluru_south": 0.038548030225399196,
       "chikkaballapur": -0.14611340144607102,
       "kolar": 0.07156408281206399
      },
      "stable": false
     },
-    "holm_p": 0.6771890688608251,
+    "holm_p": 0.5649963105978961,
     "tier": "SUGGESTIVE"
    },
    {
@@ -378,7 +378,7 @@
     "share_down": 0.5075757575757576,
     "mde": 0.11567794914546634,
     "raw_p": 0.03184809876293393,
-    "placebo_p": 0.014962593516209476,
+    "placebo_p": 0.012468827930174564,
     "districts": {
      "n": 4,
      "effects": {
@@ -410,7 +410,7 @@
     "share_down": 0.38961038961038963,
     "mde": 0.05132051869317802,
     "raw_p": 0.24851744472166515,
-    "placebo_p": 0.2743142144638404,
+    "placebo_p": 0.2892768079800499,
     "districts": {
      "n": 4,
      "effects": {
@@ -430,23 +430,23 @@
     "horizon": 7,
     "status": "OK",
     "n": 214,
-    "effect": 0.0012002257884067716,
+    "effect": 0.0019967981629747424,
     "ci": [
      -0.038178339445308705,
      0.037678376126581904
     ],
-    "raw_mean": 0.018894553916509287,
+    "raw_mean": 0.01889456807686818,
     "raw_median": 0.0,
     "p10": -0.22510536380581653,
     "p90": 0.30694595225866794,
     "share_down": 0.397196261682243,
-    "mde": 0.05713263672085484,
-    "raw_p": 0.953149364322653,
-    "placebo_p": 0.942643391521197,
+    "mde": 0.057323451823412766,
+    "raw_p": 0.9223933685101744,
+    "placebo_p": 0.9301745635910225,
     "districts": {
      "n": 4,
      "effects": {
-      "bengaluru": -0.0537318842376776,
+      "bengaluru": -0.05151803374212507,
       "bengaluru_rural": -0.007125746910577594,
       "chikkaballapur": 0.010694758327669916,
       "kolar": 0.11151816011591628
@@ -462,26 +462,26 @@
     "horizon": 14,
     "status": "OK",
     "n": 217,
-    "effect": 0.011641123401385269,
+    "effect": 0.012153859846447942,
     "ci": [
      -0.041831401258260424,
      0.06479019308827279
     ],
-    "raw_mean": 0.025907356301867808,
+    "raw_mean": 0.026008641586286126,
     "raw_median": 0.0,
     "p10": -0.2425495705522353,
     "p90": 0.29975655083313474,
     "share_down": 0.41013824884792627,
-    "mde": 0.06238571704912793,
-    "raw_p": 0.601873225624336,
-    "placebo_p": 0.5910224438902744,
+    "mde": 0.06243355058882075,
+    "raw_p": 0.5862660585160402,
+    "placebo_p": 0.5561097256857855,
     "districts": {
      "n": 4,
      "effects": {
       "bengaluru": -0.02749592298517186,
       "bengaluru_rural": 0.07706454671393213,
       "chikkaballapur": 0.004496293207840323,
-      "kolar": 0.05240971918871631
+      "kolar": 0.0554168491503001
      },
      "stable": true
     },
@@ -493,26 +493,26 @@
     "direction": "squeeze",
     "horizon": 3,
     "status": "OK",
-    "n": 143,
-    "effect": 0.03735828558235358,
+    "n": 144,
+    "effect": 0.03828264810023685,
     "ci": [
-     -0.011713335302034097,
+     -0.011713335302034094,
      0.07607993430882631
     ],
-    "raw_mean": 0.023366025022729282,
+    "raw_mean": 0.023203782003938127,
     "raw_median": 0.0,
-    "p10": -0.14164098144505333,
-    "p90": 0.23483476869184422,
-    "share_down": 0.2937062937062937,
-    "mde": 0.06654786132340045,
-    "raw_p": 0.11821107919459628,
-    "placebo_p": 0.14214463840399003,
+    "p10": -0.14031439156522216,
+    "p90": 0.2340577640056512,
+    "share_down": 0.2916666666666667,
+    "mde": 0.0663922631205613,
+    "raw_p": 0.10861979344332306,
+    "placebo_p": 0.14962593516209477,
     "districts": {
      "n": 4,
      "effects": {
-      "bengaluru": 0.06180409821236678,
+      "bengaluru": 0.06528300613394934,
       "bengaluru_rural": 0.051884504690115935,
-      "chikkaballapur": 0.05903652248159561,
+      "chikkaballapur": 0.058128268289571065,
       "kolar": -0.09197447405536063
      },
      "stable": true
@@ -526,25 +526,25 @@
     "horizon": 7,
     "status": "OK",
     "n": 140,
-    "effect": 0.013423292660690502,
+    "effect": 0.013116280448112064,
     "ci": [
      -0.03916116031414811,
      0.06889105054671153
     ],
-    "raw_mean": 0.033586212371771125,
+    "raw_mean": 0.033306511661869105,
     "raw_median": 0.0,
     "p10": -0.1901628935470594,
     "p90": 0.2915434517664521,
     "share_down": 0.34285714285714286,
-    "mde": 0.07038795510153648,
-    "raw_p": 0.594213617451889,
-    "placebo_p": 0.5835411471321695,
+    "mde": 0.07037277760534932,
+    "raw_p": 0.6025900391742427,
+    "placebo_p": 0.5960099750623441,
     "districts": {
      "n": 4,
      "effects": {
       "bengaluru": 0.06264362069948172,
       "bengaluru_rural": -0.06529617613573224,
-      "chikkaballapur": -0.018410913073239964,
+      "chikkaballapur": -0.019082502288255296,
       "kolar": 0.02865175123473821
      },
      "stable": false
@@ -570,7 +570,7 @@
     "share_down": 0.4074074074074074,
     "mde": 0.07814875736088026,
     "raw_p": 0.19482861166768073,
-    "placebo_p": 0.19950124688279303,
+    "placebo_p": 0.20947630922693267,
     "districts": {
      "n": 4,
      "effects": {
@@ -602,7 +602,7 @@
     "share_down": 0.39906103286384975,
     "mde": 0.05443618210809951,
     "raw_p": 0.7000520787736324,
-    "placebo_p": 0.7107231920199502,
+    "placebo_p": 0.7082294264339152,
     "districts": {
      "n": 3,
      "effects": {
@@ -621,25 +621,25 @@
     "horizon": 7,
     "status": "OK",
     "n": 211,
-    "effect": -0.01600467869302491,
+    "effect": -0.01583501699796362,
     "ci": [
      -0.05725655274900114,
      0.01531479689179176
     ],
-    "raw_mean": 0.009715896022196321,
-    "raw_median": 0.0016680571006970624,
+    "raw_mean": 0.009551820256927478,
+    "raw_median": 0.0006384065257423188,
     "p10": -0.3191419790700536,
     "p90": 0.3231836472154983,
-    "share_down": 0.4028436018957346,
-    "mde": 0.06382558200241115,
-    "raw_p": 0.48338294188899056,
-    "placebo_p": 0.4014962593516209,
+    "share_down": 0.4075829383886256,
+    "mde": 0.06382966300673806,
+    "raw_p": 0.4880545236981986,
+    "placebo_p": 0.4089775561097257,
     "districts": {
      "n": 3,
      "effects": {
       "bengaluru": -0.022181129817355146,
       "chikkaballapur": 0.10256212737311125,
-      "kolar": -0.12266317292009322
+      "kolar": -0.12210381951918804
      },
      "stable": false
     },
@@ -664,7 +664,7 @@
     "share_down": 0.4380952380952381,
     "mde": 0.05996197241612626,
     "raw_p": 0.5930299420704181,
-    "placebo_p": 0.6209476309226932,
+    "placebo_p": 0.6259351620947631,
     "districts": {
      "n": 3,
      "effects": {
@@ -682,25 +682,25 @@
     "direction": "squeeze",
     "horizon": 3,
     "status": "OK",
-    "n": 112,
-    "effect": 0.006007115563875515,
+    "n": 113,
+    "effect": 0.00595395524915095,
     "ci": [
-     -0.07071266190453009,
-     0.05137435732744886
+     -0.06372446953589263,
+     0.05295642817073726
     ],
-    "raw_mean": -0.022700112493119286,
+    "raw_mean": -0.022499226541852744,
     "raw_median": 0.0,
-    "p10": -0.3245897561569729,
-    "p90": 0.20808043315266903,
-    "share_down": 0.3125,
-    "mde": 0.07104028025400666,
-    "raw_p": 0.8132747146950767,
-    "placebo_p": 0.8628428927680798,
+    "p10": -0.3237571118793175,
+    "p90": 0.20803142555551074,
+    "share_down": 0.30973451327433627,
+    "mde": 0.07040895590458467,
+    "raw_p": 0.8132639282832106,
+    "placebo_p": 0.8254364089775561,
     "districts": {
      "n": 3,
      "effects": {
       "bengaluru": 0.03403086478076891,
-      "chikkaballapur": -0.05228116073351785,
+      "chikkaballapur": -0.05100601047172473,
       "kolar": 0.044852282307645146
      },
      "stable": false
@@ -714,24 +714,24 @@
     "horizon": 7,
     "status": "OK",
     "n": 111,
-    "effect": -0.04665693091498302,
+    "effect": -0.04506787612741117,
     "ci": [
      -0.07777728714231807,
      -0.018989545407573628
     ],
-    "raw_mean": -0.010874837652639696,
+    "raw_mean": -0.010875151406246463,
     "raw_median": 0.0,
     "p10": -0.25131442828090655,
     "p90": 0.18610227963386095,
     "share_down": 0.36036036036036034,
-    "mde": 0.0620210892056399,
-    "raw_p": 0.037446373109305764,
+    "mde": 0.06153996844650403,
+    "raw_p": 0.042688849854160216,
     "placebo_p": 0.08478802992518704,
     "districts": {
      "n": 3,
      "effects": {
-      "bengaluru": 0.000961304674655768,
-      "chikkaballapur": -0.10379621661071481,
+      "bengaluru": 0.004924541115320955,
+      "chikkaballapur": -0.10364706874891802,
       "kolar": -0.03815738457659718
      },
      "stable": false
@@ -757,7 +757,7 @@
     "share_down": 0.4,
     "mde": 0.07921592402957232,
     "raw_p": 0.7446446412129348,
-    "placebo_p": 0.800498753117207,
+    "placebo_p": 0.7830423940149626,
     "districts": {
      "n": 3,
      "effects": {
@@ -788,7 +788,7 @@
     "share_down": 0.4601226993865031,
     "mde": 0.08158354909839968,
     "raw_p": 0.9129077781551933,
-    "placebo_p": 0.9027431421446384,
+    "placebo_p": 0.8678304239401496,
     "districts": {
      "n": 5,
      "effects": {
@@ -854,7 +854,7 @@
     "share_down": 0.5061728395061729,
     "mde": 0.1187417066378022,
     "raw_p": 0.9053484062116599,
-    "placebo_p": 0.8977556109725686,
+    "placebo_p": 0.8927680798004988,
     "districts": {
      "n": 5,
      "effects": {
@@ -887,7 +887,7 @@
     "share_down": 0.46060606060606063,
     "mde": 0.05627446124167474,
     "raw_p": 0.46157419077384576,
-    "placebo_p": 0.3690773067331671,
+    "placebo_p": 0.3566084788029925,
     "districts": {
      "n": 4,
      "effects": {
@@ -919,7 +919,7 @@
     "share_down": 0.4817073170731707,
     "mde": 0.0682531032163142,
     "raw_p": 0.12334855790472465,
-    "placebo_p": 0.032418952618453865,
+    "placebo_p": 0.04987531172069826,
     "districts": {
      "n": 4,
      "effects": {
@@ -938,27 +938,27 @@
     "direction": "squeeze",
     "horizon": 14,
     "status": "OK",
-    "n": 326,
-    "effect": -0.011309994068269215,
+    "n": 328,
+    "effect": -0.014129202602480403,
     "ci": [
-     -0.10028831052882915,
-     0.0698048986051229
+     -0.10134165402409402,
+     0.0700573420757425
     ],
-    "raw_mean": -0.010235280578731276,
+    "raw_mean": -0.013144917751392864,
     "raw_median": 0.0,
-    "p10": -0.6604579204254235,
-    "p90": 0.6006719931371345,
-    "share_down": 0.4785276073619632,
-    "mde": 0.07814484245214522,
-    "raw_p": 0.6855623933543264,
-    "placebo_p": 0.6209476309226932,
+    "p10": -0.6598460722837761,
+    "p90": 0.6005911837262664,
+    "share_down": 0.4817073170731707,
+    "mde": 0.07787425823727956,
+    "raw_p": 0.6117810480236476,
+    "placebo_p": 0.5361596009975063,
     "districts": {
      "n": 4,
      "effects": {
       "bengaluru": 0.0527201000845982,
-      "bengaluru_south": 0.0496924414654487,
+      "bengaluru_south": 0.042688898598772014,
       "chikkaballapur": -0.0640352756926053,
-      "kolar": -0.042969551959707294
+      "kolar": -0.04712298626648654
      },
      "stable": false
     },
@@ -996,7 +996,7 @@
      0.0468,
      0.1679
     ],
-    "placebo_p": 0.1377,
+    "placebo_p": 0.1317,
     "pre_trend_t": -1.627,
     "stability": {
      "stable": false,
@@ -1024,7 +1024,7 @@
      -0.0889,
      0.0912
     ],
-    "placebo_p": 0.7325,
+    "placebo_p": 0.7445,
     "pre_trend_t": -0.088,
     "stability": {
      "stable": false,
@@ -1052,7 +1052,7 @@
      -0.0467,
      0.0563
     ],
-    "placebo_p": 0.9202,
+    "placebo_p": 0.9182,
     "pre_trend_t": -1.498,
     "stability": {
      "stable": false,
@@ -1080,7 +1080,7 @@
      -0.052,
      0.0658
     ],
-    "placebo_p": 0.8244,
+    "placebo_p": 0.8204,
     "pre_trend_t": 0.246,
     "stability": {
      "stable": false,
@@ -1108,7 +1108,7 @@
      -0.0156,
      0.0712
     ],
-    "placebo_p": 0.3034,
+    "placebo_p": 0.2874,
     "pre_trend_t": -0.427,
     "stability": {
      "stable": false,
@@ -1135,7 +1135,7 @@
      -0.0294,
      0.0295
     ],
-    "placebo_p": 0.7804,
+    "placebo_p": 0.7844,
     "pre_trend_t": 1.797,
     "stability": {
      "stable": false,
@@ -1162,7 +1162,7 @@
      -0.0312,
      0.1092
     ],
-    "placebo_p": 0.3872,
+    "placebo_p": 0.3713,
     "pre_trend_t": 0.128,
     "stability": {
      "stable": false,
@@ -1191,7 +1191,7 @@
      -0.1362,
      0.1725
     ],
-    "placebo_p": 0.6567,
+    "placebo_p": 0.6607,
     "pre_trend_t": 1.197,
     "stability": {
      "stable": false,
@@ -1220,7 +1220,7 @@
      -0.0552,
      0.0611
     ],
-    "placebo_p": 0.8483,
+    "placebo_p": 0.8423,
     "pre_trend_t": -1.086,
     "stability": {
      "stable": false,
@@ -1271,12 +1271,12 @@
     "shock": "glut",
     "status": "OK",
     "n_episodes": 124,
-    "effect": -0.0248,
+    "effect": -0.0246,
     "ci": [
      -0.065,
      0.024
     ],
-    "placebo_p": 0.489,
+    "placebo_p": 0.517,
     "pre_trend_t": 0.913,
     "stability": {
      "stable": true,
@@ -1305,7 +1305,7 @@
      -0.0432,
      0.0651
     ],
-    "placebo_p": 0.8822,
+    "placebo_p": 0.8882,
     "pre_trend_t": 0.045,
     "stability": {
      "stable": false,
@@ -1329,19 +1329,19 @@
     "shock": "glut",
     "status": "OK",
     "n_episodes": 141,
-    "effect": -0.0133,
+    "effect": -0.0135,
     "ci": [
      -0.0437,
      0.0146
     ],
-    "placebo_p": 0.5948,
+    "placebo_p": 0.5749,
     "pre_trend_t": -0.978,
     "stability": {
      "stable": false,
      "districts": 3,
      "agree": 2
     },
-    "min_detectable_effect": 0.0417,
+    "min_detectable_effect": 0.0416,
     "districts": [
      "bengaluru",
      "bengaluru_south",
@@ -1362,7 +1362,7 @@
      -0.0232,
      0.0531
     ],
-    "placebo_p": 0.5828,
+    "placebo_p": 0.6287,
     "pre_trend_t": 0.209,
     "stability": {
      "stable": false,
@@ -1385,19 +1385,19 @@
     "shock": "glut",
     "status": "OK",
     "n_episodes": 212,
-    "effect": 0.0248,
+    "effect": 0.0231,
     "ci": [
-     -0.0473,
-     0.112
+     -0.0474,
+     0.1121
     ],
-    "placebo_p": 0.493,
+    "placebo_p": 0.525,
     "pre_trend_t": 0.905,
     "stability": {
      "stable": true,
      "districts": 4,
      "agree": 3
     },
-    "min_detectable_effect": 0.1138,
+    "min_detectable_effect": 0.1139,
     "districts": [
      "bengaluru",
      "bengaluru_rural",
@@ -1419,7 +1419,7 @@
      -0.0183,
      0.0781
     ],
-    "placebo_p": 0.6148,
+    "placebo_p": 0.6088,
     "pre_trend_t": -1.245,
     "stability": {
      "stable": true,
@@ -1448,7 +1448,7 @@
      -0.0584,
      0.0513
     ],
-    "placebo_p": 0.7924,
+    "placebo_p": 0.8084,
     "pre_trend_t": -0.048,
     "stability": {
      "stable": false,
@@ -1476,7 +1476,7 @@
      -0.074,
      0.163
     ],
-    "placebo_p": 0.8643,
+    "placebo_p": 0.8663,
     "pre_trend_t": 1.367,
     "stability": {
      "stable": false,
@@ -1499,19 +1499,19 @@
     "shock": "glut",
     "status": "OK",
     "n_episodes": 164,
-    "effect": 0.0242,
+    "effect": 0.0232,
     "ci": [
      -0.0242,
-     0.0767
+     0.0766
     ],
-    "placebo_p": 0.5549,
+    "placebo_p": 0.5589,
     "pre_trend_t": -1.361,
     "stability": {
      "stable": false,
      "districts": 3,
      "agree": 2
     },
-    "min_detectable_effect": 0.0721,
+    "min_detectable_effect": 0.072,
     "districts": [
      "bengaluru",
      "bengaluru_rural",
@@ -1533,7 +1533,7 @@
      0.0461,
      0.1798
     ],
-    "placebo_p": 0.0838,
+    "placebo_p": 0.0659,
     "pre_trend_t": -0.895,
     "stability": {
      "stable": true,
@@ -1557,12 +1557,12 @@
     "shock": "glut",
     "status": "OK",
     "n_episodes": 196,
-    "effect": -0.0056,
+    "effect": -0.0057,
     "ci": [
      -0.0424,
      0.0197
     ],
-    "placebo_p": 0.7944,
+    "placebo_p": 0.8024,
     "pre_trend_t": -0.465,
     "stability": {
      "stable": false,
@@ -1590,7 +1590,7 @@
      -0.0151,
      0.0655
     ],
-    "placebo_p": 0.3393,
+    "placebo_p": 0.3313,
     "pre_trend_t": 0.768,
     "stability": {
      "stable": true,
@@ -1613,12 +1613,12 @@
     "shock": "glut",
     "status": "OK",
     "n_episodes": 228,
-    "effect": 0.0256,
+    "effect": 0.0253,
     "ci": [
      -0.0423,
-     0.1175
+     0.1176
     ],
-    "placebo_p": 0.4431,
+    "placebo_p": 0.4611,
     "pre_trend_t": 2.937,
     "stability": {
      "stable": true,
@@ -1647,7 +1647,7 @@
      -0.015,
      0.1458
     ],
-    "placebo_p": 0.1936,
+    "placebo_p": 0.2016,
     "pre_trend_t": 0.546,
     "stability": {
      "stable": false,
@@ -1676,7 +1676,7 @@
      -0.0232,
      0.1206
     ],
-    "placebo_p": 0.5649,
+    "placebo_p": 0.5988,
     "pre_trend_t": -0.416,
     "stability": {
      "stable": false,
@@ -1703,7 +1703,7 @@
      -0.1681,
      0.0429
     ],
-    "placebo_p": 0.3992,
+    "placebo_p": 0.3972,
     "pre_trend_t": 0.982,
     "stability": {
      "stable": false,
@@ -1730,7 +1730,7 @@
      -0.0038,
      0.1017
     ],
-    "placebo_p": 0.3653,
+    "placebo_p": 0.3453,
     "pre_trend_t": -0.581,
     "stability": {
      "stable": false,
@@ -1758,7 +1758,7 @@
      -0.0585,
      0.1448
     ],
-    "placebo_p": 0.2395,
+    "placebo_p": 0.2435,
     "pre_trend_t": 0.893,
     "stability": {
      "stable": true,
@@ -1786,7 +1786,7 @@
      -0.0219,
      0.0505
     ],
-    "placebo_p": 0.7425,
+    "placebo_p": 0.7265,
     "pre_trend_t": 0.193,
     "stability": {
      "stable": false,
@@ -1814,7 +1814,7 @@
      0.0094,
      0.0857
     ],
-    "placebo_p": 0.4511,
+    "placebo_p": 0.483,
     "pre_trend_t": 1.958,
     "stability": {
      "stable": false,
@@ -1842,7 +1842,7 @@
      -0.0484,
      0.1015
     ],
-    "placebo_p": 0.3752,
+    "placebo_p": 0.3852,
     "pre_trend_t": -0.04,
     "stability": {
      "stable": false,
@@ -1871,7 +1871,7 @@
      -0.025,
      0.1468
     ],
-    "placebo_p": 0.3114,
+    "placebo_p": 0.3234,
     "pre_trend_t": 0.902,
     "stability": {
      "stable": true,
@@ -1900,7 +1900,7 @@
      -0.0257,
      0.0708
     ],
-    "placebo_p": 0.6487,
+    "placebo_p": 0.6427,
     "pre_trend_t": 0.912,
     "stability": {
      "stable": false,
@@ -1929,7 +1929,7 @@
      -0.0766,
      0.1217
     ],
-    "placebo_p": 0.8583,
+    "placebo_p": 0.8383,
     "pre_trend_t": 0.152,
     "stability": {
      "stable": false,
@@ -1958,7 +1958,7 @@
      0.0097,
      0.1278
     ],
-    "placebo_p": 0.1816,
+    "placebo_p": 0.1717,
     "pre_trend_t": 0.123,
     "stability": {
      "stable": true,
@@ -1981,20 +1981,20 @@
     "target": "ginger",
     "shock": "squeeze",
     "status": "OK",
-    "n_episodes": 255,
-    "effect": 0.0266,
+    "n_episodes": 257,
+    "effect": 0.0255,
     "ci": [
-     -0.0032,
-     0.0648
+     -0.0028,
+     0.0647
     ],
-    "placebo_p": 0.4212,
-    "pre_trend_t": -0.124,
+    "placebo_p": 0.4571,
+    "pre_trend_t": -0.055,
     "stability": {
      "stable": false,
      "districts": 4,
      "agree": 0
     },
-    "min_detectable_effect": 0.0486,
+    "min_detectable_effect": 0.0482,
     "districts": [
      "bengaluru",
      "bengaluru_rural",
@@ -2016,7 +2016,7 @@
      0.0088,
      0.0931
     ],
-    "placebo_p": 0.4371,
+    "placebo_p": 0.4491,
     "pre_trend_t": -0.183,
     "stability": {
      "stable": true,
@@ -2039,20 +2039,20 @@
     "target": "onion",
     "shock": "squeeze",
     "status": "OK",
-    "n_episodes": 196,
-    "effect": -0.0058,
+    "n_episodes": 197,
+    "effect": -0.0044,
     "ci": [
-     -0.0555,
-     0.0485
+     -0.0554,
+     0.0494
     ],
-    "placebo_p": 0.8583,
-    "pre_trend_t": -0.098,
+    "placebo_p": 0.8962,
+    "pre_trend_t": -0.134,
     "stability": {
      "stable": false,
      "districts": 3,
      "agree": 2
     },
-    "min_detectable_effect": 0.0743,
+    "min_detectable_effect": 0.0748,
     "districts": [
      "bengaluru",
      "bengaluru_rural",
@@ -2074,7 +2074,7 @@
      -0.0605,
      0.0749
     ],
-    "placebo_p": 0.7445,
+    "placebo_p": 0.7126,
     "pre_trend_t": -2.03,
     "stability": {
      "stable": true,
@@ -2097,20 +2097,20 @@
     "target": "potato",
     "shock": "squeeze",
     "status": "OK",
-    "n_episodes": 218,
-    "effect": -0.0016,
+    "n_episodes": 219,
+    "effect": -0.0021,
     "ci": [
-     -0.0265,
-     0.0243
+     -0.025,
+     0.0246
     ],
-    "placebo_p": 0.9321,
-    "pre_trend_t": 1.65,
+    "placebo_p": 0.9361,
+    "pre_trend_t": 1.522,
     "stability": {
      "stable": false,
      "districts": 3,
      "agree": 2
     },
-    "min_detectable_effect": 0.0363,
+    "min_detectable_effect": 0.0354,
     "districts": [
      "bengaluru",
      "bengaluru_rural",
@@ -2160,11 +2160,11 @@
     "from": "bengaluru",
     "to": "bengaluru_south",
     "n_weeks": 304,
-    "kappa": -0.2292,
+    "kappa": -0.2294,
     "p": 0.0,
     "adf_p": 0.0004,
     "half_life_weeks": 2.66,
-    "mean_gap_pct": 16.79,
+    "mean_gap_pct": 16.81,
     "adf_p_holm": 0.0036,
     "p_holm": 0.0036,
     "closes": true
@@ -2174,13 +2174,13 @@
     "from": "bengaluru",
     "to": "chikkaballapur",
     "n_weeks": 178,
-    "kappa": -0.417,
+    "kappa": -0.4175,
     "p": 0.0,
-    "adf_p": 0.022,
+    "adf_p": 0.0215,
     "half_life_weeks": 1.28,
-    "mean_gap_pct": 6.02,
-    "adf_p_holm": 0.044,
-    "p_holm": 0.044,
+    "mean_gap_pct": 6.06,
+    "adf_p_holm": 0.043,
+    "p_holm": 0.043,
     "closes": true
    },
    {
@@ -2202,11 +2202,11 @@
     "from": "bengaluru_south",
     "to": "bengaluru",
     "n_weeks": 304,
-    "kappa": -0.2292,
+    "kappa": -0.2294,
     "p": 0.0,
     "adf_p": 0.0004,
     "half_life_weeks": 2.66,
-    "mean_gap_pct": -14.37,
+    "mean_gap_pct": -14.39,
     "adf_p_holm": 0.0036,
     "p_holm": 0.0036,
     "closes": true
@@ -2234,7 +2234,7 @@
     "p": 0.0,
     "adf_p": 0.0009,
     "half_life_weeks": 1.97,
-    "mean_gap_pct": -12.48,
+    "mean_gap_pct": -12.49,
     "adf_p_holm": 0.0063,
     "p_holm": 0.0063,
     "closes": true
@@ -2244,13 +2244,13 @@
     "from": "chikkaballapur",
     "to": "bengaluru",
     "n_weeks": 178,
-    "kappa": -0.417,
+    "kappa": -0.4175,
     "p": 0.0,
-    "adf_p": 0.022,
+    "adf_p": 0.0215,
     "half_life_weeks": 1.28,
-    "mean_gap_pct": -5.68,
-    "adf_p_holm": 0.044,
-    "p_holm": 0.044,
+    "mean_gap_pct": -5.71,
+    "adf_p_holm": 0.043,
+    "p_holm": 0.043,
     "closes": true
    },
    {
@@ -2272,11 +2272,11 @@
     "from": "chikkaballapur",
     "to": "kolar",
     "n_weeks": 167,
-    "kappa": -0.8021,
+    "kappa": -0.8024,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 0.43,
-    "mean_gap_pct": -4.89,
+    "mean_gap_pct": -4.92,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2304,7 +2304,7 @@
     "p": 0.0,
     "adf_p": 0.0009,
     "half_life_weeks": 1.97,
-    "mean_gap_pct": 14.26,
+    "mean_gap_pct": 14.28,
     "adf_p_holm": 0.0063,
     "p_holm": 0.0063,
     "closes": true
@@ -2314,11 +2314,11 @@
     "from": "kolar",
     "to": "chikkaballapur",
     "n_weeks": 167,
-    "kappa": -0.8021,
+    "kappa": -0.8024,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 0.43,
-    "mean_gap_pct": 5.14,
+    "mean_gap_pct": 5.18,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2328,11 +2328,11 @@
     "from": "bengaluru",
     "to": "bengaluru_rural",
     "n_weeks": 235,
-    "kappa": -0.2344,
+    "kappa": -0.2348,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 2.59,
-    "mean_gap_pct": 26.25,
+    "mean_gap_pct": 26.23,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2342,11 +2342,11 @@
     "from": "bengaluru",
     "to": "chikkaballapur",
     "n_weeks": 261,
-    "kappa": -0.2898,
+    "kappa": -0.2901,
     "p": 0.0,
     "adf_p": 0.0004,
-    "half_life_weeks": 2.03,
-    "mean_gap_pct": 36.91,
+    "half_life_weeks": 2.02,
+    "mean_gap_pct": 36.89,
     "adf_p_holm": 0.0036,
     "p_holm": 0.0036,
     "closes": true
@@ -2356,11 +2356,11 @@
     "from": "bengaluru",
     "to": "kolar",
     "n_weeks": 213,
-    "kappa": -0.5277,
+    "kappa": -0.5276,
     "p": 0.0,
     "adf_p": 0.0001,
     "half_life_weeks": 0.92,
-    "mean_gap_pct": 39.21,
+    "mean_gap_pct": 39.2,
     "adf_p_holm": 0.0013,
     "p_holm": 0.0013,
     "closes": true
@@ -2370,11 +2370,11 @@
     "from": "bengaluru_rural",
     "to": "bengaluru",
     "n_weeks": 235,
-    "kappa": -0.2344,
+    "kappa": -0.2348,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 2.59,
-    "mean_gap_pct": -20.79,
+    "mean_gap_pct": -20.78,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2384,7 +2384,7 @@
     "from": "bengaluru_rural",
     "to": "chikkaballapur",
     "n_weeks": 238,
-    "kappa": -0.3397,
+    "kappa": -0.3398,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 1.67,
@@ -2398,13 +2398,13 @@
     "from": "bengaluru_rural",
     "to": "kolar",
     "n_weeks": 194,
-    "kappa": -0.4593,
+    "kappa": -0.4598,
     "p": 0.0,
-    "adf_p": 0.0082,
+    "adf_p": 0.0079,
     "half_life_weeks": 1.13,
-    "mean_gap_pct": 10.54,
-    "adf_p_holm": 0.0328,
-    "p_holm": 0.0328,
+    "mean_gap_pct": 10.56,
+    "adf_p_holm": 0.0316,
+    "p_holm": 0.0316,
     "closes": true
    },
    {
@@ -2412,11 +2412,11 @@
     "from": "chikkaballapur",
     "to": "bengaluru",
     "n_weeks": 261,
-    "kappa": -0.2898,
+    "kappa": -0.2901,
     "p": 0.0,
     "adf_p": 0.0004,
-    "half_life_weeks": 2.03,
-    "mean_gap_pct": -26.96,
+    "half_life_weeks": 2.02,
+    "mean_gap_pct": -26.95,
     "adf_p_holm": 0.0036,
     "p_holm": 0.0036,
     "closes": true
@@ -2426,11 +2426,11 @@
     "from": "chikkaballapur",
     "to": "bengaluru_rural",
     "n_weeks": 238,
-    "kappa": -0.3397,
+    "kappa": -0.3398,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 1.67,
-    "mean_gap_pct": -7.07,
+    "mean_gap_pct": -7.08,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2440,11 +2440,11 @@
     "from": "chikkaballapur",
     "to": "kolar",
     "n_weeks": 236,
-    "kappa": -0.6033,
+    "kappa": -0.6036,
     "p": 0.0,
     "adf_p": 0.0001,
     "half_life_weeks": 0.75,
-    "mean_gap_pct": 1.33,
+    "mean_gap_pct": 1.34,
     "adf_p_holm": 0.0013,
     "p_holm": 0.0013,
     "closes": true
@@ -2454,7 +2454,7 @@
     "from": "kolar",
     "to": "bengaluru",
     "n_weeks": 213,
-    "kappa": -0.5277,
+    "kappa": -0.5276,
     "p": 0.0,
     "adf_p": 0.0001,
     "half_life_weeks": 0.92,
@@ -2468,13 +2468,13 @@
     "from": "kolar",
     "to": "bengaluru_rural",
     "n_weeks": 194,
-    "kappa": -0.4593,
+    "kappa": -0.4598,
     "p": 0.0,
-    "adf_p": 0.0082,
+    "adf_p": 0.0079,
     "half_life_weeks": 1.13,
-    "mean_gap_pct": -9.53,
-    "adf_p_holm": 0.0328,
-    "p_holm": 0.0328,
+    "mean_gap_pct": -9.55,
+    "adf_p_holm": 0.0316,
+    "p_holm": 0.0316,
     "closes": true
    },
    {
@@ -2482,11 +2482,11 @@
     "from": "kolar",
     "to": "chikkaballapur",
     "n_weeks": 236,
-    "kappa": -0.6033,
+    "kappa": -0.6036,
     "p": 0.0,
     "adf_p": 0.0001,
     "half_life_weeks": 0.75,
-    "mean_gap_pct": -1.32,
+    "mean_gap_pct": -1.33,
     "adf_p_holm": 0.0013,
     "p_holm": 0.0013,
     "closes": true
@@ -2496,11 +2496,11 @@
     "from": "bengaluru",
     "to": "chikkaballapur",
     "n_weeks": 258,
-    "kappa": -0.3477,
+    "kappa": -0.3485,
     "p": 0.0,
     "adf_p": 0.0003,
     "half_life_weeks": 1.62,
-    "mean_gap_pct": 1.44,
+    "mean_gap_pct": 1.46,
     "adf_p_holm": 0.0033,
     "p_holm": 0.0033,
     "closes": true
@@ -2510,7 +2510,7 @@
     "from": "bengaluru",
     "to": "kolar",
     "n_weeks": 259,
-    "kappa": -0.3862,
+    "kappa": -0.3866,
     "p": 0.0,
     "adf_p": 0.0029,
     "half_life_weeks": 1.42,
@@ -2524,11 +2524,11 @@
     "from": "chikkaballapur",
     "to": "bengaluru",
     "n_weeks": 258,
-    "kappa": -0.3477,
+    "kappa": -0.3485,
     "p": 0.0,
     "adf_p": 0.0003,
     "half_life_weeks": 1.62,
-    "mean_gap_pct": -1.42,
+    "mean_gap_pct": -1.44,
     "adf_p_holm": 0.0033,
     "p_holm": 0.0033,
     "closes": true
@@ -2538,11 +2538,11 @@
     "from": "chikkaballapur",
     "to": "kolar",
     "n_weeks": 294,
-    "kappa": -0.3494,
+    "kappa": -0.3493,
     "p": 0.0,
     "adf_p": 0.0003,
     "half_life_weeks": 1.61,
-    "mean_gap_pct": -1.16,
+    "mean_gap_pct": -1.17,
     "adf_p_holm": 0.0033,
     "p_holm": 0.0033,
     "closes": true
@@ -2552,7 +2552,7 @@
     "from": "kolar",
     "to": "bengaluru",
     "n_weeks": 259,
-    "kappa": -0.3862,
+    "kappa": -0.3866,
     "p": 0.0,
     "adf_p": 0.0029,
     "half_life_weeks": 1.42,
@@ -2566,11 +2566,11 @@
     "from": "kolar",
     "to": "chikkaballapur",
     "n_weeks": 294,
-    "kappa": -0.3494,
+    "kappa": -0.3493,
     "p": 0.0,
     "adf_p": 0.0003,
     "half_life_weeks": 1.61,
-    "mean_gap_pct": 1.17,
+    "mean_gap_pct": 1.18,
     "adf_p_holm": 0.0033,
     "p_holm": 0.0033,
     "closes": true
@@ -2580,11 +2580,11 @@
     "from": "bengaluru",
     "to": "bengaluru_rural",
     "n_weeks": 239,
-    "kappa": -0.446,
+    "kappa": -0.4467,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 1.17,
-    "mean_gap_pct": -24.16,
+    "mean_gap_pct": -24.13,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2594,11 +2594,11 @@
     "from": "bengaluru",
     "to": "bengaluru_south",
     "n_weeks": 302,
-    "kappa": -0.2849,
+    "kappa": -0.283,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 2.07,
-    "mean_gap_pct": -16.82,
+    "half_life_weeks": 2.08,
+    "mean_gap_pct": -16.77,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2608,11 +2608,11 @@
     "from": "bengaluru",
     "to": "chikkaballapur",
     "n_weeks": 302,
-    "kappa": -0.3774,
+    "kappa": -0.3763,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 1.46,
-    "mean_gap_pct": -41.19,
+    "half_life_weeks": 1.47,
+    "mean_gap_pct": -41.16,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2622,11 +2622,11 @@
     "from": "bengaluru",
     "to": "kolar",
     "n_weeks": 302,
-    "kappa": -0.3841,
+    "kappa": -0.383,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 1.43,
-    "mean_gap_pct": -45.1,
+    "half_life_weeks": 1.44,
+    "mean_gap_pct": -45.08,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2636,11 +2636,11 @@
     "from": "bengaluru_rural",
     "to": "bengaluru",
     "n_weeks": 239,
-    "kappa": -0.446,
+    "kappa": -0.4467,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 1.17,
-    "mean_gap_pct": 31.86,
+    "mean_gap_pct": 31.8,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2650,11 +2650,11 @@
     "from": "bengaluru_rural",
     "to": "bengaluru_south",
     "n_weeks": 242,
-    "kappa": -0.2475,
+    "kappa": -0.2462,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 2.44,
-    "mean_gap_pct": 8.54,
+    "half_life_weeks": 2.45,
+    "mean_gap_pct": 8.58,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2664,11 +2664,11 @@
     "from": "bengaluru_rural",
     "to": "chikkaballapur",
     "n_weeks": 242,
-    "kappa": -0.3191,
+    "kappa": -0.3185,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 1.8,
-    "mean_gap_pct": -23.18,
+    "half_life_weeks": 1.81,
+    "mean_gap_pct": -23.17,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2678,11 +2678,11 @@
     "from": "bengaluru_rural",
     "to": "kolar",
     "n_weeks": 242,
-    "kappa": -0.353,
+    "kappa": -0.3524,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 1.59,
-    "mean_gap_pct": -28.54,
+    "half_life_weeks": 1.6,
+    "mean_gap_pct": -28.53,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2692,11 +2692,11 @@
     "from": "bengaluru_south",
     "to": "bengaluru",
     "n_weeks": 302,
-    "kappa": -0.2849,
+    "kappa": -0.283,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 2.07,
-    "mean_gap_pct": 20.23,
+    "half_life_weeks": 2.08,
+    "mean_gap_pct": 20.15,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2706,11 +2706,11 @@
     "from": "bengaluru_south",
     "to": "bengaluru_rural",
     "n_weeks": 242,
-    "kappa": -0.2475,
+    "kappa": -0.2462,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 2.44,
-    "mean_gap_pct": -7.87,
+    "half_life_weeks": 2.45,
+    "mean_gap_pct": -7.9,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2720,11 +2720,11 @@
     "from": "bengaluru_south",
     "to": "chikkaballapur",
     "n_weeks": 306,
-    "kappa": -0.283,
+    "kappa": -0.2826,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 2.08,
-    "mean_gap_pct": -29.57,
+    "half_life_weeks": 2.09,
+    "mean_gap_pct": -29.58,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2734,11 +2734,11 @@
     "from": "bengaluru_south",
     "to": "kolar",
     "n_weeks": 306,
-    "kappa": -0.2359,
+    "kappa": -0.2353,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 2.58,
-    "mean_gap_pct": -34.17,
+    "mean_gap_pct": -34.18,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2748,11 +2748,11 @@
     "from": "chikkaballapur",
     "to": "bengaluru",
     "n_weeks": 302,
-    "kappa": -0.3774,
+    "kappa": -0.3763,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 1.46,
-    "mean_gap_pct": 70.04,
+    "half_life_weeks": 1.47,
+    "mean_gap_pct": 69.96,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2762,11 +2762,11 @@
     "from": "chikkaballapur",
     "to": "bengaluru_rural",
     "n_weeks": 242,
-    "kappa": -0.3191,
+    "kappa": -0.3185,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 1.8,
-    "mean_gap_pct": 30.18,
+    "half_life_weeks": 1.81,
+    "mean_gap_pct": 30.16,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2776,11 +2776,11 @@
     "from": "chikkaballapur",
     "to": "bengaluru_south",
     "n_weeks": 306,
-    "kappa": -0.283,
+    "kappa": -0.2826,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 2.08,
-    "mean_gap_pct": 41.99,
+    "half_life_weeks": 2.09,
+    "mean_gap_pct": 42.01,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2790,7 +2790,7 @@
     "from": "chikkaballapur",
     "to": "kolar",
     "n_weeks": 306,
-    "kappa": -0.4239,
+    "kappa": -0.4238,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 1.26,
@@ -2804,11 +2804,11 @@
     "from": "kolar",
     "to": "bengaluru",
     "n_weeks": 302,
-    "kappa": -0.3841,
+    "kappa": -0.383,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 1.43,
-    "mean_gap_pct": 82.16,
+    "half_life_weeks": 1.44,
+    "mean_gap_pct": 82.08,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2818,11 +2818,11 @@
     "from": "kolar",
     "to": "bengaluru_rural",
     "n_weeks": 242,
-    "kappa": -0.353,
+    "kappa": -0.3524,
     "p": 0.0,
     "adf_p": 0.0,
-    "half_life_weeks": 1.59,
-    "mean_gap_pct": 39.94,
+    "half_life_weeks": 1.6,
+    "mean_gap_pct": 39.91,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2832,11 +2832,11 @@
     "from": "kolar",
     "to": "bengaluru_south",
     "n_weeks": 306,
-    "kappa": -0.2359,
+    "kappa": -0.2353,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 2.58,
-    "mean_gap_pct": 51.91,
+    "mean_gap_pct": 51.94,
     "adf_p_holm": 0.0,
     "p_holm": 0.0,
     "closes": true
@@ -2846,7 +2846,7 @@
     "from": "kolar",
     "to": "chikkaballapur",
     "n_weeks": 306,
-    "kappa": -0.4239,
+    "kappa": -0.4238,
     "p": 0.0,
     "adf_p": 0.0,
     "half_life_weeks": 1.26,
@@ -2904,7 +2904,7 @@
    "crop": "ginger",
    "district": "kolar",
    "n": 179,
-   "skill": -0.1278,
+   "skill": -0.1275,
    "dm_p": 0.0743,
    "earns_signal": false
   },
@@ -2920,7 +2920,7 @@
    "crop": "onion",
    "district": "bengaluru_rural",
    "n": 140,
-   "skill": -0.0603,
+   "skill": -0.0604,
    "dm_p": 0.1626,
    "earns_signal": false
   },
@@ -2928,15 +2928,15 @@
    "crop": "onion",
    "district": "chikkaballapur",
    "n": 188,
-   "skill": -0.009,
-   "dm_p": 0.7556,
+   "skill": -0.0092,
+   "dm_p": 0.7512,
    "earns_signal": false
   },
   "onion/kolar": {
    "crop": "onion",
    "district": "kolar",
    "n": 137,
-   "skill": 0.0598,
+   "skill": 0.0597,
    "dm_p": 0.3194,
    "earns_signal": false
   },
@@ -2968,7 +2968,7 @@
    "crop": "tomato",
    "district": "bengaluru",
    "n": 202,
-   "skill": 0.1238,
+   "skill": 0.1243,
    "dm_p": 0.0022,
    "earns_signal": true
   },
@@ -2976,8 +2976,8 @@
    "crop": "tomato",
    "district": "bengaluru_rural",
    "n": 142,
-   "skill": 0.1196,
-   "dm_p": 0.0038,
+   "skill": 0.1181,
+   "dm_p": 0.0045,
    "earns_signal": true
   },
   "tomato/bengaluru_south": {

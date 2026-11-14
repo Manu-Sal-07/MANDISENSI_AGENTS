@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-11-13T13:33:54.109943Z",
+  "generated_at": "2026-11-14T02:01:26.324273Z",
   "data": {
     "source": "Agmarknet district reports (arrivals-weighted)",
     "series": 18,
-    "rows": 23839,
+    "rows": 23855,
     "from": "2021-01-01",
-    "to": "2026-11-11"
+    "to": "2026-11-12"
   },
   "method": "Expanding-window walk-forward, 4 folds; every figure is on rows the model had not seen.",
   "served_horizons": [
@@ -14,357 +14,357 @@
     7
   ],
   "overall": {
-    "forecasts": 34811,
-    "skill_vs_no_change": 0.0346,
-    "direction_right": 0.6129,
+    "forecasts": 34823,
+    "skill_vs_no_change": 0.0345,
+    "direction_right": 0.6132,
     "base_rate_price_fell": 0.408
   },
   "last_fold_window": [
-    "2026-04-19",
-    "2026-11-08"
+    "2026-04-21",
+    "2026-11-09"
   ],
   "horizons": {
     "1": {
       "promoted": false,
-      "skill_vs_no_change": 0.0023,
-      "coverage_90": 0.9,
-      "mean_band_width_pct": 47.41,
+      "skill_vs_no_change": 0.0034,
+      "coverage_90": 0.9018,
+      "mean_band_width_pct": 47.44,
       "decision": {
         "threshold": 0.55,
-        "precision_sell": 0.4756,
-        "precision_hold": 0.7502,
-        "coverage": 0.8685,
-        "sell_calls": 4678,
-        "hold_calls": 5345
+        "precision_sell": 0.4731,
+        "precision_hold": 0.748,
+        "coverage": 0.8705,
+        "sell_calls": 4781,
+        "hold_calls": 5266
       }
     },
     "3": {
       "promoted": true,
-      "skill_vs_no_change": 0.0331,
-      "forecasts": 11460,
-      "direction_right": 0.6205,
-      "base_rate_price_fell": 0.3933,
-      "coverage_90": 0.9011,
-      "mean_band_width_pct": 61.88,
+      "skill_vs_no_change": 0.0333,
+      "forecasts": 11462,
+      "direction_right": 0.6199,
+      "base_rate_price_fell": 0.3934,
+      "coverage_90": 0.9005,
+      "mean_band_width_pct": 61.84,
       "decision": {
         "threshold": 0.55,
-        "precision_sell": 0.5176,
-        "precision_hold": 0.724,
-        "coverage": 0.8028,
-        "sell_calls": 4345,
-        "hold_calls": 4855
+        "precision_sell": 0.5126,
+        "precision_hold": 0.7215,
+        "coverage": 0.8039,
+        "sell_calls": 4391,
+        "hold_calls": 4823
       }
     },
     "5": {
       "promoted": true,
-      "skill_vs_no_change": 0.0408,
-      "forecasts": 11632,
-      "direction_right": 0.6169,
-      "base_rate_price_fell": 0.4138,
-      "coverage_90": 0.9009,
-      "mean_band_width_pct": 71.39,
+      "skill_vs_no_change": 0.0409,
+      "forecasts": 11635,
+      "direction_right": 0.616,
+      "base_rate_price_fell": 0.4137,
+      "coverage_90": 0.9,
+      "mean_band_width_pct": 71.5,
       "decision": {
         "threshold": 0.55,
-        "precision_sell": 0.5323,
-        "precision_hold": 0.7074,
-        "coverage": 0.7782,
-        "sell_calls": 4336,
-        "hold_calls": 4716
+        "precision_sell": 0.5309,
+        "precision_hold": 0.7073,
+        "coverage": 0.7755,
+        "sell_calls": 4404,
+        "hold_calls": 4619
       }
     },
     "7": {
       "promoted": true,
-      "skill_vs_no_change": 0.0301,
-      "forecasts": 11719,
-      "direction_right": 0.6023,
-      "base_rate_price_fell": 0.4167,
-      "coverage_90": 0.9027,
-      "mean_band_width_pct": 76.03,
+      "skill_vs_no_change": 0.0295,
+      "forecasts": 11726,
+      "direction_right": 0.6044,
+      "base_rate_price_fell": 0.4166,
+      "coverage_90": 0.9014,
+      "mean_band_width_pct": 76.25,
       "decision": {
         "threshold": 0.55,
-        "precision_sell": 0.5387,
+        "precision_sell": 0.5365,
         "precision_hold": 0.7048,
-        "coverage": 0.7224,
-        "sell_calls": 4062,
-        "hold_calls": 4404
+        "coverage": 0.7262,
+        "sell_calls": 4136,
+        "hold_calls": 4380
       }
     }
   },
   "by_crop": {
     "garlic": {
-      "forecasts": 2133,
-      "skill_vs_no_change": -0.0115,
-      "direction_right": 0.602,
-      "base_rate_price_fell": 0.2813
+      "forecasts": 2131,
+      "skill_vs_no_change": -0.0133,
+      "direction_right": 0.5936,
+      "base_rate_price_fell": 0.2802
     },
     "ginger": {
-      "forecasts": 7804,
-      "skill_vs_no_change": 0.0316,
-      "direction_right": 0.5921,
-      "base_rate_price_fell": 0.3879
+      "forecasts": 7806,
+      "skill_vs_no_change": 0.0305,
+      "direction_right": 0.5936,
+      "base_rate_price_fell": 0.3883
     },
     "onion": {
-      "forecasts": 5910,
+      "forecasts": 5917,
       "skill_vs_no_change": 0.0174,
-      "direction_right": 0.6248,
-      "base_rate_price_fell": 0.3729
+      "direction_right": 0.6239,
+      "base_rate_price_fell": 0.3728
     },
     "potato": {
-      "forecasts": 6054,
-      "skill_vs_no_change": 0.0901,
-      "direction_right": 0.6822,
-      "base_rate_price_fell": 0.3997
+      "forecasts": 6056,
+      "skill_vs_no_change": 0.0904,
+      "direction_right": 0.6839,
+      "base_rate_price_fell": 0.3998
     },
     "tomato": {
-      "forecasts": 12910,
-      "skill_vs_no_change": 0.0278,
-      "direction_right": 0.5921,
-      "base_rate_price_fell": 0.461
+      "forecasts": 12913,
+      "skill_vs_no_change": 0.0282,
+      "direction_right": 0.5924,
+      "base_rate_price_fell": 0.4609
     }
   },
   "by_crop_latest_fold": {
     "garlic": {
       "forecasts": 682,
-      "skill_vs_no_change": 0.0025,
-      "direction_right": 0.5135,
-      "base_rate_price_fell": 0.2287
+      "skill_vs_no_change": 0.0026,
+      "direction_right": 0.509,
+      "base_rate_price_fell": 0.2273
     },
     "ginger": {
-      "forecasts": 1843,
-      "skill_vs_no_change": 0.0386,
-      "direction_right": 0.5834,
-      "base_rate_price_fell": 0.388
+      "forecasts": 1844,
+      "skill_vs_no_change": 0.0397,
+      "direction_right": 0.5889,
+      "base_rate_price_fell": 0.3905
     },
     "onion": {
       "forecasts": 1965,
-      "skill_vs_no_change": -0.005,
-      "direction_right": 0.6255,
-      "base_rate_price_fell": 0.3461
+      "skill_vs_no_change": -0.0045,
+      "direction_right": 0.6208,
+      "base_rate_price_fell": 0.3471
     },
     "potato": {
-      "forecasts": 1593,
-      "skill_vs_no_change": 0.0984,
-      "direction_right": 0.6979,
-      "base_rate_price_fell": 0.42
+      "forecasts": 1592,
+      "skill_vs_no_change": 0.0979,
+      "direction_right": 0.695,
+      "base_rate_price_fell": 0.4215
     },
     "tomato": {
-      "forecasts": 2606,
-      "skill_vs_no_change": 0.0224,
-      "direction_right": 0.5804,
-      "base_rate_price_fell": 0.4923
+      "forecasts": 2605,
+      "skill_vs_no_change": 0.0232,
+      "direction_right": 0.5801,
+      "base_rate_price_fell": 0.4948
     }
   },
   "by_district": {
     "bengaluru": {
-      "forecasts": 9594,
-      "skill_vs_no_change": -0.0204,
-      "direction_right": 0.5797,
-      "base_rate_price_fell": 0.3952
+      "forecasts": 9597,
+      "skill_vs_no_change": -0.0206,
+      "direction_right": 0.5818,
+      "base_rate_price_fell": 0.3951
     },
     "bengaluru_rural": {
-      "forecasts": 1711,
-      "skill_vs_no_change": -0.0864,
-      "direction_right": 0.5871,
-      "base_rate_price_fell": 0.3086
+      "forecasts": 1717,
+      "skill_vs_no_change": -0.0854,
+      "direction_right": 0.5891,
+      "base_rate_price_fell": 0.3087
     },
     "bengaluru_south": {
       "forecasts": 6449,
-      "skill_vs_no_change": 0.0052,
-      "direction_right": 0.5851,
-      "base_rate_price_fell": 0.4101
+      "skill_vs_no_change": 0.0042,
+      "direction_right": 0.5828,
+      "base_rate_price_fell": 0.4095
     },
     "chikkaballapur": {
-      "forecasts": 8693,
-      "skill_vs_no_change": 0.0684,
-      "direction_right": 0.6396,
-      "base_rate_price_fell": 0.4285
+      "forecasts": 8690,
+      "skill_vs_no_change": 0.0687,
+      "direction_right": 0.6395,
+      "base_rate_price_fell": 0.4288
     },
     "kolar": {
-      "forecasts": 8364,
+      "forecasts": 8370,
       "skill_vs_no_change": 0.0759,
-      "direction_right": 0.6444,
-      "base_rate_price_fell": 0.42
+      "direction_right": 0.6447,
+      "base_rate_price_fell": 0.4203
     }
   },
   "series_quality": {
     "garlic/bengaluru": {
-      "forecasts": 1356,
-      "skill_vs_no_change": -0.2123,
-      "direction_right": 0.5499,
-      "base_rate_price_fell": 0.2441,
-      "skill_latest_fold": -0.3379,
-      "dm_p": 1e-06,
-      "dm_p_holm": 1.6e-05,
+      "forecasts": 1357,
+      "skill_vs_no_change": -0.2192,
+      "direction_right": 0.539,
+      "base_rate_price_fell": 0.2424,
+      "skill_latest_fold": -0.3457,
+      "dm_p": 0.0,
+      "dm_p_holm": 0.0,
       "serves_call": false
     },
     "garlic/chikkaballapur": {
-      "forecasts": 777,
-      "skill_vs_no_change": 0.0801,
-      "direction_right": 0.6613,
-      "base_rate_price_fell": 0.3462,
-      "skill_latest_fold": 0.1398,
-      "dm_p": 0.02034,
-      "dm_p_holm": 0.18306,
+      "forecasts": 774,
+      "skill_vs_no_change": 0.0808,
+      "direction_right": 0.6558,
+      "base_rate_price_fell": 0.3463,
+      "skill_latest_fold": 0.1421,
+      "dm_p": 0.0203,
+      "dm_p_holm": 0.1827,
       "serves_call": false
     },
     "ginger/bengaluru": {
       "forecasts": 2502,
-      "skill_vs_no_change": 0.0391,
-      "direction_right": 0.5709,
-      "base_rate_price_fell": 0.476,
-      "skill_latest_fold": -0.0445,
-      "dm_p": 0.025517,
-      "dm_p_holm": 0.204136,
+      "skill_vs_no_change": 0.0389,
+      "direction_right": 0.5753,
+      "base_rate_price_fell": 0.4764,
+      "skill_latest_fold": -0.0329,
+      "dm_p": 0.023788,
+      "dm_p_holm": 0.190304,
       "serves_call": false
     },
     "ginger/bengaluru_south": {
       "forecasts": 3199,
-      "skill_vs_no_change": -0.0267,
-      "direction_right": 0.5775,
-      "base_rate_price_fell": 0.3667,
-      "skill_latest_fold": -0.0107,
-      "dm_p": 0.197963,
-      "dm_p_holm": 1.0,
+      "skill_vs_no_change": -0.0309,
+      "direction_right": 0.5752,
+      "base_rate_price_fell": 0.3661,
+      "skill_latest_fold": -0.0127,
+      "dm_p": 0.136619,
+      "dm_p_holm": 0.819714,
       "serves_call": false
     },
     "ginger/chikkaballapur": {
       "forecasts": 484,
-      "skill_vs_no_change": 0.0111,
+      "skill_vs_no_change": 0.0113,
       "direction_right": 0.5649,
       "base_rate_price_fell": 0.281,
-      "skill_latest_fold": 0.0381,
-      "dm_p": 0.745853,
+      "skill_latest_fold": 0.0371,
+      "dm_p": 0.748245,
       "dm_p_holm": 1.0,
       "serves_call": false
     },
     "ginger/kolar": {
-      "forecasts": 1619,
-      "skill_vs_no_change": 0.0871,
-      "direction_right": 0.6781,
-      "base_rate_price_fell": 0.3255,
-      "skill_latest_fold": 0.1074,
-      "dm_p": 0.000389,
-      "dm_p_holm": 0.004668,
+      "forecasts": 1621,
+      "skill_vs_no_change": 0.087,
+      "direction_right": 0.6816,
+      "base_rate_price_fell": 0.3282,
+      "skill_latest_fold": 0.1076,
+      "dm_p": 0.000418,
+      "dm_p_holm": 0.005016,
       "serves_call": true
     },
     "onion/bengaluru": {
-      "forecasts": 1695,
-      "skill_vs_no_change": -0.0322,
-      "direction_right": 0.6077,
-      "base_rate_price_fell": 0.4165,
-      "skill_latest_fold": -0.0194,
-      "dm_p": 0.19348,
-      "dm_p_holm": 1.0,
+      "forecasts": 1696,
+      "skill_vs_no_change": -0.0328,
+      "direction_right": 0.6056,
+      "base_rate_price_fell": 0.4163,
+      "skill_latest_fold": -0.0174,
+      "dm_p": 0.190118,
+      "dm_p_holm": 0.95059,
       "serves_call": false
     },
     "onion/bengaluru_rural": {
-      "forecasts": 866,
-      "skill_vs_no_change": -0.1442,
-      "direction_right": 0.5499,
-      "base_rate_price_fell": 0.2263,
-      "skill_latest_fold": -0.0441,
-      "dm_p": 0.003608,
-      "dm_p_holm": 0.03608,
+      "forecasts": 869,
+      "skill_vs_no_change": -0.1441,
+      "direction_right": 0.5508,
+      "base_rate_price_fell": 0.2255,
+      "skill_latest_fold": -0.0467,
+      "dm_p": 0.003095,
+      "dm_p_holm": 0.03095,
       "serves_call": false
     },
     "onion/chikkaballapur": {
       "forecasts": 2224,
-      "skill_vs_no_change": 0.0717,
+      "skill_vs_no_change": 0.0725,
       "direction_right": 0.6284,
-      "base_rate_price_fell": 0.4294,
-      "skill_latest_fold": 0.0494,
-      "dm_p": 4e-06,
-      "dm_p_holm": 6e-05,
+      "base_rate_price_fell": 0.4303,
+      "skill_latest_fold": 0.0474,
+      "dm_p": 5e-06,
+      "dm_p_holm": 7.5e-05,
       "serves_call": true
     },
     "onion/kolar": {
-      "forecasts": 1125,
-      "skill_vs_no_change": 0.0212,
-      "direction_right": 0.6939,
-      "base_rate_price_fell": 0.3084,
-      "skill_latest_fold": -0.0376,
-      "dm_p": 0.357288,
+      "forecasts": 1128,
+      "skill_vs_no_change": 0.0211,
+      "direction_right": 0.691,
+      "base_rate_price_fell": 0.3076,
+      "skill_latest_fold": -0.0319,
+      "dm_p": 0.362628,
       "dm_p_holm": 1.0,
       "serves_call": false
     },
     "potato/bengaluru": {
-      "forecasts": 1698,
-      "skill_vs_no_change": -0.1138,
-      "direction_right": 0.5727,
-      "base_rate_price_fell": 0.3657,
-      "skill_latest_fold": -0.247,
-      "dm_p": 5e-06,
-      "dm_p_holm": 7e-05,
+      "forecasts": 1699,
+      "skill_vs_no_change": -0.1105,
+      "direction_right": 0.5749,
+      "base_rate_price_fell": 0.3661,
+      "skill_latest_fold": -0.2403,
+      "dm_p": 1.2e-05,
+      "dm_p_holm": 0.000168,
       "serves_call": false
     },
     "potato/chikkaballapur": {
       "forecasts": 2030,
-      "skill_vs_no_change": 0.0928,
-      "direction_right": 0.6991,
+      "skill_vs_no_change": 0.0929,
+      "direction_right": 0.7,
       "base_rate_price_fell": 0.3872,
       "skill_latest_fold": 0.1283,
-      "dm_p": 9.5e-05,
-      "dm_p_holm": 0.001235,
+      "dm_p": 9.6e-05,
+      "dm_p_holm": 0.001248,
       "serves_call": true
     },
     "potato/kolar": {
-      "forecasts": 2326,
-      "skill_vs_no_change": 0.1377,
-      "direction_right": 0.729,
-      "base_rate_price_fell": 0.4355,
-      "skill_latest_fold": 0.1395,
+      "forecasts": 2327,
+      "skill_vs_no_change": 0.1379,
+      "direction_right": 0.7312,
+      "base_rate_price_fell": 0.4353,
+      "skill_latest_fold": 0.1381,
       "dm_p": 0.0,
       "dm_p_holm": 0.0,
       "serves_call": true
     },
     "tomato/bengaluru": {
       "forecasts": 2343,
-      "skill_vs_no_change": 0.007,
-      "direction_right": 0.5856,
+      "skill_vs_no_change": 0.0081,
+      "direction_right": 0.5917,
       "base_rate_price_fell": 0.4025,
-      "skill_latest_fold": 0.0298,
-      "dm_p": 0.618896,
+      "skill_latest_fold": 0.027,
+      "dm_p": 0.536746,
       "dm_p_holm": 1.0,
       "serves_call": false
     },
     "tomato/bengaluru_rural": {
-      "forecasts": 845,
-      "skill_vs_no_change": -0.0606,
-      "direction_right": 0.6143,
-      "base_rate_price_fell": 0.3929,
-      "skill_latest_fold": -0.045,
-      "dm_p": 0.189175,
-      "dm_p_holm": 1.0,
+      "forecasts": 848,
+      "skill_vs_no_change": -0.0591,
+      "direction_right": 0.6171,
+      "base_rate_price_fell": 0.3939,
+      "skill_latest_fold": -0.0424,
+      "dm_p": 0.200051,
+      "dm_p_holm": 0.95059,
       "serves_call": false
     },
     "tomato/bengaluru_south": {
       "forecasts": 3250,
-      "skill_vs_no_change": 0.0195,
-      "direction_right": 0.5914,
-      "base_rate_price_fell": 0.4529,
-      "skill_latest_fold": 0.027,
-      "dm_p": 0.062361,
-      "dm_p_holm": 0.436527,
+      "skill_vs_no_change": 0.02,
+      "direction_right": 0.589,
+      "base_rate_price_fell": 0.4523,
+      "skill_latest_fold": 0.0314,
+      "dm_p": 0.045745,
+      "dm_p_holm": 0.320215,
       "serves_call": false
     },
     "tomato/chikkaballapur": {
       "forecasts": 3178,
       "skill_vs_no_change": 0.0612,
-      "direction_right": 0.6179,
+      "direction_right": 0.6182,
       "base_rate_price_fell": 0.4969,
-      "skill_latest_fold": 0.0472,
+      "skill_latest_fold": 0.0475,
       "dm_p": 0.0,
       "dm_p_holm": 0.0,
       "serves_call": true
     },
     "tomato/kolar": {
       "forecasts": 3294,
-      "skill_vs_no_change": 0.0371,
-      "direction_right": 0.5678,
+      "skill_vs_no_change": 0.037,
+      "direction_right": 0.5663,
       "base_rate_price_fell": 0.4936,
-      "skill_latest_fold": 0.0317,
-      "dm_p": 0.002412,
-      "dm_p_holm": 0.026532,
+      "skill_latest_fold": 0.0301,
+      "dm_p": 0.002495,
+      "dm_p_holm": 0.027445,
       "serves_call": true
     }
   },

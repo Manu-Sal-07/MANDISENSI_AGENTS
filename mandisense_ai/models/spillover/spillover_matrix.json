@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
-  "built_at": "2026-11-13T13:37:21.840448+00:00",
-  "panel_hash": "8c53f66bb3b8468d",
+  "built_at": "2026-11-14T01:38:45.710385+00:00",
+  "panel_hash": "526452a6ba74ad80",
   "frequency": "W",
   "commodities": [
     "garlic",
@@ -58,17 +58,17 @@
       "n_periods": 234,
       "start": "2021-01-03",
       "end": "2026-11-15",
-      "data_hash": "8c53f66bb3b8468d"
+      "data_hash": "526452a6ba74ad80"
     },
     "common_factor": {
       "loadings": {
         "garlic": -0.003738,
         "ginger": 0.005528,
-        "onion": -0.008749,
+        "onion": -0.008748,
         "potato": 0.003948,
         "tomato": -0.01902
       },
-      "variance_explained": 0.243719,
+      "variance_explained": 0.243718,
       "seasonality_removed": true,
       "factor_removed": true,
       "leave_one_out": true,

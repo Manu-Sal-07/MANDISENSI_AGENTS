@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-13T13:38:02.545909+00:00",
+ "generated_at": "2026-11-14T02:05:27.172609+00:00",
  "series": {
   "garlic|gauribidanur_apmc": {
    "commodity": "garlic",
@@ -9,57 +9,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 1.77,
-      "supply": -0.56,
-      "activity": -3.28,
-      "trend": -4.55
+      "seasonality": 1.81,
+      "supply": -0.43,
+      "activity": -4.3,
+      "trend": -4.74
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -2.58,
-     "single_pct": -4.11,
+     "council_pct": -2.84,
+     "single_pct": -4.4,
      "promoted": false,
-     "council_price": 9547.47
+     "council_price": 9521.34
     },
     "5": {
      "agents": {
-      "seasonality": 1.56,
-      "supply": 0.18,
-      "activity": -3.49,
-      "trend": -4.1
+      "seasonality": 1.58,
+      "supply": -0.63,
+      "activity": -3.51,
+      "trend": -3.29
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -2.25,
-     "single_pct": -3.18,
+     "council_pct": -2.03,
+     "single_pct": -3.16,
      "promoted": false,
-     "council_price": 9579.99
+     "council_price": 9600.59
     },
     "7": {
      "agents": {
-      "seasonality": 1.37,
-      "supply": -0.54,
-      "activity": -2.32,
-      "trend": -4.11
+      "seasonality": 1.42,
+      "supply": -0.26,
+      "activity": -2.62,
+      "trend": -3.54
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -2.17,
-     "single_pct": -3.56,
+     "council_pct": -1.82,
+     "single_pct": -2.6,
      "promoted": false,
-     "council_price": 9587.36
+     "council_price": 9621.55
     }
    }
   },
@@ -71,57 +71,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 0.87,
-      "supply": -0.56,
-      "activity": -3.28,
-      "trend": -3.07
+      "seasonality": 0.6,
+      "supply": -0.43,
+      "activity": -4.3,
+      "trend": -3.03
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -1.91,
-     "single_pct": -2.74,
+     "council_pct": -2.15,
+     "single_pct": -3.07,
      "promoted": false,
-     "council_price": 6572.07
+     "council_price": 6555.95
     },
     "5": {
      "agents": {
-      "seasonality": 4.09,
-      "supply": 0.18,
-      "activity": -3.49,
-      "trend": -2.2
+      "seasonality": 4.53,
+      "supply": -0.63,
+      "activity": -3.51,
+      "trend": -2.25
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -0.94,
-     "single_pct": -1.64,
+     "council_pct": -1.07,
+     "single_pct": -1.47,
      "promoted": false,
-     "council_price": 6637.31
+     "council_price": 6627.98
     },
     "7": {
      "agents": {
-      "seasonality": 5.39,
-      "supply": -0.54,
-      "activity": -2.32,
-      "trend": -2.0
+      "seasonality": 5.94,
+      "supply": -0.26,
+      "activity": -2.62,
+      "trend": -1.76
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -0.59,
-     "single_pct": -0.7,
+     "council_pct": -0.3,
+     "single_pct": -0.94,
      "promoted": false,
-     "council_price": 6660.25
+     "council_price": 6679.86
     }
    }
   },
@@ -133,57 +133,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 0.57,
-      "supply": -0.41,
-      "activity": -3.89,
-      "trend": -4.25
+      "seasonality": 0.6,
+      "supply": -0.3,
+      "activity": -4.05,
+      "trend": -4.35
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -2.67,
-     "single_pct": -3.7,
+     "council_pct": -2.82,
+     "single_pct": -3.59,
      "promoted": false,
-     "council_price": 2335.91
+     "council_price": 2332.44
     },
     "5": {
      "agents": {
-      "seasonality": 0.42,
-      "supply": 0.14,
-      "activity": -1.97,
-      "trend": -2.64
+      "seasonality": 0.72,
+      "supply": -0.71,
+      "activity": -1.48,
+      "trend": -2.88
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -1.49,
-     "single_pct": -2.15,
+     "council_pct": -1.44,
+     "single_pct": -1.91,
      "promoted": false,
-     "council_price": 2364.29
+     "council_price": 2365.37
     },
     "7": {
      "agents": {
-      "seasonality": 0.0,
-      "supply": -0.66,
-      "activity": -1.86,
-      "trend": -1.88
+      "seasonality": 0.11,
+      "supply": -0.39,
+      "activity": -1.18,
+      "trend": -1.74
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -1.37,
-     "single_pct": -0.7,
+     "council_pct": -1.02,
+     "single_pct": -0.94,
      "promoted": false,
-     "council_price": 2367.08
+     "council_price": 2375.61
     }
    }
   },
@@ -195,57 +195,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 0.28,
-      "supply": 0.25,
-      "activity": -0.84,
-      "trend": 4.32
+      "seasonality": 0.25,
+      "supply": -0.98,
+      "activity": -2.11,
+      "trend": 4.27
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": 2.43,
-     "single_pct": 3.95,
+     "council_pct": 1.89,
+     "single_pct": 3.67,
      "promoted": false,
-     "council_price": 1536.44
+     "council_price": 1528.38
     },
     "5": {
      "agents": {
-      "seasonality": -0.7,
-      "supply": -0.61,
-      "activity": -2.4,
-      "trend": 4.31
+      "seasonality": -0.82,
+      "supply": -0.37,
+      "activity": -2.06,
+      "trend": 3.96
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": 0.85,
-     "single_pct": 4.1,
+     "council_pct": 0.56,
+     "single_pct": 3.9,
      "promoted": false,
-     "council_price": 1512.76
+     "council_price": 1508.39
     },
     "7": {
      "agents": {
-      "seasonality": -0.42,
-      "supply": -1.1,
-      "activity": -1.28,
-      "trend": 3.45
+      "seasonality": -0.89,
+      "supply": -1.87,
+      "activity": -1.77,
+      "trend": 3.44
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": 0.82,
-     "single_pct": 2.98,
+     "council_pct": 0.37,
+     "single_pct": 2.37,
      "promoted": false,
-     "council_price": 1512.34
+     "council_price": 1505.61
     }
    }
   },
@@ -257,57 +257,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 1.4,
-      "supply": -0.15,
-      "activity": -5.69,
-      "trend": -4.25
+      "seasonality": 1.23,
+      "supply": -0.07,
+      "activity": -6.42,
+      "trend": -4.35
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -2.62,
-     "single_pct": -3.78,
+     "council_pct": -2.99,
+     "single_pct": -3.77,
      "promoted": false,
-     "council_price": 5842.8
+     "council_price": 5820.47
     },
     "5": {
      "agents": {
-      "seasonality": 3.75,
-      "supply": -0.36,
-      "activity": -4.64,
-      "trend": -2.64
+      "seasonality": 3.54,
+      "supply": -0.13,
+      "activity": -4.69,
+      "trend": -2.88
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -1.56,
-     "single_pct": -2.15,
+     "council_pct": -1.8,
+     "single_pct": -1.91,
      "promoted": false,
-     "council_price": 5906.45
+     "council_price": 5892.11
     },
     "7": {
      "agents": {
-      "seasonality": 3.54,
+      "seasonality": 3.6,
       "supply": -0.04,
-      "activity": -1.8,
-      "trend": -2.0
+      "activity": -2.0,
+      "trend": -1.74
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -0.7,
-     "single_pct": -1.07,
+     "council_pct": -0.52,
+     "single_pct": -0.93,
      "promoted": false,
-     "council_price": 5957.99
+     "council_price": 5968.86
     }
    }
   },
@@ -319,57 +319,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 2.51,
-      "supply": -0.26,
-      "activity": -5.43,
-      "trend": -3.98
+      "seasonality": 2.62,
+      "supply": -0.3,
+      "activity": -6.55,
+      "trend": -3.83
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -2.25,
-     "single_pct": -3.55,
+     "council_pct": -2.49,
+     "single_pct": -3.31,
      "promoted": false,
-     "council_price": 1466.32
+     "council_price": 1462.69
     },
     "5": {
      "agents": {
-      "seasonality": 2.77,
-      "supply": 0.11,
-      "activity": -4.54,
-      "trend": -2.26
+      "seasonality": 2.82,
+      "supply": -0.18,
+      "activity": -4.64,
+      "trend": -2.41
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -1.53,
-     "single_pct": -1.78,
+     "council_pct": -1.76,
+     "single_pct": -1.56,
      "promoted": false,
-     "council_price": 1477.1
+     "council_price": 1473.58
     },
     "7": {
      "agents": {
-      "seasonality": 3.61,
-      "supply": -0.51,
-      "activity": -1.26,
-      "trend": -1.13
+      "seasonality": 4.02,
+      "supply": -0.39,
+      "activity": -2.04,
+      "trend": -1.01
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -0.24,
-     "single_pct": -0.13,
+     "council_pct": -0.23,
+     "single_pct": -0.22,
      "promoted": false,
-     "council_price": 1496.36
+     "council_price": 1496.57
     }
    }
   },
@@ -381,57 +381,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 1.88,
-      "supply": 2.32,
-      "activity": -0.63,
-      "trend": -14.48
+      "seasonality": 1.85,
+      "supply": -0.32,
+      "activity": -0.66,
+      "trend": -13.54
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -7.78,
-     "single_pct": -14.1,
+     "council_pct": -7.26,
+     "single_pct": -11.39,
      "promoted": false,
-     "council_price": 1844.4
+     "council_price": 1854.88
     },
     "5": {
      "agents": {
-      "seasonality": 1.74,
-      "supply": 5.26,
-      "activity": -0.63,
-      "trend": -15.05
+      "seasonality": 1.82,
+      "supply": 2.79,
+      "activity": -0.59,
+      "trend": -14.47
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -5.65,
-     "single_pct": -12.75,
+     "council_pct": -4.98,
+     "single_pct": -12.51,
      "promoted": false,
-     "council_price": 1887.09
+     "council_price": 1900.5
     },
     "7": {
      "agents": {
-      "seasonality": 3.61,
-      "supply": 1.22,
-      "activity": -0.41,
-      "trend": -20.3
+      "seasonality": 4.02,
+      "supply": 5.01,
+      "activity": -0.31,
+      "trend": -17.53
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -8.29,
-     "single_pct": -16.97,
+     "council_pct": -5.8,
+     "single_pct": -18.02,
      "promoted": false,
-     "council_price": 1834.18
+     "council_price": 1884.01
     }
    }
   },
@@ -443,57 +443,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 2.9,
-      "supply": -0.26,
-      "activity": -7.95,
-      "trend": -4.71
+      "seasonality": 3.29,
+      "supply": -0.28,
+      "activity": -7.23,
+      "trend": -5.11
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -2.8,
-     "single_pct": -3.46,
+     "council_pct": -3.15,
+     "single_pct": -2.95,
      "promoted": false,
-     "council_price": 1943.94
+     "council_price": 1937.02
     },
     "5": {
      "agents": {
-      "seasonality": 3.34,
-      "supply": 0.27,
-      "activity": 0.82,
-      "trend": -3.55
+      "seasonality": 3.45,
+      "supply": -0.09,
+      "activity": 1.79,
+      "trend": -3.45
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -0.5,
-     "single_pct": -0.66,
+     "council_pct": -0.05,
+     "single_pct": -1.02,
      "promoted": false,
-     "council_price": 1989.94
+     "council_price": 1998.99
     },
     "7": {
      "agents": {
-      "seasonality": 5.26,
-      "supply": -0.63,
-      "activity": -2.89,
-      "trend": -3.81
+      "seasonality": 5.12,
+      "supply": -0.35,
+      "activity": -3.27,
+      "trend": -3.5
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -1.55,
-     "single_pct": -0.28,
+     "council_pct": -1.31,
+     "single_pct": -0.22,
      "promoted": false,
-     "council_price": 1969.09
+     "council_price": 1973.72
     }
    }
   },
@@ -505,181 +505,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 1.41,
-      "supply": -0.47,
-      "activity": -2.44,
-      "trend": -4.25
+      "seasonality": 1.09,
+      "supply": -0.3,
+      "activity": -1.66,
+      "trend": -4.35
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
      "council_pct": -2.39,
-     "single_pct": -3.79,
+     "single_pct": -3.77,
      "promoted": false,
-     "council_price": 4392.37
+     "council_price": 4392.27
     },
     "5": {
      "agents": {
-      "seasonality": 3.62,
-      "supply": 0.11,
-      "activity": 0.86,
-      "trend": -2.64
+      "seasonality": 3.54,
+      "supply": -0.75,
+      "activity": 0.37,
+      "trend": -2.88
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -0.07,
-     "single_pct": -2.15,
+     "council_pct": -0.33,
+     "single_pct": -1.91,
      "promoted": false,
-     "council_price": 4496.8
+     "council_price": 4485.03
     },
     "7": {
      "agents": {
-      "seasonality": 4.07,
-      "supply": -0.67,
-      "activity": -0.77,
-      "trend": -2.0
+      "seasonality": 4.34,
+      "supply": -0.42,
+      "activity": -1.19,
+      "trend": -1.74
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -0.41,
-     "single_pct": -0.7,
+     "council_pct": -0.25,
+     "single_pct": -0.94,
      "promoted": false,
-     "council_price": 4481.6
-    }
-   }
-  },
-  "potato|malur_apmc": {
-   "commodity": "potato",
-   "mandi_id": "malur_apmc",
-   "as_of": "2026-09-19",
-   "last_price": 1500.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 5.92,
-      "supply": -0.35,
-      "activity": -1.13,
-      "trend": -2.86
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -0.59,
-     "single_pct": -0.47,
-     "promoted": false,
-     "council_price": 1491.14
-    },
-    "5": {
-     "agents": {
-      "seasonality": 7.35,
-      "supply": 0.18,
-      "activity": -1.46,
-      "trend": -1.81
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 0.44,
-     "single_pct": 0.72,
-     "promoted": false,
-     "council_price": 1506.56
-    },
-    "7": {
-     "agents": {
-      "seasonality": 7.42,
-      "supply": -0.53,
-      "activity": -5.39,
-      "trend": -1.13
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -0.75,
-     "single_pct": 2.04,
-     "promoted": false,
-     "council_price": 1488.7
-    }
-   }
-  },
-  "garlic|chintamani_apmc": {
-   "commodity": "garlic",
-   "mandi_id": "chintamani_apmc",
-   "as_of": "2026-09-23",
-   "last_price": 12000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 0.43,
-      "supply": -6.32,
-      "activity": -1.14,
-      "trend": 0.03
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -0.97,
-     "single_pct": 0.25,
-     "promoted": false,
-     "council_price": 11884.0
-    },
-    "5": {
-     "agents": {
-      "seasonality": 2.73,
-      "supply": -7.1,
-      "activity": -1.42,
-      "trend": 0.16
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -0.56,
-     "single_pct": 0.75,
-     "promoted": false,
-     "council_price": 11932.29
-    },
-    "7": {
-     "agents": {
-      "seasonality": 3.73,
-      "supply": -4.14,
-      "activity": -2.77,
-      "trend": -0.54
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -0.89,
-     "single_pct": 0.57,
-     "promoted": false,
-     "council_price": 11893.35
+     "council_price": 4488.78
     }
    }
   },
@@ -691,57 +567,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 3.23,
-      "supply": -2.46,
-      "activity": -0.05,
-      "trend": -2.74
+      "seasonality": 2.66,
+      "supply": -7.06,
+      "activity": -1.07,
+      "trend": -2.41
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -1.27,
-     "single_pct": -1.6,
+     "council_pct": -1.82,
+     "single_pct": -2.03,
      "promoted": false,
-     "council_price": 1777.1
+     "council_price": 1767.24
     },
     "5": {
      "agents": {
-      "seasonality": 5.95,
-      "supply": 0.94,
-      "activity": 0.58,
-      "trend": -2.16
+      "seasonality": 6.78,
+      "supply": -0.37,
+      "activity": 0.33,
+      "trend": -2.45
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": 0.64,
-     "single_pct": -0.71,
+     "council_pct": 0.5,
+     "single_pct": -1.17,
      "promoted": false,
-     "council_price": 1811.46
+     "council_price": 1808.96
     },
     "7": {
      "agents": {
-      "seasonality": 7.55,
-      "supply": -1.63,
-      "activity": -0.33,
-      "trend": -3.02
+      "seasonality": 7.83,
+      "supply": -4.45,
+      "activity": -0.66,
+      "trend": -2.73
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -0.26,
-     "single_pct": -0.11,
+     "council_pct": -0.61,
+     "single_pct": -0.08,
      "promoted": false,
-     "council_price": 1795.36
+     "council_price": 1789.03
     }
    }
   },
@@ -753,181 +629,119 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -1.68,
-      "supply": -0.07,
-      "activity": 0.13,
-      "trend": -13.9
+      "seasonality": -1.89,
+      "supply": -0.26,
+      "activity": -1.0,
+      "trend": -14.18
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -8.38,
-     "single_pct": -13.79,
+     "council_pct": -8.36,
+     "single_pct": -13.15,
      "promoted": false,
-     "council_price": 3206.86
+     "council_price": 3207.46
     },
     "5": {
      "agents": {
-      "seasonality": -0.38,
-      "supply": 0.21,
-      "activity": 0.7,
-      "trend": -13.37
+      "seasonality": 0.44,
+      "supply": -0.41,
+      "activity": 0.17,
+      "trend": -13.29
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -5.53,
-     "single_pct": -12.13,
+     "council_pct": -4.95,
+     "single_pct": -12.42,
      "promoted": false,
-     "council_price": 3306.39
+     "council_price": 3326.89
     },
     "7": {
      "agents": {
-      "seasonality": 0.06,
-      "supply": -0.65,
-      "activity": -0.22,
-      "trend": -17.05
+      "seasonality": 0.42,
+      "supply": -0.13,
+      "activity": -0.41,
+      "trend": -16.91
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -7.54,
-     "single_pct": -15.13,
+     "council_pct": -7.0,
+     "single_pct": -14.64,
      "promoted": false,
-     "council_price": 3236.1
+     "council_price": 3255.17
     }
    }
   },
-  "onion|malur_apmc": {
-   "commodity": "onion",
-   "mandi_id": "malur_apmc",
-   "as_of": "2026-09-30",
-   "last_price": 5000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 1.42,
-      "supply": -0.53,
-      "activity": -1.29,
-      "trend": -12.79
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -7.3,
-     "single_pct": -11.62,
-     "promoted": false,
-     "council_price": 4635.19
-    },
-    "5": {
-     "agents": {
-      "seasonality": 2.77,
-      "supply": 0.21,
-      "activity": -1.97,
-      "trend": -16.3
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -6.87,
-     "single_pct": -12.15,
-     "promoted": false,
-     "council_price": 4656.74
-    },
-    "7": {
-     "agents": {
-      "seasonality": 2.11,
-      "supply": -0.56,
-      "activity": -4.2,
-      "trend": -15.87
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -7.68,
-     "single_pct": -13.37,
-     "promoted": false,
-     "council_price": 4616.15
-    }
-   }
-  },
-  "garlic|doddaballapur_apmc": {
+  "garlic|chintamani_apmc": {
    "commodity": "garlic",
-   "mandi_id": "doddaballapur_apmc",
-   "as_of": "2026-10-12",
-   "last_price": 14000.0,
+   "mandi_id": "chintamani_apmc",
+   "as_of": "2026-09-23",
+   "last_price": 12000.0,
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 2.09,
-      "supply": 1.01,
-      "activity": -0.36,
-      "trend": -0.34
+      "seasonality": -0.0,
+      "supply": -7.26,
+      "activity": -1.83,
+      "trend": -0.0
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": 0.36,
-     "single_pct": 0.55,
+     "council_pct": -1.19,
+     "single_pct": -0.03,
      "promoted": false,
-     "council_price": 14050.17
+     "council_price": 11856.85
     },
     "5": {
      "agents": {
-      "seasonality": 4.94,
-      "supply": 0.98,
-      "activity": 0.66,
-      "trend": -0.9
+      "seasonality": 3.45,
+      "supply": -2.15,
+      "activity": -1.95,
+      "trend": -0.22
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": 0.97,
-     "single_pct": -0.01,
+     "council_pct": -0.27,
+     "single_pct": 0.71,
      "promoted": false,
-     "council_price": 14136.33
+     "council_price": 11968.15
     },
     "7": {
      "agents": {
-      "seasonality": 5.65,
-      "supply": 0.32,
-      "activity": 0.74,
-      "trend": -2.73
+      "seasonality": 3.69,
+      "supply": -7.64,
+      "activity": -2.04,
+      "trend": -0.23
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": 0.1,
-     "single_pct": -0.67,
+     "council_pct": -1.29,
+     "single_pct": 0.71,
      "promoted": false,
-     "council_price": 14013.54
+     "council_price": 11844.71
     }
    }
   },
@@ -939,863 +753,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 0.75,
-      "supply": 0.49,
-      "activity": 0.78,
-      "trend": -0.65
+      "seasonality": 0.49,
+      "supply": 0.39,
+      "activity": 0.18,
+      "trend": -0.7
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -0.07,
-     "single_pct": -0.62,
+     "council_pct": -0.2,
+     "single_pct": -0.55,
      "promoted": false,
-     "council_price": 2198.43
+     "council_price": 2195.55
     },
     "5": {
      "agents": {
-      "seasonality": -0.02,
-      "supply": 0.85,
-      "activity": -0.83,
-      "trend": -1.08
+      "seasonality": -0.22,
+      "supply": 0.79,
+      "activity": -1.32,
+      "trend": -0.97
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -0.57,
-     "single_pct": -1.24,
+     "council_pct": -0.69,
+     "single_pct": -0.77,
      "promoted": false,
-     "council_price": 2187.57
+     "council_price": 2184.79
     },
     "7": {
      "agents": {
-      "seasonality": 0.24,
-      "supply": 1.47,
-      "activity": 0.23,
-      "trend": -1.15
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -0.17,
-     "single_pct": -1.27,
-     "promoted": false,
-     "council_price": 2196.19
-    }
-   }
-  },
-  "onion|hoskote_apmc": {
-   "commodity": "onion",
-   "mandi_id": "hoskote_apmc",
-   "as_of": "2026-10-19",
-   "last_price": 4400.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -0.99,
-      "supply": 0.09,
-      "activity": -0.05,
-      "trend": -2.59
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -1.66,
-     "single_pct": -2.34,
-     "promoted": false,
-     "council_price": 4327.12
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.36,
-      "supply": 1.03,
-      "activity": -1.78,
-      "trend": -3.29
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -1.77,
-     "single_pct": -3.8,
-     "promoted": false,
-     "council_price": 4321.92
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.24,
-      "supply": 0.92,
-      "activity": -0.0,
-      "trend": -3.6
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -1.34,
-     "single_pct": -4.12,
-     "promoted": false,
-     "council_price": 4341.25
-    }
-   }
-  },
-  "potato|hoskote_apmc": {
-   "commodity": "potato",
-   "mandi_id": "hoskote_apmc",
-   "as_of": "2026-10-19",
-   "last_price": 1800.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -3.11,
-      "supply": -0.05,
-      "activity": -0.54,
-      "trend": 0.56
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -0.39,
-     "single_pct": 0.62,
-     "promoted": false,
-     "council_price": 1792.98
-    },
-    "5": {
-     "agents": {
-      "seasonality": -4.03,
-      "supply": 0.38,
-      "activity": -0.83,
-      "trend": 1.84
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -0.33,
-     "single_pct": 1.37,
-     "promoted": false,
-     "council_price": 1793.99
-    },
-    "7": {
-     "agents": {
-      "seasonality": -4.35,
-      "supply": 0.38,
-      "activity": -2.7,
-      "trend": 1.13
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -1.03,
-     "single_pct": 1.05,
-     "promoted": false,
-     "council_price": 1781.41
-    }
-   }
-  },
-  "tomato|doddaballapur_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "doddaballapur_apmc",
-   "as_of": "2026-10-23",
-   "last_price": 1250.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 0.39,
-      "supply": 0.9,
-      "activity": 0.89,
-      "trend": 3.1
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 2.02,
-     "single_pct": 3.14,
-     "promoted": false,
-     "council_price": 1275.28
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.57,
-      "supply": 0.54,
-      "activity": 1.43,
-      "trend": 2.43
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 1.29,
-     "single_pct": 2.55,
-     "promoted": false,
-     "council_price": 1266.09
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": 1.42,
-      "activity": 1.36,
-      "trend": 1.87
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 1.23,
-     "single_pct": 1.72,
-     "promoted": false,
-     "council_price": 1265.42
-    }
-   }
-  },
-  "potato|doddaballapur_apmc": {
-   "commodity": "potato",
-   "mandi_id": "doddaballapur_apmc",
-   "as_of": "2026-10-23",
-   "last_price": 1800.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 0.65,
-      "supply": 0.74,
-      "activity": 0.58,
-      "trend": 1.46
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 1.11,
-     "single_pct": 1.42,
-     "promoted": false,
-     "council_price": 1820.04
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.1,
-      "supply": 0.95,
-      "activity": 1.49,
-      "trend": 1.98
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 1.28,
-     "single_pct": 1.91,
-     "promoted": false,
-     "council_price": 1823.0
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.17,
-      "supply": 0.61,
-      "activity": 1.23,
-      "trend": 0.92
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 0.83,
-     "single_pct": 0.79,
-     "promoted": false,
-     "council_price": 1814.89
-    }
-   }
-  },
-  "ginger|doddaballapur_apmc": {
-   "commodity": "ginger",
-   "mandi_id": "doddaballapur_apmc",
-   "as_of": "2026-10-23",
-   "last_price": 7000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 0.69,
-      "supply": 0.5,
-      "activity": 0.57,
-      "trend": -5.55
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -2.9,
-     "single_pct": -4.73,
-     "promoted": false,
-     "council_price": 6797.1
-    },
-    "5": {
-     "agents": {
-      "seasonality": 0.37,
-      "supply": 1.22,
-      "activity": 0.49,
-      "trend": -5.34
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -1.86,
-     "single_pct": -4.64,
-     "promoted": false,
-     "council_price": 6869.83
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.65,
-      "supply": 0.56,
-      "activity": 0.58,
-      "trend": -6.53
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -2.4,
-     "single_pct": -6.56,
-     "promoted": false,
-     "council_price": 6831.83
-    }
-   }
-  },
-  "tomato|binny_mill_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "binny_mill_apmc",
-   "as_of": "2026-10-23",
-   "last_price": 1800.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 0.39,
-      "supply": 1.22,
-      "activity": 0.89,
-      "trend": 2.38
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 1.67,
-     "single_pct": 2.47,
-     "promoted": false,
-     "council_price": 1830.03
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.57,
-      "supply": 0.62,
-      "activity": 1.53,
-      "trend": 0.93
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 0.72,
-     "single_pct": 1.69,
-     "promoted": false,
-     "council_price": 1812.96
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": 1.43,
-      "activity": 2.07,
-      "trend": -0.33
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 0.52,
-     "single_pct": -0.63,
-     "promoted": false,
-     "council_price": 1809.36
-    }
-   }
-  },
-  "ginger|binny_mill_apmc": {
-   "commodity": "ginger",
-   "mandi_id": "binny_mill_apmc",
-   "as_of": "2026-10-23",
-   "last_price": 12000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 0.69,
-      "supply": 0.75,
-      "activity": 0.47,
-      "trend": -2.91
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -1.35,
-     "single_pct": -2.24,
-     "promoted": false,
-     "council_price": 11837.67
-    },
-    "5": {
-     "agents": {
-      "seasonality": 0.37,
-      "supply": 0.85,
-      "activity": 0.97,
-      "trend": -2.27
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -0.5,
-     "single_pct": -2.37,
-     "promoted": false,
-     "council_price": 11940.27
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.65,
-      "supply": 1.33,
-      "activity": 1.22,
-      "trend": -2.77
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -0.53,
-     "single_pct": -2.44,
-     "promoted": false,
-     "council_price": 11936.46
-    }
-   }
-  },
-  "onion|doddaballapur_apmc": {
-   "commodity": "onion",
-   "mandi_id": "doddaballapur_apmc",
-   "as_of": "2026-10-23",
-   "last_price": 4400.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 0.65,
-      "supply": 1.02,
-      "activity": 0.62,
-      "trend": -0.11
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 0.28,
-     "single_pct": -0.11,
-     "promoted": false,
-     "council_price": 4412.19
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.03,
-      "supply": 0.46,
-      "activity": 1.52,
-      "trend": -0.8
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 0.12,
-     "single_pct": -0.54,
-     "promoted": false,
-     "council_price": 4405.1
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.17,
-      "supply": 0.1,
-      "activity": 1.6,
-      "trend": -1.0
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 0.07,
-     "single_pct": -1.27,
-     "promoted": false,
-     "council_price": 4402.9
-    }
-   }
-  },
-  "tomato|kanakapura_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "kanakapura_apmc",
-   "as_of": "2026-10-24",
-   "last_price": 2000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 0.39,
-      "supply": 1.19,
-      "activity": 0.43,
-      "trend": -1.29
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -0.43,
-     "single_pct": -1.26,
-     "promoted": false,
-     "council_price": 1991.33
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.57,
-      "supply": 1.06,
-      "activity": 0.88,
-      "trend": -3.26
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -1.11,
-     "single_pct": -2.11,
-     "promoted": false,
-     "council_price": 1977.81
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": -0.02,
-      "activity": 0.51,
-      "trend": -4.43
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -1.81,
-     "single_pct": -4.09,
-     "promoted": false,
-     "council_price": 1963.8
-    }
-   }
-  },
-  "potato|bangarpet_apmc": {
-   "commodity": "potato",
-   "mandi_id": "bangarpet_apmc",
-   "as_of": "2026-10-24",
-   "last_price": 1800.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 0.65,
-      "supply": -1.65,
-      "activity": -0.1,
-      "trend": 0.68
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 0.26,
-     "single_pct": 0.53,
-     "promoted": false,
-     "council_price": 1804.62
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.1,
-      "supply": -2.44,
-      "activity": -0.13,
-      "trend": 1.45
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 0.25,
-     "single_pct": 1.09,
-     "promoted": false,
-     "council_price": 1804.43
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.17,
-      "supply": -0.36,
-      "activity": -0.44,
-      "trend": 1.37
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 0.42,
-     "single_pct": 0.92,
-     "promoted": false,
-     "council_price": 1807.63
-    }
-   }
-  },
-  "onion|gauribidanur_apmc": {
-   "commodity": "onion",
-   "mandi_id": "gauribidanur_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 4500.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -1.03,
-      "supply": -0.54,
-      "activity": 0.65,
-      "trend": -1.41
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -1.03,
-     "single_pct": -1.47,
-     "promoted": false,
-     "council_price": 4453.52
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.41,
-      "supply": 1.27,
-      "activity": 1.49,
-      "trend": -1.82
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -0.3,
-     "single_pct": -2.01,
-     "promoted": false,
-     "council_price": 4486.52
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.17,
-      "supply": 0.65,
-      "activity": 1.59,
-      "trend": -2.14
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -0.34,
-     "single_pct": -2.17,
-     "promoted": false,
-     "council_price": 4484.56
-    }
-   }
-  },
-  "tomato|srinivasapur_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "srinivasapur_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 1466.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -2.07,
-      "supply": -0.28,
-      "activity": 0.35,
-      "trend": 7.45
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 3.66,
-     "single_pct": 6.76,
-     "promoted": false,
-     "council_price": 1519.58
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.95,
-      "supply": 1.58,
-      "activity": 0.37,
-      "trend": 7.54
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 3.06,
-     "single_pct": 8.2,
-     "promoted": false,
-     "council_price": 1510.85
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": 3.45,
-      "activity": -1.44,
-      "trend": 5.2
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 2.07,
-     "single_pct": 5.34,
-     "promoted": false,
-     "council_price": 1496.38
-    }
-   }
-  },
-  "tomato|bangarpet_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "bangarpet_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 1300.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -2.07,
+      "seasonality": -0.21,
       "supply": 1.11,
-      "activity": 0.54,
-      "trend": -2.09
+      "activity": 0.02,
+      "trend": -0.87
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -1.4,
-     "single_pct": -2.47,
+     "council_pct": -0.18,
+     "single_pct": -1.82,
      "promoted": false,
-     "council_price": 1281.84
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.95,
-      "supply": 0.57,
-      "activity": 1.17,
-      "trend": -1.01
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -0.25,
-     "single_pct": -1.83,
-     "promoted": false,
-     "council_price": 1296.75
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": 0.52,
-      "activity": 1.43,
-      "trend": 0.36
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 0.51,
-     "single_pct": -0.8,
-     "promoted": false,
-     "council_price": 1306.62
+     "council_price": 2196.06
     }
    }
   },
@@ -1807,615 +815,181 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -0.98,
-      "supply": -0.26,
-      "activity": -5.69,
-      "trend": -4.25
+      "seasonality": -0.87,
+      "supply": -0.3,
+      "activity": -6.42,
+      "trend": -4.35
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -3.11,
-     "single_pct": -4.15,
+     "council_pct": -3.43,
+     "single_pct": -4.28,
      "promoted": false,
-     "council_price": 4359.92
+     "council_price": 4345.5
     },
     "5": {
      "agents": {
-      "seasonality": -0.01,
-      "supply": 0.35,
-      "activity": -4.64,
-      "trend": -2.64
+      "seasonality": -0.43,
+      "supply": -0.41,
+      "activity": -4.69,
+      "trend": -2.88
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -2.27,
+     "council_pct": -2.62,
      "single_pct": -2.71,
      "promoted": false,
-     "council_price": 4397.85
+     "council_price": 4382.24
     },
     "7": {
      "agents": {
-      "seasonality": 0.65,
-      "supply": -0.53,
-      "activity": -1.8,
-      "trend": -2.0
+      "seasonality": -0.25,
+      "supply": -0.15,
+      "activity": -2.0,
+      "trend": -1.74
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -1.27,
-     "single_pct": -2.53,
+     "council_pct": -1.25,
+     "single_pct": -2.39,
      "promoted": false,
-     "council_price": 4442.74
+     "council_price": 4443.97
     }
    }
   },
-  "ginger|bangarpet_apmc": {
-   "commodity": "ginger",
-   "mandi_id": "bangarpet_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 1600.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -0.98,
-      "supply": 0.66,
-      "activity": 0.08,
-      "trend": 165.2
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 72.66,
-     "single_pct": 166.11,
-     "promoted": false,
-     "council_price": 2762.62
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.01,
-      "supply": 0.03,
-      "activity": -0.5,
-      "trend": 165.15
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 48.23,
-     "single_pct": 157.37,
-     "promoted": false,
-     "council_price": 2371.7
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.65,
-      "supply": 0.42,
-      "activity": -0.59,
-      "trend": 193.27
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 55.8,
-     "single_pct": 164.1,
-     "promoted": false,
-     "council_price": 2492.83
-    }
-   }
-  },
-  "tomato|gauribidanur_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "gauribidanur_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 2000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -2.07,
-      "supply": 0.82,
-      "activity": 0.7,
-      "trend": -1.59
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -1.14,
-     "single_pct": -1.55,
-     "promoted": false,
-     "council_price": 1977.2
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.95,
-      "supply": 0.56,
-      "activity": 1.49,
-      "trend": -1.45
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -0.35,
-     "single_pct": -1.85,
-     "promoted": false,
-     "council_price": 1993.04
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": 0.64,
-      "activity": 1.58,
-      "trend": -2.53
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -0.63,
-     "single_pct": -2.53,
-     "promoted": false,
-     "council_price": 1987.32
-    }
-   }
-  },
-  "garlic|bangarpet_apmc": {
-   "commodity": "garlic",
-   "mandi_id": "bangarpet_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 15000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -0.98,
-      "supply": -0.03,
-      "activity": 0.09,
-      "trend": -4.03
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -2.48,
-     "single_pct": -4.15,
-     "promoted": false,
-     "council_price": 14628.18
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.01,
-      "supply": 1.4,
-      "activity": -0.15,
-      "trend": -5.11
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -1.99,
-     "single_pct": -5.73,
-     "promoted": false,
-     "council_price": 14701.47
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.65,
-      "supply": 0.36,
-      "activity": -0.0,
-      "trend": -5.49
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -2.14,
-     "single_pct": -6.18,
-     "promoted": false,
-     "council_price": 14679.08
-    }
-   }
-  },
-  "tomato|mulbagal_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "mulbagal_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 1333.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -2.07,
-      "supply": 0.67,
-      "activity": -0.24,
-      "trend": 0.31
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -0.17,
-     "single_pct": -0.14,
-     "promoted": false,
-     "council_price": 1330.68
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.95,
-      "supply": 1.02,
-      "activity": -0.8,
-      "trend": 1.66
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 0.36,
-     "single_pct": 0.96,
-     "promoted": false,
-     "council_price": 1337.81
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": 1.42,
-      "activity": -1.18,
-      "trend": 2.07
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 0.62,
-     "single_pct": 1.64,
-     "promoted": false,
-     "council_price": 1341.21
-    }
-   }
-  },
-  "potato|gauribidanur_apmc": {
-   "commodity": "potato",
-   "mandi_id": "gauribidanur_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 2000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -1.17,
-      "supply": -0.49,
-      "activity": 0.65,
-      "trend": -1.3
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -0.99,
-     "single_pct": -1.16,
-     "promoted": false,
-     "council_price": 1980.22
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.48,
-      "supply": 1.28,
-      "activity": 1.49,
-      "trend": -1.64
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -0.24,
-     "single_pct": -2.47,
-     "promoted": false,
-     "council_price": 1995.22
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.17,
-      "supply": 0.2,
-      "activity": 1.58,
-      "trend": -2.03
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -0.36,
-     "single_pct": -2.75,
-     "promoted": false,
-     "council_price": 1992.8
-    }
-   }
-  },
-  "onion|bangarpet_apmc": {
+  "onion|malur_apmc": {
    "commodity": "onion",
-   "mandi_id": "bangarpet_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 4250.0,
+   "mandi_id": "malur_apmc",
+   "as_of": "2026-10-27",
+   "last_price": 5000.0,
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -1.03,
-      "supply": 0.51,
-      "activity": 0.11,
-      "trend": -1.72
+      "seasonality": -4.91,
+      "supply": -0.3,
+      "activity": -2.3,
+      "trend": -4.35
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -1.1,
-     "single_pct": -1.65,
+     "council_pct": -3.69,
+     "single_pct": -4.28,
      "promoted": false,
-     "council_price": 4203.43
+     "council_price": 4815.6
     },
     "5": {
      "agents": {
-      "seasonality": -0.41,
-      "supply": 1.31,
-      "activity": -0.07,
-      "trend": -2.72
+      "seasonality": -6.0,
+      "supply": -0.75,
+      "activity": -2.25,
+      "trend": -2.88
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -1.07,
-     "single_pct": -2.57,
+     "council_pct": -3.06,
+     "single_pct": -3.04,
      "promoted": false,
-     "council_price": 4204.55
+     "council_price": 4846.85
     },
     "7": {
      "agents": {
-      "seasonality": 0.17,
-      "supply": 0.58,
-      "activity": 0.12,
-      "trend": -2.85
+      "seasonality": -7.08,
+      "supply": -0.42,
+      "activity": -3.87,
+      "trend": -1.74
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -1.04,
-     "single_pct": -3.09,
+     "council_pct": -3.07,
+     "single_pct": -2.78,
      "promoted": false,
-     "council_price": 4205.65
+     "council_price": 4846.44
     }
    }
   },
-  "tomato|channapatna_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "channapatna_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 2000.0,
+  "potato|malur_apmc": {
+   "commodity": "potato",
+   "mandi_id": "malur_apmc",
+   "as_of": "2026-10-28",
+   "last_price": 4000.0,
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -2.07,
-      "supply": 0.71,
-      "activity": 0.49,
-      "trend": -4.38
+      "seasonality": -2.33,
+      "supply": -0.3,
+      "activity": -1.75,
+      "trend": -4.35
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -2.76,
-     "single_pct": -4.3,
+     "council_pct": -3.09,
+     "single_pct": -4.28,
      "promoted": false,
-     "council_price": 1944.82
+     "council_price": 3876.51
     },
     "5": {
      "agents": {
-      "seasonality": -0.95,
-      "supply": -0.08,
-      "activity": 1.14,
-      "trend": -4.59
+      "seasonality": -3.46,
+      "supply": -0.75,
+      "activity": 2.42,
+      "trend": -3.14
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -1.8,
-     "single_pct": -4.84,
+     "council_pct": -1.25,
+     "single_pct": -2.71,
      "promoted": false,
-     "council_price": 1963.92
+     "council_price": 3950.19
     },
     "7": {
      "agents": {
-      "seasonality": -0.53,
-      "supply": -0.94,
-      "activity": 1.43,
-      "trend": -6.15
+      "seasonality": -4.5,
+      "supply": -0.42,
+      "activity": -2.62,
+      "trend": -1.76
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -2.42,
-     "single_pct": -6.09,
+     "council_pct": -2.27,
+     "single_pct": -2.39,
      "promoted": false,
-     "council_price": 1951.58
-    }
-   }
-  },
-  "tomato|chintamani_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "chintamani_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 1200.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -2.07,
-      "supply": 0.69,
-      "activity": 0.09,
-      "trend": 4.64
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 2.25,
-     "single_pct": 4.27,
-     "promoted": false,
-     "council_price": 1226.99
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.95,
-      "supply": 0.33,
-      "activity": -0.41,
-      "trend": 4.44
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 1.49,
-     "single_pct": 4.56,
-     "promoted": false,
-     "council_price": 1217.9
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": 1.26,
-      "activity": -1.08,
-      "trend": 4.52
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 1.61,
-     "single_pct": 4.04,
-     "promoted": false,
-     "council_price": 1219.31
-    }
-   }
-  },
-  "tomato|bagepalli_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "bagepalli_apmc",
-   "as_of": "2026-10-26",
-   "last_price": 1800.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -2.07,
-      "supply": 1.43,
-      "activity": 0.09,
-      "trend": -8.34
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -4.97,
-     "single_pct": -8.28,
-     "promoted": false,
-     "council_price": 1710.57
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.95,
-      "supply": 0.62,
-      "activity": -0.41,
-      "trend": -7.29
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -3.26,
-     "single_pct": -7.32,
-     "promoted": false,
-     "council_price": 1741.4
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": 1.62,
-      "activity": -1.08,
-      "trend": -7.62
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -3.38,
-     "single_pct": -7.51,
-     "promoted": false,
-     "council_price": 1739.11
+     "council_price": 3909.39
     }
    }
   },
@@ -2427,57 +1001,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": 2.71,
-      "supply": -0.17,
-      "activity": -2.16,
-      "trend": -4.25
+      "seasonality": 2.46,
+      "supply": -0.33,
+      "activity": -1.69,
+      "trend": -4.35
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -2.07,
-     "single_pct": -3.74,
+     "council_pct": -2.13,
+     "single_pct": -3.25,
      "promoted": false,
-     "council_price": 4260.04
+     "council_price": 4257.23
     },
     "5": {
      "agents": {
-      "seasonality": 3.58,
-      "supply": 0.22,
-      "activity": 0.55,
-      "trend": -2.64
+      "seasonality": 3.41,
+      "supply": -0.22,
+      "activity": 0.29,
+      "trend": -2.88
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -0.15,
-     "single_pct": -0.96,
+     "council_pct": -0.31,
+     "single_pct": -1.15,
      "promoted": false,
-     "council_price": 4343.53
+     "council_price": 4336.42
     },
     "7": {
      "agents": {
-      "seasonality": 4.89,
-      "supply": 0.12,
-      "activity": -0.74,
-      "trend": -2.0
+      "seasonality": 4.31,
+      "supply": -0.17,
+      "activity": -1.0,
+      "trend": -1.74
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -0.15,
-     "single_pct": -0.22,
+     "council_pct": -0.16,
+     "single_pct": -0.41,
      "promoted": false,
-     "council_price": 4343.26
+     "council_price": 4342.97
     }
    }
   },
@@ -2489,181 +1063,305 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -2.07,
-      "supply": 0.79,
-      "activity": 0.18,
-      "trend": -1.14
+      "seasonality": -2.15,
+      "supply": 0.53,
+      "activity": 0.48,
+      "trend": -1.26
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -0.94,
-     "single_pct": -1.54,
+     "council_pct": -0.98,
+     "single_pct": -1.75,
      "promoted": false,
-     "council_price": 1203.61
+     "council_price": 1203.06
     },
     "5": {
      "agents": {
-      "seasonality": -1.06,
-      "supply": 0.76,
-      "activity": 0.33,
-      "trend": -0.36
+      "seasonality": -1.14,
+      "supply": 1.2,
+      "activity": 0.54,
+      "trend": -0.17
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -0.2,
-     "single_pct": -1.08,
+     "council_pct": 0.02,
+     "single_pct": -0.68,
      "promoted": false,
-     "council_price": 1212.51
+     "council_price": 1215.28
     },
     "7": {
      "agents": {
-      "seasonality": -0.53,
-      "supply": 1.86,
-      "activity": 0.77,
-      "trend": 0.62
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 0.62,
-     "single_pct": -0.36,
-     "promoted": false,
-     "council_price": 1222.54
-    }
-   }
-  },
-  "ginger|ramanagara_apmc": {
-   "commodity": "ginger",
-   "mandi_id": "ramanagara_apmc",
-   "as_of": "2026-11-11",
-   "last_price": 8000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -0.03,
+      "seasonality": -1.02,
       "supply": 0.94,
-      "activity": 0.05,
-      "trend": -1.08
+      "activity": 1.05,
+      "trend": 1.07
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -0.47,
-     "single_pct": -1.11,
+     "council_pct": 0.64,
+     "single_pct": 0.06,
      "promoted": false,
-     "council_price": 7962.62
-    },
-    "5": {
-     "agents": {
-      "seasonality": 0.26,
-      "supply": 0.58,
-      "activity": 0.37,
-      "trend": -1.82
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -0.52,
-     "single_pct": -1.85,
-     "promoted": false,
-     "council_price": 7958.05
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.65,
-      "supply": 0.91,
-      "activity": 0.44,
-      "trend": -1.96
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -0.46,
-     "single_pct": -2.17,
-     "promoted": false,
-     "council_price": 7963.48
+     "council_price": 1222.82
     }
    }
   },
-  "garlic|bangalore_yeshwanthpur": {
-   "commodity": "garlic",
-   "mandi_id": "bangalore_yeshwanthpur",
-   "as_of": "2026-11-11",
-   "last_price": 14000.0,
+  "ginger|doddaballapur_apmc": {
+   "commodity": "ginger",
+   "mandi_id": "doddaballapur_apmc",
+   "as_of": "2026-11-02",
+   "last_price": 7500.0,
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -0.03,
-      "supply": 0.36,
-      "activity": 0.05,
-      "trend": -1.08
+      "seasonality": -0.87,
+      "supply": 0.51,
+      "activity": 0.44,
+      "trend": -7.59
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -0.55,
-     "single_pct": -1.19,
+     "council_pct": -4.18,
+     "single_pct": -6.7,
      "promoted": false,
-     "council_price": 13922.44
+     "council_price": 7186.47
     },
     "5": {
      "agents": {
-      "seasonality": 0.26,
-      "supply": -0.08,
-      "activity": -0.15,
-      "trend": -1.82
+      "seasonality": -0.51,
+      "supply": 1.13,
+      "activity": 0.36,
+      "trend": -8.23
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -0.73,
-     "single_pct": -1.85,
+     "council_pct": -2.91,
+     "single_pct": -8.04,
      "promoted": false,
-     "council_price": 13897.12
+     "council_price": 7281.59
     },
     "7": {
      "agents": {
-      "seasonality": 0.65,
-      "supply": 0.73,
-      "activity": -0.0,
-      "trend": -1.96
+      "seasonality": -0.25,
+      "supply": 1.05,
+      "activity": 0.73,
+      "trend": -8.0
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -0.6,
-     "single_pct": -2.17,
+     "council_pct": -2.88,
+     "single_pct": -8.22,
      "promoted": false,
-     "council_price": 13916.15
+     "council_price": 7283.64
+    }
+   }
+  },
+  "garlic|doddaballapur_apmc": {
+   "commodity": "garlic",
+   "mandi_id": "doddaballapur_apmc",
+   "as_of": "2026-11-06",
+   "last_price": 16000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 5.81,
+      "supply": 0.88,
+      "activity": -1.12,
+      "trend": -2.56
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.28,
+     "single_pct": -1.76,
+     "promoted": false,
+     "council_price": 15955.74
+    },
+    "5": {
+     "agents": {
+      "seasonality": 4.84,
+      "supply": 1.04,
+      "activity": 0.52,
+      "trend": -3.98
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.21,
+     "single_pct": -2.9,
+     "promoted": false,
+     "council_price": 15966.74
+    },
+    "7": {
+     "agents": {
+      "seasonality": 5.66,
+      "supply": 0.81,
+      "activity": 1.32,
+      "trend": -5.22
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.58,
+     "single_pct": -2.25,
+     "promoted": false,
+     "council_price": 15907.45
+    }
+   }
+  },
+  "potato|hoskote_apmc": {
+   "commodity": "potato",
+   "mandi_id": "hoskote_apmc",
+   "as_of": "2026-11-07",
+   "last_price": 2000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": -2.69,
+      "activity": -0.6,
+      "trend": 0.59
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.04,
+     "single_pct": 0.65,
+     "promoted": false,
+     "council_price": 1999.27
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.46,
+      "supply": -3.01,
+      "activity": -0.26,
+      "trend": 0.67
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.33,
+     "single_pct": 0.97,
+     "promoted": false,
+     "council_price": 1993.38
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.58,
+      "supply": -4.41,
+      "activity": -2.79,
+      "trend": 0.88
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -1.25,
+     "single_pct": 0.58,
+     "promoted": false,
+     "council_price": 1975.0
+    }
+   }
+  },
+  "onion|hoskote_apmc": {
+   "commodity": "onion",
+   "mandi_id": "hoskote_apmc",
+   "as_of": "2026-11-07",
+   "last_price": 1350.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": -2.83,
+      "activity": -0.37,
+      "trend": 187.08
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 75.11,
+     "single_pct": 169.24,
+     "promoted": false,
+     "council_price": 2364.04
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.46,
+      "supply": -2.25,
+      "activity": -1.58,
+      "trend": 143.04
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 36.67,
+     "single_pct": 122.14,
+     "promoted": false,
+     "council_price": 1845.11
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.48,
+      "supply": -4.17,
+      "activity": 0.33,
+      "trend": 160.42
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 44.02,
+     "single_pct": 144.01,
+     "promoted": false,
+     "council_price": 1944.24
     }
    }
   },
@@ -2675,429 +1373,57 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -2.11,
-      "supply": 0.54,
-      "activity": 0.09,
-      "trend": -1.63
+      "seasonality": -2.33,
+      "supply": -0.28,
+      "activity": 0.14,
+      "trend": -1.41
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -1.27,
-     "single_pct": -1.53,
+     "council_pct": -1.25,
+     "single_pct": -1.51,
      "promoted": false,
-     "council_price": 4936.58
+     "council_price": 4937.66
     },
     "5": {
      "agents": {
-      "seasonality": -3.11,
-      "supply": 0.34,
-      "activity": -2.37,
-      "trend": -1.78
+      "seasonality": -3.83,
+      "supply": 0.32,
+      "activity": -1.85,
+      "trend": -2.2
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -1.99,
+     "council_pct": -2.11,
      "single_pct": -1.86,
      "promoted": false,
-     "council_price": 4900.43
+     "council_price": 4894.61
     },
     "7": {
      "agents": {
-      "seasonality": -4.06,
-      "supply": -1.11,
-      "activity": 0.28,
-      "trend": -2.19
+      "seasonality": -4.14,
+      "supply": -0.34,
+      "activity": -0.16,
+      "trend": -2.38
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -1.72,
-     "single_pct": -2.32,
+     "council_pct": -1.82,
+     "single_pct": -2.86,
      "promoted": false,
-     "council_price": 4913.97
-    }
-   }
-  },
-  "tomato|kolar_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "kolar_apmc",
-   "as_of": "2026-11-11",
-   "last_price": 1060.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -0.61,
-      "supply": -0.05,
-      "activity": 0.09,
-      "trend": 0.22
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -0.01,
-     "single_pct": -0.15,
-     "promoted": false,
-     "council_price": 1059.94
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.68,
-      "supply": 0.24,
-      "activity": -0.41,
-      "trend": 1.02
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 0.18,
-     "single_pct": 0.74,
-     "promoted": false,
-     "council_price": 1061.92
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": -0.8,
-      "activity": -1.08,
-      "trend": 2.4
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 0.48,
-     "single_pct": 2.11,
-     "promoted": false,
-     "council_price": 1065.06
-    }
-   }
-  },
-  "potato|bangalore_yeshwanthpur": {
-   "commodity": "potato",
-   "mandi_id": "bangalore_yeshwanthpur",
-   "as_of": "2026-11-11",
-   "last_price": 2009.99,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -0.13,
-      "supply": 0.45,
-      "activity": 0.07,
-      "trend": 6.92
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 3.87,
-     "single_pct": 6.51,
-     "promoted": false,
-     "council_price": 2087.84
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.21,
-      "supply": 0.17,
-      "activity": -0.07,
-      "trend": 7.67
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 2.99,
-     "single_pct": 7.03,
-     "promoted": false,
-     "council_price": 2070.14
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.17,
-      "supply": -0.64,
-      "activity": 0.11,
-      "trend": 5.67
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 2.28,
-     "single_pct": 5.6,
-     "promoted": false,
-     "council_price": 2055.75
-    }
-   }
-  },
-  "onion|bangalore_yeshwanthpur": {
-   "commodity": "onion",
-   "mandi_id": "bangalore_yeshwanthpur",
-   "as_of": "2026-11-11",
-   "last_price": 3299.98,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -0.07,
-      "supply": 0.27,
-      "activity": 0.07,
-      "trend": -7.6
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -4.31,
-     "single_pct": -7.68,
-     "promoted": false,
-     "council_price": 3157.73
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.14,
-      "supply": 0.47,
-      "activity": -0.07,
-      "trend": -7.45
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -3.08,
-     "single_pct": -7.94,
-     "promoted": false,
-     "council_price": 3198.31
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.17,
-      "supply": 1.2,
-      "activity": 0.12,
-      "trend": -7.37
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -2.89,
-     "single_pct": -7.68,
-     "promoted": false,
-     "council_price": 3204.64
-    }
-   }
-  },
-  "tomato|ramanagara_apmc": {
-   "commodity": "tomato",
-   "mandi_id": "ramanagara_apmc",
-   "as_of": "2026-11-11",
-   "last_price": 2000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -0.61,
-      "supply": 0.12,
-      "activity": 0.12,
-      "trend": -8.07
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -4.71,
-     "single_pct": -7.57,
-     "promoted": false,
-     "council_price": 1905.88
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.68,
-      "supply": 1.16,
-      "activity": 0.44,
-      "trend": -8.08
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -3.26,
-     "single_pct": -7.75,
-     "promoted": false,
-     "council_price": 1934.81
-    },
-    "7": {
-     "agents": {
-      "seasonality": -0.53,
-      "supply": 0.46,
-      "activity": 0.31,
-      "trend": -9.55
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -4.0,
-     "single_pct": -8.85,
-     "promoted": false,
-     "council_price": 1919.98
-    }
-   }
-  },
-  "potato|kolar_apmc": {
-   "commodity": "potato",
-   "mandi_id": "kolar_apmc",
-   "as_of": "2026-11-11",
-   "last_price": 1800.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": 3.01,
-      "supply": 0.72,
-      "activity": -0.36,
-      "trend": 0.62
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": 1.04,
-     "single_pct": 1.63,
-     "promoted": false,
-     "council_price": 1818.75
-    },
-    "5": {
-     "agents": {
-      "seasonality": 3.56,
-      "supply": 0.42,
-      "activity": 0.32,
-      "trend": 1.63
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": 1.56,
-     "single_pct": 2.49,
-     "promoted": false,
-     "council_price": 1828.06
-    },
-    "7": {
-     "agents": {
-      "seasonality": 4.48,
-      "supply": -0.21,
-      "activity": 0.23,
-      "trend": 1.27
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": 1.36,
-     "single_pct": 3.04,
-     "promoted": false,
-     "council_price": 1824.42
-    }
-   }
-  },
-  "potato|chikkaballapura_apmc": {
-   "commodity": "potato",
-   "mandi_id": "chikkaballapura_apmc",
-   "as_of": "2026-11-11",
-   "last_price": 2000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -0.13,
-      "supply": 0.75,
-      "activity": 0.46,
-      "trend": -0.65
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -0.24,
-     "single_pct": -0.7,
-     "promoted": false,
-     "council_price": 1995.2
-    },
-    "5": {
-     "agents": {
-      "seasonality": -0.21,
-      "supply": 0.41,
-      "activity": -0.13,
-      "trend": -1.08
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -0.47,
-     "single_pct": -1.24,
-     "promoted": false,
-     "council_price": 1990.6
-    },
-    "7": {
-     "agents": {
-      "seasonality": 0.17,
-      "supply": 0.77,
-      "activity": -0.44,
-      "trend": -1.05
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -0.42,
-     "single_pct": -1.27,
-     "promoted": false,
-     "council_price": 1991.61
+     "council_price": 4909.12
     }
    }
   },
@@ -3109,181 +1435,243 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -0.07,
-      "supply": 1.03,
-      "activity": 0.5,
-      "trend": -4.05
+      "seasonality": -0.33,
+      "supply": 0.59,
+      "activity": 0.6,
+      "trend": -3.81
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -2.11,
-     "single_pct": -3.87,
+     "council_pct": -1.97,
+     "single_pct": -4.24,
      "promoted": false,
-     "council_price": 4384.23
+     "council_price": 4390.87
     },
     "5": {
      "agents": {
-      "seasonality": -0.14,
-      "supply": 0.14,
-      "activity": -0.13,
-      "trend": -4.51
+      "seasonality": -0.4,
+      "supply": 0.59,
+      "activity": 0.3,
+      "trend": -4.04
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -1.9,
-     "single_pct": -4.43,
+     "council_pct": -1.39,
+     "single_pct": -4.05,
      "promoted": false,
-     "council_price": 4393.99
+     "council_price": 4416.47
     },
     "7": {
      "agents": {
-      "seasonality": 0.17,
-      "supply": -0.64,
-      "activity": -0.44,
-      "trend": -4.2
+      "seasonality": -0.48,
+      "supply": 0.02,
+      "activity": 0.1,
+      "trend": -4.79
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -1.93,
-     "single_pct": -4.92,
-     "promoted": false,
-     "council_price": 4392.71
-    }
-   }
-  },
-  "garlic|chikkaballapura_apmc": {
-   "commodity": "garlic",
-   "mandi_id": "chikkaballapura_apmc",
-   "as_of": "2026-11-11",
-   "last_price": 15000.0,
-   "horizons": {
-    "3": {
-     "agents": {
-      "seasonality": -2.33,
-      "supply": 0.54,
-      "activity": 1.22,
-      "trend": -6.96
-     },
-     "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
-     },
-     "council_pct": -4.26,
+     "council_pct": -1.95,
      "single_pct": -4.89,
      "promoted": false,
-     "council_price": 14361.37
-    },
-    "5": {
-     "agents": {
-      "seasonality": -2.85,
-      "supply": 0.12,
-      "activity": 0.81,
-      "trend": -5.77
-     },
-     "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
-     },
-     "council_pct": -2.77,
-     "single_pct": -5.94,
-     "promoted": false,
-     "council_price": 14584.68
-    },
-    "7": {
-     "agents": {
-      "seasonality": -3.51,
-      "supply": 0.76,
-      "activity": 1.37,
-      "trend": -5.66
-     },
-     "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
-     },
-     "council_pct": -2.54,
-     "single_pct": -6.41,
-     "promoted": false,
-     "council_price": 14618.93
+     "council_price": 4391.6
     }
    }
   },
-  "ginger|bangalore_yeshwanthpur": {
-   "commodity": "ginger",
-   "mandi_id": "bangalore_yeshwanthpur",
+  "garlic|bangarpet_apmc": {
+   "commodity": "garlic",
+   "mandi_id": "bangarpet_apmc",
    "as_of": "2026-11-11",
-   "last_price": 4500.0,
+   "last_price": 17000.0,
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -0.03,
-      "supply": -0.37,
-      "activity": 0.05,
-      "trend": -1.01
+      "seasonality": -0.27,
+      "supply": 0.86,
+      "activity": 0.19,
+      "trend": -4.43
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
-     "council_pct": -0.63,
-     "single_pct": -1.19,
+     "council_pct": -2.31,
+     "single_pct": -4.71,
      "promoted": false,
-     "council_price": 4471.8
+     "council_price": 16606.65
     },
     "5": {
      "agents": {
-      "seasonality": 0.26,
-      "supply": 0.88,
-      "activity": -0.14,
-      "trend": -2.53
+      "seasonality": -0.15,
+      "supply": 1.06,
+      "activity": 0.48,
+      "trend": -4.91
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": -0.92,
-     "single_pct": -2.42,
+     "council_pct": -1.55,
+     "single_pct": -5.22,
      "promoted": false,
-     "council_price": 4458.79
+     "council_price": 16735.67
     },
     "7": {
      "agents": {
-      "seasonality": 0.65,
-      "supply": 1.64,
-      "activity": 0.03,
-      "trend": -2.85
+      "seasonality": -0.25,
+      "supply": 0.63,
+      "activity": 0.04,
+      "trend": -6.04
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
      },
-     "council_pct": -0.85,
-     "single_pct": -3.35,
+     "council_pct": -2.32,
+     "single_pct": -5.41,
      "promoted": false,
-     "council_price": 4461.96
+     "council_price": 16605.17
+    }
+   }
+  },
+  "potato|chikkaballapura_apmc": {
+   "commodity": "potato",
+   "mandi_id": "chikkaballapura_apmc",
+   "as_of": "2026-11-11",
+   "last_price": 2000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": -0.33,
+      "supply": 0.16,
+      "activity": 0.6,
+      "trend": -0.7
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.34,
+     "single_pct": -0.63,
+     "promoted": false,
+     "council_price": 1993.18
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.4,
+      "supply": 0.76,
+      "activity": 0.25,
+      "trend": -0.97
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.26,
+     "single_pct": -0.77,
+     "promoted": false,
+     "council_price": 1994.86
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.58,
+      "supply": 0.78,
+      "activity": 0.09,
+      "trend": -0.87
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.29,
+     "single_pct": -1.82,
+     "promoted": false,
+     "council_price": 1994.19
+    }
+   }
+  },
+  "tomato|channapatna_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "channapatna_apmc",
+   "as_of": "2026-11-11",
+   "last_price": 2000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": -0.63,
+      "supply": -0.16,
+      "activity": 0.38,
+      "trend": -2.37
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -1.37,
+     "single_pct": -1.92,
+     "promoted": false,
+     "council_price": 1972.67
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 0.8,
+      "activity": 0.87,
+      "trend": -1.74
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.41,
+     "single_pct": -1.37,
+     "promoted": false,
+     "council_price": 1991.85
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": -1.12,
+      "activity": 0.47,
+      "trend": -4.17
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -1.91,
+     "single_pct": -2.76,
+     "promoted": false,
+     "council_price": 1961.72
     }
    }
   },
@@ -3295,57 +1683,1669 @@
    "horizons": {
     "3": {
      "agents": {
-      "seasonality": -0.03,
-      "supply": 0.43,
-      "activity": -0.23,
-      "trend": 0.79
+      "seasonality": -0.27,
+      "supply": 0.31,
+      "activity": 0.11,
+      "trend": 0.91
      },
      "weights": {
-      "seasonality": 0.206,
-      "supply": 0.15,
-      "activity": 0.083,
-      "trend": 0.561
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
      "council_pct": 0.48,
-     "single_pct": 0.47,
+     "single_pct": 0.64,
      "promoted": false,
-     "council_price": 5526.47
+     "council_price": 5526.58
     },
     "5": {
      "agents": {
-      "seasonality": 0.26,
-      "supply": 1.28,
-      "activity": -0.35,
-      "trend": 0.84
+      "seasonality": -0.15,
+      "supply": 1.57,
+      "activity": 0.0,
+      "trend": 0.27
      },
      "weights": {
-      "seasonality": 0.218,
-      "supply": 0.114,
-      "activity": 0.263,
-      "trend": 0.405
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
      },
-     "council_pct": 0.45,
-     "single_pct": 0.62,
+     "council_pct": 0.27,
+     "single_pct": 0.51,
      "promoted": false,
-     "council_price": 5524.64
+     "council_price": 5514.99
     },
     "7": {
      "agents": {
-      "seasonality": 0.65,
-      "supply": 0.79,
-      "activity": -0.21,
-      "trend": 0.41
+      "seasonality": -0.25,
+      "supply": 0.47,
+      "activity": -0.17,
+      "trend": 0.16
      },
      "weights": {
-      "seasonality": 0.181,
-      "supply": 0.134,
-      "activity": 0.273,
-      "trend": 0.412
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 0.06,
+     "single_pct": 0.27,
+     "promoted": false,
+     "council_price": 5503.06
+    }
+   }
+  },
+  "garlic|chikkaballapura_apmc": {
+   "commodity": "garlic",
+   "mandi_id": "chikkaballapura_apmc",
+   "as_of": "2026-11-11",
+   "last_price": 15000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": -2.4,
+      "supply": 0.08,
+      "activity": 1.87,
+      "trend": -6.21
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -3.59,
+     "single_pct": -6.4,
+     "promoted": false,
+     "council_price": 14461.18
+    },
+    "5": {
+     "agents": {
+      "seasonality": -3.59,
+      "supply": 0.44,
+      "activity": 1.0,
+      "trend": -5.91
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -2.56,
+     "single_pct": -5.93,
+     "promoted": false,
+     "council_price": 14616.1
+    },
+    "7": {
+     "agents": {
+      "seasonality": -3.87,
+      "supply": 0.78,
+      "activity": 1.64,
+      "trend": -6.46
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -2.77,
+     "single_pct": -6.17,
+     "promoted": false,
+     "council_price": 14584.92
+    }
+   }
+  },
+  "onion|doddaballapur_apmc": {
+   "commodity": "onion",
+   "mandi_id": "doddaballapur_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 4500.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": 0.82,
+      "activity": 0.59,
+      "trend": -0.96
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.26,
+     "single_pct": -1.04,
+     "promoted": false,
+     "council_price": 4488.27
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.4,
+      "supply": 0.76,
+      "activity": 1.3,
+      "trend": -1.81
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.25,
+     "single_pct": -2.01,
+     "promoted": false,
+     "council_price": 4488.62
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.48,
+      "supply": 1.03,
+      "activity": 1.63,
+      "trend": -1.7
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.18,
+     "single_pct": -2.51,
+     "promoted": false,
+     "council_price": 4492.03
+    }
+   }
+  },
+  "ginger|bangalore_yeshwanthpur": {
+   "commodity": "ginger",
+   "mandi_id": "bangalore_yeshwanthpur",
+   "as_of": "2026-11-12",
+   "last_price": 4500.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.41,
+      "supply": 0.27,
+      "activity": 0.19,
+      "trend": -1.19
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.49,
+     "single_pct": -1.17,
+     "promoted": false,
+     "council_price": 4477.86
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.15,
+      "supply": 0.74,
+      "activity": 0.44,
+      "trend": -1.93
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.51,
+     "single_pct": -2.01,
+     "promoted": false,
+     "council_price": 4477.16
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.25,
+      "supply": 0.71,
+      "activity": 0.13,
+      "trend": -1.7
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.55,
+     "single_pct": -2.51,
+     "promoted": false,
+     "council_price": 4475.05
+    }
+   }
+  },
+  "onion|gauribidanur_apmc": {
+   "commodity": "onion",
+   "mandi_id": "gauribidanur_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 4300.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": 0.1,
+      "activity": 0.35,
+      "trend": -1.16
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.49,
+     "single_pct": -1.17,
+     "promoted": false,
+     "council_price": 4279.0
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.4,
+      "supply": 0.89,
+      "activity": 0.91,
+      "trend": -1.88
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.38,
+     "single_pct": -2.12,
+     "promoted": false,
+     "council_price": 4283.78
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.48,
+      "supply": -1.06,
+      "activity": 0.65,
+      "trend": -1.84
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.84,
+     "single_pct": -2.66,
+     "promoted": false,
+     "council_price": 4264.02
+    }
+   }
+  },
+  "tomato|bangarpet_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "bangarpet_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 1800.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.89,
+      "activity": 0.6,
+      "trend": -7.57
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -3.91,
+     "single_pct": -7.65,
+     "promoted": false,
+     "council_price": 1729.69
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 0.83,
+      "activity": 1.24,
+      "trend": -6.43
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -2.04,
+     "single_pct": -6.71,
+     "promoted": false,
+     "council_price": 1763.23
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 0.54,
+      "activity": 1.78,
+      "trend": -4.76
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -1.55,
+     "single_pct": -5.63,
+     "promoted": false,
+     "council_price": 1772.12
+    }
+   }
+  },
+  "tomato|binny_mill_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "binny_mill_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 1500.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.62,
+      "activity": 0.71,
+      "trend": 8.72
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 4.79,
+     "single_pct": 8.03,
+     "promoted": false,
+     "council_price": 1571.78
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 0.82,
+      "activity": 1.44,
+      "trend": 7.74
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 3.14,
+     "single_pct": 7.2,
+     "promoted": false,
+     "council_price": 1547.12
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 0.26,
+      "activity": 1.03,
+      "trend": 6.52
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 2.6,
+     "single_pct": 6.83,
+     "promoted": false,
+     "council_price": 1538.96
+    }
+   }
+  },
+  "potato|doddaballapur_apmc": {
+   "commodity": "potato",
+   "mandi_id": "doddaballapur_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 2200.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": -0.05,
+      "activity": 0.59,
+      "trend": -0.68
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.22,
+     "single_pct": -0.45,
+     "promoted": false,
+     "council_price": 2195.25
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.4,
+      "supply": 1.0,
+      "activity": 1.3,
+      "trend": -1.37
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.06,
+     "single_pct": -1.59,
+     "promoted": false,
+     "council_price": 2198.69
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.58,
+      "supply": 1.33,
+      "activity": 1.28,
+      "trend": -1.29
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.07,
+     "single_pct": -2.13,
+     "promoted": false,
+     "council_price": 2198.48
+    }
+   }
+  },
+  "tomato|doddaballapur_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "doddaballapur_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 1000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.47,
+      "activity": 0.94,
+      "trend": 5.03
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 2.88,
+     "single_pct": 4.79,
+     "promoted": false,
+     "council_price": 1028.81
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 1.19,
+      "activity": 1.43,
+      "trend": 4.57
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 2.08,
+     "single_pct": 4.94,
+     "promoted": false,
+     "council_price": 1020.79
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 1.84,
+      "activity": 1.09,
+      "trend": 3.26
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 1.65,
+     "single_pct": 3.89,
+     "promoted": false,
+     "council_price": 1016.54
+    }
+   }
+  },
+  "garlic|bangalore_yeshwanthpur": {
+   "commodity": "garlic",
+   "mandi_id": "bangalore_yeshwanthpur",
+   "as_of": "2026-11-12",
+   "last_price": 14000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.41,
+      "supply": 0.23,
+      "activity": 0.19,
+      "trend": -0.96
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.38,
+     "single_pct": -1.04,
+     "promoted": false,
+     "council_price": 13947.16
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.15,
+      "supply": -0.06,
+      "activity": 0.44,
+      "trend": -1.81
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.57,
+     "single_pct": -2.01,
+     "promoted": false,
+     "council_price": 13920.57
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.25,
+      "supply": 0.11,
+      "activity": 0.04,
+      "trend": -1.7
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.68,
+     "single_pct": -2.51,
+     "promoted": false,
+     "council_price": 13904.77
+    }
+   }
+  },
+  "ginger|ramanagara_apmc": {
+   "commodity": "ginger",
+   "mandi_id": "ramanagara_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 8000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.41,
+      "supply": 0.51,
+      "activity": 0.2,
+      "trend": -0.07
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 0.14,
+     "single_pct": -0.02,
+     "promoted": false,
+     "council_price": 8011.0
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.15,
+      "supply": 0.72,
+      "activity": 0.43,
+      "trend": -0.83
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.11,
+     "single_pct": -0.84,
+     "promoted": false,
+     "council_price": 7991.14
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.25,
+      "supply": 0.26,
+      "activity": 0.4,
+      "trend": -0.42
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.07,
+     "single_pct": -0.5,
+     "promoted": false,
+     "council_price": 7994.79
+    }
+   }
+  },
+  "potato|gauribidanur_apmc": {
+   "commodity": "potato",
+   "mandi_id": "gauribidanur_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 2000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": 0.12,
+      "activity": 0.38,
+      "trend": 0.36
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
      },
      "council_pct": 0.33,
-     "single_pct": 0.45,
+     "single_pct": 0.51,
      "promoted": false,
-     "council_price": 5518.39
+     "council_price": 2006.66
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.4,
+      "supply": 1.15,
+      "activity": 0.91,
+      "trend": 0.6
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 0.56,
+     "single_pct": 0.97,
+     "promoted": false,
+     "council_price": 2011.17
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.58,
+      "supply": 0.43,
+      "activity": 0.67,
+      "trend": 1.05
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 0.54,
+     "single_pct": 0.78,
+     "promoted": false,
+     "council_price": 2010.77
+    }
+   }
+  },
+  "onion|bangalore_yeshwanthpur": {
+   "commodity": "onion",
+   "mandi_id": "bangalore_yeshwanthpur",
+   "as_of": "2026-11-12",
+   "last_price": 3299.99,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": -0.26,
+      "activity": 0.23,
+      "trend": -2.82
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -1.45,
+     "single_pct": -3.34,
+     "promoted": false,
+     "council_price": 3252.18
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.4,
+      "supply": 0.16,
+      "activity": 0.44,
+      "trend": -4.35
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -1.52,
+     "single_pct": -4.72,
+     "promoted": false,
+     "council_price": 3249.7
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.48,
+      "supply": 0.69,
+      "activity": 0.16,
+      "trend": -3.47
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -1.3,
+     "single_pct": -4.04,
+     "promoted": false,
+     "council_price": 3257.16
+    }
+   }
+  },
+  "tomato|gauribidanur_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "gauribidanur_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 1600.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.81,
+      "activity": 0.38,
+      "trend": 5.95
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 3.33,
+     "single_pct": 5.39,
+     "promoted": false,
+     "council_price": 1653.23
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 0.75,
+      "activity": 0.87,
+      "trend": 4.83
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 1.94,
+     "single_pct": 4.45,
+     "promoted": false,
+     "council_price": 1631.08
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 0.63,
+      "activity": 0.67,
+      "trend": 4.37
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 1.76,
+     "single_pct": 4.45,
+     "promoted": false,
+     "council_price": 1628.15
+    }
+   }
+  },
+  "tomato|kanakapura_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "kanakapura_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 2000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.31,
+      "activity": 0.4,
+      "trend": -0.14
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 0.05,
+     "single_pct": -0.13,
+     "promoted": false,
+     "council_price": 2001.04
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 2.1,
+      "activity": 0.93,
+      "trend": -1.05
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 0.03,
+     "single_pct": -0.46,
+     "promoted": false,
+     "council_price": 2000.54
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 1.52,
+      "activity": 0.28,
+      "trend": -1.7
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.53,
+     "single_pct": -1.45,
+     "promoted": false,
+     "council_price": 1989.48
+    }
+   }
+  },
+  "tomato|mulbagal_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "mulbagal_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 866.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.4,
+      "activity": 0.49,
+      "trend": 5.64
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 3.13,
+     "single_pct": 4.82,
+     "promoted": false,
+     "council_price": 893.12
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 0.59,
+      "activity": 1.15,
+      "trend": 7.97
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 3.1,
+     "single_pct": 8.2,
+     "promoted": false,
+     "council_price": 892.87
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 0.89,
+      "activity": 1.8,
+      "trend": 9.86
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 4.14,
+     "single_pct": 10.28,
+     "promoted": false,
+     "council_price": 901.88
+    }
+   }
+  },
+  "potato|kolar_apmc": {
+   "commodity": "potato",
+   "mandi_id": "kolar_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 1800.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.44,
+      "supply": 0.75,
+      "activity": -1.11,
+      "trend": 1.83
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 1.01,
+     "single_pct": 1.94,
+     "promoted": false,
+     "council_price": 1818.12
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.55,
+      "supply": 0.47,
+      "activity": -1.33,
+      "trend": 2.48
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 0.43,
+     "single_pct": 2.73,
+     "promoted": false,
+     "council_price": 1807.79
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.67,
+      "supply": 0.28,
+      "activity": -1.11,
+      "trend": 1.92
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 0.39,
+     "single_pct": 1.87,
+     "promoted": false,
+     "council_price": 1806.97
+    }
+   }
+  },
+  "ginger|binny_mill_apmc": {
+   "commodity": "ginger",
+   "mandi_id": "binny_mill_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 12000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.41,
+      "supply": 0.51,
+      "activity": 0.55,
+      "trend": -0.61
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.1,
+     "single_pct": -0.78,
+     "promoted": false,
+     "council_price": 11987.58
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.15,
+      "supply": 1.04,
+      "activity": 1.3,
+      "trend": -2.12
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.28,
+     "single_pct": -1.49,
+     "promoted": false,
+     "council_price": 11966.36
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.25,
+      "supply": 1.01,
+      "activity": 1.26,
+      "trend": -3.28
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.85,
+     "single_pct": -1.89,
+     "promoted": false,
+     "council_price": 11897.68
+    }
+   }
+  },
+  "onion|bangarpet_apmc": {
+   "commodity": "onion",
+   "mandi_id": "bangarpet_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 4600.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": 0.0,
+      "activity": 0.23,
+      "trend": -3.76
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -1.93,
+     "single_pct": -4.53,
+     "promoted": false,
+     "council_price": 4511.38
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.4,
+      "supply": -0.32,
+      "activity": 0.49,
+      "trend": -4.23
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -1.53,
+     "single_pct": -5.33,
+     "promoted": false,
+     "council_price": 4529.6
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.48,
+      "supply": -0.07,
+      "activity": 0.16,
+      "trend": -4.58
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -1.87,
+     "single_pct": -5.33,
+     "promoted": false,
+     "council_price": 4514.02
+    }
+   }
+  },
+  "potato|bangarpet_apmc": {
+   "commodity": "potato",
+   "mandi_id": "bangarpet_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 1700.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": -1.38,
+      "activity": 0.18,
+      "trend": 4.12
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 2.1,
+     "single_pct": 3.93,
+     "promoted": false,
+     "council_price": 1735.78
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.4,
+      "supply": -2.37,
+      "activity": 0.06,
+      "trend": 2.54
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 0.53,
+     "single_pct": 2.31,
+     "promoted": false,
+     "council_price": 1709.01
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.58,
+      "supply": -4.36,
+      "activity": -0.51,
+      "trend": 3.46
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 0.31,
+     "single_pct": 2.15,
+     "promoted": false,
+     "council_price": 1705.2
+    }
+   }
+  },
+  "tomato|ramanagara_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "ramanagara_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 2000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": -0.67,
+      "activity": 0.19,
+      "trend": -1.45
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": -0.8,
+     "single_pct": -1.7,
+     "promoted": false,
+     "council_price": 1983.92
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 0.34,
+      "activity": 0.31,
+      "trend": -3.02
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -1.11,
+     "single_pct": -3.01,
+     "promoted": false,
+     "council_price": 1977.88
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 0.52,
+      "activity": 0.27,
+      "trend": -4.73
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -1.9,
+     "single_pct": -4.66,
+     "promoted": false,
+     "council_price": 1961.96
+    }
+   }
+  },
+  "potato|bangalore_yeshwanthpur": {
+   "commodity": "potato",
+   "mandi_id": "bangalore_yeshwanthpur",
+   "as_of": "2026-11-12",
+   "last_price": 2009.92,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.36,
+      "supply": 0.91,
+      "activity": 0.17,
+      "trend": 2.73
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 1.66,
+     "single_pct": 2.67,
+     "promoted": false,
+     "council_price": 2043.38
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.4,
+      "supply": 1.09,
+      "activity": 0.44,
+      "trend": 1.88
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 0.87,
+     "single_pct": 2.73,
+     "promoted": false,
+     "council_price": 2027.42
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.58,
+      "supply": 0.89,
+      "activity": 0.15,
+      "trend": 1.62
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 0.71,
+     "single_pct": 0.98,
+     "promoted": false,
+     "council_price": 2024.17
+    }
+   }
+  },
+  "ginger|bangarpet_apmc": {
+   "commodity": "ginger",
+   "mandi_id": "bangarpet_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 5500.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.41,
+      "supply": -0.74,
+      "activity": 0.27,
+      "trend": 2.16
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 1.18,
+     "single_pct": 2.15,
+     "promoted": false,
+     "council_price": 5564.78
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.15,
+      "supply": 1.2,
+      "activity": 0.43,
+      "trend": -1.26
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": -0.21,
+     "single_pct": -0.75,
+     "promoted": false,
+     "council_price": 5488.69
+    },
+    "7": {
+     "agents": {
+      "seasonality": -0.25,
+      "supply": -1.44,
+      "activity": 0.02,
+      "trend": -1.25
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": -0.78,
+     "single_pct": -1.59,
+     "promoted": false,
+     "council_price": 5456.98
+    }
+   }
+  },
+  "tomato|chintamani_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "chintamani_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 1133.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.73,
+      "activity": 0.35,
+      "trend": 1.89
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 1.18,
+     "single_pct": 1.76,
+     "promoted": false,
+     "council_price": 1146.33
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 1.16,
+      "activity": 0.78,
+      "trend": 3.37
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 1.46,
+     "single_pct": 3.5,
+     "promoted": false,
+     "council_price": 1149.49
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 1.23,
+      "activity": 1.03,
+      "trend": 2.81
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 1.36,
+     "single_pct": 2.7,
+     "promoted": false,
+     "council_price": 1148.41
+    }
+   }
+  },
+  "tomato|kolar_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "kolar_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 1000.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.24,
+      "activity": 0.2,
+      "trend": 2.36
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 1.35,
+     "single_pct": 2.29,
+     "promoted": false,
+     "council_price": 1013.47
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 0.72,
+      "activity": -0.44,
+      "trend": 3.94
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 1.22,
+     "single_pct": 3.93,
+     "promoted": false,
+     "council_price": 1012.24
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": -0.21,
+      "activity": -1.07,
+      "trend": 5.22
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 1.5,
+     "single_pct": 5.48,
+     "promoted": false,
+     "council_price": 1014.95
+    }
+   }
+  },
+  "tomato|bagepalli_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "bagepalli_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 1230.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.35,
+      "activity": 0.19,
+      "trend": 3.42
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 1.92,
+     "single_pct": 3.93,
+     "promoted": false,
+     "council_price": 1253.61
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 0.76,
+      "activity": -0.25,
+      "trend": 2.26
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 0.69,
+     "single_pct": 2.11,
+     "promoted": false,
+     "council_price": 1238.52
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 0.97,
+      "activity": -0.85,
+      "trend": 1.41
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 0.31,
+     "single_pct": 1.13,
+     "promoted": false,
+     "council_price": 1233.8
+    }
+   }
+  },
+  "tomato|srinivasapur_apmc": {
+   "commodity": "tomato",
+   "mandi_id": "srinivasapur_apmc",
+   "as_of": "2026-11-12",
+   "last_price": 933.0,
+   "horizons": {
+    "3": {
+     "agents": {
+      "seasonality": 0.16,
+      "supply": 0.29,
+      "activity": 0.26,
+      "trend": 2.81
+     },
+     "weights": {
+      "seasonality": 0.2037962037962038,
+      "supply": 0.1258741258741259,
+      "activity": 0.1358641358641359,
+      "trend": 0.5344655344655346
+     },
+     "council_pct": 1.6,
+     "single_pct": 3.2,
+     "promoted": false,
+     "council_price": 947.92
+    },
+    "5": {
+     "agents": {
+      "seasonality": -0.69,
+      "supply": 0.6,
+      "activity": 0.51,
+      "trend": 4.58
+     },
+     "weights": {
+      "seasonality": 0.2047952047952048,
+      "supply": 0.13086913086913088,
+      "activity": 0.3026973026973027,
+      "trend": 0.36163836163836166
+     },
+     "council_pct": 1.72,
+     "single_pct": 4.89,
+     "promoted": false,
+     "council_price": 949.08
+    },
+    "7": {
+     "agents": {
+      "seasonality": -1.02,
+      "supply": 0.13,
+      "activity": 0.27,
+      "trend": 1.04
+     },
+     "weights": {
+      "seasonality": 0.189,
+      "supply": 0.175,
+      "activity": 0.247,
+      "trend": 0.389
+     },
+     "council_pct": 0.3,
+     "single_pct": 2.12,
+     "promoted": false,
+     "council_price": 935.78
     }
    }
   }
