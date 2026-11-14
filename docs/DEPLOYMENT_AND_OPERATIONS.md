@@ -124,9 +124,10 @@ Lesson: an optional dependency must be optional at every layer, and a deployment
 
 | Data | Source | Refresh | Status |
 |---|---|---|---|
-| Forecast store and market observations | data.gov.in "current daily price" feed (prices, no arrivals), Karnataka | **`python scripts/refresh_and_publish.py --push`** from a machine that can reach the feed: ingest, re-score, test, commit, push, Render redeploys | **manual, one command**; refreshed to 2026-11-12 on 2026-11-12 and not since |
-| Farmer district series (arrivals-weighted price per district, crop and day) used by the district forecaster, hold-or-sell, seasonal memory, supply signal, transmission and the shock radar | Agmarknet "All Type of Report" exports in `datasets/year_data/historical_data/`, built by `scripts/build_farmer_world.py` | **manual re-export; a newer, shorter export is layered on with `--add-history <file>`, then `scripts/pipeline.py --only transmission,shock`** | **not automated**; 2021-01-01 to **2026-11-11** (district-level export of 2026-11-13 layered on 2026-11-13; the later export wins on overlapping days) |
-| Farmer market panel (price and arrivals per mandi, 2021 to 2026-10-26) used by market choice, the track record, spillover and the council | the same exports, **market-level layout only** (with a Market column) | as above; a district-level export cannot extend it, because a district has 2 to 5 mandis | **not automated**; through 2026-10-26 until a market-level export for 27 Oct onward is added |
+| Forecast store and market observations | data.gov.in "current daily price" feed (prices, no arrivals), Karnataka | **`python scripts/refresh_and_publish.py --push`** from a machine that can reach the feed: ingest, re-score, test, commit, push, Render redeploys | **manual, one command**; refreshed to 2026-11-13 on 2026-11-14 (run by hand locally; not yet committed) |
+| Farmer district series (arrivals-weighted price per district, crop and day) used by the district forecaster, hold-or-sell, seasonal memory, supply signal, transmission and the shock radar | Agmarknet "All Type of Report" exports in `datasets/year_data/historical_data/`, built by `scripts/build_farmer_world.py` | **manual re-export; a newer, shorter export is layered on with `--add-history <file>`, then `scripts/pipeline.py --only transmission,shock`** | **not automated**; 2021-01-01 to **2026-11-12** (district-level exports of 2026-11-13 and 2026-11-14 and the market-level export of 2026-11-14 layered on; the later export wins on overlapping days) |
+| Farmer market panel (price and arrivals per mandi, 2021 to 2026-11-12) used by market choice, the track record, spillover and the council | the same exports, **market-level layout only** (with a Market column) | as above; a district-level export cannot extend it, because a district has 2 to 5 mandis | **not automated**; to **2026-11-12**: the market-level export of 2026-11-14 (18 markets, 26 Oct to 12 Nov) is layered on the base history, and all 16 mandis have rows after 26 Oct. A 4-market export of 13 Nov (superseded) is kept in `source/` |
+| Per-mandi daily reports (min, modal and max price, arrivals) used by the sell plan, where-to-sell, the mandi page, fair price and "today in the mandis" | Agmarknet "Daily Price Arrival Report" exports for Karnataka in `datasets/year_data/` | **manual re-export, then `python scripts/build_farmer_world.py --mandi-dir datasets/year_data`** (every file in the folder is staged; a download saved twice is skipped; rows identical in every column are de-duplicated, and a later export may overlap an earlier one) | **not automated**; 2025-11-07 to **2026-11-13** (exports of 14 Nov for 26 Oct to 13 Nov added; on the 83 rows shared with the 28 Oct export every price and arrival matched) |
 | Model retraining | forecasting models | weekly cadence inside the nightly job; `--force-retrain` on demand | automatic **when the job runs**; the job itself is run by hand (above) |
 
 Why a git commit and not an in-process scheduler: a free instance sleeps and its disk is wiped on restart, so anything it ingested was
@@ -155,14 +156,14 @@ it reports `INSUFFICIENT_EVIDENCE` instead of a hit rate, which is the honest st
 
 **Known gap, stated plainly:** the farmer-facing market-choice panels are not fed by this refresh at all, because the free feed carries no
 arrivals. The honest next step is to append the daily price snapshots to the panel and treat arrivals as missing for those days, then
-re-validate; until then the app states the data date ("to 2026-10-26") on its charts. The district series are fresher (to 2026-11-11)
+re-validate; until then the app states the data date on its charts. The district series are fresher (to 2026-11-12)
 because a district-level export was layered on; the research loader (`research/gfmc/data/loader.py`) skips district-level exports and
-reads the newest market-level one by its export time.
+layers every market-level export in the folder, oldest download first (the later download wins on a shared market, crop and day).
 
 ## 6. Data quality
 
-From `mandisense_ai/data/farmer/market_daily.parquet` (measured 2026-11-12): 16 mandis, 5 crops, 54 crop-mandi series, 2021-01-01 to
-2026-10-26. **62% of mandi-days have no report**; the median series reports on 26% of days (range 0.1% to 93%). Nothing is imputed, and
+From `mandisense_ai/data/farmer/market_daily.parquet` (measured 2026-11-14): 16 mandis, 5 crops, 54 crop-mandi series, 37,240 rows, 2021-01-01 to
+2026-11-12. **62% of mandi-days have no report**; the median series reports on 26% of days (range 0.1% to 93%). Nothing is imputed, and
 the models are trained on the fact that a mandi was silent, which is the source of the largest measured gain (RESULTS section 2). Series with too
 little history are refused rather than served (garlic is refused by the decision engine).
 
@@ -173,7 +174,7 @@ little history are refused rather than served (garlic is refused by the decision
   The subscriber file is runtime state and must not be committed; deleting a subscriber (`/stop`) removes them from sending.
 * Secrets only in the host secret store; rotate any key that has been pasted anywhere. A rate limiter (60 requests per second per client,
   configurable) is on the API; CORS allows only the frontend origin and local development.
-* Dependencies are pinned in `requirements.lock`; CI runs the backend tests (686 passing), the frontend type-check, lint,
+* Dependencies are pinned in `requirements.lock`; CI runs the backend tests (693 passing on 2026-11-13), the frontend type-check, lint,
   unit tests and production build. The live site was smoke-tested end to end on 2026-11-13: 29 of 29 API endpoints `OK` and 29 of 29
   pages rendered in headless Chrome (`scripts/smoke_ui.py --web … --api …`).
 

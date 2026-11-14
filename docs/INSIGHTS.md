@@ -24,8 +24,8 @@ baked into the trained model.
 
 **Track record.** `scripts/build_track_record.py` replays the walk-forward back-test with day-level output. Only the second half
 of the scored period is listed, because the floor multiplier is fitted on the first half. The script checks that its headline
-numbers reproduce `meta.json` and refuses to write otherwise. The floor is reported as it came out: 85% (tomato), 88% (onion),
-91% (potato), 85% (ginger) of days against the 90% aimed for. Most days the advice ties with "highest price yesterday" because it
+numbers reproduce `meta.json` and refuses to write otherwise. The floor is reported as it came out: 86% (tomato), 88% (onion),
+90% (potato), 88% (ginger) of days against the 90% aimed for. Most days the advice ties with "highest price yesterday" because it
 chooses the same action; the scoreboard shows ties explicitly.
 
 **Silence tax.** `P(silent on an open day) x (mean price when it reports - silent fraction x mean day price)`, from the last 365 days of
@@ -39,8 +39,8 @@ flexibility `b = 0.115` is the within-mandi, within-month association of log pri
 error 0.023). It is an association, not a causal estimate, so it is a scenario with a slider, and at `b = 0` every policy is equal.
 Three policies are compared with the single farmer's advice: everyone takes the best action, everyone goes to the nearest yard, and
 a greedy-marginal-revenue split that maximises the group's total revenue. Example (tomato, Kolar farmers, 10 quintals each): for
-200 farmers the best yard's price falls 32.5% and net revenue per quintal falls from Rs 1,824 to Rs 1,194; the coordinated split
-earns Rs 1,436.
+200 farmers the best yard's price falls 32.3% and net revenue per quintal falls from Rs 1,719 to Rs 1,128; the coordinated split
+earns Rs 1,337 (data to 2026-11-12).
 
 ## Reproduce
 

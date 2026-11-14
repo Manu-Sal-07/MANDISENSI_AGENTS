@@ -25,10 +25,10 @@ All figures are out of sample (nested walk-forward blocks); full tables, interva
 
 | Question | Finding |
 |---|---|
-| Does training on what a farmer **actually received** (including a wasted trip to a silent mandi) beat training on observed prices? | **Yes.** About Rs 123 per quintal less regret on the same network (95% CI −165 to −87, Holm p < 0.0001); the gain appears in every outer fold and for every farmer origin. |
-| Is the revenue floor honest? | **Mostly.** In the research study (tomato, research predictor) the adaptive conformal floor was violated 4.6 / 10.6 / 23.3% of the time at stated levels of 5 / 10 / 20%. The served engine's own backtest at a stated 10%: tomato 10.6%, onion 13.1%, potato 9.3%, ginger 13.1%. A naive Gaussian floor on a standard model, aimed at 10%, was violated 27.4% (tomato), 34.5% (onion), 25.8% (potato) and 11.9% (ginger). |
+| Does training on what a farmer **actually received** (including a wasted trip to a silent mandi) beat training on observed prices? | **Yes.** About Rs 140 per quintal less regret with the same LightGBM (95% CI −181 to −102) and Rs 123 on the same neural network (95% CI −165 to −87), Holm p < 0.0001 for both (tomato); the gain appears in every outer fold and for every farmer origin. |
+| Is the revenue floor honest? | **Mostly.** In the research study (tomato, research predictor) the adaptive conformal floor was violated 4.6 / 10.6 / 23.3% of the time at stated levels of 5 / 10 / 20%. The served engine's own backtest at a stated 10%: tomato 10.4%, onion 11.7%, potato 9.8%, ginger 12.7%. A naive Gaussian floor on a standard model, aimed at 10%, was violated 27.4% (tomato), 34.5% (onion), 25.8% (potato) and 11.9% (ginger). |
 | Do published decompose-then-forecast hybrids (STL, VMD) hold up? | **No.** They show +17 to +70% skill over a random walk under the published protocol and −15 to 0% once the decomposition may not see the future, a gap of 30–72 points. |
-| How accurate are price forecasts? | **Barely better than "no change"**: +0.6 to +0.8% mean-absolute-error skill on mandi-level series at 3–7 days and +3 to 4% on district-level series. They are used for risk bands and direction, not as price promises. |
+| How accurate are price forecasts? | **Barely better than "no change"**: +0.6 to +1.0% mean-absolute-error skill on mandi-level series at 3–7 days and +3 to 4% on district-level series. They are used for risk bands and direction, not as price promises. |
 
 ## What did not work
 
@@ -74,7 +74,7 @@ python scripts/pipeline.py --with-research # also re-run the full research exper
 ### Check that it works
 
 ```bash
-python -m pytest mandisense_ai -q          # 686 application tests (2026-11-13), no network or API key needed
+python -m pytest mandisense_ai -q          # 693 application tests (2026-11-13), no network or API key needed
 cd frontend && npm test && npx tsc --noEmit && npx eslint . --quiet
 python scripts/smoke_ui.py                 # with both servers running: 25 endpoints and 27 pages, in headless Chrome
 cd research && python -m pytest            # 57 tests for the research package (its own requirements)

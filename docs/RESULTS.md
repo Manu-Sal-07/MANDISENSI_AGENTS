@@ -1,14 +1,14 @@
 # Results, validation and benchmarking
 
-Generated 2026-11-13 13:41Z by `scripts/build_results.py` from the artefacts listed in §11. Every number below is read from them. All figures are on **held-out** data: nested walk-forward blocks the models never trained or tuned on (§1).
+Generated 2026-11-14 01:43Z by `scripts/build_results.py` from the artefacts listed in §11. Every number below is read from them. All figures are on **held-out** data: nested walk-forward blocks the models never trained or tuned on (§1).
 
 ## Summary
 
 | Question | Result |
 |---|---|
 | Does training on what a farmer actually received beat training on observed prices? | Change in regret, ₹ per quintal, same LightGBM: tomato -140 (Holm p < 0.0001); onion -157 (Holm p < 0.0001); potato -87 (Holm p 0.0016); ginger -149 (Holm p < 0.0001). Negative is better. |
-| Does the production advice beat simple rules out of sample? | In 4 of 5 crops the engine has a validated backtest; tomato +173 ₹/q vs highest-price-yesterday [+93, +272]; onion +76 ₹/q vs highest-price-yesterday [+17, +121]; potato +12 ₹/q vs highest-price-yesterday [-54, +60]; ginger +252 ₹/q vs highest-price-yesterday [+49, +476]. Garlic is refused (§4). |
-| Are price forecasts accurate? | Barely better than “no change”: 5-day skill +0.8% on mandi-level series; the interval against no change is [-0.00307, +0.00054] in log-return MAE. |
+| Does the production advice beat simple rules out of sample? | In 4 of 5 crops the engine has a validated backtest; tomato +175 ₹/q vs highest-price-yesterday [+97, +267]; onion +73 ₹/q vs highest-price-yesterday [+27, +139]; potato +14 ₹/q vs highest-price-yesterday [-42, +63]; ginger +281 ₹/q vs highest-price-yesterday [+61, +504]. Garlic is refused (§4). |
+| Are price forecasts accurate? | Barely better than “no change”: 5-day skill +0.7% on mandi-level series; the interval against no change is [-0.00322, +0.00089] in log-return MAE. |
 | Do published decompose-then-forecast hybrids hold up? | No: +27 to +62% skill under the published protocol, -15 to -1% without look-ahead. |
 | Do arrival gluts or squeezes move prices? | No robust effect: 30 tests, 0 robust, 5 suggestive. |
 
@@ -260,17 +260,13 @@ The research protocol of §2 chooses models; the engine behind the app is retrai
 
 | Crop | Window | Advice vs highest-yesterday vs nearest (₹/q) | Gain vs highest-yesterday [95% CI] | Gain vs nearest [95% CI] | Oracle gap closed | Floor broken at α=10%, adaptive (served) | Floor broken at α=10%, static (not served) | Note |
 |---|---|---|---|---|---|---|---|---|
-| Tomato | 2025-11-29 to 2026-11-08 (330 days) | 2,202 vs 2,029 vs 1,630 | +173 [+93, +272] | +572 [+478, +659] | 62% | 10.6% | 13.5% | strong |
-| Onion | 2025-09-19 to 2026-11-08 (330 days) | 2,373 vs 2,298 vs 2,061 | +76 [+17, +121] | +313 [+251, +379] | 45% | 13.1% | 17.5% | strong |
-| Potato | 2025-07-04 to 2026-11-08 (330 days) | 1,482 vs 1,470 vs 1,414 | +12 [-54, +60] | +67 [+28, +101] | 11% | 9.3% | 5.1% | limited |
-| Ginger | 2025-10-03 to 2026-11-08 (330 days) | 7,894 vs 7,643 vs 6,261 | +252 [+49, +476] | +1634 [+1172, +2369] | 67% | 13.1% | 18.3% | strong |
+| Tomato | 2025-11-30 to 2026-11-09 (330 days) | 2,204 vs 2,029 vs 1,626 | +175 [+97, +267] | +579 [+480, +668] | 62% | 10.4% | 12.7% | strong |
+| Onion | 2025-09-20 to 2026-11-09 (330 days) | 2,410 vs 2,337 vs 2,078 | +73 [+27, +139] | +332 [+262, +413] | 48% | 11.7% | 17.5% | strong |
+| Potato | 2025-07-11 to 2026-11-09 (330 days) | 1,487 vs 1,473 vs 1,415 | +14 [-42, +63] | +72 [+37, +108] | 12% | 9.8% | 9.9% | limited |
+| Ginger | 2025-10-04 to 2026-11-09 (330 days) | 8,137 vs 7,856 vs 6,271 | +281 [+61, +504] | +1866 [+1208, +2471] | 72% | 12.7% | 15.4% | strong |
 | Garlic | not served | - | - | - | - | - | - | no model was trained: the crop failed the engine's data checks |
 
-The application states the **adaptive** rate to the farmer (`meta.json` → `backtest.floor_violation_adaptive`, served by
-`market_choice/service.py` as `guarantee.backtest_violation`). The static column is a single conformal quantile fitted on the first half of the
-scored period and tested on the second half (`floor_violation_static_out_of_sample`); it is shown for comparison and is not what the app uses.
-At the other stated levels the adaptive rates are: tomato 4.7% / 20.3%, onion 6.5% / 22.0%, potato 4.1% / 18.2%, ginger 6.4% / 22.4% (α = 5% / 20%).
-*(Hand-corrected 2026-11-13: `scripts/build_results.py` still writes only the static column, so regenerating this file will undo the correction until the script is changed.)*
+The application states the **adaptive** rate to the farmer (`meta.json` → `backtest.floor_violation_adaptive`, served by `market_choice/service.py` as `guarantee.backtest_violation`). The static column is a single conformal quantile fitted on the first half of the scored period and tested on the second half (`floor_violation_static_out_of_sample`); it is shown for comparison and is not what the app uses. At the other stated levels the adaptive rates are: tomato 4.8% / 20.2%, onion 6.1% / 21.0%, potato 4.7% / 17.9%, ginger 6.4% / 21.3% (α = 5% / 20%).
 
 Garlic: only one mandi in the belt has enough reported days to be a candidate, so there is no choice between markets to learn; the engine refuses to advise and the research package does not study it (`research/gfmc/config.py`).
 
@@ -282,18 +278,18 @@ Mandi-level series, pooled over 54 series, same rows and folds for every method;
 
 | Horizon | n | Single model skill | Single − no change [95% CI] | ElasticNet skill | Single − ElasticNet [95% CI] | Weighted council | Folds single beats no change |
 |---|---|---|---|---|---|---|---|
-| 3 days | 17046 | +0.49% | [-0.00232, +0.00129] | -2.31% | [-0.00505, -0.00234] | +0.22% | 3/4 |
-| 5 days | 17438 | +0.81% | [-0.00307, +0.00054] | -2.45% | [-0.00735, -0.00304] | +0.34% | 3/4 |
-| 7 days | 17692 | +0.96% | [-0.00351, +0.00022] | -3.07% | [-0.01027, -0.00436] | +0.47% | 4/4 |
+| 3 days | 17177 | +0.63% | [-0.00254, +0.00096] | -2.18% | [-0.00507, -0.00241] | +0.34% | 3/4 |
+| 5 days | 17575 | +0.73% | [-0.00322, +0.00089] | -2.15% | [-0.00696, -0.00259] | +0.25% | 3/4 |
+| 7 days | 17831 | +1.03% | [-0.00375, +0.00007] | -2.95% | [-0.01014, -0.00454] | +0.50% | 4/4 |
 
 District-level series (arrivals-weighted district prices, the farmer forecaster), four expanding walk-forward folds:
 
 | Horizon (days) | Skill vs no change | Direction right | 90% band coverage | Mean band width | Served |
 |---|---|---|---|---|---|
-| 1 | +0.2% | - | 90.0% | 47% | no |
-| 3 | +3.3% | 62% | 90.1% | 62% | yes |
-| 5 | +4.1% | 62% | 90.1% | 71% | yes |
-| 7 | +3.0% | 60% | 90.3% | 76% | yes |
+| 1 | +0.3% | - | 90.2% | 47% | no |
+| 3 | +3.3% | 62% | 90.0% | 62% | yes |
+| 5 | +4.1% | 62% | 90.0% | 72% | yes |
+| 7 | +2.9% | 60% | 90.1% | 76% | yes |
 
 A horizon is served only if it beats no change on held-out folds; one day does not, and is not shown.
 
@@ -318,10 +314,7 @@ Tomato, five densest mandis, skill against the random walk. *Published protocol*
 | VMD + ridge | 1d | 1277 | +50.5% | -10.8% | -5.7% | +71.5 [+65.4, +78.1] pts |
 | VMD + ridge | 7d | 1278 | +62.4% | -0.6% | -1.5% | +71.0 [+66.4, +76.3] pts |
 
-**Reading the gap column** (clarified 2026-11-13). The look-ahead gap is *published-joint − causal-joint*, the matched pair whose only
-difference is whether a component may see the future (`research/results/tomato/leakage/summary.csv`, `leak_gap_skill`). Published-joint skill
-is +17.2% to +70.4%, so the gap is not "Published protocol − Causal" from the columns above. Wherever this project says "+17 to +70%" it means
-published-joint; "+27 to +62%" means the published column. Both lose all skill causally (−14.7% to −0.6%).
+**Reading the gap column.** The look-ahead gap is *published-joint − causal-joint*, the matched pair whose only difference is whether a component may see the future (`research/results/tomato/leakage/summary.csv`, `leak_gap_skill`). Published-joint skill is +17.2% to +70.4%, so the gap is not "Published protocol − Causal" from the columns above. Wherever this project says "+17 to +70%" it means published-joint; "+27 to +62%" means the published column. Both lose all skill causally (-14.7% to -0.6%).
 
 What the published works report, as recorded in the team's literature survey (`reports/capstone_report/Literature_Survey.xlsx`; the figures are the survey's wording and were not re-checked against the papers):
 
